@@ -57,7 +57,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .philosophy{background:linear-gradient(135deg,#f5f0e0 0%,#fff 100%);text-align:center}
 .philosophy-quote{font-size:42px;font-weight:800;color:var(--blue);margin-bottom:20px;letter-spacing:4px}
 .philosophy-sub{font-size:18px;color:var(--gray);max-width:600px;margin:0 auto}
-.about-banner{height:320px;background:url('https://aka.doubaocdn.com/s/NOAtKTbzdo') center/cover;position:relative;display:flex;align-items:center;justify-content:center}
+.about-banner{height:320px;background:url('assets/images/banner-16x9.jpg') center/cover;position:relative;display:flex;align-items:center;justify-content:center}
 .about-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,50,98,.85) 0%,rgba(0,50,98,.6) 100%)}
 .about-banner-content{position:relative;z-index:1;text-align:center;color:var(--white)}
 .about-banner h1{font-size:48px;font-weight:800;margin-bottom:8px}.about-banner p{font-size:20px;opacity:.9;font-style:italic}
@@ -155,6 +155,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .footer-inner{grid-template-columns:1fr 1fr}.footer-bottom{flex-direction:column;gap:8px;text-align:center}
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 <nav class="nav" id="nav">
@@ -185,7 +186,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <a href="#" class="btn btn-primary" onclick="showPage('about')" data-i18n="hero_btn1">了解更多</a>
 <a href="#" class="btn btn-outline" onclick="showPage('cooperation')" data-i18n="hero_btn2">合作諮詢</a>
 </div></div>
-<div class="hero-image"><img src="https://aka.doubaocdn.com/s/w9NyJTiW2v" alt="Sean Own" class="hero-avatar"></div>
+<div class="hero-image"><img src="assets/images/avatar-1x1.jpg" alt="Sean Own" class="hero-avatar"></div>
 </div></section>
 <section class="section"><div class="section-inner">
 <h2 class="section-title" data-i18n="home_id_t">核心身份</h2>
@@ -220,7 +221,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="page" id="page-about">
 <div class="about-banner"><div class="about-banner-content"><h1>關於我</h1><p>跨域半生，以行踐諾</p></div></div>
 <section class="section"><div class="section-inner"><div class="about-intro">
-<img src="https://aka.doubaocdn.com/s/w9NyJTiW2v" alt="Sean Own" class="about-avatar">
+<img src="assets/images/avatar-1x1.jpg" alt="Sean Own" class="about-avatar">
 <div class="about-text">
 <p>翁振軒（Sean Own），祖籍浙江龍遊，加州大學柏克萊分校（UC Berkeley）交叉學科學士。在台灣、美國、澳門各生活十三年，2001年畢業後回大陸發展。</p>
 <p>早年深耕直播與電商行業，帶領團隊服務超過80家企業，創造破億營收。2013年定居澳門，任東望洋集團董事。2025年創立龍遊集團，以AI數字服務為核心。</p>
@@ -263,13 +264,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="insights-cat">灣區澳門｜區域產業解析</div>
 <div class="insights-cat">商道思辨</div>
 </div>
-<div class="articles-grid">
-<div class="article-card"><div class="article-img">🤖</div><div class="article-body"><span class="article-tag">AI前瞻</span><div class="article-title">AI跨境服務的澳門方案</div><p class="article-excerpt">澳台雙算力中心如何打通跨境數據流通，為企業出海提供合規高效的AI解決方案。</p><div class="article-meta"><span>2026.03</span><span>閱讀更多 →</span></div></div></div>
-<div class="article-card"><div class="article-img">📊</div><div class="article-body"><span class="article-tag">AI前瞻</span><div class="article-title">從CTR 22.7%到80%：AI內容營銷的躍遷</div><p class="article-excerpt">80語種自動化內容生成如何實現轉化率的指數級提升。</p><div class="article-meta"><span>2026.02</span><span>閱讀更多 →</span></div></div></div>
-<div class="article-card"><div class="article-img">🏙️</div><div class="article-body"><span class="article-tag">灣區澳門</span><div class="article-title">澳門「1+4」佈局下的數字樞紐機遇</div><p class="article-excerpt">世界旅遊休閒中心與高科技、會展、大健康、特色金融的協同路徑。</p><div class="article-meta"><span>2026.01</span><span>閱讀更多 →</span></div></div></div>
-<div class="article-card"><div class="article-img">🌉</div><div class="article-body"><span class="article-tag">灣區澳門</span><div class="article-title">超級中介人：澳門連接兩岸暨港澳的獨特價值</div><p class="article-excerpt">一國兩制、自由港與國際交流優勢如何轉化為產業競爭力。</p><div class="article-meta"><span>2025.12</span><span>閱讀更多 →</span></div></div></div>
-<div class="article-card"><div class="article-img">💡</div><div class="article-body"><span class="article-tag">商道思辨</span><div class="article-title">財自道生，利緣義取：龍遊商幫的當代啟示</div><p class="article-excerpt">從明清龍遊商人縱橫天下的精神底色，看當代企業家的義利之道。</p><div class="article-meta"><span>2025.11</span><span>閱讀更多 →</span></div></div></div>
-<div class="article-card"><div class="article-img">🎯</div><div class="article-body"><span class="article-tag">商道思辨</span><div class="article-title">恃人不如自恃：中年創業的覺悟</div><p class="article-excerpt">從為他人而活到走出自己的路，經濟獨立是踐行理想的基礎。</p><div class="article-meta"><span>2025.10</span><span>閱讀更多 →</span></div></div></div>
+<div class="articles-grid" id="articles-grid"></div></div>
 </div></div></section>
 <section class="section practice-section"><div class="section-inner">
 <h2 class="section-title">產業實踐</h2><p class="section-subtitle">Industry Practice</p><div class="title-line"></div>
@@ -292,27 +287,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="insights-banner"><h1>媒體報導</h1><p>Media Coverage</p></div>
 <section class="section"><div class="section-inner">
 <h2 class="section-title">重點報導</h2><div class="title-line"></div>
-<div class="media-featured">
-<div class="media-card"><div class="media-thumb">📰</div><div class="media-body"><div class="media-source">新華網</div><div class="media-title">共商AI時代發展新路徑 第十六屆亞洲電子論壇舉辦</div><div class="media-date">2025.12.07</div></div></div>
-<div class="media-card"><div class="media-thumb">📰</div><div class="media-body"><div class="media-source">澳門日報</div><div class="media-title">亞洲電子論壇共商AI發展</div><div class="media-date">2025.12.07</div></div></div>
-<div class="media-card"><div class="media-thumb">📰</div><div class="media-body"><div class="media-source">新華社</div><div class="media-title">港澳創客掀起灣區青春風暴——2021亞洲青年領袖論壇特寫</div><div class="media-date">2021.11.30</div></div></div>
-</div>
-<h2 class="section-title" style="font-size:24px;margin-top:40px">全部報導</h2><div class="title-line"></div>
-<table class="media-table">
-<thead><tr><th>日期</th><th>標題</th><th>媒體</th></tr></thead>
-<tbody>
-<tr><td>2026.01</td><td>ECI澳門站暨AI科普論壇順利舉行</td><td>亞洲經濟報</td></tr>
-<tr><td>2025.12</td><td>亞洲電子論壇澳門啟幕 共繪AI時代跨境協同新藍圖</td><td>環球新聞報</td></tr>
-<tr><td>2025.12</td><td>智匯澳門 聯通全球 2025 AIE博覽會</td><td>亞洲經濟報</td></tr>
-<tr><td>2025.06</td><td>經民聯走訪光雲科技 搭建澳杭數字經濟合作橋樑</td><td>力報</td></tr>
-<tr><td>2024.11</td><td>台灣青年企業家與杭州民建探討合作發展新機遇</td><td>社區文化網</td></tr>
-<tr><td>2024.06</td><td>灣區青年AI融媒體中心揭牌</td><td>新華澳報</td></tr>
-<tr><td>2024.06</td><td>大灣區中華青年文化研學基地重磅簽約</td><td>環球新聞報</td></tr>
-<tr><td>2024.06</td><td>中華青年聯動 風神音樂祭落戶大灣區獨家運營</td><td>環球新聞報</td></tr>
-<tr><td>2022.03</td><td>兩岸企業家澳門探討電商合作模式</td><td>海外網</td></tr>
-<tr><td>2019.12</td><td>澳門手信品牌升級帶給經濟新機遇</td><td>人民網</td></tr>
-<tr><td>2019.10</td><td>第十五屆亞洲電子論壇在澳門舉行</td><td>人民網</td></tr>
-</tbody></table>
+<div class="media-featured" id="media-featured"></div><h2 class="section-title" style="font-size:24px;margin-top:40px">全部報導</h2><div class="title-line"></div><div id="media-list"></div>
 </div></section>
 </div>
 
@@ -414,6 +389,62 @@ document.querySelector('.lang-btn').textContent=lang==='zh'?'EN':'中';
 document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(i18n[lang][k])el.textContent=i18n[lang][k]});
 }
 document.querySelectorAll('.insights-cat').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('.insights-cat').forEach(x=>x.classList.remove('active'));c.classList.add('active')}));
+<!-- Article Modal -->
+<div class="article-modal" id="article-modal" onclick="if(event.target===this)closeArticle()">
+<div class="article-modal-content">
+<div class="article-modal-close" onclick="closeArticle()">×</div>
+<div class="article-modal-header">
+<span class="article-tag" id="modal-tag"></span>
+<h2 id="modal-title"></h2>
+<div class="article-modal-meta"><span id="modal-date"></span></div>
+</div>
+<div class="article-modal-body" id="modal-body"></div>
+</div>
+</div>
+<style>
+.article-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:2000;justify-content:center;align-items:center;padding:20px;animation:fadeIn .3s}
+.article-modal.active{display:flex}
+.article-modal-content{background:#fff;border-radius:16px;max-width:800px;width:100%;max-height:85vh;overflow-y:auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.article-modal-close{position:absolute;top:16px;right:20px;font-size:28px;cursor:pointer;color:#718096;z-index:10;line-height:1}
+.article-modal-close:hover{color:#003262}
+.article-modal-header{padding:40px 40px 20px;background:linear-gradient(135deg,#003262,#004080);color:#fff;border-radius:16px 16px 0 0}
+.article-modal-header .article-tag{background:rgba(253,181,21,.2);color:#FDB515;border:1px solid rgba(253,181,21,.3)}
+.article-modal-header h2{font-size:26px;margin:12px 0 8px;line-height:1.3}
+.article-modal-meta{font-size:13px;opacity:.8}
+.article-modal-body{padding:30px 40px 40px;line-height:1.9;font-size:15px;color:#2D3748}
+.article-modal-body h1,.article-modal-body h2,.article-modal-body h3{color:#003262;margin:24px 0 12px}
+.article-modal-body h2{font-size:20px;border-left:4px solid #FDB515;padding-left:12px}
+.article-modal-body h3{font-size:17px}
+.article-modal-body p{margin-bottom:14px}
+.article-modal-body ul,.article-modal-body ol{margin:0 0 14px 24px}
+.article-modal-body li{margin-bottom:6px}
+.article-modal-body table{width:100%;border-collapse:collapse;margin:16px 0}
+.article-modal-body th,.article-modal-body td{border:1px solid #E2E8F0;padding:8px 12px;text-align:left}
+.article-modal-body th{background:#F0F4F8;color:#003262}
+.article-modal-body code{background:#F0F4F8;padding:2px 6px;border-radius:4px;font-size:13px}
+.article-modal-body blockquote{border-left:4px solid #FDB515;padding:8px 16px;margin:14px 0;background:#FFF3D0;color:#744210;border-radius:0 8px 8px 0}
+.media-list-card{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid #E2E8F0;transition:background .2s;cursor:pointer;text-decoration:none;color:inherit}
+.media-list-card:hover{background:#F8F9FA}
+.media-list-date{font-size:13px;color:#718096;min-width:90px;font-weight:600}
+.media-list-title{flex:1;font-size:14px;font-weight:500;color:#2D3748}
+.media-list-source{font-size:12px;color:#003262;background:#F0F4F8;padding:4px 10px;border-radius:12px;white-space:nowrap}
+@media(max-width:768px){.article-modal-header{padding:30px 20px 16px}.article-modal-body{padding:20px}.article-modal-header h2{font-size:20px}.media-list-card{flex-wrap:gap}.media-list-source{margin-top:4px}}
+</style>
+<script>
+// Load and render articles
+let allPosts=[];let currentCat='全部';
+async function loadPosts(){try{const res=await fetch('data/posts.json');const data=await res.json();allPosts=data.posts||[];renderPosts()}catch(e){console.error('Load posts failed:',e)}}
+function renderPosts(){const grid=document.getElementById('articles-grid');if(!grid)return;let filtered=currentCat==='全部'?allPosts:allPosts.filter(p=>p.category===currentCat);grid.innerHTML=filtered.map((p,i)=>`<div class="article-card" onclick="openArticle(${i})"><div class="article-img">${p.icon||'📄'}</div><div class="article-body"><span class="article-tag">${p.category}</span><div class="article-title">${p.title}</div><p class="article-excerpt">${p.excerpt||''}</p><div class="article-meta"><span>${formatDate(p.date)}</span><span>閱讀更多 →</span></div></div></div>`).join('')}
+function formatDate(d){if(!d)return'';const dt=new Date(d);return dt.getFullYear()+'.'+String(dt.getMonth()+1).padStart(2,'0')}
+function openArticle(i){const p=allPosts[i];if(!p)return;document.getElementById('modal-tag').textContent=p.category;document.getElementById('modal-title').textContent=p.title;document.getElementById('modal-date').textContent=formatDate(p.date);document.getElementById('modal-body').innerHTML=marked.parse(p.body||'');document.getElementById('article-modal').classList.add('active');document.body.style.overflow='hidden'}
+function closeArticle(){document.getElementById('article-modal').classList.remove('active');document.body.style.overflow=''}
+// Category filter
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.insights-cat').forEach(c=>{c.addEventListener('click',()=>{document.querySelectorAll('.insights-cat').forEach(x=>x.classList.remove('active'));c.classList.add('active');const text=c.textContent.trim();if(text.includes('AI前瞻'))currentCat='AI前瞻';else if(text.includes('灣區澳門'))currentCat='灣區澳門';else if(text.includes('商道思辨'))currentCat='商道思辨';else currentCat='全部';renderPosts()})})});
+// Load and render media
+async function loadMedia(){try{const res=await fetch('data/media.json');const data=await res.json();const items=data.media||[];renderMedia(items)}catch(e){console.error('Load media failed:',e)}}
+function renderMedia(items){const featured=document.getElementById('media-featured');const list=document.getElementById('media-list');if(!items.length)return;if(featured){const top3=items.slice(0,3);featured.innerHTML=top3.map(m=>`<a href="${m.url||'#'}" target="_blank" class="media-card"><div class="media-thumb">📰</div><div class="media-body"><div class="media-source">${m.source||''}</div><div class="media-title">${m.title}</div><div class="media-date">${formatDate(m.date)}</div></div></a>`).join('')}if(list){list.innerHTML=items.map(m=>`<a href="${m.url||'#'}" target="_blank" class="media-list-card"><span class="media-list-date">${formatDate(m.date)}</span><span class="media-list-title">${m.title}</span><span class="media-list-source">${m.source||''}</span></a>`).join('')}}
+// Init
+loadPosts();loadMedia();
 </script>
 </body>
 </html>
