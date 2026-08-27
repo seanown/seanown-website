@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sean Own 網站管理後台</title>
+<style>
+:root{--bg:#f8f9fa;--white:#fff;--blue:#1a365d;--blue-light:#e6f1fb;--gold:#c49a2e;--gray:#6b7280;--border:#d1d5db;--red:#dc2626;--green:#16a34a;--radius:12px;--shadow:0 2px 8px rgba(0,0,0,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:#1f2937;line-height:1.6;padding:20px}
+.header{text-align:center;margin-bottom:24px;padding:24px;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow)}
+.header h1{font-size:22px;color:var(--blue);margin-bottom:4px}
+.header p{font-size:13px;color:var(--gray)}
+.tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.tab-btn{padding:9px 18px;border:none;background:var(--white);border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:2px solid transparent;transition:.2s}
+.tab-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.tab-btn:hover:not(.active){border-color:var(--blue);color:var(--blue)}
+.panel{display:none;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;max-height:calc(100vh - 220px);overflow-y:auto}
+.panel.active{display:block}
+
+/* Section group */
+.sec-group{margin-bottom:20px;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.sec-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;cursor:pointer;background:linear-gradient(to right,#f0f4f8,#fff);border-bottom:1px solid var(--border);transition:.2s}
+.sec-header:hover{background:linear-gradient(to right,#e6f1fb,#fff)}
+.sec-title{font-weight:700;font-size:14px;color:var(--blue)}
+.sec-badge{font-size:11px;background:var(--gold-light, #FFF3D0);color:var(--blue);padding:2px 8px;border-radius:10px}
+.sec-toggle{font-size:16px;color:var(--gray);transition:.3s}
+.sec-group.open .sec-toggle{transform:rotate(180deg)}
+.sec-body{display:none;padding:16px;background:#fafafa}
+.sec-group.open .sec-body{display:block}
+
+/* Fields */
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--gray);margin-bottom:4px}
+.field input,.field textarea,.field select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit;transition:.2s;background:var(--white)}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-light)}
+.field textarea{min-height:60px;resize:vertical;line-height:1.6}
+.field-row{display:flex;gap:10px}.field-row .field{flex:1}
+
+/* Item card (for lists) */
+.item-card{border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden}
+.item-card-header{display:flex;align-items:center;padding:10px 12px;cursor:pointer;background:#fff;gap:8px}
+.item-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.item-title-text{font-weight:600;font-size:13px;flex:1}
+.item-toggle{font-size:14px;color:var(--gray)}
+.item-card.expanded .item-toggle{transform:rotate(180deg)}
+.item-fields{display:none;padding:12px;border-top:1px solid var(--border);background:#fafafa}
+.item-card.expanded .item-fields{display:block}
+
+/* Upload zone */
+.upload-zone{border:2px dashed var(--border);border-radius:8px;padding:14px;text-align:center;cursor:pointer;transition:.2s;background:var(--white);position:relative}
+.upload-zone:hover{border-color:var(--blue);background:var(--blue-light)}
+.upload-zone.dragover{border-color:var(--blue);background:var(--blue-light)}
+.upload-zone-icon{font-size:28px;margin-bottom:4px}
+.upload-zone-text{font-size:12px;color:var(--gray)}
+.upload-zone input[type="file"]{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.img-preview-grid{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.img-preview-item{position:relative;width:100px;height:75px;border-radius:6px;overflow:hidden;border:2px solid var(--border)}
+.img-preview-item img{width:100%;height:100%;object-fit:cover}
+.img-preview-item .img-remove{position:absolute;top:1px;right:1px;width:18px;height:18px;background:var(--red);color:#fff;border:none;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+
+/* Body preview */
+.body-preview{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:10px;margin-top:6px;max-height:200px;overflow-y:auto;font-size:12px;line-height:1.7}
+.body-preview h2{font-size:14px;color:var(--blue);margin:6px 0 3px}
+.body-preview h3{font-size:13px;color:var(--blue);margin:4px 0 2px}
+.body-preview p{margin:3px 0}
+.body-preview strong{color:var(--blue)}
+
+/* Action bar */
+.action-bar{position:sticky;bottom:0;background:var(--white);border-radius:var(--radius);box-shadow:0 4px 20px rgba(0,0,0,.15);padding:14px 20px;display:flex;gap:10px;z-index:100;flex-wrap:wrap;margin-top:16px}
+.btn{padding:10px 20px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:5px}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:#152a4d}
+.btn-success{background:var(--green);color:#fff}.btn-success:hover{background:#15803d}
+.btn-outline{background:transparent;border:2px solid var(--blue);color:var(--blue);font-size:12px;padding:8px 16px}.btn-outline:hover{background:var(--blue-light)}
+.btn-danger{background:var(--red);color:#fff}.btn-sm{padding:5px 12px;font-size:11px}
+.hint{background:var(--blue-light);border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:12px;color:var(--blue);line-height:1.6}
+.hint strong{color:var(--blue)}
+.status-bar{margin-top:10px;padding:8px 14px;border-radius:8px;font-size:12px;display:none}
+.status-ok{background:#dcfce7;color:var(--green);display:block}
+.status-info{background:var(--blue-light);color:var(--blue);display:block}
+.count-badge{background:var(--gold);color:#fff;font-size:10px;padding:1px 7px;border-radius:10px;margin-left:6px}
+.add-bar{display:flex;gap:8px;margin-bottom:12px;align-items:center}
+
+@media(max-width:640px){body{padding:10px}.panel{padding:14px}.action-bar{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📋 Sean Own 網站管理後台 v2</h1>
+  <p>改文字、換照片、發文章 — 儲存後告訴小愛，她幫你上線 ✨</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('media')">📰 媒體報導 <span id="mediaCount" class="count-badge">0</span></button>
+  <button class="tab-btn" onclick="switchTab('posts')">📝 文章 <span id="postCount" class="count-badge">0</span></button>
+  <button class="tab-btn" onclick="switchTab('text')">✏️ 網站文字</button>
+</div>
+
+<!-- ========== MEDIA PANEL ========== -->
+<div id="panel-media" class="panel active">
+  <div class="hint"><strong>📌 使用方法：</strong>點擊展開 → 改標題/來源/連結 → 選圖片或拖放 → 儲存 → 下載 JSON 傳給小愛</div>
+  <div id="mediaList"></div>
+</div>
+
+<!-- ========== POSTS PANEL ========== -->
+<div id="panel-posts" class="panel">
+  <div class="hint"><strong>📌 使用方法：</strong>展開文章查看/編輯全文 → 加照片（可多張）→ 儲存 → 下載 JSON 傳給小愛<br><strong>＋ 新增文章：</strong>像發朋友圈一樣簡單</div>
+  <div class="add-bar">
+    <button class="btn btn-success btn-sm" onclick="addNewPost()">＋ 新增文章</button>
+  </div>
+  <div id="postsList"></div>
+</div>
+
+<!-- ========== SITE TEXT PANEL ========== -->
+<div id="panel-text" class="panel">
+  <div class="hint"><strong>📌 網站所有文字都在這裡改！</strong><br>點擊各區塊展開 → 修改文字 → 儲存全部變更 → 下載「網站文字資料」JSON → 傳給小愛<br><br>包含：首頁標語／核心身份／統計數字／使命／哲學引言／產業實踐／關於我／人生軌跡／協會身份／合作方向／聯絡資訊／頁腳</div>
+  <div id="siteTextList"></div>
+</div>
+
+<div class="action-bar">
+  <button class="btn btn-primary" onclick="saveAll()">💾 儲存全部變更</button>
+  <button class="btn btn-success" onclick="downloadAll()">📦 一鍵下載全部 JSON</button>
+  <button class="btn btn-outline" onclick="downloadJSON('media')">📥 媒體資料</button>
+  <button class="btn btn-outline" onclick="downloadJSON('posts')">📥 文章資料</button>
+  <button class="btn btn-outline" onclick="downloadJSON('text')">📥 網站文字</button>
+  <button class="btn btn-outline" onclick="loadFromFiles()">📂 從檔案載入</button>
+</div>
+
+<div id="statusBar" class="status-bar"></div>
+<input type="file" id="fileLoader" style="display:none" accept=".json">
+
+<script>
+let mediaData={media:[]}, postsData={posts:[]}, siteTextData={siteText:{}};
+let mediaImages={}, postImages={};
+
+// ==================== LOAD DATA ====================
+async function loadData(){
+  try{
+    const[m,p,t]=await Promise.all([
+      fetch('data/media.json').catch(()=>null),
+      fetch('data/posts.json').catch(()=>null),
+      fetch('data/site-text.json').catch(()=>null)
+    ]);
+    if(m) mediaData=await m.json();
+    if(p) postsData=await p.json();
+    if(t) siteTextData=await t.json();
+    initImages();
+    renderMedia(); renderPosts(); renderSiteText();
+    showStatus(`✅ 已載入 ${mediaData.media.length} 條媒體 + ${postsData.posts.length} 篇文章`,'info');
+  }catch(e){
+    showStatus('⚠️ 遠端載入失敗，嘗試本地快取','ok');
+    tryLoadLocal();
+  }
+}
+
+function tryLoadLocal(){
+  try{
+    const lm=localStorage.getItem('seanown_media');
+    const lp=localStorage.getItem('seanown_posts');
+    const lt=localStorage.getItem('seanown_text');
+    if(lm)mediaData=JSON.parse(lm);
+    if(lp)postsData=JSON.parse(lp);
+    if(lt)siteTextData=JSON.parse(lt);
+    if(mediaData.media.length||postsData.posts.length||Object.keys(siteTextData).length){
+      initImages();renderMedia();renderPosts();renderSiteText();
+      showStatus('✅ 從瀏覽器快取載入','ok');return;
+    }
+  }catch(e){}
+  // 範例
+  if(!mediaData.media.length) mediaData={media:[{title:'範例',source:'測試',date:'2026-01-01',url:'#',image:''}]};
+  if(!postsData.posts.length) postsData={posts:[{title:'歡迎使用！',category:'自省踐行',date:'2026-08-24',location:'',images:[],body:'## 第一篇文章\n\n在這裡寫你的想法...'}]};
+  if(!Object.keys(siteTextData).length) siteTextData=getDefaultSiteText();
+  renderMedia();renderPosts();renderSiteText();
+}
+
+function getDefaultSiteText(){
+  return {siteText:{hero:{name:'翁振軒',nameEn:'SEAN OWN',subtitle:'澳門台商 · 產業顧問 · 協會資源整合者',slogan:'財自道生 利緣義取',btn1:'了解更多',btn2:'Contact Me'},identities:[],stats:[],missions:[],philosophy:{quote:'',sub:''},practices:[],upcomingProjects:[],about:{bannerTitle:'',bannerSub:'',intro:[]},timeline:[],education:{title:'',items:[]},honors:{title:'',items:[]},associations:[],cooperations:[],contact:{heroTitle:'',heroSub:'',sectionTitle:'',sectionDesc:'',email:'',location:'',website:''},footer:{brandDesc:'',copyright:'',slogan:''}}};
+}
+
+function initImages(){
+  mediaData.media.forEach((m,i)=>{if(m.image)mediaImages[i]=m.image});
+  postsData.posts.forEach((p,i)=>{if(p.images&&p.images.length)postImages[i]=[...p.images]});
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  event.target.closest('.tab-btn').classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+
+// ==================== MEDIA ====================
+function renderMedia(){
+  const el=document.getElementById('mediaList');
+  document.getElementById('mediaCount').textContent=mediaData.media.length;
+  el.innerHTML=mediaData.media.map((m,i)=>`
+    <div class="item-card" id="mc${i}">
+      <div class="item-card-header" onclick="toggleCard(${i},'mc')">
+        <span class="item-num">${i+1}</span><span class="item-title-text">${esc(m.title||'(無標題)')}</span>
+        <span class="item-toggle">▼</span>
+      </div>
+      <div class="item-fields">
+        <div class="field"><label>📰 標題</label><input value="${esc(m.title)}" onchange="updM(${i},'title',this.value)"></div>
+        <div class="field-row"><div class="field"><label>🏢 來源</label><input value="${esc(m.source)}" onchange="updM(${i},'source',this.value)"></div><div class="field"><label>📅 日期</label><input value="${m.date||''}" onchange="updM(${i},'date',this.value)" placeholder="YYYY-MM-DD"></div></div>
+        <div class="field"><label>🔗 URL</label><input value="${esc(m.url)}" onchange="updM(${i},'url',this.value)" placeholder="https://..."></div>
+        <div class="field"><label>🖼️ 圖片</label>
+          <div class="upload-zone" id="mup${i}" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event,${i},'media')">
+            <div class="upload-zone-icon">📷</div><div class="upload-zone-text">點擊或拖放圖片</div>
+            <input type="file" accept="image/*" onchange="handleMediaImage(event,${i})">
+          </div>
+          <div id="mprev${i}" class="img-preview-grid"></div>
+        </div>
+      </div>
+    </div>`).join('');
+  mediaData.media.forEach((m,i)=>{if(m.image)renderImgPrev('mprev'+i,m.image,'removeMediaImage('+i+')')});
+}
+
+// ==================== POSTS ====================
+function renderPosts(){
+  const el=document.getElementById('postsList');
+  document.getElementById('postCount').textContent=postsData.posts.length;
+  el.innerHTML=postsData.posts.map((p,i)=>`
+    <div class="item-card" id="pc${i}">
+      <div class="item-card-header" onclick="toggleCard(${i},'pc')">
+        <span class="item-num">#${p.num||(i+1)}</span><span class="item-title-text">${esc(p.title||'(無標題)')}</span>
+        <span style="font-size:10px;color:var(--gray);margin-left:4px">[${p.category||'?'}]${p.location?' 📍'+p.location:''}${p.images&&p.images.length?' 🖼'+p.images.length:''}${p.status==='整理中'?' <span style="color:var(--gold)">🟡整理中</span>':''}</span>
+        <span class="item-toggle">▼</span>
+      </div>
+      <div class="item-fields">
+        <div class="field-row"><div class="field"><label>📝 標題</label><input value="${esc(p.title)}" onchange="updP(${i},'title',this.value)"></div><div class="field"><label>📁 分類</label><select onchange="updP(${i},'category',this.value)">${['商道洞察','山海行跡','時局觀思','古今雅述','人物心鏡','自省踐行'].map(c=>`<option value="${c}" ${p.category===c?'selected':''}>${c}</option>`).join('')}</select></div></div>
+        <div class="field-row"><div class="field"><label>📅 日期</label><input value="${p.date||''}" onchange="updP(${i},'date',this.value)"></div><div class="field"><label>📍 地點</label><input value="${esc(p.location||'')}" onchange="updP(${i},'location',this.value)"></div></div>
+        <div class="field-row"><div class="field"><label>🟡 上線狀態（切到「整理中」前台就看不到）</label><select onchange="updP(${i},'status',this.value)"><option value="已上線" ${p.status!=='整理中'?'selected':''}>✅ 已上線（前台看得到）</option><option value="整理中" ${p.status==='整理中'?'selected':''}>🟡 整理中（前台隱藏）</option></select></div></div>
+        <div class="field"><label>📄 正文（Markdown）</label><textarea id="pbody${i}" onchange="updP(${i},'body',this.value)" oninput="updateBodyPreview(${i})">${esc(p.body||'')}</textarea><details open><summary style="font-size:11px;color:var(--blue);cursor:pointer;font-weight:600;margin-top:4px">👁️ 預覽</summary><div id="pprev${i}" class="body-preview"></div></details></div>
+        <div class="field"><label>🖼️ 照片（多張）</label><div style="font-size:11px;color:var(--blue);margin:2px 0 6px">📂 小愛會從 <b>H:/桌面/文章照片/${p.num||(i+1)}</b> 這個資料夾抓圖自動對應，你只要把這篇的圖丟進去就好</div>
+          <div class="upload-zone" id="pup${i}" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event,${i},'post')">
+            <div class="upload-zone-icon">📸</div><div class="upload-zone-text">點擊或拖放照片</div>
+            <input type="file" accept="image/*" multiple onchange="handlePostImages(event,${i})">
+          </div>
+          <div id="pprev${i}_imgs" class="img-preview-grid"></div>
+        </div>
+        <div style="text-align:right"><button class="btn btn-danger btn-sm" onclick="deletePost(${i})">🗑️ 刪除</button></div>
+      </div>
+    </div>`).join('');
+  postsData.posts.forEach((p,i)=>{
+    if(p.images&&p.images.length)p.images.forEach(img=>addPostImgPrev(i,img));
+    updateBodyPreview(i);
+  });
+}
+
+// ==================== SITE TEXT ====================
+function renderSiteText(){
+  const st=siteTextData.siteText||{};
+  const el=document.getElementById('siteTextList');
+  const S=(s)=>esc(s||'');
+
+  el.innerHTML=`
+
+  <!-- HERO -->
+  <div class="sec-group open" id="sec-hero">
+    <div class="sec-header" onclick="toggleSec('sec-hero')"><span class="sec-title">🦸 首頁 Hero 區塊</span><span class="sec-toggle">▼</span></div>
+    <div class="sec-body">
+      <div class="field-row"><div class="field"><label>中文姓名</label><input value="${S(st.hero?.name)}" onchange="updST('hero.name',this.value)"></div><div class="field"><label>英文姓名</label><input value="${S(st.hero?.nameEn)}" onchange="updST('hero.nameEn',this.value)"></div></div>
+      <div class="field"><label>副標語</label><input value="${S(st.hero?.subtitle)}" onchange="updST('hero.subtitle',this.value)"></div>
+      <div class="field"><label>哲學標語</label><input value="${S(st.hero?.slogan)}" onchange="updST('hero.slogan',this.value)" style="font-size:18px;font-weight:700;color:var(--blue)"></div>
+      <div class="field-row"><div class="field"><label>按鈕 1 文字</label><input value="${S(st.hero?.btn1)}" onchange="updST('hero.btn1',this.value)"></div><div class="field"><label>按鈕 2 文字</label><input value="${S(st.hero?.btn2)}" onchange="updST('hero.btn2',this.value)"></div></div>
+    </div>
+  </div>
+
+  <!-- IDENTITIES -->
+  <div class="sec-group" id="sec-id"><div class="sec-header" onclick="toggleSec('sec-id')"><span class="sec-title">💼 核心身份（6 張卡片）</span><span class="sec-toggle">▼</span></div><div class="sec-body" id="idList"></div></div>
+
+  <!-- STATS -->
+  <div class="sec-group" id="sec-stats"><div class="sec-header" onclick="toggleSec('sec-stats')"><span class="sec-title">📊 統計數字（4 項）</span><span class="sec-toggle">▼</span></div><div class="sec-body" id="statsList"></div></div>
+
+  <!-- MISSIONS -->
+  <div class="sec-group" id="sec-missions"><div class="sec-header" onclick="toggleSec('sec-missions')"><span class="sec-title">🎯 核心使命（2 項）</span><span class="sec-toggle">▼</span></div><div class="sec-body" id="missionList"></div></div>
+
+  <!-- PHILOSOPHY -->
+  <div class="sec-group" id="sec-philo"><div class="sec-header" onclick="toggleSec('sec-philo')"><span class="sec-title">💎 哲學引言</span><span class="sec-toggle">▼</span></div><div class="sec-body">
+    <div class="field"><label>引言（大字）</label><input value="${S(st.philosophy?.quote)}" onchange="updST('philosophy.quote',this.value)" style="font-size:20px;font-weight:800;text-align:center;color:var(--blue)"></div>
+    <div class="field"><label>副標語</label><input value="${S(st.philosophy?.sub)}" onchange="updST('philosophy.sub',this.value)"></div>
+  </div></div>
+
+  <!-- PRACTICES -->
+  <div class="sec-group" id="sec-prac"><div class="sec-header" onclick="toggleSec('sec-prac')"><span class="sec-title">⚡ 產業實踐（4 項已完成）</span><span class="sec-toggle">▼</span></div><div class="sec-body" id="pracList"></div></div>
+
+  <!-- UPCOMING -->
+  <div class="sec-group" id="sec-upcoming"><div class="sec-header" onclick="toggleSec('sec-upcoming')"><span class="sec-title">🚀 推進中項目（2 項）</span><span class="sec-toggle">▼</span></div><div class="sec-body" id="upcomingList"></div></div>
+
+  <!-- ABOUT -->
+  <div class="sec-group" id="sec-about"><div class="sec-header" onclick="toggleSec('sec-about')"><span class="sec-title">👤 關於我</span><span class="sec-toggle">▼</span></div><div class="sec-body">
+    <div class="field-row"><div class="field"><label>Banner 標題</label><input value="${S(st.about?.bannerTitle)}" onchange="updST('about.bannerTitle',this.value)"></div><div class="field"><label>Banner 副標</label><input value="${S(st.about?.bannerSub)}" onchange="updST('about.bannerSub',this.value)"></div></div>
+    <div class="field"><label>自我介紹 第 1 段</label><textarea onchange="updST('about.intro[0]',this.value)">${S(st.about?.intro?.[0])}</textarea></div>
+    <div class="field"><label>自我介紹 第 2 段</label><textarea onchange="updST('about.intro[1]',this.value)">${S(st.about?.intro?.[1])}</textarea></div>
+    <div class="field"><label>自我介紹 第 3 段</label><textarea onchange="updST('about.intro[2]',this.value)">${S(st.about?.intro?.[2])}</textarea></div>
+  </div></div>
+
+  <!-- TIMELINE -->
+  <div class="sec-group" id="sec-tl"><div class="sec-header" onclick="toggleSec('sec-tl')"><span class="sec-title">📅 人生軌跡（時間軸）</span><span class="sec-toggle">▼</span></div><div class="sec-body" id="tlList"></div></div>
+
+  <!-- EDUCATION & HONORS -->
+  <div class="sec-group" id="sec-edu"><div class="sec-header" onclick="toggleSec('sec-edu')"><span class="sec-title">🎓 教育背景 & 榮譽</span><span class="sec-toggle">▼</span></div><div class="sec-body">
+    <div class="field"><label>教育背景標題</label><input value="${S(st.education?.title)}" onchange="updST('education.title',this.value)"></div>
+    ${(st.education?.items||[]).map((it,i)=>`<div class="field"><label>項目 ${i+1}</label><input value="${S(it)}" onchange="updST('education.items[${i}]',this.value)"></div>`).join('')}
+    <div class="field"><label>榮譽標題</label><input value="${S(st.honors?.title)}" onchange="updST('honors.title',this.value)"></div>
+    ${(st.honors?.items||[]).map((it,i)=>`<div class="field"><label>榮譽 ${i+1}</label><input value="${S(it)}" onchange="updST('honors.items[${i}]',this.value)"></div>`).join('')}
+  </div></div>
+
+  <!-- ASSOCIATIONS -->
+  <div class="sec-group" id="sec-assoc"><div class="sec-header" onclick="toggleSec('sec-assoc')"><span class="sec-title">🏛️ 協會身份（13 項）</span><span class="sec-toggle">▼</span></div><div class="sec-body" id="assocList"></div></div>
+
+  <!-- COOPERATIONS -->
+  <div class="sec-group" id="sec-coop"><div class="sec-header" onclick="toggleSec('sec-coop')"><span class="sec-title">🤝 合作方向（8 項）</span><span class="sec-toggle">▼</span></div><div class="sec-body" id="coopList"></div></div>
+
+  <!-- CONTACT -->
+  <div class="sec-group open" id="sec-contact"><div class="sec-header" onclick="toggleSec('sec-contact')"><span class="sec-title">📬 聯絡資訊</span><span class="sec-toggle">▼</span></div><div class="sec-body">
+    <div class="field-row"><div class="field"><label>頁面標題</label><input value="${S(st.contact?.heroTitle)}" onchange="updST('contact.heroTitle',this.value)"></div><div class="field"><label>頁面副標</label><input value="${S(st.contact?.heroSub)}" onchange="updST('contact.heroSub',this.value)"></div></div>
+    <div class="field"><label>聯繫區標題</label><input value="${S(st.contact?.sectionTitle)}" onchange="updST('contact.sectionTitle',this.value)"></div>
+    <div class="field"><label>聯繫區描述</label><textarea onchange="updST('contact.sectionDesc',this.value)">${S(st.contact?.sectionDesc)}</textarea></div>
+    <div class="field-row"><div class="field"><label>📧 Email</label><input value="${S(st.contact?.email)}" onchange="updST('contact.email',this.value)"></div><div class="field"><label>📍 所在地</label><input value="${S(st.contact?.location)}" onchange="updST('contact.location',this.value)"></div></div>
+    <div class="field"><label>🌐 網站</label><input value="${S(st.contact?.website)}" onchange="updST('contact.website',this.value)"></div>
+  </div></div>
+
+  <!-- FOOTER -->
+  <div class="sec-group" id="sec-footer"><div class="sec-header" onclick="toggleSec('sec-footer')"><span class="sec-title">📋 頁腳</span><span class="sec-toggle">▼</span></div><div class="sec-body">
+    <div class="field"><label>品牌描述</label><textarea onchange="updST('footer.brandDesc',this.value)">${S(st.footer?.brandDesc)}</textarea></div>
+    <div class="field-row"><div class="field"><label>Copyright</label><input value="${S(st.footer?.copyright)}" onchange="updST('footer.copyright',this.value)"></div><div class="field"><label>標語</label><input value="${S(st.footer?.slogan)}" onchange="updST('footer.slogan',this.value)"></div></div>
+  </div></div>
+
+  `;
+
+  // Render list-type sections
+  renderListSection('idList',(st.identities||[]),'identities',['icon','title','org'],['icon','職稱','機構']);
+  renderListSection('statsList',(st.stats||[]),'stats',['number','label'],['數字','說明']);
+  renderListSection('missionList',(st.missions||[]),'missions',['title','desc'],['標題','描述']);
+  renderListSection('pracList',(st.practices||[]),'practices',['year','title','desc'],['年份','標題','描述']);
+  renderListSection('upcomingList',(st.upcomingProjects||[]),'upcomingProjects',['year','title','desc'],['狀態','標題','描述']);
+  renderListSection('tlList',(st.timeline||[]),'timeline',['year','desc'],['年份','描述']);
+  renderListSection('assocList',(st.associations||[]),'associations',['title','org'],['職稱','機構']);
+  renderListSection('coopList',(st.cooperations||[]),'cooperations',['icon','title','desc'],['圖示','標題','描述']);
+}
+
+function renderListSection(elId,arr,keys,labels){
+  const el=document.getElementById(elId);
+  if(!arr.length){el.innerHTML='<p style="color:var(--gray);font-size:12px;text-align:center;padding:20px">（尚無資料）</p>';return}
+  el.innerHTML=arr.map((item,i)=>{
+    const titleVal=item[keys[1]]||item[keys[0]]||'';
+    return `<div class="item-card expanded" id="${elId}_${i}">
+      <div class="item-card-header" onclick="toggleCard('${elId}_${i}','ic')">
+        <span class="item-num">${i+1}</span><span class="item-title-text">${esc(titleVal)}</span>
+        <span class="item-toggle">▲</span>
+      </div>
+      <div class="item-fields" style="display:block">
+        ${keys.map((k,j)=>`<div class="field"><label>${labels[j]}</label>${k==='desc'?`<textarea onchange="updSTArr('${keys}',${i},'${k}',this.value)">${esc(item[k]||'')}</textarea>`:`<input value="${esc(item[k]||'')}" onchange="updSTArr('${keys}',${i},'${k}',this.value)">`}</div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ==================== HELPERS ====================
+function toggleSec(id){document.getElementById(id).classList.toggle('open')}
+function toggleCard(i,prefix){document.getElementById(prefix+i)?.classList.toggle('expanded')}
+
+function updM(i,k,v){mediaData.media[i][k]=v}
+function updP(i,k,v){postsData.posts[i][k]=v}
+function updST(path,val){
+  const keys=path.replace(/\[(\d+)\]/g,'.$1').split('.');
+  let obj=siteTextData.siteText;
+  for(let k=0;k<keys.length-1;k++){if(obj[keys[k]]===undefined)obj[keys[k]]={};obj=obj[keys[k]]}
+  obj[keys[keys.length-1]]=val;
+}
+function updSTArr(arrKey,idx,key,val){
+  const arrKeyClean=arrKey.replace(/'/g,'');
+  if(!siteTextData.siteText[arrKeyClean])siteTextData.siteText[arrKeyClean]=[];
+  if(!siteTextData.siteText[arrKeyClean][idx])siteTextData.siteText[arrKeyClean][idx]={};
+  siteTextData.siteText[arrKeyClean][idx][key]=val;
+}
+
+function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+// ==================== IMAGE HANDLING ====================
+function handleDragOver(e){e.preventDefault();e.currentTarget.classList.add('dragover')}
+function handleDragLeave(e){e.preventDefault();e.currentTarget.classList.remove('dragover')}
+function handleDrop(e,index,type){e.preventDefault();e.currentTarget.classList.remove('dragover');const files=e.dataTransfer.files;if(type==='media'&&files[0])processMediaImage(files[0],index);if(type==='post'){[...files].forEach(f=>processPostImage(f,index))}}
+
+function handleMediaImage(e,index){const f=e.target.files[0];if(!f)return;processMediaImage(f,index);e.target.value=''}
+function processMediaImage(file,index){const r=new FileReader();r.onload=function(ev){const b64=ev.target.result;mediaData.media[index].image=b64;mediaImages[index]=b64;renderImgPrev('mprev'+index,b64,'removeMediaImage('+index+')');showStatus('✅ 圖片已加入','ok')};r.readAsDataURL(file)}
+function removeMediaImage(index){mediaData.media[index].image='';delete mediaImages[index];document.getElementById('mprev'+index).innerHTML=''}
+
+function handlePostImages(e,index){[...e.target.files].forEach(f=>processPostImage(f,index));e.target.value=''}
+function processPostImage(file,index){const r=new FileReader();r.onload=function(ev){const b64=ev.target.result;if(!postsData.posts[index].images)postsData.posts[index].images=[];if(!postImages[index])postImages[index]=[];postsData.posts[index].images.push(b64);postImages[index].push(b64);addPostImgPrev(index,b64);showStatus('✅ 照片已加入','ok')};r.readAsDataURL(file)}
+function addPostImgPrev(index,src){const c=document.getElementById('pprev'+index+'_imgs');if(!c)return;const idx=postImages[index]?postImages[index].length-1:0;const d=document.createElement('div');d.className='img-preview-item';d.innerHTML=`<img src="${src}"><button class="img-remove" onclick="removePostImg(${index},${idx})">×</button>`;c.appendChild(d)}
+function removePostImg(index,idx){postsData.posts[index].images.splice(idx,1);postImages[index]?.splice(idx,1);const c=document.getElementById('pprev'+index+'_imgs');if(!c)return;c.innerHTML='';(postImages[index]||[]).forEach((src,ci)=>{const d=document.createElement('div');d.className='img-preview-item';d.innerHTML=`<img src="${src}"><button class="img-remove" onclick="removePostImg(${index},${ci})">×</button>`;c.appendChild(d)})}
+function renderImgPrev(elId,src,removeFn){document.getElementById(elId).innerHTML=`<div class="img-preview-item"><img src="${src}"><button class="img-remove" onclick="${removeFn}")">×</button></div>`}
+
+// ==================== BODY PREVIEW ====================
+function updateBodyPreview(index){const el=document.getElementById('pprev'+index);if(el)el.innerHTML=simpleMarkdown(postsData.posts[index].body||'')}
+function simpleMarkdown(md){if(!md)return '<em style="color:var(--gray)">（尚無內容）</em>';return md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/^### (.+)$/gm,'<h3>$1</h3>').replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/^[-*] (.+)$/gm,'<li>$1</li>').replace(/(<li>.*<\/li>\n?)+/g,m=>'<ul>'+m+'</ul>').replace(/\n/g,'<br>')}
+
+// ==================== POST CRUD ====================
+function addNewPost(){postsData.posts.unshift({title:'新文章',category:'自省踐行',date:new Date().toISOString().split('T')[0],location:'',images:[],body:'## 在這裡寫你的想法...\n\n就像發微信朋友圈一樣！',status:'已上線'});postImages={[0]:[]};renderPosts();showStatus('✅ 已新增文章','ok');setTimeout(()=>toggleCard(0,'pc'),100)}
+function deletePost(index){if(!confirm('確定刪除？'))return;postsData.posts.splice(index,1);delete postImages[index];const nPI={};Object.keys(postImages).sort((a,b)=>a-b).forEach((k,i)=>{if(parseInt(k)!==index)nPI[i]=postImages[k]});Object.assign(postImages,nPI);renderPosts();showStatus('🗑️ 已刪除','ok')}
+
+// ==================== SAVE / DOWNLOAD ====================
+function saveAll(){localStorage.setItem('seanown_media',JSON.stringify(mediaData));localStorage.setItem('seanown_posts',JSON.stringify(postsData));localStorage.setItem('seanown_text',JSON.stringify(siteTextData));showStatus('💾 已儲存到瀏覽器！現在可以下載 JSON 了。','ok')}
+function downloadJSON(type){
+  let data,filename;
+  if(type==='media'){data=mediaData;filename='media.json'}
+  else if(type==='posts'){data=postsData;filename='posts.json'}
+  else{data=siteTextData;filename='site-text.json'}
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();URL.revokeObjectURL(a.href);
+  showStatus(`📥 已下載 ${filename}！傳給小愛就好。`,'ok')
+}
+async function downloadAll(){
+  showStatus('📦 正在下載全部 JSON...','info');
+  const files=[{type:'media',name:'media.json'},{type:'posts',name:'posts.json'},{type:'text',name:'site-text.json'}];
+  for(let i=0;i<files.length;i++){
+    await new Promise(r=>setTimeout(r,600));
+    downloadJSON(files[i].type);
+  }
+  setTimeout(()=>showStatus('📦 全部 3 個 JSON 已下載！把這 3 個檔案傳給小愛就好。','ok'),800);
+}
+function loadFromFiles(){document.getElementById('fileLoader').click()}
+document.getElementById('fileLoader').addEventListener('change',function(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=function(){
+    try{
+      const d=JSON.parse(r.result);
+      if(d.media){mediaData=d;renderMedia()}
+      if(d.posts){postsData=d;renderPosts()}
+      if(d.siteText){siteTextData=d;renderSiteText()}
+      showStatus('✅ 已從檔案載入！','ok')
+    }catch(err){showStatus('❌ 檔案格式錯誤','ok')}
+  };
+  r.readAsText(f);this.value=''
+});
+
+function showStatus(msg,type){const sb=document.getElementById('statusBar');sb.textContent=msg;sb.className='status-bar status-'+type;setTimeout(()=>sb.style.display='none',5000)}
+
+loadData();
+</script>
+</body>
+</html>

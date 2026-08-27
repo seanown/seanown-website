@@ -3,7 +3,7 @@
 個人IP官方網站，內建 Decap CMS 後台，可視化編輯文章和媒體報導。
 
 ## 網站網址
-- 正式網域：https://seanown.com（待綁定）
+- 正式網域：https://seanown.org
 - 預覽：https://seanown.netlify.app
 - 後台：https://seanown.netlify.app/admin
 
@@ -12,7 +12,7 @@
 - **Decap CMS**（原 Netlify CMS）— 可視化內容管理後台
 - **Netlify Identity** — 後台登錄驗證
 - marked.js — Markdown 渲染
-- 響應式設計，中英雙語
+- 響應式設計，繁體中文
 
 ## 目錄結構
 ```
@@ -77,7 +77,7 @@ python -m http.server 8080
 
 ## 聯絡
 - Email: seanown@gmail.com
-- Website: seanown.com
+- Website: seanown.org
 
 ---
 *座右銘：財自道生 · 利緣義取*

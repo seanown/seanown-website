@@ -1,52 +1,171 @@
 {
   "media": [
     {
-      "title": "亞洲電子論壇澳門啟幕 共繪AI時代跨境協同新藍圖",
-      "source": "新華網",
-      "date": "2025-12-05",
-      "url": "https://www.macaodaily.com/html/2025-12/07/content_1875259.htm"
-    },
-    {
-      "title": "ECI落戶澳門 開啟AI科普新紀元",
-      "source": "ECI國際數字創新節",
-      "date": "2026-06-20",
-      "url": "#"
-    },
-    {
       "title": "灣區青年AI融媒體中心揭牌",
-      "source": "大灣區融媒體中心",
-      "date": "2026-06-02",
-      "url": "#"
-    },
-    {
-      "title": "大灣區中華青年文化研學基地重磅簽約",
-      "source": "中華青年創業店家聯盟",
-      "date": "2026-05-18",
-      "url": "#"
+      "source": "新華澳報",
+      "date": "2026-06-06",
+      "url": "https://www.waou.com.mo/2026/06/06/%E7%81%A3%E5%8D%80%E9%9D%92%E5%B9%B4ai%E8%9E%8D%E5%AA%92%E9%AB%94%E4%B8%AD%E5%BF%83%E6%8F%AD%E7%89%8C/",
+      "image": "images/media/77541780423274181.jpg"
     },
     {
       "title": "中華青年聯動風神音樂祭落戶大灣區獨家運營",
-      "source": "風神音樂祭",
-      "date": "2026-04-22",
-      "url": "#"
+      "source": "華夏網",
+      "date": "2026-06-03",
+      "url": "http://www.hqxwtoutiao.com/?p=72327"
     },
     {
-      "title": "智匯澳門 聯通全球 2025 AIE博覽會",
-      "source": "AIE博覽會",
-      "date": "2025-10-15",
-      "url": "#"
+      "title": "大灣區中華青年文化研學基地重磅簽約 打造港澳台校園數位文化交流新平台",
+      "source": "華夏網",
+      "date": "2026-06-03",
+      "url": "http://www.hqxwtoutiao.com/?p=72320"
+    },
+    {
+      "title": "澳門中華文化發展促進會及在澳臺青參觀國安展",
+      "source": "新華澳報",
+      "date": "2026-04-24",
+      "url": "https://www.waou.com.mo/2026/04/24/%e6%be%b3%e9%96%80%e4%b8%ad%e8%8f%af%e6%96%87%e5%8c%96%e7%99%bc%e5%b1%95%e4%bf%83%e9%80%b2%e6%9c%83%e5%8f%8a%e5%9c%a8%e6%be%b3%e8%87%ba%e9%9d%92%e5%8f%83%e8%a7%80%e5%9c%8b%e5%ae%89%e5%b1%95/"
+    },
+    {
+      "title": "中華文化發展促進會及在澳台青參觀國安展",
+      "source": "濠江日報",
+      "date": "2026-04-24",
+      "url": "https://www.houkongdailynews.com/instantNews/148828"
+    },
+    {
+      "title": "ECI澳門站暨AI科普論壇順利舉行",
+      "source": "亞洲經濟報",
+      "date": "2026-01-22",
+      "url": "https://www.asiaeconomynews.com/page193.html?article_id=1074"
+    },
+    {
+      "title": "ECI落戶澳門 開啟AI科普新紀元",
+      "source": "大眾報",
+      "date": "2026-01-22",
+      "url": "https://www.taichungdaily.com/instantNews/31894",
+      "image": "images/media/89561769103555222.jpg"
+    },
+    {
+      "title": "智匯澳門 聯通全球 2025 AIE博覽會以澳為橋 國聯調解院賦能國際智能合作",
+      "source": "亞洲經濟報",
+      "date": "2025-12-12",
+      "url": "https://www.asiaeconomynews.com/page193.html?article_id=886"
+    },
+    {
+      "title": "共商AI時代發展新路徑 第十六屆亞洲電子論壇舉辦",
+      "source": "新華網",
+      "date": "2025-12-07",
+      "url": "https://www.news.cn/expo/20251207/c074c96e4a764bc6b2ec095f2b6f869f/c.html"
+    },
+    {
+      "title": "亞洲電子論壇澳門啟幕 共繪AI時代跨境協同新藍圖",
+      "source": "華夏網",
+      "date": "2025-12-04",
+      "url": "http://www.hqxwtoutiao.com/?p=63881",
+      "image": "images/media/47001765044327947.jpg"
+    },
+    {
+      "title": "南光文創攜雲南省展團 訪經民聯共探雲澳合作新機遇",
+      "source": "澳門力報",
+      "date": "2025-09-11",
+      "url": "https://www.exmoo.com/article/250389.html"
+    },
+    {
+      "title": "抗戰勝利80周年史料展澳門啟幕 南京團隊攜珍檔再現台灣光復之路",
+      "source": "中共中央台辦、國務院台辦",
+      "date": "2025-09-03",
+      "url": "https://www.gwytb.gov.cn/local/202509/t20250903_12721764.htm",
+      "image": "images/media/920435ee-e8d0-4eae-b97e-529e8d8e9917.jpg.jpg"
+    },
+    {
+      "title": "南京市台屬聯誼會訪經民聯 深化寧澳青年交流與產業合作",
+      "source": "澳門力報",
+      "date": "2025-08-25",
+      "url": "https://www.exmoo.com/article/249476.html"
+    },
+    {
+      "title": "紀念抗日戰爭勝利暨台灣光復80周年 澳門舉辦圖片書畫史料展及學術研討會",
+      "source": "人民日報",
+      "date": "2025-08-22",
+      "url": "https://www.zlb.gov.cn/20250822/4c0cc9c0dd634ef8be464273352728c9/c.html",
+      "image": "images/media/27011749232617647.jpg"
+    },
+    {
+      "title": "澳門舉辦圖片書畫史料展及學術研討會",
+      "source": "海外網",
+      "date": "2025-08-21",
+      "url": "https://m.haiwainet.cn/middle/3541039/2025/0821/content_32888398_1.html"
+    },
+    {
+      "title": "抗戰勝利台灣光復研討會開幕",
+      "source": "澳門日報",
+      "date": "2025-08-21",
+      "url": "https://appimg.modaily.cn/app/szb/pc/content/202508/21/content_429971.html"
+    },
+    {
+      "title": "經民聯走訪光雲科技 搭建澳杭數字經濟合作橋樑",
+      "source": "澳門力報",
+      "date": "2025-06-05",
+      "url": "https://www.exmoo.com/article/245842.html"
+    },
+    {
+      "title": "經民聯組織考察團赴杭州 助中小企發展及澳青生涯規劃",
+      "source": "澳門力報",
+      "date": "2025-05-27",
+      "url": "https://www.exmoo.com/article/245456.html"
+    },
+    {
+      "title": "第十三屆贏在廣州暨粵港澳大灣區大學生創業大賽評委名單的通知",
+      "source": "廣州市人力資源和社會保障局",
+      "date": "2024-11-27",
+      "url": "https://rsj.gz.gov.cn/ywzt/jycy/ggjyfw/tzgg/content/post_9996178.html"
+    },
+    {
+      "title": "人生有為執行主編洪智強先生參加活動並將該專著贈送澳門科學館及相關人員",
+      "source": "蓮花時報",
+      "date": "2024-10-31",
+      "url": "https://nkxxk.com/NewsDetails.aspx?ProductID=1653"
+    },
+    {
+      "title": "台灣青年企業家與杭州民建探討合作發展新機遇",
+      "source": "社區文化網",
+      "date": "2024-10-31",
+      "url": "https://www.ccedn.com.cn/news/item/20241031RGTLRLOM8.html"
+    },
+    {
+      "title": "高星林一行訪澳門粵港澳大灣區數字產業協會",
+      "source": "香港商報",
+      "date": "2024-03-12",
+      "url": "https://hkcd.com/newsTopic_content.php?id=8627176"
     },
     {
       "title": "兩岸企業家澳門探討電商合作模式",
-      "source": "澳門日報",
-      "date": "2024-11-22",
-      "url": "#"
+      "source": "海外網",
+      "date": "2022-03-18",
+      "url": "https://www.itaiwannews.cn/20220318/83cd7b64-4612-5d9e-d5ab-7872a8e882f6.html"
     },
     {
-      "title": "經民聯組織考察團赴杭州助中小企發展",
-      "source": "澳門經濟民生聯盟",
-      "date": "2025-05-30",
-      "url": "#"
+      "title": "中國對全球英才吸引力增強——2021亞洲青年領袖論壇側記",
+      "source": "新浪財經",
+      "date": "2021-12-02",
+      "url": "https://finance.sina.com.cn/tech/2021-12-02/doc-ikyakumx1596735.shtml"
+    },
+    {
+      "title": "港澳创客掀起灣區青春風暴——2021亞洲青年領袖論壇特寫",
+      "source": "新華網",
+      "date": "2021-11-30",
+      "url": "https://www.zlb.gov.cn/2021-11/30/c_1211467749.htm"
+    },
+    {
+      "title": "澳門手信品牌升級帶給經濟新機遇",
+      "source": "人民網",
+      "date": "2019-12-15",
+      "url": "http://hm.people.com.cn/n1/2019/1215/c42272-31506600.html"
+    },
+    {
+      "title": "第十五屆亞洲電子論壇在澳門舉行",
+      "source": "人民網",
+      "date": "2019-10-28",
+      "url": "http://hm.people.com.cn/n1/2019/1028/c42272-31424297.html"
     }
   ]
 }

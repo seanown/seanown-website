@@ -1,0 +1,51 @@
+# Netlify 部署配置 — SEAN OWN 個人品牌官網（純靜態版）
+# 純 HTML/CSS/JS，無構建步驟，push 即自動部署（不再用 Astro build）
+
+[build]
+  publish = "."
+
+# Netlify Forms 聯繫表單聲明（零後端，免費 100 條/月）
+[[forms]]
+  name = "contact"
+  fields = [
+    { name = "name", label = "姓名", required = true },
+    { name = "email", label = "電子郵箱", required = true },
+    { name = "subject", label = "主題", required = true },
+    { name = "message", label = "留言", required = true }
+  ]
+
+# 靜態資源長效緩存（性能優化）
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML 不緩存，確保內容即時更新
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# 安全標頭
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Decap CMS 後台 — admin/ 目錄保留
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200

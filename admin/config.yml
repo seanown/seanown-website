@@ -1,44 +1,248 @@
 backend:
   name: git-gateway
   branch: main
+  identity_url: https://seanown.org/.netlify/identity
+  gateway_url: https://seanown.org/.netlify/git
+  publish_roles:
+    - admin
+    - editor
 
-media_folder: "assets/images"
-public_folder: "/assets/images"
+media_folder: "assets/images/posts"
+public_folder: "/assets/images/posts"
+
+locale: "zh_Hant"
 
 collections:
+  # ========== 文章（朋友圈風格） ==========
   - name: "posts"
-    label: "文章管理"
+    label: "📝 文章（朋友圈）"
     files:
       - name: "posts"
-        label: "所有文章"
+        label: "👈 像發朋友圈一樣管理文章 →"
         file: "data/posts.json"
         fields:
           - label: "文章列表"
             name: "posts"
             widget: "list"
+            summary: "{{title}} · {{category}} · {{date}}"
             fields:
+              - { label: "文章編號（URL slug）", name: "num", widget: "string", hint: "如 01、02，用作文章網址" }
               - { label: "標題", name: "title", widget: "string" }
               - label: "分類"
                 name: "category"
                 widget: "select"
-                options: ["AI前瞻", "灣區澳門", "商道思辨"]
-              - { label: "日期", name: "date", widget: "datetime" }
-              - { label: "摘要", name: "excerpt", widget: "text" }
-              - { label: "圖標(emoji)", name: "icon", widget: "string", required: false }
+                options: ["商道洞察", "山海行跡", "時局觀思", "古今雅述", "人物心鏡", "自省踐行", "待分類"]
+              - label: "上線狀態"
+                name: "status"
+                widget: "select"
+                default: "已上線"
+                options:
+                  - { label: "✅ 已上線（前台看得到）", value: "已上線" }
+                  - { label: "🟡 整理中（前台隱藏）", value: "整理中" }
+              - { label: "日期", name: "date", widget: "date" }
+              - { label: "地點（選填）", name: "location", widget: "string", required: false }
+              - label: "照片"
+                name: "images"
+                widget: "list"
+                required: false
+                field: { label: "照片", name: "image", widget: "image" }
+              - { label: "摘要（選填，列表頁顯示）", name: "excerpt", widget: "text", required: false, hint: "留空則自動從正文截取前 100 字" }
               - { label: "正文", name: "body", widget: "markdown" }
 
+  # ========== 媒體報導 ==========
   - name: "media"
-    label: "媒體報導"
+    label: "📰 媒體報導"
     files:
       - name: "media"
-        label: "所有報導"
+        label: "👈 管理媒體報導 →"
         file: "data/media.json"
         fields:
           - label: "報導列表"
             name: "media"
             widget: "list"
+            summary: "{{source}} · {{title}} · {{date}}"
             fields:
               - { label: "標題", name: "title", widget: "string" }
               - { label: "來源", name: "source", widget: "string" }
               - { label: "日期", name: "date", widget: "datetime" }
-              - { label: "連結URL", name: "url", widget: "string" }
+              - { label: "連結", name: "url", widget: "string" }
+              - { label: "圖片（選填）", name: "image", widget: "image", required: false }
+
+  # ========== 網站文字 ==========
+  - name: "sitetext"
+    label: "✏️ 網站文字（改這裡就夠了）"
+    files:
+      - name: "sitetext"
+        label: "👈 點這裡改網站上所有文字 →"
+        file: "data/site-text.json"
+        fields:
+          # ═════════════════════════════════
+          # 第一區：首頁 Hero（姓名 + 標語）
+          # ═════════════════════════════════
+          - label: "━━━ 首頁最上面（姓名 + 標語） ━━━"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "中文名", name: "name", widget: "string" }
+              - { label: "英文名", name: "nameEn", widget: "string" }
+              - { label: "副標語（名字下面那行）", name: "subtitle", widget: "string" }
+              - { label: "哲學語錄", name: "slogan", widget: "string" }
+              - { label: "按鈕1文字", name: "btn1", widget: "string" }
+              - { label: "按鈕2文字", name: "btn2", widget: "string" }
+
+          # ═════════════════════════════════
+          # 第二區：核心身份卡片
+          # ═════════════════════════════════
+          - label: "━━━ 核心身份（6 張卡片） ━━━"
+            name: "identities"
+            widget: "list"
+            summary: "{{icon}} {{title}}"
+            fields:
+              - { label: "Emoji 圖示", name: "icon", widget: "string" }
+              - { label: "卡片標題（職位）", name: "title", widget: "string" }
+              - { label: "卡片描述（機構）", name: "org", widget: "string" }
+
+          # ═════════════════════════════════
+          # 第三區：統計數字
+          # ═════════════════════════════════
+          - label: "━━━ 統計數字（4 個大數字） ━━━"
+            name: "stats"
+            widget: "list"
+            summary: "{{number}} {{label}}"
+            fields:
+              - { label: "數字（如 8+）", name: "number", widget: "string" }
+              - { label: "標籤（如 年數字服務經驗）", name: "label", widget: "string" }
+
+          # ═════════════════════════════════
+          # 第四區：核心使命
+          # ═════════════════════════════════
+          - label: "━━━ 核心使命（2 項） ━━━"
+            name: "missions"
+            widget: "list"
+            summary: "{{title}}"
+            fields:
+              - { label: "使命標題", name: "title", widget: "string" }
+              - { label: "使命描述", name: "desc", widget: "text" }
+
+          # ═════════════════════════════════
+          # 第五區：哲學引言
+          # ═════════════════════════════════
+          - label: "━━━ 哲學引言（首頁中間那段話） ━━━"
+            name: "philosophy"
+            widget: "object"
+            fields:
+              - { label: "引言內容", name: "quote", widget: "string" }
+              - { label: "引言副標", name: "sub", widget: "string" }
+
+          # ═════════════════════════════════
+          # 第六區：產業實踐
+          # ═════════════════════════════════
+          - label: "━━━ 產業實踐（已完成） ━━━"
+            name: "practices"
+            widget: "list"
+            summary: "{{year}} · {{title}}"
+            fields:
+              - { label: "年份", name: "year", widget: "string" }
+              - { label: "標題", name: "title", widget: "string" }
+              - { label: "描述", name: "desc", widget: "text" }
+
+          - label: "━━━ 推進中項目 ━━━"
+            name: "upcomingProjects"
+            widget: "list"
+            summary: "{{year}} · {{title}}"
+            fields:
+              - { label: "年份/狀態", name: "year", widget: "string" }
+              - { label: "標題", name: "title", widget: "string" }
+              - { label: "描述", name: "desc", widget: "text" }
+
+          # ═════════════════════════════════
+          # 第七區：關於我
+          # ═════════════════════════════════
+          - label: "━━━ 關於我 ━━━"
+            name: "about"
+            widget: "object"
+            fields:
+              - { label: "Banner 標題", name: "bannerTitle", widget: "string" }
+              - { label: "Banner 副標", name: "bannerSub", widget: "string" }
+              - label: "自我介紹段落（每行一段）"
+                name: "intro"
+                widget: "list"
+                summary: "段落 {{index}}"
+
+          # ═════════════════════════════════
+          # 第八區：人生軌跡時間軸
+          # ═════════════════════════════════
+          - label: "━━━ 人生軌跡（時間軸事件） ━━━"
+            name: "timeline"
+            widget: "list"
+            summary: "{{year}} · {{desc}}"
+            fields:
+              - { label: "年份", name: "year", widget: "string" }
+              - { label: "事件描述", name: "desc", widget: "text" }
+
+          # ═════════════════════════════════
+          # 第九區：教育 & 榮譽
+          # ═════════════════════════════════
+          - label: "━━━ 教育背景 ━━━"
+            name: "education"
+            widget: "object"
+            fields:
+              - { label: "標題", name: "title", widget: "string" }
+              - label: "條目"
+                name: "items"
+                widget: "list"
+
+          - label: "━━━ 榮譽與認證 ━━━"
+            name: "honors"
+            widget: "object"
+            fields:
+              - { label: "標題", name: "title", widget: "string" }
+              - label: "條目"
+                name: "items"
+                widget: "list"
+
+          # ═════════════════════════════════
+          # 第十區：協會身份
+          # ═════════════════════════════════
+          - label: "━━━ 協會身份（13 項） ━━━"
+            name: "associations"
+            widget: "list"
+            summary: "{{title}} — {{org}}"
+            fields:
+              - { label: "職位", name: "title", widget: "string" }
+              - { label: "協會名稱", name: "org", widget: "string" }
+
+          # ═════════════════════════════════
+          # 第十一區：合作方向
+          # ═════════════════════════════════
+          - label: "━━━ 合作方向（8 項） ━━━"
+            name: "cooperations"
+            widget: "list"
+            summary: "{{icon}} {{title}}"
+            fields:
+              - { label: "Emoji 圖示", name: "icon", widget: "string" }
+              - { label: "合作項目名稱", name: "title", widget: "string" }
+              - { label: "描述", name: "desc", widget: "string" }
+
+          # ═════════════════════════════════
+          # 第十二區：聯絡 & 頁腳
+          # ═════════════════════════════════
+          - label: "━━━ 聯絡資訊 ━━━"
+            name: "contact"
+            widget: "object"
+            fields:
+              - { label: "聯絡頁大標題", name: "heroTitle", widget: "string" }
+              - { label: "聯絡頁副標", name: "heroSub", widget: "string" }
+              - { label: "聯絡區標題", name: "sectionTitle", widget: "string" }
+              - { label: "聯絡區描述", name: "sectionDesc", widget: "text" }
+              - { label: "電子郵箱", name: "email", widget: "string" }
+              - { label: "所在地", name: "location", widget: "string" }
+              - { label: "網站", name: "website", widget: "string" }
+
+          - label: "━━━ 頁腳 ━━━"
+            name: "footer"
+            widget: "object"
+            fields:
+              - { label: "品牌描述", name: "brandDesc", widget: "text" }
+              - { label: "版權文字", name: "copyright", widget: "string" }
+              - { label: "座右銘", name: "slogan", widget: "string" }
