@@ -8,7 +8,7 @@ backend:
     - editor
 
 media_folder: "assets/images/posts"
-public_folder: "/assets/images/posts"
+public_folder: "assets/images/posts"
 
 locale: "zh_Hant"
 
