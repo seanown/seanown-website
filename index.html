@@ -174,7 +174,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .coop-services{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .coop-item{background:var(--white);padding:28px;border-radius:16px;box-shadow:var(--shadow);text-align:center;transition:all .3s}
 .coop-item:hover{transform:translateY(-4px)}
-.coop-icon{font-size:36px;margin-bottom:14px}.coop-item h4{font-size:16px;color:var(--blue);margin-bottom:8px}.coop-item p{font-size:13px;color:var(--gray)}
+.coop-icon{font-size:36px;margin-bottom:14px}.coop-item h4{font-size:16px;color:var(--blue);margin-bottom:8px}.coop-item p{font-size:13px;color:var(--gray)}.coop-links{margin-top:10px;display:flex;flex-direction:column;gap:6px;align-items:center}.coop-link{display:inline-block;color:var(--blue);font-size:13px;font-weight:600;text-decoration:none;border-bottom:2px solid var(--gold);padding-bottom:1px;line-height:1.4}.coop-link:hover{color:#00254a;border-bottom-color:var(--blue)}
 .coop-cta{text-align:center;margin-top:50px;padding:50px;background:var(--gold-light);border-radius:20px}
 .coop-cta h3{font-size:28px;color:var(--blue);margin-bottom:12px}.coop-cta p{color:var(--gray);margin-bottom:24px}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;max-width:1100px;margin:0 auto}
@@ -413,7 +413,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <h2 class="section-title" style="margin-bottom:30px">合作方向</h2>
 <div class="coop-services" id="coop-grid">
 <div class="coop-item"><div class="coop-icon">🌐</div><h4>AI數字服務出海</h4><p>澳台雙算力架構，Facebook API授權，80語種全球推廣</p></div>
-<div class="coop-item"><div class="coop-icon">🏙️</div><h4>數字孿生文旅</h4><p>沉浸式數字孿生平台規劃，AI+文旅體驗設計</p></div>
+<div class="coop-item"><div class="coop-icon">🏙️</div><h4>文化旅遊</h4><p>澳門文化旅遊與沉浸式體驗規劃，AI+文旅設計</p></div>
 <div class="coop-item"><div class="coop-icon">🎨</div><h4>文化IP × Web3</h4><p>中華文化IP數字化藏品交易，NFR/NFT商業模式</p></div>
 <div class="coop-item"><div class="coop-icon">🤝</div><h4>產業資源對接</h4><p>電子產業供應鏈，兩岸港澳及海外商會資源</p></div>
 <div class="coop-item"><div class="coop-icon">📚</div><h4>AI科普教育</h4><p>全民AI科普生態，國際認證導師培訓體系</p></div>
@@ -612,7 +612,7 @@ async function loadSiteText(){
     if(Array.isArray(st.timeline)){const g=document.getElementById('timeline-list');if(g)g.innerHTML=st.timeline.map(t=>`<div class="timeline-item"><div class="timeline-content"><div class="timeline-year">${t.year||''}</div><div class="timeline-desc">${t.desc||''}</div></div><div class="timeline-dot"></div><div class="timeline-spacer"></div></div>`).join('')}
     if(st.education){const b=document.getElementById('education-box');if(b)setText(b.querySelector('h3'),st.education.title);const l=document.getElementById('education-list');if(l&&Array.isArray(st.education.items))l.innerHTML=st.education.items.map(i=>`<li>${i}</li>`).join('')}
     if(st.honors){const b=document.getElementById('honors-box');if(b)setText(b.querySelector('h3'),st.honors.title);const l=document.getElementById('honors-list');if(l&&Array.isArray(st.honors.items))l.innerHTML=st.honors.items.map(i=>`<li>${i}</li>`).join('')}
-    if(Array.isArray(st.cooperations)){const g=document.getElementById('coop-grid');if(g)g.innerHTML=st.cooperations.map(c=>`<div class="coop-item"><div class="coop-icon">${c.icon||''}</div><h4>${c.title||''}</h4><p>${c.desc||''}</p></div>`).join('')}
+    if(Array.isArray(st.cooperations)){const g=document.getElementById('coop-grid');if(g)g.innerHTML=st.cooperations.map(c=>{let l='';if(c.link)l+=`<a class="coop-link" href="${c.link}" target="_blank" rel="noopener">${c.linkText||'查看詳情'} </a>`;if(c.link2)l+=`<a class="coop-link" href="${c.link2}" target="_blank" rel="noopener">${c.link2Text||'官方網站'} </a>`;return `<div class="coop-item"><div class="coop-icon">${c.icon||''}</div><h4>${c.title||''}</h4><p>${c.desc||''}</p>${l?`<div class="coop-links">${l}</div>`:''}</div>`}).join('')}
     if(st.contact){setText('contact-hero-title',st.contact.heroTitle);setText('contact-hero-sub',st.contact.heroSub);setText('contact-section-title',st.contact.sectionTitle);setText('contact-section-desc',st.contact.sectionDesc);setText('contact-email',st.contact.email);setText('contact-location',st.contact.location);setText('contact-website',st.contact.website);}
     if(st.footer){setText('footer-brand',st.footer.brandDesc);setText('footer-copyright',st.footer.copyright);setText('footer-slogan',st.footer.slogan);}
   }catch(e){console.error('Load site text failed:',e)}
