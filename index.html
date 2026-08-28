@@ -38,6 +38,18 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .nav-links a:hover,.nav-links a.active{color:var(--gold)}
 .nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--gold);border-radius:2px}
 .mobile-toggle{display:none;font-size:24px;cursor:pointer;color:var(--blue)}
+.read-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),#f6c945);z-index:2000;width:0;transition:width .1s ease;border-radius:0 3px 3px 0}
+.back-top{position:fixed;right:24px;bottom:24px;width:48px;height:48px;border-radius:50%;background:var(--blue);color:#fff;border:none;cursor:pointer;box-shadow:0 8px 30px rgba(0,50,98,.3);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;opacity:0;visibility:hidden;transform:translateY(12px);transition:all .3s;z-index:1500}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-top:hover{background:#004080}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gallery-item{position:relative;border-radius:12px;overflow:hidden;cursor:zoom-in;box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s;aspect-ratio:3/4;background:var(--white)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.gallery-item:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.gallery-item:hover img{transform:scale(1.05)}
+.gallery-caption{position:absolute;bottom:0;left:0;right:0;padding:26px 12px 10px;background:linear-gradient(transparent,rgba(0,50,98,.78));color:#fff;font-size:13px;text-align:center;opacity:0;transition:opacity .3s;font-weight:600;letter-spacing:.5px}
+.gallery-item:hover .gallery-caption{opacity:1}
+@media(max-width:768px){.gallery-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
 .page{display:none;min-height:100vh;padding-top:68px}.page.active{display:block;animation:fadeIn .4s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .hero{min-height:calc(100vh - 68px);display:flex;align-items:center;background:linear-gradient(135deg,#f0f4f8 0%,#e8eef5 50%,#f5f0e0 100%);position:relative;overflow:hidden}
@@ -248,6 +260,24 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="hero-image"><img src="assets/images/avatar-1x1.jpg" alt="Sean Own" class="hero-avatar"></div>
 </div></section>
 <section class="section"><div class="section-inner">
+<h2 class="section-title">研究報告</h2><p class="section-subtitle">Research Reports</p><div class="title-line"></div>
+<div style="background:var(--white);border-radius:16px;padding:36px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center">
+  <div>
+    <div style="display:inline-block;padding:4px 12px;border-radius:12px;background:var(--gold-light);color:var(--blue);font-size:12px;font-weight:600;margin-bottom:14px">粵港澳大灣區電子商會 · 產業研究委員會</div>
+    <h3 style="font-size:24px;color:var(--blue);margin-bottom:10px;line-height:1.4">從規劃到產業：文化IP出海與AI軟服務走出去的澳琴樞紐戰略</h3>
+    <p style="font-size:15px;color:var(--gray);margin-bottom:18px;line-height:1.7">對接澳門「三五」規劃，聚焦中華文化國際傳播與中國數位服務（AI）出海雙主軸，提出商會產業落地建議。全篇 51 個來源連結可點。</p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap">
+      <a href="macau-35-plan-report.html" class="btn btn-primary" style="padding:12px 28px">線上閱讀報告</a>
+      <a href="assets/reports/macau-35-plan-report.pdf" download class="btn btn-outline" style="padding:12px 28px">下載 PDF（5 頁 / 420 KB）</a>
+    </div>
+  </div>
+  <div style="text-align:center">
+    <div style="width:120px;height:160px;background:linear-gradient(135deg,var(--blue),var(--gold));border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;padding:12px;line-height:1.5">澳門「三五」規劃<br>商會產業視角報告</div>
+    <div style="font-size:12px;color:var(--gray);margin-top:10px">2026.08.28 發布</div>
+  </div>
+</div>
+</div></section>
+<section class="section"><div class="section-inner">
 <h2 class="section-title" data-i18n="home_id_t">核心身份</h2>
 <p class="section-subtitle">Core Identities</p><div class="title-line"></div>
 <div class="cards-grid" id="identities-grid">
@@ -295,23 +325,22 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 </div></div>
 </div></section>
 
-<section class="section"><div class="section-inner">
-<h2 class="section-title">研究報告</h2><p class="section-subtitle">Research Reports</p><div class="title-line"></div>
-<div style="background:var(--white);border-radius:16px;padding:36px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center">
-  <div>
-    <div style="display:inline-block;padding:4px 12px;border-radius:12px;background:var(--gold-light);color:var(--blue);font-size:12px;font-weight:600;margin-bottom:14px">粵港澳大灣區電子商會 · 產業研究委員會</div>
-    <h3 style="font-size:24px;color:var(--blue);margin-bottom:10px;line-height:1.4">從規劃到產業：文化IP出海與AI軟服務走出去的澳琴樞紐戰略</h3>
-    <p style="font-size:15px;color:var(--gray);margin-bottom:18px;line-height:1.7">對接澳門「三五」規劃，聚焦中華文化國際傳播與中國數位服務（AI）出海雙主軸，提出商會產業落地建議。全篇 51 個來源連結可點。</p>
-    <div style="display:flex;gap:14px;flex-wrap:wrap">
-      <a href="macau-35-plan-report.html" class="btn btn-primary" style="padding:12px 28px">線上閱讀報告</a>
-      <a href="assets/reports/macau-35-plan-report.pdf" download class="btn btn-outline" style="padding:12px 28px">下載 PDF（5 頁 / 420 KB）</a>
-    </div>
-  </div>
-  <div style="text-align:center">
-    <div style="width:120px;height:160px;background:linear-gradient(135deg,var(--blue),var(--gold));border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;padding:12px;line-height:1.5">澳門「三五」規劃<br>商會產業視角報告</div>
-    <div style="font-size:12px;color:var(--gray);margin-top:10px">2026.08.28 發布</div>
-  </div>
+<!-- AI 形象畫廊 -->
+<section class="section" style="background:var(--white)"><div class="section-inner">
+<h2 class="section-title">AI 形象畫廊</h2><p class="section-subtitle">AI Portrait Gallery</p><div class="title-line"></div>
+<p style="text-align:center;color:var(--gray);max-width:640px;margin:0 auto 32px;font-size:15px">AI 生成的個人形象系列 — 商務、電影、時尚、未來，不一樣的 Sean Own。</p>
+<div class="gallery-grid">
+<div class="gallery-item" onclick="openLightbox('assets/images/gallery/gallery-01-business.jpg')"><img src="assets/images/gallery/gallery-01-business.jpg" alt="商務形象" loading="lazy" width="675" height="900"><div class="gallery-caption">商務 · Business</div></div>
+<div class="gallery-item" onclick="openLightbox('assets/images/gallery/gallery-02-fashion.jpg')"><img src="assets/images/gallery/gallery-02-fashion.jpg" alt="時尚形象" loading="lazy" width="672" height="900"><div class="gallery-caption">時尚 · Fashion</div></div>
+<div class="gallery-item" onclick="openLightbox('assets/images/gallery/gallery-03-movie.jpg')"><img src="assets/images/gallery/gallery-03-movie.jpg" alt="電影形象" loading="lazy" width="672" height="900"><div class="gallery-caption">電影 · Movie</div></div>
+<div class="gallery-item" onclick="openLightbox('assets/images/gallery/gallery-04-matrix.jpg')"><img src="assets/images/gallery/gallery-04-matrix.jpg" alt="矩陣風格" loading="lazy" width="656" height="900"><div class="gallery-caption">矩陣 · Matrix</div></div>
+<div class="gallery-item" onclick="openLightbox('assets/images/gallery/gallery-05-street.jpg')"><img src="assets/images/gallery/gallery-05-street.jpg" alt="街頭風格" loading="lazy" width="656" height="900"><div class="gallery-caption">街頭 · Street</div></div>
+<div class="gallery-item" onclick="openLightbox('assets/images/gallery/gallery-06-futuristic.jpg')"><img src="assets/images/gallery/gallery-06-futuristic.jpg" alt="未來感" loading="lazy" width="656" height="900"><div class="gallery-caption">未來 · Futuristic</div></div>
+<div class="gallery-item" onclick="openLightbox('assets/images/gallery/gallery-07-studio.jpg')"><img src="assets/images/gallery/gallery-07-studio.jpg" alt="棚拍寫真" loading="lazy" width="656" height="900"><div class="gallery-caption">棚拍 · Studio</div></div>
+<div class="gallery-item" onclick="openLightbox('assets/images/gallery/gallery-08-macau.jpg')"><img src="assets/images/gallery/gallery-08-macau.jpg" alt="澳門主題" loading="lazy" width="672" height="900"><div class="gallery-caption">澳門 · Macau</div></div>
+<div class="gallery-item" onclick="openLightbox('assets/images/gallery/gallery-09-cufflink.jpg')"><img src="assets/images/gallery/gallery-09-cufflink.jpg" alt="袖扣細節" loading="lazy" width="900" height="845"><div class="gallery-caption">細節 · Detail</div></div>
 </div>
+<div style="text-align:center;margin-top:28px"><p style="font-size:13px;color:var(--gray)">點擊圖片放大查看 · 更多形象持續更新中</p></div>
 </div></section>
 
 </div>
@@ -618,6 +647,23 @@ async function loadSiteText(){
   }catch(e){console.error('Load site text failed:',e)}
 }
 function setText(el,val){if(val===undefined||val===null)return;const node=typeof el==='string'?document.getElementById(el):el;if(node)node.textContent=val;}
+// 閱讀進度條 + 回到頂部按鈕
+(function(){
+  const bar=document.createElement('div');bar.className='read-progress';document.body.prepend(bar);
+  const btn=document.createElement('div');btn.className='back-top';btn.innerHTML='↑';btn.title='回到頂部';
+  btn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  document.body.appendChild(btn);
+  let ticking=false;
+  window.addEventListener('scroll',()=>{
+    if(ticking)return;ticking=true;
+    requestAnimationFrame(()=>{
+      const h=document.documentElement;const total=h.scrollHeight-h.clientHeight;
+      bar.style.width=(total>0?(h.scrollTop/total)*100:0)+'%';
+      btn.classList.toggle('show',h.scrollTop>600);
+      ticking=false;
+    });
+  },{passive:true});
+})();
 // Init
 loadPosts();loadMedia();loadSiteText();
 </script>
