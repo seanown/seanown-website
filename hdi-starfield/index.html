@@ -488,7 +488,7 @@ setTimeout(()=>{document.querySelectorAll(".reveal:not(.on),.brow:not(.on)").for
 (function(){
 var d=document;
 if(window.parent!==window){var st=d.createElement('style');st.textContent='.hero{min-height:620px!important;height:auto!important}html,body{overflow-anchor:none}';d.head.appendChild(st);}
-function post(){var h=Math.max(d.documentElement.scrollHeight,d.body?d.body.scrollHeight:0);try{parent.postMessage({type:'hdi-height',height:h},'*')}catch(e){}}
+function post(){var h=d.body?d.body.scrollHeight:d.documentElement.scrollHeight;try{parent.postMessage({type:'hdi-height',height:h},'*')}catch(e){}}
 window.addEventListener('load',function(){post();setTimeout(post,800)});
 window.addEventListener('resize',post);
 if(window.ResizeObserver){try{new ResizeObserver(post).observe(d.documentElement)}catch(e){}}
