@@ -417,6 +417,16 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <!-- INSIGHTS -->
 <div class="page" id="page-insights">
 <div class="insights-banner"><h1>文章</h1><p>Sean Own 的思考、見聞與生活點滴</p></div>
+<style>
+.hdi-section{max-width:1280px;margin:56px auto 0;padding:0 24px}
+.hdi-embed-lead{text-align:center;font-size:15px;margin:0 0 20px;opacity:.75}
+.hdi-embed{border-radius:16px;overflow:hidden;box-shadow:0 24px 60px rgba(2,8,32,.35)}
+.hdi-embed iframe{width:100%;height:1500px;border:0;display:block;background:#050a18}
+</style>
+<div class="hdi-section">
+<p class="hdi-embed-lead">📌 本週數據專題——《GDP 之外：用 HDI 重新丈量發展》。往下走進星圖：67 個經濟體、完整排行榜與反差洞察（數據：UNDP 人類發展報告 2025）。</p>
+<div class="hdi-embed"><iframe id="hdi-frame" src="hdi-starfield/index.html" title="GDP 之外：用 HDI 重新丈量發展 — 互動數據星圖" loading="lazy"></iframe></div>
+</div>
 <section class="section"><div class="section-inner">
 <div class="insights-cats">
 <button class="insights-cat active" data-cat="全部">全部<span class="sub">所有文章</span></button>
@@ -522,12 +532,14 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 function showPage(id){
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
 document.getElementById('page-'+id).classList.add('active');
+if(id==='insights'){var hf=document.getElementById('hdi-frame');if(hf&&hf.contentWindow){try{hf.contentWindow.postMessage({type:'hdi-measure'},'*')}catch(e){}}}
 document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
 if(event&&event.target)event.target.classList.add('active');
 document.getElementById('navLinks').classList.remove('open');
 requestAnimationFrame(()=>{requestAnimationFrame(()=>{window.scrollTo({top:0,behavior:'instant'})});
 });
 }
+window.addEventListener('message',function(e){if(e.data&&e.data.type==='hdi-height'){var f=document.getElementById('hdi-frame');if(f&&e.data.height>400&&e.data.height<12000){f.style.height=Math.round(e.data.height+8)+'px'}}});
 function toggleMobile(){document.getElementById('navLinks').classList.toggle('open')}
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('seanown-theme',t)}catch(e){}}
 function toggleTheme(){const cur=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';setTheme(cur)}
