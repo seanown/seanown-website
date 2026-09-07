@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-page-node-id="1X4LSum6iXbthFewdJPmaS">
+<head data-page-node-id="NDNijEl0QzRDRhWdXrkpbG">
+<meta charset="UTF-8" data-page-node-id="Et7snxBYG7tWlVNQkWiRlC">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="yXCBa9dbF9yT8u7VrbtGgv">
+<title>澳門新聞週報 2026.08.31-09.06</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #F5F2EC;
+    --surface: #FFFFFF;
+    --ink: #1A1A1A;
+    --ink-2: #4A4A4A;
+    --ink-3: #888;
+    --line: #E0DDD5;
+    --brand: #0B3D2E;
+    --brand-light: #1A6B52;
+    --accent: #C75B12;
+    --accent-light: #F0A050;
+    --gold: #B8860B;
+    --c1: #2E5C8A;
+    --c2: #1A6B52;
+    --c3: #8B4513;
+    --c4: #6B2D8C;
+    --c5: #B8860B;
+    --c6: #A0333E;
+    --c7: #4A6B82;
+    --c8: #2A6B4A;
+    --c9: #6B1A4A;
+    --c10: #1A4A5C;
+  }
+  body {
+    font-family: 'Noto Serif TC', 'Source Han Serif', 'PingFang TC', 'Microsoft JhengHei', serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: var(--brand);
+    color: #fff;
+    padding: 48px 0 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+  }
+  .header-tag {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    border: 1px solid var(--accent-light);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .header .date {
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 1px;
+  }
+  .header .week-range {
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 6px;
+  }
+
+  /* ===== SECTION ===== */
+  .section { padding: 40px 0; border-bottom: 1px solid var(--line); }
+  .section:last-child { border-bottom: none; }
+  .section-num {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 22px;
+    padding-left: 16px;
+    border-left: 5px solid var(--accent);
+  }
+
+  /* ===== OVERVIEW ===== */
+  .overview {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 28px 32px;
+    border: 1px solid var(--line);
+  }
+  .overview p {
+    font-size: 17px;
+    line-height: 2;
+    color: var(--ink-2);
+  }
+  .overview strong { color: var(--brand); font-weight: 600; }
+  .overview-highlights {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .highlight-chip {
+    flex: 1;
+    min-width: 200px;
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 18px 20px;
+    border-left: 4px solid var(--accent);
+  }
+  .highlight-chip .num {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'Georgia', serif;
+  }
+  .highlight-chip .label {
+    font-size: 14px;
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+  .highlight-chip .desc {
+    font-size: 15px;
+    color: var(--ink-2);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* ===== DATA DASHBOARD ===== */
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .data-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+  .data-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .data-card .icon {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-size: 20px;
+    opacity: 0.3;
+  }
+  .data-card .label {
+    font-size: 14px;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .data-card .value {
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--brand);
+    font-family: 'Georgia', serif;
+    line-height: 1.2;
+  }
+  .data-card .change {
+    font-size: 15px;
+    margin-top: 6px;
+  }
+  .data-card .change.pos { color: var(--c8); }
+  .data-card .change.neg { color: var(--c6); }
+  .data-card .change.neu { color: var(--ink-3); }
+  .data-card .period {
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-top: 6px;
+  }
+  .data-bar {
+    margin-top: 12px;
+    height: 4px;
+    background: var(--bg);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .data-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+  }
+
+  /* SVG chart */
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 28px 16px;
+    margin-top: 16px;
+  }
+  .chart-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--brand);
+  }
+  .chart-unit {
+    font-size: 13px;
+    color: var(--ink-3);
+    float: right;
+    margin-top: 4px;
+  }
+  .chart-card svg { width: 100%; height: auto; display: block; }
+
+  /* GDP dual bar */
+  .gdp-compare {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .gdp-item { text-align: center; }
+  .gdp-bar-wrap {
+    display: flex;
+    gap: 6px;
+    align-items: flex-end;
+    height: 80px;
+  }
+  .gdp-bar {
+    width: 36px;
+    border-radius: 4px 4px 0 0;
+  }
+  .gdp-label { font-size: 14px; color: var(--ink-3); margin-top: 6px; }
+  .gdp-value { font-size: 20px; font-weight: 600; color: var(--brand); }
+
+  /* ===== NEWS CATEGORIES ===== */
+  .category {
+    margin-bottom: 32px;
+    background: var(--surface);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .category-header {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+  }
+  .category-header .cat-num {
+    font-size: 30px;
+    font-weight: 700;
+    font-family: 'Georgia', serif;
+    opacity: 0.5;
+  }
+  .category-header .cat-title {
+    font-size: 19px;
+    font-weight: 600;
+    flex: 1;
+  }
+  .category-header .cat-count {
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  .category-body { padding: 20px 24px; }
+  .news-item {
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--line);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .news-item:last-child { border-bottom: none; }
+  .news-item .bullet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+  .news-item .content { flex: 1; }
+  .news-item .title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .news-item .desc {
+    font-size: 15.5px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .news-item .source {
+    font-size: 13.5px;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+  .category-summary {
+    margin-top: 16px;
+    padding: 16px 18px;
+    background: var(--bg);
+    border-radius: 8px;
+    border-left: 4px solid;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-2);
+  }
+  .category-summary strong { font-weight: 600; }
+
+  /* ===== CONCERT TABLE ===== */
+  .concert-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    margin-top: 12px;
+  }
+  .concert-table th {
+    background: var(--brand);
+    color: #fff;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .concert-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .concert-table tr:hover { background: var(--bg); }
+  .concert-table .free { color: var(--c8); font-weight: 600; }
+  .concert-table .past { opacity: 0.5; }
+  .badge {
+    display: inline-block;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  .badge.kpop { background: #FCE4EC; color: #AD1457; }
+  .badge.cantonese { background: #E8F5E9; color: #2E7D32; }
+  .badge.mando { background: #E3F2FD; color: #1565C0; }
+  .badge.event { background: #FFF3E0; color: #E65100; }
+  .badge.free { background: #E0F2F1; color: #00695C; }
+
+  /* ===== AI CARDS ===== */
+  .ai-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .ai-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 24px;
+    border-top: 4px solid var(--c10);
+    position: relative;
+  }
+  .ai-card .ai-tag {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c10);
+    margin-bottom: 8px;
+  }
+  .ai-card .ai-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .ai-card .ai-desc {
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .ai-card .ai-num {
+    position: absolute;
+    top: 16px; right: 20px;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--bg);
+    font-family: 'Georgia', serif;
+    line-height: 1;
+  }
+
+  /* ===== SOURCES ===== */
+  .source-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .source-list {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .source-list h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .source-list ul { list-style: none; }
+  .source-list li {
+    font-size: 15px;
+    color: var(--ink-2);
+    padding: 6px 0;
+    display: flex;
+    gap: 10px;
+  }
+  .source-list li .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    margin-top: 8px; flex-shrink: 0;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: var(--brand);
+    color: rgba(255,255,255,0.7);
+    padding: 28px 0;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .footer .brand-mark {
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  /* ===== NAV TABS ===== */
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav-tab {
+    padding: 14px 18px;
+    font-size: 14.5px;
+    color: var(--ink-3);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+  @media (max-width: 768px) {
+    .data-grid { grid-template-columns: 1fr; }
+    .ai-grid { grid-template-columns: 1fr; }
+    .source-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 24px; }
+    .overview-highlights { flex-direction: column; }
+  }
+</style>
+</head>
+<body data-page-node-id="JQ4UsB789PrwBFJYoOkqht">
+
+<!-- ===== HEADER ===== -->
+<div class="header" data-page-node-id="1Uuuj3KJFzZs0lRwvc4FfN">
+  <div class="container" data-page-node-id="b0IjRQGES31lAodBHpuT5g">
+    <span class="header-tag" data-page-node-id="7VvALkaP6JiPsCg1yNdUqg">Macau Weekly Digest</span>
+    <h1 data-page-node-id="bup0WlTlmdJJAPxXTh5zJ2">澳門新聞週報</h1>
+    <div class="date" data-page-node-id="00iFKfpXCMZIj7Tb7Hmh13">第 37 期 · 2026年9月7日（週一）出報</div>
+    <div class="week-range" data-page-node-id="5ICUcARmzsF8PKC8EL1soK">08.31 — 09.06</div>
+  </div>
+</div>
+
+<!-- ===== NAV TABS ===== -->
+<div class="nav-tabs" data-page-node-id="loXFFqH71gd42Av9kEjVyy">
+  <div class="container" style="display: flex; gap: 0; padding: 0;" data-page-node-id="azVBdcoAUngOG4iC4GUQOp">
+    <a class="nav-tab active" href="#overview" data-page-node-id="CUQzlrACMVxvQLdVf3BhMY">總覽</a>
+    <a class="nav-tab" href="#data" data-page-node-id="uDHnZRhPgxzImC0bebSIz7">數據看板</a>
+    <a class="nav-tab" href="#cat1" data-page-node-id="2ksOCW7wQAgxpa2MmNDtuX">時政</a>
+    <a class="nav-tab" href="#cat2" data-page-node-id="Lh6ZhyCMy7CJERMyXbg6z0">經濟民生</a>
+    <a class="nav-tab" href="#cat3" data-page-node-id="5ZbJVHJRUrhZ3wpieMlMRF">社會文化</a>
+    <a class="nav-tab" href="#cat4" data-page-node-id="pgxaNStw7wH6Vn2VWkk70F">旅遊盛事</a>
+    <a class="nav-tab" href="#cat5" data-page-node-id="q5pdILrhJ2T193Ls5SxmNH">中葡平台</a>
+    <a class="nav-tab" href="#cat8" data-page-node-id="uVG1uZZhTvu7UqY1OfZVOR">大灣區</a>
+    <a class="nav-tab" href="#cat9" data-page-node-id="MUX78ftcHoFeVF5kbc03bo">演唱會</a>
+    <a class="nav-tab" href="#cat10" data-page-node-id="LxnCgHDqUtqv5FXjkCtMqs">AI 精選</a>
+  </div>
+</div>
+
+<div class="container" data-page-node-id="hha2f4rtgbQk37WQSh1g32">
+
+  <!-- ===== 一、本週總覽 ===== -->
+  <div class="section" id="overview" data-page-node-id="uRWeEXrnlHz567qnzPYcrT">
+    <div class="section-num" data-page-node-id="ZeVpkLeIZInxbBpjrzGuAm">PART 01</div>
+    <h2 class="section-title" data-page-node-id="mtp5r44J5lEIHXbNbNmhhn">本週總覽</h2>
+    <div class="overview" data-page-node-id="uCId3pBYMsxBlFrP0XJ92t">
+      <p data-page-node-id="8FrojgbaTFIMh5wjGcMQFe">本週澳門最重要的事件有三：<strong data-page-node-id="SToldju3CxZBb9Zhk7pbXg">第一</strong>，行政長官岑浩輝完成上任後首次東南亞三國訪問，八天行程促成<strong data-page-node-id="9PCQGFGuADmmTkRFRzVqu4">189份合作協議</strong>，全面宣介「一國兩制」與「三五」規劃，並與安哥拉簽署互免簽證協定；<strong data-page-node-id="DBQJ3w6G3nG8Qo4fiuGADw">第二</strong>，「三五」規劃密集推進——經財與運工兩大範疇交流會接連召開，都更基金、舊區普查、航空樞紐建設正式浮出水面；<strong data-page-node-id="0f3hcsaVvlOFYb5zgEZgOc">第三</strong>，盛事經濟持續發力——媽閣慢活節三天吸引逾十萬人次、WTT冠軍賽配套「票根禮遇」激活新口岸社區消費，第34屆國際煙花比賽匯演即將開幕。</p>
+      <div class="overview-highlights" data-page-node-id="J0BfpnjGJVDQpxNsuHbvaK">
+        <div class="highlight-chip" data-page-node-id="FYMdqamycw21uUHg7iE5D5">
+          <div class="num" data-page-node-id="s6kKNFAUPDHETF5pIs67b8">189</div>
+          <div class="label" data-page-node-id="PfQkGXTuyzX0gDok6PGnU9">份合作協議</div>
+          <div class="desc" data-page-node-id="JpRUcqCuUgaFbBpgp3ilKm">岑浩輝東南亞三國訪問成果</div>
+        </div>
+        <div class="highlight-chip" data-page-node-id="oAegn1MIGDfk7VN0PGvIab">
+          <div class="num" data-page-node-id="MGJiAKUsEF5dRDfcfj3947">10萬+</div>
+          <div class="label" data-page-node-id="9lQeHOE5YXbHvM9rit3Ya2">人次</div>
+          <div class="desc" data-page-node-id="ceUOvXpOstoIGMeH2H0Gtt">媽閣慢活節三天入場</div>
+        </div>
+        <div class="highlight-chip" data-page-node-id="0u8ofCajpYrjl866hOFukH">
+          <div class="num" data-page-node-id="j6nyATFV5pj0bjqO5G1D83">218.91億</div>
+          <div class="label" data-page-node-id="I0T7WbPCeuKVAcPP80dMmH">澳門元</div>
+          <div class="desc" data-page-node-id="kAQBeCheGGvr5Klb44KqFI">8月博彩毛收入</div>
+        </div>
+        <div class="highlight-chip" data-page-node-id="3Z0OWioDMIXfD2HGrP2oOm">
+          <div class="num" data-page-node-id="fK7gtMcqFvFiELSH854NNx">8,148</div>
+          <div class="label" data-page-node-id="kXiUXYcSFnBcwmSa0vkPiH">家澳資企業</div>
+          <div class="desc" data-page-node-id="zLmG3FCfGJ21o4bf7XIAuE">橫琴合作區五周年</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 二、一週數據看板 ===== -->
+  <div class="section" id="data" data-page-node-id="jVHnThpGzWoQo1vKqEG8nJ">
+    <div class="section-num" data-page-node-id="fippbG6sxnBgUI2KjQCrFM">PART 02</div>
+    <h2 class="section-title" data-page-node-id="BQAEDrWQdWPq7yVgJIdnNC">一週數據看板</h2>
+
+    <div class="data-grid" data-page-node-id="oDBgJVeC6Zed34rqYNAmZI">
+      <div class="data-card" data-page-node-id="0dJGKVpCQppZnGuqJIdkBz">
+        <div class="label" data-page-node-id="FGhEDe4V9y6JTxaX3Unl6Y">入境旅客</div>
+        <div class="value" data-page-node-id="opKmL0YR7dEH1froGCb5EA">354.2萬</div>
+        <div class="change pos" data-page-node-id="xOqYUUvHjYrXGtWGsTbOEu">+2.4% 年增</div>
+        <div class="period" data-page-node-id="nqBbeQWTsVgBMPFNhS8zfu">2026年7月 · DSEC</div>
+        <div class="data-bar" data-page-node-id="7WgSV8eG3MZMasASbcS3Ft"><div class="data-bar-fill" style="width:72%;background:var(--c1)" data-page-node-id="kwOXif2Mkxu9xgOpbH85sQ"></div></div>
+      </div>
+      <div class="data-card" data-page-node-id="t15GVARHtqdj96VFWuZo2X">
+        <div class="label" data-page-node-id="ji1NBSo7ZLHrVfVQbeuOoy">博彩毛收入</div>
+        <div class="value" data-page-node-id="8LDucxjfrQ0x2X77LPeaNe">218.91億</div>
+        <div class="change neu" data-page-node-id="hOTaFfXp911r5YKFkfE1q0">維持高位</div>
+        <div class="period" data-page-node-id="xc61XTCpxfbOlK3MpBniCM">2026年8月 · DSEC</div>
+        <div class="data-bar" data-page-node-id="bkrmB05l57nXUhv0icnT2n"><div class="data-bar-fill" style="width:88%;background:var(--c6)" data-page-node-id="lSoFRPRh0n4UNVVe5EHLwy"></div></div>
+      </div>
+      <div class="data-card" data-page-node-id="CEaDlm83eOqr2tfzfn1SMC">
+        <div class="label" data-page-node-id="tlt12H5LExprCYPXPOAmSP">上半年GDP（實質）</div>
+        <div class="value" data-page-node-id="QoadHEfjFtnQNyJTCu8nWW">+3.7%</div>
+        <div class="change neg" data-page-node-id="V7lBqwVC8DKHglgWcvKheD">Q2僅+0.3% 放緩</div>
+        <div class="period" data-page-node-id="4EQv2i3xdgvNT77V5eBujI">2026年上半年 · DSEC</div>
+        <div class="data-bar" data-page-node-id="iOeagMdB6q1v6k1Zv2cYBv"><div class="data-bar-fill" style="width:37%;background:var(--c8)" data-page-node-id="7E5QbJLOM4N6DxH1UW7f1R"></div></div>
+      </div>
+      <div class="data-card" data-page-node-id="kJ5zOGhjDGfv2dE0EB2Ioc">
+        <div class="label" data-page-node-id="ionQC5PDFL3P8s5mCC5cWx">酒店入住率</div>
+        <div class="value" data-page-node-id="X41OT9kAATPSiDCdUgHhqr">91.6%</div>
+        <div class="change pos" data-page-node-id="B8kfJlwUoZVgZt6m3nLzOF">高位運行</div>
+        <div class="period" data-page-node-id="2PQ5PzexuMxAtq8oDwz0Ao">2026年7月 · DSEC</div>
+        <div class="data-bar" data-page-node-id="YrjpjAGbzl0wRyKgnRVwbn"><div class="data-bar-fill" style="width:91.6%;background:var(--c4)" data-page-node-id="10OlidrC7CcAoAXw0YKsHM"></div></div>
+      </div>
+      <div class="data-card" data-page-node-id="PlrN4xuSnZmbyeDN8jax7X">
+        <div class="label" data-page-node-id="InB2dDXiyHbUgYI7HA2xGY">零售業上半年</div>
+        <div class="value" data-page-node-id="WDuTaD3Bo8cMKbITpMxJZb">+17.2%</div>
+        <div class="change pos" data-page-node-id="wQJD4eVRvt7Ie7TxVSSmQn">表現亮眼</div>
+        <div class="period" data-page-node-id="Foxvr3BmTGYwj8zxZOWobB">2026年上半年 · DSEC</div>
+        <div class="data-bar" data-page-node-id="oBGjLOp5RcR3BXpHkgEouk"><div class="data-bar-fill" style="width:72%;background:var(--c5)" data-page-node-id="nyjhKQwIHoXSmcJItEfxtv"></div></div>
+      </div>
+      <div class="data-card" data-page-node-id="vjxoQUMjpXVfsYbQogcBxE">
+        <div class="label" data-page-node-id="fMgKHOnVK26CS8XtCgPmTK">本地居民失業率</div>
+        <div class="value" data-page-node-id="tQRwem675TbQkvEfHp369e">2.4%</div>
+        <div class="change neu" data-page-node-id="KnPzEbOdeiRPLmqFKqRJhk">持平</div>
+        <div class="period" data-page-node-id="eXRaSelHYYjGrLCoj1WVXg">2026年5-7月 · DSEC</div>
+        <div class="data-bar" data-page-node-id="1kk7XElLnrQKKhJbhfEBRC"><div class="data-bar-fill" style="width:24%;background:var(--c3)" data-page-node-id="GnaEwtR2wlAS8qhhxQfG2y"></div></div>
+      </div>
+    </div>
+
+    <div class="chart-card" data-page-node-id="mXAU2BIiF9QgqLrG8nPKbx">
+      <h3 data-page-node-id="te9iZSDcalByG1RIBUQrcp">博彩月度收入趨勢 <span class="chart-unit" data-page-node-id="eVCACuA1qhTLjIG8UmtQnY">單位：億澳門元 · 2026年5–8月</span></h3>
+      <svg viewBox="0 0 880 300" role="img" aria-label="博彩月度收入趨勢折線圖" data-page-node-id="VVuWGiCpabHLOY5IXcflPi">
+        <defs data-page-node-id="xFYS3HLPVOY6jg2wL5nEFZ">
+          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1" data-page-node-id="rUBDKJwilT3KHd7vTFZEiZ">
+            <stop offset="0%" stop-color="#0B3D2E" stop-opacity="0.22" data-page-node-id="4dDBrS9IkKyCbd2sARMEJc"/>
+            <stop offset="100%" stop-color="#0B3D2E" stop-opacity="0.02" data-page-node-id="7VCcrJCBCIHK5cUFvZuKIF"/>
+          </linearGradient>
+        </defs>
+        <!-- 網格線 -->
+        <line x1="70" y1="230" x2="840" y2="230" stroke="#E0DDD5" stroke-width="1" data-page-node-id="0hm4wZyLbnj8okgtjh0omb"/>
+        <line x1="70" y1="192" x2="840" y2="192" stroke="#EAE7DF" stroke-width="1" stroke-dasharray="4 4" data-page-node-id="3biN1X2mGi1BfC6VUIJk5Z"/>
+        <line x1="70" y1="154" x2="840" y2="154" stroke="#EAE7DF" stroke-width="1" stroke-dasharray="4 4" data-page-node-id="UgnN2cljoCcaFWyph60pE4"/>
+        <line x1="70" y1="117" x2="840" y2="117" stroke="#EAE7DF" stroke-width="1" stroke-dasharray="4 4" data-page-node-id="oDoQZie5lsODmUt27TGHKI"/>
+        <line x1="70" y1="79" x2="840" y2="79" stroke="#EAE7DF" stroke-width="1" stroke-dasharray="4 4" data-page-node-id="1qLkoutAkRrAfWwj3mnN4g"/>
+        <!-- Y 軸標籤 -->
+        <text x="60" y="234" text-anchor="end" font-size="12" fill="#888" data-page-node-id="ryMwAxJlWw8UHA3bOBtSl3">180</text>
+        <text x="60" y="196" text-anchor="end" font-size="12" fill="#888" data-page-node-id="RhFDW5UfP2TEdK9zSMB691">190</text>
+        <text x="60" y="158" text-anchor="end" font-size="12" fill="#888" data-page-node-id="aQC3LVoCZ9hENMuy548ZtH">200</text>
+        <text x="60" y="121" text-anchor="end" font-size="12" fill="#888" data-page-node-id="t3HtJVqk02KoDgQNPb21IQ">210</text>
+        <text x="60" y="83" text-anchor="end" font-size="12" fill="#888" data-page-node-id="baDll8EhZsCTpvMWE1kIEG">220</text>
+        <!-- 面積 -->
+        <path d="M160,173 C240,163 310,153 380,147 C450,141 530,126 600,117 C670,108 725,93 780,83 L780,230 L160,230 Z" fill="url(#areaGrad)" data-page-node-id="ZTQdVHoA52p1BTg52AK8PQ"/>
+        <!-- 折線 -->
+        <path d="M160,173 C240,163 310,153 380,147 C450,141 530,126 600,117 C670,108 725,93 780,83" fill="none" stroke="#0B3D2E" stroke-width="3" stroke-linecap="round" data-page-node-id="WUPM7JDwQqusSeu2Vpovt3"/>
+        <!-- 數據點 -->
+        <circle cx="160" cy="173" r="6" fill="#fff" stroke="#0B3D2E" stroke-width="3" data-page-node-id="scuqAeB2tXssUERLmZxEtO"/>
+        <circle cx="380" cy="147" r="6" fill="#fff" stroke="#0B3D2E" stroke-width="3" data-page-node-id="KrOKSaLqenIza5F9utCJMR"/>
+        <circle cx="600" cy="117" r="6" fill="#fff" stroke="#0B3D2E" stroke-width="3" data-page-node-id="BvXdlcNPhhcPhO2x6wssq3"/>
+        <circle cx="780" cy="83" r="12" fill="#C75B12" opacity="0.18" data-page-node-id="PwYXDsVtSUrJ6DNaZfT3r6"/>
+        <circle cx="780" cy="83" r="7" fill="#C75B12" stroke="#fff" stroke-width="2.5" data-page-node-id="YydZ5TCpXuxdd3HJlgxrxq"/>
+        <!-- 數值標註 -->
+        <text x="160" y="150" text-anchor="middle" font-size="16" font-weight="600" fill="#0B3D2E" data-page-node-id="kIh76Mfc6AG5RDO2KLkvb7">195</text>
+        <text x="380" y="124" text-anchor="middle" font-size="16" font-weight="600" fill="#0B3D2E" data-page-node-id="KFQ2CjhLIUYA8AiSNMqXSo">202</text>
+        <text x="600" y="94" text-anchor="middle" font-size="16" font-weight="600" fill="#0B3D2E" data-page-node-id="8DNbA0hjqBMEJvug2DSRDA">210</text>
+        <text x="780" y="52" text-anchor="middle" font-size="19" font-weight="700" fill="#C75B12" data-page-node-id="dojasaQVUoTB4gcwDPRwRg">218.91</text>
+        <!-- X 軸月份 -->
+        <text x="160" y="260" text-anchor="middle" font-size="14" fill="#4A4A4A" data-page-node-id="nVtjnHQh1jd0RipCo9I7vT">5月</text>
+        <text x="380" y="260" text-anchor="middle" font-size="14" fill="#4A4A4A" data-page-node-id="0QoLs4VzGV4IdJyPgyOVi5">6月</text>
+        <text x="600" y="260" text-anchor="middle" font-size="14" fill="#4A4A4A" data-page-node-id="GacDB2ABZdOEDYnBa5odeO">7月</text>
+        <text x="780" y="260" text-anchor="middle" font-size="14" font-weight="600" fill="#C75B12" data-page-node-id="zDcVD3auF1Ue3zbBLgc8dR">8月</text>
+        <text x="780" y="282" text-anchor="middle" font-size="12" fill="#C75B12" data-page-node-id="ETgwiKog6p11WWV4xEd3A4">DSEC 本週公佈</text>
+      </svg>
+    </div>
+
+    <div class="overview" style="margin-top:12px" data-page-node-id="Acy4wkk793jmywMS79mLyB">
+      <h3 style="font-size:17px;font-weight:600;color:var(--brand);margin-bottom:16px" data-page-node-id="zEc0c46jD65B7Vl9vjRa4v">GDP 增速對比 — 放緩訊號</h3>
+      <div class="gdp-compare" data-page-node-id="V2u8iuczNDLAT8ZrY8H7lX">
+        <div class="gdp-item" data-page-node-id="SHW6Kfk7rUl04jJh3847Z4">
+          <div class="gdp-value" data-page-node-id="jhxu5xLhOWTH96dvRoX4dS">+3.7%</div>
+          <div class="gdp-bar-wrap" data-page-node-id="rh6yGjMUAqrMpolFHEbZFZ">
+            <div class="gdp-bar" style="height:80px;background:var(--c8)" data-page-node-id="ltlMbq9vzZw5zqfT0BoVeO"></div>
+          </div>
+          <div class="gdp-label" data-page-node-id="CAjl96gqMEmuUGDrZEyO2T">上半年（修訂）</div>
+        </div>
+        <div style="font-size:32px;color:var(--ink-3);align-self:center" data-page-node-id="tOixURlS46bk4JbpamVRC7">→</div>
+        <div class="gdp-item" data-page-node-id="cKGkb0feT0B7lEkaFXU9ix">
+          <div class="gdp-value" style="color:var(--c6)" data-page-node-id="DJs4Bq2x2KNVbWQD4bQiQL">+0.3%</div>
+          <div class="gdp-bar-wrap" data-page-node-id="LI2LIeDg1ARQHkRYQLERy3">
+            <div class="gdp-bar" style="height:8px;background:var(--c6)" data-page-node-id="wGhjaJFEgTbEnLSVx3wKWy"></div>
+          </div>
+          <div class="gdp-label" data-page-node-id="v1FQm1ryRwAtbMS7SDx7RA">Q2（實質）</div>
+        </div>
+      </div>
+      <p style="font-size:15px;color:var(--ink-2);margin-top:10px;line-height:1.8" data-page-node-id="GHEKAFRK4DXfeN7Fj1feGY">
+        上半年 GDP 修訂值實質增長 3.7%，但第二季僅增 0.3%，顯示經濟增速放緩跡象。
+        零售業上半年增 17.2% 表現亮眼，消費物價按年升 1.12% 通脹溫和。
+        失業率持平 2.4%，就業不足率微降 0.1 個百分點，勞動市場總體穩定。
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== 三、分類新聞 ===== -->
+  <div class="section" data-page-node-id="5MLIe9v0Rowzj2QQp2UFbA">
+    <div class="section-num" data-page-node-id="RSDEZ75GmNe3CnIXJWkoSu">PART 03</div>
+    <h2 class="section-title" data-page-node-id="ayT2OSJDyucHT31r7CayOj">分類新聞彙整</h2>
+
+    <!-- Cat 1: 時政 -->
+    <div class="category" id="cat1" data-page-node-id="DdjMKfwBvecFS9jinIHsM4">
+      <div class="category-header" style="background:var(--c1)" data-page-node-id="d23VYBfyOuEEg1sm7bFuN4">
+        <span class="cat-num" data-page-node-id="gm90MBuWn325KF7aFZO0Mw">01</span>
+        <span class="cat-title" data-page-node-id="sFcwjwSjR9kesya3CNEe8y">時政與政府政策</span>
+        <span class="cat-count" data-page-node-id="1qsYus0eASrxjQsrSohvAK">7 條</span>
+      </div>
+      <div class="category-body" data-page-node-id="xNhZNH9le7Zj3q7o7C7ZVD">
+        <div class="news-item" data-page-node-id="7EEqwuF3ggPFCf7B8JMFB2"><div class="bullet" style="background:var(--c1)" data-page-node-id="PrOss52BSSPn0K7mW3SiyS"></div><div class="content" data-page-node-id="lJjAq05plfYbf3TjYjhiB2"><div class="title" data-page-node-id="rjkKnLPNv7IPopxu3bviNv">岑浩輝總結東南亞三國訪問成果</div><div class="desc" data-page-node-id="t4cvYFSqFUnL8bpSC1vtAD">八天訪問新加坡、印尼、馬來西亞促成189份合作協議，全面加強澳門與東盟合作，宣介「一國兩制」及「三五」規劃。</div><div class="source" data-page-node-id="uHDZlUEn0r36xAkZGXaAH6">澳門日報/力報/GCS · 9/5-9/6</div></div></div>
+        <div class="news-item" data-page-node-id="1RgU97FXWHuhtFd6hxSCe5"><div class="bullet" style="background:var(--c1)" data-page-node-id="Y32Yrx2DQTrq2jpjTNDWje"></div><div class="content" data-page-node-id="fqlme3DpGTuNzCRgNNPnel"><div class="title" data-page-node-id="onzkU8mJ9EF7838MHcWD7S">澳門與安哥拉簽署互免簽證協定</div><div class="desc" data-page-node-id="TEy0VosFTxjdBCwjmCzfvo">擴展澳門護照實用性，深化與葡語國家人員往來。</div><div class="source" data-page-node-id="LGp7NqeDyh3i6lfxdAUpMH">力報 · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="3HidfJbwCGmmCjmmWlUq4x"><div class="bullet" style="background:var(--c1)" data-page-node-id="QghH6SrZi4JyZFCU6Vzwoh"></div><div class="content" data-page-node-id="6fKykK20d4xoinYmQwCRjY"><div class="title" data-page-node-id="3FBLUCWRdP1puqLGRYYOP1">「三五」規劃經濟財政範疇專場交流會</div><div class="desc" data-page-node-id="8soxvIM6fJ6r98kkqINP4M">經濟財政司舉辦交流會廣納社會各界建言，推進「三五」規劃落實。</div><div class="source" data-page-node-id="aYRaRmBraX1uqkjCKyfBIh">力報/GCS · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="4DnyDaKNypG6Pq4C3rT7G2"><div class="bullet" style="background:var(--c1)" data-page-node-id="pegAIEWcUl3LWJ2ISQAagG"></div><div class="content" data-page-node-id="X6rnztW8XK0DivECd4Ecsn"><div class="title" data-page-node-id="ZnqG7K1WpNkrNPOuXiwCDs">「三五」規劃運輸工務範疇專場交流會</div><div class="desc" data-page-node-id="JHBX4D6DDGRMSfvAbbGcsl">譚偉文率多部門出席，介紹都更及航空樞紐建設重點，近30個社團約60名代表出席。</div><div class="source" data-page-node-id="0hIjIUmY2mlJEP8RPiRmr6">澳門日報/GCS · 9/5</div></div></div>
+        <div class="news-item" data-page-node-id="p5gu4BSV6KKh4LhFjsRQye"><div class="bullet" style="background:var(--c1)" data-page-node-id="VVphsdyfxlAWrhrpQ9EsOu"></div><div class="content" data-page-node-id="fbXkEMzMKPDjiu8QW5AGIC"><div class="title" data-page-node-id="Z0PKPJoo6R1NAWSKmgHI0w">譚偉文拜訪多個社團聽取施政意見</div><div class="desc" data-page-node-id="0VOuBAR1pNIMuS2YFDS6mN">先後拜訪工聯、中總、民眾建澳、經民聯、中華教育會、青聯、婦聯等，為2027年施政方針收集意見。</div><div class="source" data-page-node-id="E9swnFcr2Ou7FKGCHuCE5t">GCS · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="xxdXNiyhuOmQTg3kxz9Ynb"><div class="bullet" style="background:var(--c1)" data-page-node-id="q6cnJGtoPxttBNsaefovhP"></div><div class="content" data-page-node-id="vRAj1QmFgZIfWrHNbIigJc"><div class="title" data-page-node-id="njF5ij6sfL9lM4cy5cz5qE">促進都市更新領導小組下設工作組首次會議</div><div class="desc" data-page-node-id="tpMFwl82oZMCeVo2dW19qS">行政長官任組長，下設技術協調工作組及茨林圍活化專項工作組於9月1日召開首次會議。</div><div class="source" data-page-node-id="bzL3YQqujdXT0iFlGSMgmN">澳門日報 · 9/1</div></div></div>
+        <div class="news-item" data-page-node-id="7QKKIbCukSWTfcvrs4hoPi"><div class="bullet" style="background:var(--c1)" data-page-node-id="BjoHSqcYOc9F1aCceyvYoj"></div><div class="content" data-page-node-id="GMB3FQv5ZqrkuL0MX5cB7U"><div class="title" data-page-node-id="gwftHGAHyWBL1FoKXQoYUA">經科局新領導就職</div><div class="desc" data-page-node-id="OetyQQRw7ZvkXHhnYQiFOy">局長邱潤華、副局長余雨生及陳祖榮就職。</div><div class="source" data-page-node-id="pcEpby8mPBwjIuSUY922Ca">力報 · 9/7</div></div></div>
+        <div class="category-summary" style="border-color:var(--c1)" data-page-node-id="Qw2YVRNJrgoSJ4S7YXA8bP">
+          <strong data-page-node-id="kZxzkghd3XkokbCX5chTqW">本週小結：</strong>岑浩輝東南亞三國訪問是本週最大政治事件，189份協議標誌著澳門「走出去」戰略從構想進入兌現期。「三五」規劃兩大範疇接連召開交流會，政策從規劃文本轉入落地執行階段，都更基金、航空樞紐等具體抓手浮出水面。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 2: 經濟與民生 -->
+    <div class="category" id="cat2" data-page-node-id="KX7Q34r99ACk0ebmPkpS4l">
+      <div class="category-header" style="background:var(--c2)" data-page-node-id="63h4WXCDif89jPEcSFFPMY">
+        <span class="cat-num" data-page-node-id="iFYvODevBLAhHRjYYlYsC5">02</span>
+        <span class="cat-title" data-page-node-id="wzlIQprSCeSSkx9InMBCBM">經濟與民生</span>
+        <span class="cat-count" data-page-node-id="hMDLwOtDGBm0B457SF0LeH">8 條</span>
+      </div>
+      <div class="category-body" data-page-node-id="EnTqxT0qieCTHoNZbhl0kt">
+        <div class="news-item" data-page-node-id="DR1J0B75oRsfU6SkZwDzJu"><div class="bullet" style="background:var(--c2)" data-page-node-id="1IgHd9dLGrF2LQFrgcRXVy"></div><div class="content" data-page-node-id="URiyT3zC6JRhHg2bPgVBlM"><div class="title" data-page-node-id="34tt7tWAt7m4RRAVoqJ2Xm">政府研設都市更新基金</div><div class="desc" data-page-node-id="eSNfXyPmBiQ1qm9bSaGWYI">「三五」規劃將都更列為核心任務，考慮設立都更基金，第四季展開全澳舊區樓宇狀況普查，首階段以關前後街一帶292棟建築物為試點。</div><div class="source" data-page-node-id="MSensr5CVuhMHAdd1uomJj">澳門日報/力報 · 9/5-9/7</div></div></div>
+        <div class="news-item" data-page-node-id="b5cOXFs30K2azez5fL0SOl"><div class="bullet" style="background:var(--c2)" data-page-node-id="o9zM8NVkIOHJMZToA9oQxv"></div><div class="content" data-page-node-id="nsDdxLscSFe8Ps9Gba0zUh"><div class="title" data-page-node-id="nb5HLo5h1AKaDO3ByuWeBc">商會籲修法釐清業權推都更</div><div class="desc" data-page-node-id="CO8hfZKMISrcjKD8m4SmpW">商界代表呼籲修改法律釐清業權問題以推動都市更新，業界倡導「城市體檢」結合維修基金模式。</div><div class="source" data-page-node-id="nnFm8LDK0BC5SN2XUgeu8N">澳門日報 · 9/6</div></div></div>
+        <div class="news-item" data-page-node-id="DIHe3BA9Sczq5E3p6Dn1oM"><div class="bullet" style="background:var(--c2)" data-page-node-id="F5kSC94VuboRCDfZtxIoqD"></div><div class="content" data-page-node-id="GHFNff89zFuZZYukfPqSlY"><div class="title" data-page-node-id="qvRS55Fc4bCUWGivk6fJAM">輕軌9月起分批更新閘機</div><div class="desc" data-page-node-id="vHHXLvL5ZZWchJ3pEkx0e2">首階段在協和醫院站及橫琴線蓮花站啟動，具多元電子支付功能。</div><div class="source" data-page-node-id="js0bosCLskbVby6f90ipLy">澳門日報/GCS/力報 · 9/6-9/7</div></div></div>
+        <div class="news-item" data-page-node-id="iaRROd5beHPRpZPK6FyIrZ"><div class="bullet" style="background:var(--c2)" data-page-node-id="5EpiSqv2veU49I01FiZPop"></div><div class="content" data-page-node-id="vBi7kx10wCxIEnjlsLDUln"><div class="title" data-page-node-id="Hz1fSCgSzF8bGabKNpP4ko">田畔街公共停車場9月8日啟用</div><div class="desc" data-page-node-id="mRqRw2XyjyLQ89zHL7pTBt">利用閒置土地改建臨時戶外公共停車場，紓緩新橋及白鴿巢一帶泊車壓力。</div><div class="source" data-page-node-id="Fnpv7aIJLH5JCLkH7Whzkh">GCS · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="eGtD07misBbmWWA2UfCeUH"><div class="bullet" style="background:var(--c2)" data-page-node-id="uHIDdyGkcE5yqTUTw2OYdC"></div><div class="content" data-page-node-id="rYMeBo3E3xf7l9HeGd7RHv"><div class="title" data-page-node-id="5HBW0jHNYe0nPEKqu6Grxs">咪錶位由投幣走向智能化</div><div class="desc" data-page-node-id="voNcppi1nid4Ld81tyWa7p">澳門泊車咪錶運作革新，媽閣重型車停車場首小時免費。</div><div class="source" data-page-node-id="c6uCr6u3TsCBFPwBQCzhG1">澳門日報 · 8/31</div></div></div>
+        <div class="news-item" data-page-node-id="BzQBrfn37umyFCc9Yr8Vhj"><div class="bullet" style="background:var(--c2)" data-page-node-id="x45xnpIkt7BjkfQj2Es3oq"></div><div class="content" data-page-node-id="bktIcS2GnUdCDgOxbJ4s4x"><div class="title" data-page-node-id="0e7EKGwmjtirVKBDVku7IA">2021年經屋申請符合資格家團明日起選擇單位</div><div class="desc" data-page-node-id="gp27Ms3zCuMIuJrRMXk85d">經屋申請者開始選擇單位。</div><div class="source" data-page-node-id="Za9ENt0Rs6CQ8oG3SjNZKb">力報 · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="gWPGHL33BZivbIEVJTUxdE"><div class="bullet" style="background:var(--c2)" data-page-node-id="gq7R1gnOldhgwO7FrVRVCW"></div><div class="content" data-page-node-id="NmWxZ8Bwd8XG9pKRykCRWD"><div class="title" data-page-node-id="3r9ALyXt6zFWkvuwDAiDrL">六大博企合捐4,000萬元支援西藏吉隆救災</div><div class="desc" data-page-node-id="tDuC0ntwKLTT5LfBZfCZRi">金沙中國及銀河娛樂各捐1,000萬元，新濠博亞、澳娛綜合、永利澳門及美高梅中國合捐2,000萬元。</div><div class="source" data-page-node-id="F7wLFBL2kMjoEEZoAlUq2m">力報 · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="i61oy2ODDwF1eFtZtIagO8"><div class="bullet" style="background:var(--c2)" data-page-node-id="IVcFNISbaT90WSiqZl7WWN"></div><div class="content" data-page-node-id="uH1V1tmELdArRZo7dCGDbZ"><div class="title" data-page-node-id="jgCDMP71BTFHvvy8eeUbq5">勞工局9月舉辦休閒企業配對會提供345個職缺</div><div class="desc" data-page-node-id="hA4jCSCfIooa6NudpF0LkF">與6家綜合旅遊休閒企業合作推出專場配對會。</div><div class="source" data-page-node-id="kbFLlvCEd6KQxlBYoUPYul">GCS · 9/7</div></div></div>
+        <div class="category-summary" style="border-color:var(--c2)" data-page-node-id="YnVEJPgwjtGW4dBy0RJYft">
+          <strong data-page-node-id="ee27nEHAU8DqxsKrSKVf9a">本週小結：</strong>都更基金和舊區普查標誌著澳門都市更新從理念走向操作層面，292棟試點建築的「摸底排查」是第一步。輕軌閘機升級、咪錶智能化、田畔街停車場啟用等一連串交通改善措施同步推出，反映政府集中發力解決舊區民生痛點。六大博企合力捐贈4,000萬元救災，體現博企社會責任。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 3: 社會與文化 -->
+    <div class="category" id="cat3" data-page-node-id="FlQb8QmHvL83QQrAEqpcyM">
+      <div class="category-header" style="background:var(--c3)" data-page-node-id="Pw1nGcUWSB8cgtDuFpQq1s">
+        <span class="cat-num" data-page-node-id="iy5ZNmMgIj2CKfSgYOYGtI">03</span>
+        <span class="cat-title" data-page-node-id="uOeyFDXyYvSisNg6RZ88sK">社會與文化</span>
+        <span class="cat-count" data-page-node-id="QzJviBEHcxJh0fw23G7HYB">7 條</span>
+      </div>
+      <div class="category-body" data-page-node-id="GYoNB8G5EEH7Qdm0cb5DOM">
+        <div class="news-item" data-page-node-id="XcR5meAzFq5RqBvXu7QiP8"><div class="bullet" style="background:var(--c3)" data-page-node-id="A3VtYAGHBqcwkHA3JgIIsR"></div><div class="content" data-page-node-id="dQeV3eZynHwCQoEOgbD1O6"><div class="title" data-page-node-id="HQ4XC4W9FTFLp5HZPINBQi">女教師遭男生潑通渠水重傷</div><div class="desc" data-page-node-id="EPCcfHqhrVQp5DPhZ1xON1">校園暴力事件引發社會關注，學生輔導員籲青少主動求助，社會各界呼籲築牢校園安全屏障。</div><div class="source" data-page-node-id="5I2OnqGF2EG69UKCsyP8EK">澳門日報 · 9/3</div></div></div>
+        <div class="news-item" data-page-node-id="QN0JOVfqTo2lydeuUVzPaZ"><div class="bullet" style="background:var(--c3)" data-page-node-id="wEylDjJ00A4ProHZxwqrSz"></div><div class="content" data-page-node-id="cJvyoV9BSmw8xFn7kNgTVC"><div class="title" data-page-node-id="JolxnNNxq2B4vquusi4B5a">協和澳門醫學中心開業兩周年開放日</div><div class="desc" data-page-node-id="o3juO892igE3PJbcyukjxX">離島醫療綜合體北京協和醫院澳門醫學中心藉開業兩周年舉辦公眾開放日。</div><div class="source" data-page-node-id="zN88RrwlB7klV5MSXADqhg">GCS/澳門日報 · 9/5-9/6</div></div></div>
+        <div class="news-item" data-page-node-id="HMKid0Msa2vB8DJJM46se5"><div class="bullet" style="background:var(--c3)" data-page-node-id="gnwE8TlWTDr0ENONn93S4n"></div><div class="content" data-page-node-id="vh1y91tKrtlb26dLME6O34"><div class="title" data-page-node-id="O63v4zYuQN0T5S15zCdQbp">秋季塔石藝墟招募攤主</div><div class="desc" data-page-node-id="HoHfQNWZvB1SAPHxW2q2Iy">11月19-22日及26-29日在塔石廣場舉行，9月7-21日接受免費報名。</div><div class="source" data-page-node-id="h6B4reJccNAJyebnHh8c81">GCS · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="iCX3VsXaG2azE04ZpHYRTG"><div class="bullet" style="background:var(--c3)" data-page-node-id="lx1czLQgZDnuE5agsIYQdk"></div><div class="content" data-page-node-id="f4icLBFDXX33AvLzkCirO8"><div class="title" data-page-node-id="K43FvXe4l1SThL8arK6Oit">藝博館「藝術零界限」工作坊接受報名</div><div class="desc" data-page-node-id="CnPEhAe3lQnWRERRZOqS1j">10-12月為4-16歲兒童青少年打造7場少兒工作坊。</div><div class="source" data-page-node-id="55WC4TDPSGmc0XMw0FlT2R">GCS · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="ZdfehTzlYopUfRcD0HLUCZ"><div class="bullet" style="background:var(--c3)" data-page-node-id="E7jlcv5xRFe8pxTPpvA3D3"></div><div class="content" data-page-node-id="4KPautWiKBXuUHIhzEujeg"><div class="title" data-page-node-id="j2v9LubCzCLtznwtJh9fHw">中國京劇藝術團赴澳門演出交流</div><div class="desc" data-page-node-id="fQ3lwv8edKy4SPe4TXCleu">在青洲中學禮堂舉行導賞，推動中華傳統戲曲文化在澳門傳播。</div><div class="source" data-page-node-id="qH1NecyPkQP8nD6spRB71O">力報 · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="qYZjMfyPvSSxJAFTI2IYog"><div class="bullet" style="background:var(--c3)" data-page-node-id="uFv2mirEgcBaSJDaicKdZa"></div><div class="content" data-page-node-id="2v7pnDmJOc2gmKirIGa45O"><div class="title" data-page-node-id="0ZpFgudVvf2su6q8zD88mg">教青局推「家長學堂」</div><div class="desc" data-page-node-id="25Dk8oztxvTRsiizwbdSHo">聯合衛生局及社工局，為家長提供科學育兒知識和實用教養技能。</div><div class="source" data-page-node-id="dOFH9JrGoUR87Dnpw1zktw">GCS · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="oO5OeCQTtqCv1SF0uf3Mzr"><div class="bullet" style="background:var(--c3)" data-page-node-id="ovea0o1Ulq211jfXfq5qGM"></div><div class="content" data-page-node-id="OaSTdtc7yrLkLLIzszSqOZ"><div class="title" data-page-node-id="NEKhAa4xGmCRJk4MgMpTbS">霍英東基金30萬助社服店營運</div><div class="desc" data-page-node-id="BYfxBA8loDxp12wnqcmTIJ">霍英東基金會捐款支援社區服務站營運。</div><div class="source" data-page-node-id="iDNeMSovB52F9tXHQu133n">澳門日報 · 9/6</div></div></div>
+        <div class="category-summary" style="border-color:var(--c3)" data-page-node-id="BYTxoa2SqVus03yec0NRiT">
+          <strong data-page-node-id="Gde3cTl0dqU0l6VJNXFYCH">本週小結：</strong>校園安全問題因潑通渠水事件成為社會焦點，凸顯青少年心理健康與校園暴力防治的迫切性。協和醫學中心兩周年標誌著澳門特色醫療體系穩步發展。文化局持續推出塔石藝墟、藝博館工作坊等文創活動，文化軟實力建設在「三五」開局之年節奏清晰。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 4: 旅遊、大型活動與會展盛事 -->
+    <div class="category" id="cat4" data-page-node-id="GJTB0bNuCdbmmxYsWbEnfV">
+      <div class="category-header" style="background:var(--c4)" data-page-node-id="shx1AoqjtLrPBnUu3Gz3Aj">
+        <span class="cat-num" data-page-node-id="6KKKCqEfHnc3Spxwx2dHPb">04</span>
+        <span class="cat-title" data-page-node-id="MxsYHqmlDQOeDVrpmGCJkv">旅遊、大型活動與會展盛事</span>
+        <span class="cat-count" data-page-node-id="0rmWrADfcK0XhJmw9kM0gj">8 條</span>
+      </div>
+      <div class="category-body" data-page-node-id="oCXNjAoHGmSjBFMkurEwKi">
+        <div class="news-item" data-page-node-id="E2fnucHpV8Fl1eubqhhtEq"><div class="bullet" style="background:var(--c4)" data-page-node-id="v8cYkGAkEfYDH2hdFGLmIo"></div><div class="content" data-page-node-id="zDs45Uod407iCxh8MkQSvN"><div class="title" data-page-node-id="BnxBTMuCKmqwmzsLLTE4PO">媽閣慢活節三天引客逾十萬人次</div><div class="desc" data-page-node-id="yjlKlZf67p4r7D3L5ZDscy">「媽閣慢活節：烘焙時光×慢活一夏」在媽閣塘海事工房舉行，逾百攤位集烘焙市集、生活美學、手作體驗和黃昏音樂會，三天累計入場逾十萬。</div><div class="source" data-page-node-id="K4KfXXcZ2GySaAyDx54tRE">力報 · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="zhdwgDqXyOmUN87pqYDu7A"><div class="bullet" style="background:var(--c4)" data-page-node-id="RX9MKSSrqU6Lz97gNm7WNS"></div><div class="content" data-page-node-id="WVMH1wWyFu1Mk9WcTjlxjw"><div class="title" data-page-node-id="Mtob7gxHzmE01IZ8WqdSWv">WTT澳門冠軍賽2026由銀河娛樂集團呈獻</div><div class="desc" data-page-node-id="Z1Uir9nODVunMNrJkgDHSc">9月8-13日在澳門東亞運動會體育館舉行，世界頂尖各32名男女乒乓球員參賽。</div><div class="source" data-page-node-id="vQ7ACrDvlgNGGqkSyRp18G">GCS/澳門日報 · 9/6</div></div></div>
+        <div class="news-item" data-page-node-id="y5crB8VP9iTfhdGGLsM94t"><div class="bullet" style="background:var(--c4)" data-page-node-id="I8Wg8bzkTIR2qmAVKrbJx0"></div><div class="content" data-page-node-id="9iOgDxUIKCCWgTD1N37ZHM"><div class="title" data-page-node-id="gZGBPL1nH6PHehTM3CIPwa">跨部門推票根禮遇激活新口岸社區消費</div><div class="desc" data-page-node-id="AXjBC29KWp6aHGnFGrhuFJ">持門票可領150澳門元消費立減優惠券，於新口岸區約500間指定商戶使用，另設穿梭巴士及粉絲應援區。</div><div class="source" data-page-node-id="QKv1QLwLXLd83TR3DhIyPN">力報/GCS/華僑報 · 9/5-9/7</div></div></div>
+        <div class="news-item" data-page-node-id="qguKRSS7AEGlljYQYcj0oW"><div class="bullet" style="background:var(--c4)" data-page-node-id="IzCxgpc10voo8swVOBHVbO"></div><div class="content" data-page-node-id="7Hsnzgw9ZdQ3vTxWLf9BgL"><div class="title" data-page-node-id="2dT1BuH82qPPFY9gYJcq6k">第34屆澳門國際煙花比賽匯演即將開幕</div><div class="desc" data-page-node-id="GSsCZerq7EkjlfOBeBm10i">9月12、19、25日及10月1、4日在旅遊塔對出海面舉行，以「絲路海圖·澳門之約」為主題，首次加入無人機編隊表演。</div><div class="source" data-page-node-id="gm24VHXAYJNp2yDJz11EEv">旅遊局</div></div></div>
+        <div class="news-item" data-page-node-id="zECnvRx3L9aqhVLwNc0va9"><div class="bullet" style="background:var(--c4)" data-page-node-id="B3SSqCDI5cGcjLts0gJgas"></div><div class="content" data-page-node-id="8RdI7lIs2Hx2JsnJ4S8Zf2"><div class="title" data-page-node-id="XYDheEBwtIIuEVxo7VwqS1">活力社區—2026大眾康體嘉年華</div><div class="desc" data-page-node-id="y3G4zuCNBopxupQko277tT">9月6日於塔石廣場圓滿舉行，兩天吸引6,000人次參與。</div><div class="source" data-page-node-id="yDxTIQFDnvTqCyWzfZZFBZ">GCS · 9/6</div></div></div>
+        <div class="news-item" data-page-node-id="JEP2YOHiGuCAcKGJcPFDmy"><div class="bullet" style="background:var(--c4)" data-page-node-id="zvJYbMkbC3iZ0tGwRef3q1"></div><div class="content" data-page-node-id="A2SHsqQlvGEzbykKORhPzh"><div class="title" data-page-node-id="KWcHdqXCDsFGCfrdvmwa8B">2026世界旅遊日托盤比賽</div><div class="desc" data-page-node-id="J6ijNmNUp8atiXbFDUlg04">9月27日在大三巴牌坊至議事亭前地舉行，續設「吉祥物巡禮」。</div><div class="source" data-page-node-id="Z01rFzc5J3T5w6bKRdbtyF">旅遊局</div></div></div>
+        <div class="news-item" data-page-node-id="sP6t9hBvXjnaJHD0QKRtkf"><div class="bullet" style="background:var(--c4)" data-page-node-id="390H27nOPz7Lmr6uamoK8X"></div><div class="content" data-page-node-id="WjwjheVr3eJxabfWDcRU0Z"><div class="title" data-page-node-id="EbgolJaziI3YKLwtf6ka4L">第五屆中國（澳門）國際高品質消費博覽會</div><div class="desc" data-page-node-id="44pWtp5ApsR9kmSJws2oNe">9月9-13日在澳門威尼斯人金光會展舉行，展覽面積5萬平方米，「一會展兩地」模式。</div><div class="source" data-page-node-id="SnoDbugSt0XNm5IQiAPdZ2">旅遊局</div></div></div>
+        <div class="news-item" data-page-node-id="5kS6nszwXqBbsm5GgRaAOD"><div class="bullet" style="background:var(--c4)" data-page-node-id="HYAIbTKdTDoOGZW7mljayD"></div><div class="content" data-page-node-id="9xKFdDwurmnp53l3PFKtMI"><div class="title" data-page-node-id="KBXhJTWDIG9fAeRmAG61SB">澳門打造穆斯林友善旅遊環境</div><div class="desc" data-page-node-id="febiOacidlS9UmV4eyM3Oo">行政長官在東南亞訪問期間推動穆斯林友善旅遊環境建設。</div><div class="source" data-page-node-id="erS3dVOKYYDmepw3ZMubNd">澳門日報 · 9/6</div></div></div>
+        <div class="category-summary" style="border-color:var(--c4)" data-page-node-id="CYVH5zHEopNJgBtZjltvHn">
+          <strong data-page-node-id="MAGDoalPvMyO5JUaBvNkuE">本週小結：</strong>盛事經濟密度極高——媽閣慢活節十萬人次驗證了社區節慶品牌的帶動力，WTT冠軍賽疊加票根禮遇將「盛事引流社區消費」模式系統化（150元券×500間商戶×免費穿梭巴士），第34屆煙花匯演首加無人機編隊升級視覺體驗。從「辦活動」到「辦活動帶消費」的政策邏輯越發成熟。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 5: 中葡商貿合作平台 -->
+    <div class="category" id="cat5" data-page-node-id="H0Fw08hgyRrGXshsnHDHQU">
+      <div class="category-header" style="background:var(--c5)" data-page-node-id="iCQWl8MehJs0bTyqAIV3WZ">
+        <span class="cat-num" data-page-node-id="fnGdARl5bL7BSQXcEWQlCh">05</span>
+        <span class="cat-title" data-page-node-id="mmlX9QwLjuAaQIuBNn5VY8">中葡商貿合作平台</span>
+        <span class="cat-count" data-page-node-id="8F20O1ELPAv6lkrigkBPEx">4 條</span>
+      </div>
+      <div class="category-body" data-page-node-id="YDeWDpbwFEMmTsAcGoiKrx">
+        <div class="news-item" data-page-node-id="tFaGlWBIWcCUUNFD4dkpRr"><div class="bullet" style="background:var(--c5)" data-page-node-id="cYEZH3oEHaUDVbDTXaERUB"></div><div class="content" data-page-node-id="4PTUB75MlgzDSH8MbAo3JU"><div class="title" data-page-node-id="B6ACNYBklMgZSsDFC3qE4M">中葡經貿文化協會換屆推產業出海</div><div class="desc" data-page-node-id="hvA4PD0u0BjG7N6JhlPm1W">第六屆理監事就職典禮，張貴洪連任會長，會員逾千名，將繼續發揮澳門中葡平台橋樑作用。</div><div class="source" data-page-node-id="F7bGekB8h5GOc60JuBBbJq">澳門日報 · 9/6</div></div></div>
+        <div class="news-item" data-page-node-id="Kzu44zgD6xXTr7XKdBeIyB"><div class="bullet" style="background:var(--c5)" data-page-node-id="reQ6XbQlRHy7jlKHPEvPlT"></div><div class="content" data-page-node-id="3PlK4Hv8vHnhyktTFlAPSE"><div class="title" data-page-node-id="CYjW7E6VdFbBiRgUIz7PNU">護航中企出海巴西助推人民幣國際化</div><div class="desc" data-page-node-id="CvqgWd4yFu40YPkd507k7B">中葡經貿中心聯合工銀巴西、工銀澳門在橫琴舉行活動，發布「走出去」綜合服務方案，以橫琴為樞紐、澳門為金融平台、巴西為業務節點。</div><div class="source" data-page-node-id="MEoRLHSEPWu0cyML754SM5">橫琴合作區官網</div></div></div>
+        <div class="news-item" data-page-node-id="KSxHjrflt7wUR79HOVVkXW"><div class="bullet" style="background:var(--c5)" data-page-node-id="F6BORE0442Ah5wfD5vsArK"></div><div class="content" data-page-node-id="1Acgf7ha11PhNiCTCZfgYW"><div class="title" data-page-node-id="pubdI5LEt3bdTK4S39vKtb">福州代表團訪澳深化榕澳交流合作</div><div class="desc" data-page-node-id="JqKRf3ebb3y115HM3GMeDF">福建省委副書記郭寧寧率代表團訪澳，考察中葡平台展示館，探討借助平台優勢助力福品出海、數智出海。</div><div class="source" data-page-node-id="N4wqX6PcND3fbPZ0wEY3MX">福建投資促進網</div></div></div>
+        <div class="news-item" data-page-node-id="wto3OYzk1ekHJ8bIFz03U5"><div class="bullet" style="background:var(--c5)" data-page-node-id="CbCRVpgL97ZalcZRKBLxEP"></div><div class="content" data-page-node-id="3HczPpWhg8pV7YKMy8CINg"><div class="title" data-page-node-id="7aMhNIneb2ddZKMimC0VCE">澳門與安哥拉簽署互免簽證協定</div><div class="desc" data-page-node-id="5eNtCEGL2MvvAC9EGmaGmC">擴展澳門護照在葡語國家的實用性。</div><div class="source" data-page-node-id="k3m35Ir0B4NCrx1a923j98">力報 · 9/7</div></div></div>
+        <div class="category-summary" style="border-color:var(--c5)" data-page-node-id="XCegEYCDUpI0J6LLq6TvAV">
+          <strong data-page-node-id="M68SEjBHnXAyZUjqd4tAEg">本週小結：</strong>中葡平台建設呈現「協會換屆＋金融護航＋城市對接」三線並進。澳門中葡平台角色正從「定期辦活動」向「常態化服務中企出海」轉型。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 6: 中華文化交流合作基地 -->
+    <div class="category" id="cat6" data-page-node-id="IWY2g2scLd5jdHrjxp7BBz">
+      <div class="category-header" style="background:var(--c6)" data-page-node-id="mVyLBxcK4Ak4n1cUWOYuNG">
+        <span class="cat-num" data-page-node-id="Vs73ksUSFQJH9WSj29gv7h">06</span>
+        <span class="cat-title" data-page-node-id="rlMuRGmFg314e3Mf2qCL7W">中華文化交流合作基地</span>
+        <span class="cat-count" data-page-node-id="VPzytVtengo4b5p5fTGmfc">5 條</span>
+      </div>
+      <div class="category-body" data-page-node-id="HxAlqptpWeHMBEGjAtmg8y">
+        <div class="news-item" data-page-node-id="FDPlJye8A5ZSAGUTXUmUvz"><div class="bullet" style="background:var(--c6)" data-page-node-id="BwJhqCuE8NmQ9PQpHoJB72"></div><div class="content" data-page-node-id="FdnOyOxz3EF2GfWGBEDV2T"><div class="title" data-page-node-id="0A2Nek5eErtR1K3GOB1dD8">中國京劇藝術團赴澳門演出交流</div><div class="desc" data-page-node-id="S6Lnxn9VqpENrQBUFQTLOu">推動中華傳統戲曲文化在澳門傳播。</div><div class="source" data-page-node-id="LFtQsDgxhmsPb5WarZmQhN">力報 · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="1zCbPBxbEqgwXbcWiilppW"><div class="bullet" style="background:var(--c6)" data-page-node-id="Hhfl2PgwLk3uxWUCuEMW9A"></div><div class="content" data-page-node-id="k7htmk68y4EsOOHDrSAhoX"><div class="title" data-page-node-id="6FCyZ0YMoqzy9NMxNN2gKb">澳師生將赴港參與「天宮課堂」</div><div class="desc" data-page-node-id="RBkjM05xFx1qFyY1B7P1Fo">教青局組織澳門師生代表團參與在香港舉行的「天宮課堂·港澳專場」，共同認識航天科技成就。</div><div class="source" data-page-node-id="oHrTH56XrExHJmy2Snqxlb">GCS/澳門日報 · 9/5-9/6</div></div></div>
+        <div class="news-item" data-page-node-id="wVhAXVGBlnCLcYtFvUGLDY"><div class="bullet" style="background:var(--c6)" data-page-node-id="PBqTxc4fBa4N3u6igy4tfk"></div><div class="content" data-page-node-id="JhVw2BewHFTQ4hfBSDU1nJ"><div class="title" data-page-node-id="HiCYqo0FRJGYXbjybcEKUG">《月滿三巴夜2026》中秋音樂會</div><div class="desc" data-page-node-id="a8OwWRx51yDQH42jOHddtN">9月25日在大三巴牌坊前地舉行，澳門中樂團年度品牌盛事以世遺立面為背景。</div><div class="source" data-page-node-id="tK5FDgBh9cfcQ1NEXes0nE">旅遊局</div></div></div>
+        <div class="news-item" data-page-node-id="sGb9lGCJJ47oEtbEYNUIsR"><div class="bullet" style="background:var(--c6)" data-page-node-id="eRwvsWYyhKzuapIgfGWsqp"></div><div class="content" data-page-node-id="W6ejgCk38Q7CvI7ckf2kO2"><div class="title" data-page-node-id="8vCajEeEdNLhcIu8aCF1bJ">「月滿花香」中秋晚會</div><div class="desc" data-page-node-id="KfqswJCVzvAuE11Puq5mX6">9月25日在盧廉若公園及氹仔中央公園同時舉行，設攤位遊戲、猜燈謎、中華服裝體驗。</div><div class="source" data-page-node-id="1L1QrTa3aflrskX2vcMF2g">旅遊局</div></div></div>
+        <div class="news-item" data-page-node-id="rL3Fpb2ChyOF24o5PxJDne"><div class="bullet" style="background:var(--c6)" data-page-node-id="UfQCABv5WBMDN5QSpteLHs"></div><div class="content" data-page-node-id="AnZKDtZp46AjJK7CjzdrrR"><div class="title" data-page-node-id="2QHcapJZqfDAmyaylNcVK5">澳門印尼海絲結緣</div><div class="desc" data-page-node-id="RzIGPcHVvcHWoLmH4fcWw5">文化局在岑浩輝訪問印尼期間介紹澳門與印尼海上絲綢之路的歷史淵源。</div><div class="source" data-page-node-id="mhHod0xKc9vVZJANSJ8spw">澳門日報 · 9/2</div></div></div>
+        <div class="category-summary" style="border-color:var(--c6)" data-page-node-id="R9nOX4n2L7sPZDyYFSWRWW">
+          <strong data-page-node-id="jhsKyAAVFsbhdeGMwFZKFd">本週小結：</strong>中華文化交流基地建設體現為「請進來」與「走出去」並行——京劇導賞是基層播種，天宮課堂是高端連接，中秋系列活動以世遺場景打造文化IP。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 7: 社團與社區活動 -->
+    <div class="category" id="cat7" data-page-node-id="TDN4GWZAZ0GaVQAG7H1Yla">
+      <div class="category-header" style="background:var(--c7)" data-page-node-id="r7Ab16FiVU8m1sFrwTTrG6">
+        <span class="cat-num" data-page-node-id="GaTNXtF4gSmzZYzCGRYx0X">07</span>
+        <span class="cat-title" data-page-node-id="co6QE3ARtHWThW7fLI8XKK">社團與社區活動</span>
+        <span class="cat-count" data-page-node-id="9wqaANpUkgtnQ6fTWaU0us">5 條</span>
+      </div>
+      <div class="category-body" data-page-node-id="Ad6C7SaNFsCZviWQBkb3jI">
+        <div class="news-item" data-page-node-id="s5w9taiF5S5PpJcikG6sPh"><div class="bullet" style="background:var(--c7)" data-page-node-id="5WpUfHPa4PnqqkAJLED4wh"></div><div class="content" data-page-node-id="NNu5BmwxX2JpjJiyi5IsOl"><div class="title" data-page-node-id="nQj2xVERYIQvblN9pK1gOA">譚偉文拜訪七大社團聽取施政意見</div><div class="desc" data-page-node-id="ekj9mrt2RmyOUYFsn4yFfP">工聯、中總、民眾建澳、經民聯、中華教育會、青聯、婦聯等參與「三五」規劃運工範疇交流。</div><div class="source" data-page-node-id="s8jnjph6CYut7auFOlgHyz">GCS · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="kymM84nWnDucWArfNAiubV"><div class="bullet" style="background:var(--c7)" data-page-node-id="lP1LycAfF7C9tfuka6ZXlo"></div><div class="content" data-page-node-id="iaZfnBXK5agabA8YrI2kmD"><div class="title" data-page-node-id="CslbepyBMJaUryzGeieiEJ">匯業銀行與中小企業協進會合辦經濟高峰論壇</div><div class="desc" data-page-node-id="9F3MyFTHjoaxCBg4Ur2Mld">在君悅酒店舉行，陳家良、唐繼宗、張作文、余雨生等出席，預測澳門2026年增長2.5-3.5%。</div><div class="source" data-page-node-id="Lb5Gdi0IH5y2T2AuRqpAYp">濠江日報</div></div></div>
+        <div class="news-item" data-page-node-id="bSdsUDotGiLYGikRhb1POP"><div class="bullet" style="background:var(--c7)" data-page-node-id="4Ldi4b5NlNqV8pNLNR5CGn"></div><div class="content" data-page-node-id="tRrSAJcSWCTaWjOxymNcup"><div class="title" data-page-node-id="INFl6P3APJOKLBIr3PoGwj">多個專業團體建言都更模式</div><div class="desc" data-page-node-id="uiw2MGUZ7UzNqvQ1mHNtT6">工程師學會、智慧城市聯盟協會、城市規劃學會等在運工範疇交流會上就都更模式、微改造、城市規劃等建言獻策。</div><div class="source" data-page-node-id="xFK1HjJWDSSD3BfssklDhL">澳門日報/澳門郵報 · 9/5</div></div></div>
+        <div class="news-item" data-page-node-id="KE4rqtPW5qOB844DKXzEsK"><div class="bullet" style="background:var(--c7)" data-page-node-id="dHnoeLcCakv7wiyeQZz3FB"></div><div class="content" data-page-node-id="fHpdvZU2N0HGFuQxbDinb5"><div class="title" data-page-node-id="DFIel41qoxqHxRkMMxXbv3">在囚人及院生手工艺品展銷會</div><div class="desc" data-page-node-id="uqzO2mucHudedsOkREiHTc">9月4-6日在澳門科學館舉行，展示逾6,000件手工藝品，支持共融建新生。</div><div class="source" data-page-node-id="hckCsiJxiIIBAfXqmRCA6K">旅遊局</div></div></div>
+        <div class="news-item" data-page-node-id="HdGDeNsOfMqF62r20Fce3m"><div class="bullet" style="background:var(--c7)" data-page-node-id="tC3ThBg5bDHXiiNpEVdVMF"></div><div class="content" data-page-node-id="lY2VTk5bg7fEsVUt0POAU9"><div class="title" data-page-node-id="ZqH052tJ4t9elD1hiGFsv3">第十二屆漁人碼頭購物雙倍嘉年華</div><div class="desc" data-page-node-id="aqToLaAPFLbIPhRco7X7SG">9月4-6日在漁人碼頭會議展覽中心舉行，匯聚港澳台參展商。</div><div class="source" data-page-node-id="aNvGpXhY793dhktAJODt8O">旅遊局</div></div></div>
+        <div class="category-summary" style="border-color:var(--c7)" data-page-node-id="gaL2HUXIVCXQHllBXSYVmM">
+          <strong data-page-node-id="QA5haOhavGD8CedBQ1ofLR">本週小結：</strong>社團活動圍繞「三五」規劃的意見收集展開，七大社團在運工範疇交流會上的發言直接影響施政方向。匯業高峰論壇預測澳門2026年增長2.5-3.5%，為業界提供宏觀座標。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 8: 大灣區·橫琴 -->
+    <div class="category" id="cat8" data-page-node-id="e1uB1M4X0btLoGdJy6VWZQ">
+      <div class="category-header" style="background:var(--c8)" data-page-node-id="Q1gyBOpU3i0nPgxWTtuxnX">
+        <span class="cat-num" data-page-node-id="4bAtLBL5RtCeITlrPWLzeN">08</span>
+        <span class="cat-title" data-page-node-id="4YDsWF0BCnBiD2eWLr7dNi">大灣區·橫琴</span>
+        <span class="cat-count" data-page-node-id="RyemjpO3kcbJ4DLOEJE0wG">5 條</span>
+      </div>
+      <div class="category-body" data-page-node-id="FJG9VEVQboGH5XoGAfrHYw">
+        <div class="news-item" data-page-node-id="Qr0GHl8KKnSDuvQK3QQJ8y"><div class="bullet" style="background:var(--c8)" data-page-node-id="FyUGf6kY1BsM2wF4uc7duc"></div><div class="content" data-page-node-id="jgbEBBIrS6tp2C1aAosoPw"><div class="title" data-page-node-id="eUMRHe88Tj0z4uGQsKL56r">澳琴金融部門舉行第八次聯合工作組會議</div><div class="desc" data-page-node-id="QHEXclp1KRWHh3vxWVQlL3">就多功能自由貿易賬戶、聚易用雙幣種收單、私募基金跨境投資、融資租賃配套等議題進行交流。</div><div class="source" data-page-node-id="mNC4PEcm9fbxIh6iONG87E">GCS · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="lA7iVsWGQYXlY7OUmQSIQh"><div class="bullet" style="background:var(--c8)" data-page-node-id="7NK0S0ExFsLkjw4cfWaAUr"></div><div class="content" data-page-node-id="yzoiE6pd9d6WEDj2USzyrB"><div class="title" data-page-node-id="RuOMFA3xPehCttLdNbBgb7">「澳琴人才卡」正式發布</div><div class="desc" data-page-node-id="qdLxfpyWHs9oEbd2sT0Md0">集成醫療、教育、出入境、金融優惠、創業支持等專屬權益，與三家合作銀行簽署協議。</div><div class="source" data-page-node-id="Nl5A1vxLJvdk2WyWALqTx2">中新社 · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="tJAKcMO9lRbvGtEdlt3CFB"><div class="bullet" style="background:var(--c8)" data-page-node-id="LCrLw2S98tU2XB6giSGbVl"></div><div class="content" data-page-node-id="1Uofz57GGwwh7qn4Kzq9pa"><div class="title" data-page-node-id="tFlbI6K0KIicFt8WJ1MX9U">「澳門+橫琴」新實踐結出累累果實</div><div class="desc" data-page-node-id="HCPpxO9UdUbQEByH8H6bdZ">合作區成立五年，澳資企業達8,148戶（+75.72%），350項規則銜接措施，資金劃轉超6,300億元，「澳事琴辦」拓展至474項。</div><div class="source" data-page-node-id="wIaMbBS5pufZ3LaVNMrfGE">海外網/人民網 · 9/6-9/7</div></div></div>
+        <div class="news-item" data-page-node-id="JVm5qgkZ0OiFNPYzAHLJKY"><div class="bullet" style="background:var(--c8)" data-page-node-id="0cABxyFZDsiKinF3Whgi7b"></div><div class="content" data-page-node-id="fSBFQdGa7ZT6vFkykpKmnB"><div class="title" data-page-node-id="IvOqjDohJVVWCdRWlR0N55">澳琴國際教育（大學）城一期啟用</div><div class="desc" data-page-node-id="fpcUa1U7ZtDmahxjDhygAl">澳大、澳旅大、澳理工正式入駐，超過1,450名研究生跨境學習。濠江中學附屬橫琴學校中學部投入使用。</div><div class="source" data-page-node-id="IJUhD5uRZaiRe4asL0xJZJ">海外網 · 9/7</div></div></div>
+        <div class="news-item" data-page-node-id="Zs3xk1VarwgAI7N1qGjd8g"><div class="bullet" style="background:var(--c8)" data-page-node-id="Gkxf2dzJcgFdQJzbTL81ek"></div><div class="content" data-page-node-id="be7qEnCvYWx1JcFEYUWGpK"><div class="title" data-page-node-id="U67gik3cTMThLH4zsMbmJp">粵澳「跨境一鎖」首單首飛</div><div class="desc" data-page-node-id="RegzpBFp0hE933Y1BFyxlH">澳門國際機場橫琴前置貨站航空打板業務「先行先試」首單首飛，實現機場服務功能首次實質性延伸至內地。</div><div class="source" data-page-node-id="DdC9KgnvevDokG7kmQtzpM">海外網 · 9/7</div></div></div>
+        <div class="category-summary" style="border-color:var(--c8)" data-page-node-id="QUVSbcbXFk0p9cdwGqpMYV">
+          <strong data-page-node-id="LNLikCEAguiTk5ECer8xBG">本週小結：</strong>橫琴合作區迎來成立五周年節點。8,148家澳資企業、6,300億元資金劃轉、474項「澳事琴辦」等數據展現一體化進程的量化成果。分線管理紅利持續釋放，但「四新」產業結構性短板仍需正視。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 9: 演唱會 -->
+    <div class="category" id="cat9" data-page-node-id="v5ZF8eIC7lwWrquu6twBcH">
+      <div class="category-header" style="background:var(--c9)" data-page-node-id="CTPtEHf1BHk6kVseS7h9XU">
+        <span class="cat-num" data-page-node-id="wR2gcUi6PaH781uiptaSDF">09</span>
+        <span class="cat-title" data-page-node-id="ppKaYMnEbcL3t0IqLAIxwz">文化娛樂演唱會</span>
+        <span class="cat-count" data-page-node-id="BJzd1hGWF1qrOF2Hkj8TEy">20 場</span>
+      </div>
+      <div class="category-body" data-page-node-id="0z7Cb8KblOeCI4ZZqHaO8L">
+        <table class="concert-table" data-page-node-id="ge0TUf1gjXORio2G6rA14H">
+          <thead data-page-node-id="ARTfzTUjkTeiFSdX5tZlNc">
+            <tr data-page-node-id="oABGG51Nr8ktn99MBxzD01"><th data-page-node-id="jEZikAT0X4XLoIZ50TYVwU">明星/演出</th><th data-page-node-id="1JlcHRYcCDamw0xld3D202">日期</th><th data-page-node-id="L55kltsUL8QCGZQL2OoLGW">場地</th><th data-page-node-id="eHJtoY9LfkuUhCAwb9dtxm">票價 (MOP)</th><th data-page-node-id="B24yMM8GbmyWiNGAvaebUy">標籤</th></tr>
+          </thead>
+          <tbody data-page-node-id="XWrUQNI9fjf3dPg9QUX6bn">
+            <tr class="past" data-page-node-id="HaZKMFYcarDHnqikmEzOAI"><td data-page-node-id="DF7xLbpKpx4sJRL1rBJAUy">李蕙敏 Sound Touches Time</td><td data-page-node-id="mnqMH6YzLRbQCg5sHPxmlD">9/5 (已舉行)</td><td data-page-node-id="J3MBepFX8ayqT9OnuTbdJy">銀河綜藝館</td><td data-page-node-id="gHhRUYyLYu3mdOtEe8fen0">$888-$388</td><td data-page-node-id="mrZ7kiC2gYtLUHehPKogos"><span class="badge canto" data-page-node-id="QJ8xo8d0B2FH4XfzRZT7wn">粵語</span></td></tr>
+            <tr data-page-node-id="CmrokUp2ermDAHnVM7lK2o"><td data-page-node-id="q2l7zlqfwfC80wNmo3uSkx">WTT澳門冠軍賽2026</td><td data-page-node-id="e5KpCZ7Rg0BtOeAOkbuk00">9/8-9/13</td><td data-page-node-id="vIBZBudVSr4YRZagtcUSlj">東亞運動會體育館</td><td data-page-node-id="BFybjd5bZIx3FlUM7vjxlQ">$210起</td><td data-page-node-id="s0eecUD1q5OtMcM8K7HDaR"><span class="badge event" data-page-node-id="iOQBXgCBkcHJ7aakU6bBuu">體育</span></td></tr>
+            <tr data-page-node-id="oKenjPz7yoKImHA2Z66ExZ"><td data-page-node-id="2LOamcnbUrccQjH5mDPND3">BABYMONSTER 世界巡演</td><td data-page-node-id="zsm1ZJvOHodkOtEKLLMmT4">9/11-9/12</td><td data-page-node-id="cl0tHRhpfMRRH3BstK89j6">威尼斯人金光綜藝館</td><td data-page-node-id="SuxKjp0BxDdMeq2qDLI6YM">$799起</td><td data-page-node-id="dP0DQOquNoL36bcitn556N"><span class="badge kpop" data-page-node-id="8hrnF1dqmuP8PrSj4lHFhS">K-pop</span></td></tr>
+            <tr data-page-node-id="RwC3F70yppZZwSSks5KzyC"><td data-page-node-id="mMLI3Ww1k6eZ038WR5PuZv">idntt FAN-CON TOUR</td><td data-page-node-id="H6p3X3HQFWwnstMtdLZQLo">9/12 19:00</td><td data-page-node-id="fGrS6tZcEyAUAsIwCb9FFQ">倫敦人劇場</td><td data-page-node-id="7sEAm8kVOyPu6cCEXBrLRl">$1,499-$799</td><td data-page-node-id="lnMzUa1usQRT1b9YpOusss"></td></tr>
+            <tr data-page-node-id="FGWcrAZCY7fDMWBJYX36Ru"><td data-page-node-id="i00nJ1f71OVhRcBYztvFHV">第34屆澳門國際煙花比賽匯演</td><td data-page-node-id="dYItE1OjXFdXuMAJdPppDf">9/12,19,25,10/1,4</td><td data-page-node-id="TFi5UyI3peCRLjV3L4YLIq">旅遊塔對海</td><td class="free" data-page-node-id="cdBJxHgldCQ7kwGV2mKXQb">免費觀賞</td><td data-page-node-id="r92js4hFk7rTqJ3Mr19oRS"><span class="badge free" data-page-node-id="ZPiYujS7yxuqTbfXZ4JBr2">免費</span></td></tr>
+            <tr data-page-node-id="Eo5MzXBjvFiPoi2BxqXdqp"><td data-page-node-id="FS02HHGXZkErNood9R7Cwc">TWS TOUR '24/7:FOR:YOU'</td><td data-page-node-id="fJImTat3hGw2DmSH9XsG0n">9/19-9/20</td><td data-page-node-id="DFcTZ50F4dVY1Px9K1wO36">倫敦人綜藝館</td><td data-page-node-id="Fu59SGzzG3eUJyFFlcUEHP">$2,999起</td><td data-page-node-id="32CASAD73l04bU5Ax54k4i"><span class="badge kpop" data-page-node-id="db9XStP2yDn2rE0D1MEoSG">K-pop</span></td></tr>
+            <tr data-page-node-id="nGFvmWRDDP5f5XwEnfSMnd"><td data-page-node-id="Heu4iTsjC7SAyGeatxCwJs">SUPER JUNIOR-83z FANCON</td><td data-page-node-id="7d9ZqiUSM2cSrxBr2Y18dh">9/19 19:00</td><td data-page-node-id="9iR9V0TedhcdrFldnrpqmW">新濠影匯綜藝館</td><td data-page-node-id="IMV9N8DhO2xnH3coVp9VTP">$2,888起</td><td data-page-node-id="tLEAMeOwiyT37ktmkwwygH"><span class="badge kpop" data-page-node-id="9qm19w2IjnpcifE3RybSqI">K-pop</span></td></tr>
+            <tr data-page-node-id="y2bikXrrlOaTN3MGw5IH0I"><td data-page-node-id="ZNJvpZuSBRKUsNbRGVMu4z">Dear Jane Fly you to the Moon</td><td data-page-node-id="qnFIHKvuxOGMg5IU7OGicC">9/26 19:00</td><td data-page-node-id="sO99i3szhLZEZZMsm4gqNQ">銀河綜藝館</td><td data-page-node-id="kNjUgbpZNFS11Fa7PNaXmU">$1,288-$588</td><td data-page-node-id="0Y5tvTUXZRQRxQUxvrBqvg"><span class="badge canto" data-page-node-id="1LrTA3gUj4BpJc3qzrBMZ2">粵語</span></td></tr>
+            <tr data-page-node-id="Y2dqaGTxc55LtYees1z9WI"><td data-page-node-id="ZNdCvhrlg6FtnpUIccceDi">STAYC [STAY CLOSER]</td><td data-page-node-id="z6mx2v8P8N1NIGvE75xHMI">9/26 19:00</td><td data-page-node-id="pX9l2RHDSjxmy7vVhMVJLX">百老匯舞台</td><td data-page-node-id="KJgQH4kOFHdv5RhViqIZCm">$999起</td><td data-page-node-id="OAWyAvdzNWlUQlGoqAmKTv"><span class="badge kpop" data-page-node-id="fAR2LQkXpWmbF0Hs0l6ECz">K-pop</span></td></tr>
+            <tr data-page-node-id="XwPmhJbl7iR6UkK5zPG9UL"><td data-page-node-id="8JFgkAGySC8LAmzkDX8E3w">月滿三巴夜2026中秋音樂會</td><td data-page-node-id="GfogjS0EIUCumTxMePmosg">9/25 20:00/21:00</td><td data-page-node-id="CnuxfSNYFFGfUGzKc4LJGK">大三巴牌坊前地</td><td class="free" data-page-node-id="QqLprnCBZpcUi54OcSb02Y">免費</td><td data-page-node-id="NPTCickYvPgABad5CHzUk5"><span class="badge free" data-page-node-id="ZK5aRiBd3kSwzyrVsl1BkU">免費</span></td></tr>
+            <tr data-page-node-id="7qPV1qz7HlEc0TjNyGqvlL"><td data-page-node-id="oPckAfgSnieil8HGBCRMyE">「月滿花香」中秋晚會</td><td data-page-node-id="E2B2PFRbjmerkKGeklDLyr">9/25 19:30</td><td data-page-node-id="WhG4JUX3JCrmKHyGLZEKKg">盧廉若公園/氹仔中央公園</td><td class="free" data-page-node-id="M7R2XBq1SdzZxqRNEanyIH">免費</td><td data-page-node-id="247dNlwsWi3KhYQhQ1k6PZ"><span class="badge free" data-page-node-id="dSBdFnBWdbzDdTrkWWUoUY">免費</span></td></tr>
+            <tr data-page-node-id="bVMUOFTFcha9PYVp36ftIg"><td data-page-node-id="VBNek8ZQz2f0cQyHxOHZMI">2026世界旅遊日托盤比賽</td><td data-page-node-id="GmkrfmhivnhddpIdRb4370">9/27 15:00</td><td data-page-node-id="JAhQI8EgZE0tjoO38NWpCa">大三巴→議事亭前地</td><td class="free" data-page-node-id="GpzgWhYppObk72gxTDjk2B">免費觀賞</td><td data-page-node-id="Z1eeVGdlFwnECojlPj1Myf"><span class="badge free" data-page-node-id="UPRVpzZorBdhHDhBHTXxbe">免費</span></td></tr>
+            <tr data-page-node-id="tR7PlE8nlseMX5KL96Ub6S"><td data-page-node-id="2ma6mC5AvxraRD8DS3ObKp">第38屆澳門國際音樂節</td><td data-page-node-id="yM1gboknSH3Ao5szMnhMQj">10/2-11/29</td><td data-page-node-id="v9rZrqhF7G0MQ3E924OHaD">多場地</td><td data-page-node-id="otAolPDrZ17f0sUcJQDE8b">多檔價位</td><td data-page-node-id="lSAUahVNC3EMlGSOvr3px4"><span class="badge event" data-page-node-id="yDwBg8NrEIEFiNMp3lunxI">藝術</span></td></tr>
+            <tr data-page-node-id="1kSBheUDDmWKIC40MUHz94"><td data-page-node-id="K01Agv5W22OZxWXtHDZUpp">Sara Landry《第一章》</td><td data-page-node-id="lxcxG8SOwSKhGQvxAsid4V">10/4 23:00</td><td data-page-node-id="gsrYQAdAszyEZK8YFi1DAL">倫敦人</td><td data-page-node-id="gJ7KyUqErHL6WIfU9OSEqF">$1,080-$980</td><td data-page-node-id="Pr7ZO84p4E4rdoI5QKN2W4"></td></tr>
+            <tr data-page-node-id="moiQEHe9mD2UWQIzH7fuGt"><td data-page-node-id="W6gXPdtzTAPIc7loGERvOu">劉若英[飛行日]巡演澳門站</td><td data-page-node-id="Nf7guoqLdYYWxukueg4gac">10/3 19:00</td><td data-page-node-id="JLqLJLZUixZQ9J39M5TIhs">銀河綜藝館</td><td data-page-node-id="06EXVAf0UgcMm6tUxUcfcU">$580起</td><td data-page-node-id="oY0O1QXdBqTdkOmWEzO0E3"><span class="badge mando" data-page-node-id="1KlBXffNr2TpRaxgCZCriQ">華語</span></td></tr>
+            <tr data-page-node-id="bmIPgUbpZJ7AmtTy2p8SSq"><td data-page-node-id="AgnmJS7nLw7DfMWNpWAWyZ">張靚穎「追」世界巡演收官站</td><td data-page-node-id="nLuXrrr4AtF4nfUDhxZvRC">10/10 20:00</td><td data-page-node-id="wFv3aIweManQFhS8wLKIZQ">銀河綜藝館</td><td data-page-node-id="Arxq4avkHLWkhwOoLwarAZ">$538起</td><td data-page-node-id="ZEtxqKcY2ytvdWc6M74Qdc"><span class="badge mando" data-page-node-id="F8tWIxRTjki9K44SKwwiJq">華語</span></td></tr>
+            <tr data-page-node-id="n4Dh7Si1ZOnvYXC5FDOMFO"><td data-page-node-id="muXij2frtXMnDVB9EPwCon">草蜢 THREE IN LOVE 2026</td><td data-page-node-id="NVoIDXqQ0Nx0V7qEHVmwXN">10/24-10/25</td><td data-page-node-id="GQeO8Tee5u1wuFKuzE8n9F">威尼斯人金光綜藝館</td><td data-page-node-id="PXXI13YlyUIa9a7FUMwF39">$1,480-$480</td><td data-page-node-id="HFoTNsX1ES2iCOnpcfsJzX"><span class="badge canto" data-page-node-id="ApGFRyfGITj7ECiRzsM0cg">粵語</span></td></tr>
+            <tr data-page-node-id="jURQTzea7oANM5ZrsPX98u"><td data-page-node-id="2M8q2MpQJMb6kLELtnSIY7">ENHYPEN 巡演</td><td data-page-node-id="57zt7KCaHTs5XtQzkVCaL7">10/17-10/18</td><td data-page-node-id="uEG11vkwhwxhXXOYZScgLK">銀河綜藝館</td><td data-page-node-id="ivo2VNTZwFyNCmLU3uDz1J">$1,361起</td><td data-page-node-id="RqBwlN1EWwF7pHz6QyM7kE"><span class="badge kpop" data-page-node-id="ZgM6ZEX7KC36HwS0oepGSr">K-pop</span></td></tr>
+            <tr data-page-node-id="Vs5blnJiyXhGBb4pWHcD3a"><td data-page-node-id="wtHMM6B6FLG9s3E9SW7Y6C">都暻秀(D.O.) 巡演</td><td data-page-node-id="EdHoB4gSxbgxzDvlqhOaEC">10/17-10/18</td><td data-page-node-id="vj1ZxA50RR0UAnBzqBkiYS">新濠影匯綜藝館</td><td data-page-node-id="ni87jcGLZHCPYOBGIv0Y81">$2,927起</td><td data-page-node-id="fyHCLjAMhtoKYS2ff0iof2"><span class="badge kpop" data-page-node-id="G1VlWxNFFP4AuNK3EFstHQ">K-pop</span></td></tr>
+            <tr data-page-node-id="lf7MSIt26rudpVpzWb48Dc"><td data-page-node-id="ZfcCM8eoxc2Snb7OekIwrB">PLAVE 巡演</td><td data-page-node-id="5vLrTRLoQSb0kCLeEsLjAF">10/31-11/1</td><td data-page-node-id="ThmNRZco3tSGit3j2ctJh8">倫敦人綜藝館</td><td data-page-node-id="V4ph0MIcuATFfYBwFr6DlK">$1,356起</td><td data-page-node-id="wAfdnqgv3mrwAwggU1r1XC"></td></tr>
+          </tbody>
+        </table>
+        <div class="category-summary" style="border-color:var(--c9)" data-page-node-id="ZVeMz1RViXPJDMEtD4flPZ">
+          <strong data-page-node-id="hID0AQjRrmHXIvncbTJSCA">本週小結：</strong>9月澳門演出市場以WTT冠軍賽為核心盛事，K-pop陣容密集（BABYMONSTER、TWS、SUPER JUNIOR、STAYC等），顯示澳門作為亞洲演出目的地的吸引力。中秋檔期以月滿三巴夜+月滿花香+國際煙花匯演構成「免費文化盛宴」組合。10月草蜢、張靚穎、劉若英等華語大牌接力。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 10: AI -->
+    <div class="category" id="cat10" data-page-node-id="azpaDGk0I8ZDMo4ztydfzM">
+      <div class="category-header" style="background:var(--c10)" data-page-node-id="kAL3Y3OsvvKYQVOq25MMW6">
+        <span class="cat-num" data-page-node-id="9sVByA7fDl3QRLwL8M9mVT">10</span>
+        <span class="cat-title" data-page-node-id="sQlOyrwc7rnbtRItPMAK4c">全球 AI 領域精選</span>
+        <span class="cat-count" data-page-node-id="BF2MgpQgZmZblr3dbrqWaF">5 條</span>
+      </div>
+      <div class="category-body" data-page-node-id="ftMAGusrdKEaMF939ugGzM">
+        <div class="ai-grid" data-page-node-id="He3khGDX6EcV1rRI7paegm">
+          <div class="ai-card" style="border-top-color:var(--c10)" data-page-node-id="c5svy6SkD7LsxB8DKIV9Nf">
+            <div class="ai-num" data-page-node-id="q5ed8TZNtHEzISivcKHcKH">01</div>
+            <div class="ai-tag" data-page-node-id="J4BPkckB8Tukwqp7cFFbxc">基礎科研突破</div>
+            <div class="ai-title" data-page-node-id="kVG0mwIwvh1thyDlAAXmFM">Claude 用11天完成費馬大定理形式化證明</div>
+            <div class="ai-desc" data-page-node-id="AYnXBuu3eYb5WiWHxFzTDY">Anthropic 於9月4日宣布，Claude 在基本自主運行11天後，完成費馬大定理首個端到端、經電腦完整核驗的形式化證明。生成約1,300萬行 Lean 代碼，證明約3.03萬個定理，規模超過 Mathlib 的5倍。AI 正式從通用內容生成延伸至基礎科學的形式化驗證領域。</div>
+          </div>
+          <div class="ai-card" style="border-top-color:var(--c1)" data-page-node-id="dHs7M7r9PwTeVSPlJnUW9A">
+            <div class="ai-num" data-page-node-id="lHPviL961CshKfb1nWWFd9">02</div>
+            <div class="ai-tag" data-page-node-id="HHHVuygD4ZYi7OE4OagCjV">AI Coding</div>
+            <div class="ai-title" data-page-node-id="SK9jBwOq0EjArRcJPDbVyA">谷歌發布 Gemini 3.8 Flash</div>
+            <div class="ai-desc" data-page-node-id="RJb9ZfwZm0De16985FwReZ">9月2日推出，距上一代3.7 Flash 僅三周。核心升級在於從單次代碼生成轉向長周期軟件工程和自主智能體工作流，在 DeepSWE v1.1 測試中超越多數更大規模前沿模型，維持低價策略（$0.75/$3.75 每百萬 Token）。</div>
+          </div>
+          <div class="ai-card" style="border-top-color:var(--c8)" data-page-node-id="ZUIUYxu89m9DbiMCKB4yxG">
+            <div class="ai-num" data-page-node-id="xV9QzqbhfgvgyDSTQxohHW">03</div>
+            <div class="ai-tag" data-page-node-id="QjfDd88kWfU4MDk2Os8iCU">國產模型登頂</div>
+            <div class="ai-title" data-page-node-id="Zs59JrdpkOqkPLOUgdgrbX">阿里 Qwen3.8-Max 首登全球編程榜首</div>
+            <div class="ai-desc" data-page-node-id="rGRf6Rz0ZcIJnjeXG0F4pH">9月2日更新旗艦模型（2.4T 參數，1M 上下文），在 CodeArena 提升22分至1691分，超越 Claude Opus 5 和 Kimi K3 位居總榜第一。國產模型在編程能力上首次全面登頂全球榜單。</div>
+          </div>
+          <div class="ai-card" style="border-top-color:var(--c4)" data-page-node-id="nd78P4r8MtGRyPLSDv0zLF">
+            <div class="ai-num" data-page-node-id="U8ArNQ31Q3EHbO8O3xGQSv">04</div>
+            <div class="ai-tag" data-page-node-id="ouJUonbYugGAqW7aQJaoGG">具身智能</div>
+            <div class="ai-title" data-page-node-id="GspfzeikfTY7VbjyUkTJli">李飛飛 World Labs 發布 Atlas 世界模型</div>
+            <div class="ai-desc" data-page-node-id="gpB2f1zZKHxeYDNOuC2b2M">實現從單張靜態圖像生成1分鐘 1440P 高清動態視頻，基於物理世界規律訓練，遵循光影、重力、物體運動邏輯，覆蓋影視創作、數字孿生、機器人仿真等場景。</div>
+          </div>
+        </div>
+        <div class="ai-card" style="border-top-color:var(--c3);margin-top:16px" data-page-node-id="8oAXhDIpvPGITI7vwfAxjo">
+          <div class="ai-num" data-page-node-id="atSsarIE4cFwrcBC69Sr9a">05</div>
+          <div class="ai-tag" data-page-node-id="rCad6zyDmtakTsuAacbWvJ">具身智能商業化</div>
+          <div class="ai-title" data-page-node-id="Sp3UMh1nqlR7so88ZQFgBB">人形機器人從「表演」走向「幹活」</div>
+          <div class="ai-desc" data-page-node-id="5SibZmTJKaBxyt54tAMg39">2026世界機器人大會上，機器人從「秀本領」邁向工廠、商場、社區的實際場景應用。核心突破：多模態具身智能大模型統一了以往「散裝」的大腦；國產 AI 端側推理芯片實現群體協同毫秒級響應；1267個實景實訓場景為模型進化提供數據支撐。廣東涌现「十駿」人形機器人企業集群，具身智能正式進入「商業兌現」階段。</div>
+        </div>
+        <div class="category-summary" style="border-color:var(--c10)" data-page-node-id="MVN9Ui9pMFPchGqHZZUyS2">
+          <strong data-page-node-id="sR20bJbPB992DVNxq0Ikyu">本週小結：</strong>全球 AI 呈現「基礎科研突破＋編程智能體大戰＋具身智能商業化」三條主線並進。Claude 完成費馬大定理形式化證明是 AI 介入基礎數學研究的里程碑；谷歌與阿里在 AI coding 領域交替迭代，國產模型首次登頂全球編程榜；李飛飛團隊 Atlas 世界模型和具身機器人「從表演到幹活」的轉變標誌著物理 AI 進入實用化階段。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 四、來源與備註 ===== -->
+  <div class="section" data-page-node-id="R1xlOdSeUeSNA060YVJXKN">
+    <div class="section-num" data-page-node-id="kintxaNXrbgOjlmr8Fxkhh">PART 04</div>
+    <h2 class="section-title" data-page-node-id="qg2oXQ8nirg283EH8AWaTa">來源與備註</h2>
+    <div class="source-grid" style="grid-template-columns:1fr" data-page-node-id="BDLMwT4E2HpttOusTSEOEZ">
+      <div class="source-list" data-page-node-id="CgDmRJ0v2khVNKu4SuqcLw">
+        <h4 style="color:var(--c8)" data-page-node-id="IVskxPiH7vjqXwj8tYSfAz">本期資料來源</h4>
+        <ul data-page-node-id="wXX4uDW4ZXirzCgLJ5CLkL">
+          <li data-page-node-id="kLSNqfbYnqRRsaL4GlyjOZ"><span class="dot" style="background:var(--c8)" data-page-node-id="Ca0QgUklLGV1WkIYjXRTyl"></span>澳門日報 — 逐日版面 8/31–9/6 共 7 天頭條</li>
+          <li data-page-node-id="6ZbLWBw3zxTCfUDpT85QBJ"><span class="dot" style="background:var(--c8)" data-page-node-id="2A4UFGapD5ypsL5mxe5hae"></span>力報 Exmoo — 首頁 + 澳聞分類</li>
+          <li data-page-node-id="RGKdVH5WTUy6MVSDYwCtxr"><span class="dot" style="background:var(--c8)" data-page-node-id="HlNP3KTPMGXbAvnOx0p1Gc"></span>政府新聞局 GCS — 新聞稿列表</li>
+          <li data-page-node-id="TCfGH52CrIAuj3AEiSQImU"><span class="dot" style="background:var(--c8)" data-page-node-id="434IstOrhSDoZBClX9nyjb"></span>統計暨普查局 DSEC — 旅客、物價、就業、GDP 等統計</li>
+          <li data-page-node-id="tDt04xIyjfu0C1pw21bWAq"><span class="dot" style="background:var(--c8)" data-page-node-id="lWUy5FMrrEw8UjzlzuJBmf"></span>澳門售票網 — 演唱會排期與票價</li>
+          <li data-page-node-id="WItvba4SolN4CjCauG6B1J"><span class="dot" style="background:var(--c8)" data-page-node-id="SOexcXeHuA9EnNO9M2S1dB"></span>華僑報、澳門郵報、濠江日報 — 補充檢索</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer" data-page-node-id="B4dEn7EQOu8rBy20hXRqlg">
+  <div class="brand-mark" data-page-node-id="mVJi0U2pATavSiOfAXOhlm">澳門新聞週報</div>
+  <div data-page-node-id="OduQ6aRSJOuCRJl1d0uS7A">WorkBuddy 自動化任務 · 2026.09.07 自動生成</div>
+</div>
+
+<script>
+  // Tab navigation
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const target = document.querySelector(tab.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Update active tab on scroll
+  const sections = document.querySelectorAll('.section, .category');
+  const tabs = document.querySelectorAll('.nav-tab');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= 120 && rect.bottom >= 120) {
+        const id = sec.id || sec.querySelector('[id]')?.id;
+        if (id) current = id;
+      }
+    });
+    if (current) {
+      tabs.forEach(t => {
+        t.classList.toggle('active', t.getAttribute('href') === '#' + current);
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
