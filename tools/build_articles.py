@@ -54,9 +54,10 @@ def esc(t):
 
 
 def inline(t):
-    """行內格式：粗體、行內 HTML 保留、相對路徑修正"""
+    """行內格式：粗體、行內 HTML 保留、相對路徑修正；外部連結一律新標籤"""
     t = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', t)
-    t = re.sub(r'^>\s*', '', t) if False else t
+    t = re.sub(r'href="(https?://[^"]+)"(?! target=)',
+               r'href="\1" target="_blank" rel="noopener"', t)
     # 行內連結補上相對路徑
     t = re.sub(r'href="(?!https?:|#|/|\.\./)([^"]+)"', r'href="../../\1"', t)
     t = re.sub(r'href="/([^"]+)"', r'href="' + SITE + r'/\1"', t)
@@ -157,19 +158,20 @@ CSS = """
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--text);background:var(--white);line-height:1.75;-webkit-font-smoothing:antialiased}
 a{color:var(--blue);text-decoration:none}
-.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.topbar-in{max-width:1080px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{font-weight:800;color:var(--blue);font-size:17px;letter-spacing:.5px}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1080px;margin:0 auto;padding:0 24px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-weight:800;color:var(--blue);font-size:16px;letter-spacing:.5px}
 .brand span{color:var(--gold)}
-.topbar nav{display:flex;gap:20px;font-size:14px;color:var(--gray);flex-wrap:wrap}
-.topbar nav a:hover{color:var(--blue)}
+.topbar .minimal-hint{font-size:13px;color:var(--gray);text-decoration:none}
+.topbar .minimal-hint:hover{color:var(--blue)}
 .wrap{max-width:780px;margin:0 auto;padding:36px 24px 0}
 .crumb{font-size:13px;color:var(--gray);margin-bottom:22px}
 .crumb a:hover{color:var(--blue)}
 .meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 .tag{background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:5px 14px;border-radius:4px;letter-spacing:1px}
 .date{color:var(--gray);font-size:14px}
-h1{font-size:32px;line-height:1.4;color:var(--blue);font-weight:800;margin-bottom:14px;letter-spacing:.5px}
+h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px}
+.lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px}
 .rule{width:56px;height:4px;background:var(--gold);border-radius:2px;margin:0 0 26px}
 .cover{margin:0 0 26px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10)}
 .cover img{width:100%;display:block}
@@ -188,10 +190,14 @@ h1{font-size:32px;line-height:1.4;color:var(--blue);font-weight:800;margin-botto
 .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:30px 0 6px}
 .gallery img{width:100%;height:170px;object-fit:cover;border-radius:10px;cursor:zoom-in;transition:transform .2s}
 .gallery img:hover{transform:scale(1.02)}
-.author{margin-top:46px;background:var(--bg);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:26px 26px 22px}
-.author h2{font-size:17px;color:var(--blue);margin:0 0 10px;border:none;padding:0}
-.author p{font-size:15px;color:#4A4A4A;margin-bottom:8px}
+.author{margin-top:46px;background:var(--bg);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:26px 26px 22px;display:flex;gap:20px;align-items:flex-start}
+.author .a-img{width:76px;height:76px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);flex:0 0 auto}
+.author .a-body{flex:1}
+.author h2{font-size:17px;color:var(--blue);margin:0 0 8px;border:none;padding:0}
+.author p{font-size:15px;color:#4A4A4A;margin-bottom:10px}
 .author .who{font-weight:700;color:var(--blue);font-size:16px;margin-bottom:6px}
+.author .a-btn{display:inline-block;background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:8px 18px;border-radius:999px;text-decoration:none}
+.author .a-btn:hover{background:var(--blue-dark)}
 .related{margin-top:42px;padding-top:30px;border-top:1px solid var(--line)}
 .related h2{font-size:19px;color:var(--blue);margin:0 0 18px;padding-left:12px;border-left:4px solid var(--gold)}
 .rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -211,7 +217,9 @@ h1{font-size:32px;line-height:1.4;color:var(--blue);font-weight:800;margin-botto
 .foot a{color:var(--blue)}
 .lb{position:fixed;inset:0;background:rgba(1,1,51,.92);display:none;align-items:center;justify-content:center;z-index:999;cursor:zoom-out;padding:24px}
 .lb img{max-width:100%;max-height:100%;border-radius:8px}
-@media(max-width:720px){h1{font-size:25px}.article h2{font-size:20px}.article p,.article li{font-size:16px}.rel-grid{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}.wrap{padding:26px 18px 0}.topbar nav{display:none}}
+.float-cta{position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);text-decoration:none;font-size:14px;transition:transform .2s,box-shadow .2s}
+.float-cta:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(2,8,32,.4)}
+@media(max-width:720px){h1{font-size:25px}.article h2{font-size:20px}.article p,.article li{font-size:16px}.rel-grid{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}.wrap{padding:26px 18px 0}.author{flex-direction:column;gap:14px}.lead{font-size:15.5px}}
 """
 
 
@@ -265,6 +273,8 @@ def build(post, allposts):
     }
     if imgs:
         ld["image"] = SITE + '/' + imgs[0].replace('../../', '')
+    else:
+        ld["image"] = '%s/assets/og/%s.jpg' % (SITE, slug)
 
     kw = '，'.join([x for x in ['翁振軒', 'Sean Own', cat, '澳門', '產業觀察'] if x])
 
@@ -273,7 +283,7 @@ def build(post, allposts):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{title}｜{cat}｜翁振軒 Sean Own 專欄</title>
+<title>{title}｜翁振軒專欄</title>
 <meta name="description" content="{desc}">
 <meta name="keywords" content="{kw}">
 <meta name="author" content="翁振軒 Sean Own">
@@ -282,41 +292,45 @@ def build(post, allposts):
 <meta name="theme-color" content="#002676">
 <meta property="og:type" content="article">
 <meta property="og:url" content="{url}">
-<meta property="og:title" content="{title}">
-<meta property="og:description" content="{desc}">
+<meta property="og:title" content="{og_title}">
+<meta property="og:description" content="{og_desc}">
+<meta property="og:image" content="{og_img}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:site_name" content="SEAN OWN 翁振軒">
+<meta property="og:site_name" content="翁振軒 Sean Own 專欄">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{title}">
-<meta name="twitter:description" content="{desc}">
+<meta name="twitter:title" content="{og_title}">
+<meta name="twitter:description" content="{og_desc}">
+<meta name="twitter:image" content="{og_img}">
 <script type="application/ld+json">{ld}</script>
 <style>{css}</style>
 </head>
 <body>
 <div class="topbar"><div class="topbar-in">
-<a class="brand" href="../../">翁振軒 <span>SEAN OWN</span></a>
-<nav>
-<a href="../../#sec-services">核心業務</a><a href="../../#sec-projects">代表項目</a>
-<a href="../../#sec-media">媒體報導</a><a href="../../#sec-articles">最新文章</a>
-<a href="../../#sec-about">關於我</a><a href="../../#sec-contact">合作與聯絡</a>
-</nav></div></div>
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="minimal-hint" href="{site}/articles/">專欄文章</a>
+</div></div>
 
 <div class="wrap">
-<div class="crumb"><a href="../../">首頁</a> › <a href="../../#sec-articles">{cat}</a> › 本文</div>
+<div class="crumb"><a href="{site}/">首頁</a> › <a href="{site}/articles/">專欄文章</a> › 本文</div>
 <article class="article">
 <div class="meta"><span class="tag">{cat}</span><span class="date">{date_fmt}{loc_fmt}</span></div>
 <h1>{title}</h1>
 <div class="rule"></div>
+<p class="lead">{lead}</p>
 {cover}
 {body}
 {gallery}
 </article>
 
 <div class="author">
-<h2>關於作者</h2>
+<img class="a-img" src="../../assets/images/avatar-1x1.jpg" alt="翁振軒 Sean Own 大頭照" loading="lazy">
+<div class="a-body">
 <div class="who">翁振軒 Sean Own</div>
-<p>龍遊集團創辦人暨董事總經理、粵港澳大灣區電子商會會長、澳門台商聯誼會監事長、澳門龍遊絲綢文化藝術中心館長。以澳門為基地，深耕文化產業，推動中國數位服務出海與中華文創 IP 落地。</p>
-<p><a href="../../#sec-about">查看完整經歷 →</a></p>
+<p>粵港澳大灣區電子商會會長、龍遊集團創辦人。以澳門為基地，深耕文化產業，推動中國數位服務出海與中華文創 IP 落地。</p>
+<a class="a-btn" href="{site}/#sec-author">瞭解更多關於作者</a>
+</div>
 </div>
 
 <div class="related">
@@ -327,21 +341,25 @@ def build(post, allposts):
 <div class="cta">
 <h2>想進一步交流？</h2>
 <p>無論是數位出海、文化 IP 合作，或青年跨界連結，都歡迎與我聊聊。</p>
-<a class="btn" href="../../#sec-contact">洽談合作</a>
-<a class="btn ghost" href="../../#sec-articles">更多文章</a>
+<a class="btn" href="{site}/#sec-contact">洽談合作</a>
+<a class="btn ghost" href="{site}/articles/">更多文章</a>
 </div>
 
 <div class="foot">
-© 2026 翁振軒 Sean Own · <a href="../../">返回首頁</a><br>
+© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a><br>
 本文為作者個人觀點，轉載請註明出處。
 </div>
 </div>
+<a class="float-cta" href="{site}/#sec-contact">洽談合作</a>
 <div class="lb" id="lb" onclick="this.style.display='none'"><img id="lbimg" src="" alt=""></div>
 </body>
 </html>
 """.format(
         title=esc(title), cat=esc(cat), desc=esc(desc), kw=esc(kw), url=url,
-        ld=json.dumps(ld, ensure_ascii=False), css=CSS,
+        og_title=esc(title[:30]), og_desc=esc(desc[:80]),
+        og_img='%s/assets/og/%s.jpg' % (SITE, slug),
+        ld=json.dumps(ld, ensure_ascii=False), css=CSS, site=SITE,
+        lead=esc(plain(post.get('body') or title, 110)),
         date_fmt=date.replace('-', ' 年 ', 1).replace('-', ' 月 ') + ' 日' if date else '',
         loc_fmt=(' · ' + esc(loc)) if loc else '',
         cover=cover, body=body_html, gallery=gallery, rel=rel_html,
@@ -354,6 +372,154 @@ def build(post, allposts):
     return slug, title
 
 
+CATS = ['澳門觀察', '產業評論', '商道隨筆', '行走見聞', '文化雅述', '研究報告']
+
+
+def build_list(posts):
+    """雜誌目錄式專欄列表頁：articles/index.html（靜態卡片 + JS 分類過濾）"""
+    items = sorted(posts, key=lambda p: str(p.get('date', '')), reverse=True)
+    cards = ''
+    for p in items:
+        num = str(p.get('num', '')).strip()
+        slug = SLUGS.get(num) or ('post-' + num)
+        title = (p.get('title') or '').strip()
+        cat = (p.get('category') or '').strip()
+        date = (p.get('date') or '').strip()
+        lead = plain(p.get('body') or title, 62)
+        cover = '../assets/og/%s.jpg' % slug
+        cards += (
+            '<a class="lc-card" href="%s/article/%s/" data-cat="%s">'
+            '<div class="lc-img"><img src="%s" alt="%s — %s 封面" loading="lazy"></div>'
+            '<div class="lc-body"><div class="lc-top"><span class="lc-tag">%s</span><span class="lc-date">%s</span></div>'
+            '<h2>%s</h2><p>%s</p></div></a>'
+        ) % (SITE, slug, esc(cat), cover, esc(title), esc(cat), esc(cat),
+             date.replace('-', '.'), esc(title), esc(lead))
+
+    cat_btns = '<button class="lc-cat on" data-c="全部">全部<span>%d</span></button>' % len(items)
+    for c in CATS:
+        n = sum(1 for p in items if p.get('category') == c)
+        if n:
+            cat_btns += '<button class="lc-cat" data-c="%s">%s<span>%d</span></button>' % (esc(c), esc(c), n)
+
+    url = SITE + '/articles/'
+    desc = '翁振軒專欄，聚焦澳門產業觀察、數位經濟趨勢、商業戰略思考。'
+    ld = {
+        "@context": "https://schema.org", "@type": "CollectionPage",
+        "name": "專欄文章｜翁振軒 Sean Own", "url": url,
+        "description": desc, "inLanguage": "zh-Hant",
+        "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
+    }
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>專欄文章｜翁振軒 Sean Own</title>
+<meta name="description" content="{desc}">
+<meta name="keywords" content="翁振軒,專欄,澳門觀察,產業評論,商道隨筆,數位經濟,Sean Own">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="專欄文章｜翁振軒 Sean Own">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="{og}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{ld}</script>
+<style>
+:root{{--blue:#002676;--blue-dark:#010133;--gold:#FDB515;--gold-dark:#FC9313;--gold-light:#FFF3D0;--bg:#F8F9FB;--text:#1A1A1A;--gray:#667085;--line:#E4E8EF}}
+*{{margin:0;padding:0;box-sizing:border-box}}
+body{{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--text);background:var(--white);line-height:1.75;-webkit-font-smoothing:antialiased}}
+a{{color:var(--blue);text-decoration:none}}
+html{{scroll-behavior:smooth}}
+.topbar{{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}}
+.topbar-in{{max-width:1180px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}}
+.brand{{font-weight:800;color:var(--blue);font-size:17px;letter-spacing:.5px}}
+.brand span{{color:var(--gold)}}
+.mini-cta{{background:var(--blue);color:#fff;font-size:14px;font-weight:700;padding:9px 20px;border-radius:999px}}
+.mini-cta:hover{{background:var(--blue-dark)}}
+.masthead{{background:linear-gradient(135deg,#002676 0%,#010133 100%);color:#fff;padding:64px 24px 58px;text-align:center}}
+.masthead .kicker{{font-size:14px;letter-spacing:6px;color:var(--gold);font-weight:700;margin-bottom:14px}}
+.masthead h1{{font-size:44px;font-weight:800;letter-spacing:2px;margin-bottom:12px}}
+.masthead p{{color:rgba(255,255,255,.75);font-size:16px}}
+.filter-bar{{position:sticky;top:62px;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}}
+.lc-cat{{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 18px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;transition:all .2s}}
+.lc-cat span{{font-size:12px;color:var(--gray);margin-left:5px}}
+.lc-cat:hover{{border-color:var(--gold)}}
+.lc-cat.on{{background:var(--blue);border-color:var(--blue);color:#fff}}
+.lc-cat.on span{{color:var(--gold)}}
+.grid{{max-width:1180px;margin:0 auto;padding:44px 24px 60px;display:grid;grid-template-columns:repeat(3,1fr);gap:26px}}
+.lc-card{{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;color:inherit}}
+.lc-card:hover{{transform:translateY(-5px);box-shadow:0 18px 44px rgba(0,38,118,.13)}}
+.lc-card.hide{{display:none}}
+.lc-img{{aspect-ratio:16/9;overflow:hidden}}
+.lc-img img{{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}}
+.lc-card:hover .lc-img img{{transform:scale(1.04)}}
+.lc-body{{padding:20px 22px 22px;flex:1;display:flex;flex-direction:column}}
+.lc-top{{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}}
+.lc-tag{{font-size:12px;font-weight:700;color:var(--blue);background:var(--gold-light);padding:3px 11px;border-radius:10px}}
+.lc-date{{font-size:12px;color:var(--gray)}}
+.lc-card h2{{font-size:17.5px;line-height:1.5;color:var(--blue);margin-bottom:8px;font-weight:800}}
+.lc-card p{{font-size:13.5px;color:var(--gray);line-height:1.7;flex:1}}
+.foot{{border-top:1px solid var(--line);padding:30px 24px 44px;text-align:center;font-size:13px;color:var(--gray);line-height:1.9}}
+.foot a{{color:var(--blue)}}
+.float-cta{{position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);font-size:14px;transition:transform .2s,box-shadow .2s}}
+.float-cta:hover{{transform:translateY(-3px);box-shadow:0 16px 34px rgba(2,8,32,.4)}}
+@media(max-width:960px){{.grid{{grid-template-columns:repeat(2,1fr)}}.masthead h1{{font-size:34px}}}}
+@media(max-width:620px){{.grid{{grid-template-columns:1fr;padding:30px 16px 50px}}.filter-bar{{top:62px;padding:12px 14px}}.masthead{{padding:46px 18px 40px}}.masthead h1{{font-size:28px}}}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="mini-cta" href="{site}/#sec-contact">洽談合作</a>
+</div></div>
+
+<header class="masthead">
+<div class="kicker">SEAN OWN COLUMNS</div>
+<h1>專欄文章</h1>
+<p>澳門產業觀察 · 數位經濟趨勢 · 商道與文化隨筆 — 共 {n} 篇</p>
+</header>
+
+<div class="filter-bar" id="cats">{cats}</div>
+
+<main class="grid" id="grid">{cards}</main>
+
+<footer class="foot">
+© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/#sec-contact">洽談合作</a><br>
+觀點僅代表作者個人立場，轉載請註明出處。
+</footer>
+
+<a class="float-cta" href="{site}/#sec-contact">洽談合作</a>
+<script>
+(function(){{
+var btns=document.querySelectorAll('.lc-cat');
+btns.forEach(function(b){{b.addEventListener('click',function(){{
+btns.forEach(function(x){{x.classList.remove('on')}});
+b.classList.add('on');
+var c=b.getAttribute('data-c');
+document.querySelectorAll('.lc-card').forEach(function(card){{
+card.classList.toggle('hide',c!=='全部'&&card.getAttribute('data-cat')!==c);
+}});
+}})}});
+}})();
+</script>
+</body>
+</html>
+""".format(desc=esc(desc), url=url, og='%s/assets/og/articles.jpg' % SITE,
+           ld=json.dumps(ld, ensure_ascii=False), site=SITE,
+           n=len(items), cats=cat_btns, cards=cards)
+    d = os.path.join(ROOT, 'articles')
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+    print('generated /articles/ list page (%d cards)' % len(items))
+
+
 def main():
     data = json.load(io.open(POSTS, encoding='utf-8'))
     posts = data['posts']
@@ -363,6 +529,7 @@ def main():
     made = []
     for p in published:
         made.append(build(p, published))
+    build_list(published)
     io.open(POSTS, 'w', encoding='utf-8', newline='\n').write(
         json.dumps(data, ensure_ascii=False, indent=2) + '\n')
     print('generated %d article pages' % len(made))

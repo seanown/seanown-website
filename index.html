@@ -14,7 +14,11 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://seanown.org/">
 <meta property="og:title" content="翁振軒 Sean Own｜澳門產業觀察｜AI 數位服務出海">
-<meta property="og:description" content="翁振軒 Sean Own — 龍遊集團創辦人、粵港澳大灣區電子商會會長。以澳門為樞紐，推動中國數字服務出海與中華文化國際傳播。">
+<meta property="og:image" content="https://seanown.org/assets/og/seanown-home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://seanown.org/assets/og/seanown-home.jpg">
+<meta property="og:description" content="翁振軒 Sean Own — 龍遊集團創辦人、粵港澳大灣區電子商會會長。以澳門為樞紐，推動中國數位服務出海與中華文化國際傳播。">
 <meta property="og:image" content="https://seanown.org/assets/images/banner-16x9.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -54,14 +58,13 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--light-gray);transition:all .3s}
 .nav.scrolled{box-shadow:var(--shadow)}
 .nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:68px}
-.logo{font-size:22px;font-weight:800;letter-spacing:1px;color:var(--blue)}.logo span{color:var(--gold)}
-.nav-links{display:flex;gap:24px;align-items:center}
-.nav-links a{font-size:14px;font-weight:500;color:var(--text);transition:color .2s;position:relative}
-.nav-links a:hover,.nav-links a.active{color:var(--gold)}
-.nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--gold);border-radius:2px}
+.logo{font-size:19px;font-weight:800;letter-spacing:1px;color:var(--blue)}.logo span{color:var(--gold)}
+.nav-right{display:flex;gap:22px;align-items:center}
+.nav-col-link{font-size:14px;font-weight:600;color:var(--text);text-decoration:none;transition:color .2s}
+.nav-col-link:hover{color:var(--blue)}
 .nav-cta{padding:8px 18px;border-radius:999px;background:linear-gradient(135deg,var(--blue),var(--gold));color:#fff;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 2px 10px rgba(2,8,32,.18);transition:transform .2s,box-shadow .2s}
 .nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(2,8,32,.28)}
-.mobile-toggle{display:none;font-size:24px;cursor:pointer;color:var(--blue)}
+
 .read-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),#FDB515);z-index:2000;width:0;transition:width .1s ease;border-radius:0 3px 3px 0}
 .back-top{position:fixed;right:26px;bottom:76px;width:48px;height:48px;border-radius:50%;background:var(--blue);color:#fff;border:none;cursor:pointer;box-shadow:0 8px 30px rgba(0,38,118,.3);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;opacity:0;visibility:hidden;transform:translateY(12px);transition:all .3s;z-index:1500}
 .back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
@@ -230,14 +233,11 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .footer-col a:hover{opacity:1;color:var(--gold)}
 .footer-bottom{max-width:1280px;margin:30px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;font-size:13px;opacity:.7}
 @media(max-width:968px){
-.nav-links{display:none;position:absolute;top:68px;left:0;right:0;background:var(--white);flex-direction:column;padding:20px;gap:16px;box-shadow:var(--shadow);z-index:999}
-.nav-links.open{display:flex}.mobile-toggle{display:block}
-.nav-cta{display:none}
+.nav-right{gap:12px}.nav-col-link{font-size:13px}.nav-cta{padding:7px 14px;font-size:12px}
 .hero{background-image:url('assets/images/hero-red-horse-mobile.jpg');background-position:center 20%;align-items:flex-end}
 .hero-inner{justify-content:center;text-align:center;padding:70px 20px 64px}
 .hero-text{max-width:640px;background:rgba(12,5,10,.55);backdrop-filter:blur(6px);border-radius:18px;padding:32px 26px}
 .hero-text h1{font-size:36px}
-.hero-buttons{justify-content:center}
 .cards-grid,.stats-grid,.mission-grid,.info-grid,.assoc-list,.articles-grid,.media-featured,.coop-services,.practice-grid{grid-template-columns:1fr}
 .about-intro{grid-template-columns:1fr}.about-avatar{margin:0 auto}
 .htimeline{grid-template-columns:1fr;gap:26px;max-width:640px}
@@ -282,19 +282,11 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <body>
 <nav class="nav" id="nav">
 <div class="nav-inner">
-<a href="#" class="logo" onclick="goto('home');return false">SEAN <span>OWN</span></a>
-<div class="nav-links" id="navLinks">
-<a href="#" onclick="goto('home');return false" class="active" data-sec="home" data-i18n="nav_home">首頁</a>
-<a href="#" onclick="goto('about');return false" data-sec="about" data-i18n="nav_about">關於我</a>
-<a href="#" onclick="goto('media');return false" data-sec="media" data-i18n="nav_media">媒體報導</a>
-<a href="#" onclick="goto('column');return false" data-sec="column" data-i18n="nav_insights">專欄文章</a>
-<a href="#" onclick="goto('works');return false" data-sec="works" data-i18n="nav_works">項目案例</a>
-<a href="#" onclick="goto('coop');return false" data-sec="coop" data-i18n="nav_coop">合作方向</a>
-<a href="#" onclick="goto('contact');return false" data-sec="contact" data-i18n="nav_contact">聯絡我</a>
-</div>
+<a href="#" class="logo" onclick="goto('home');return false">翁振軒 <span>Sean Own</span></a>
+<div class="nav-right">
+<a href="/articles/" class="nav-col-link">專欄文章</a>
 <a href="#" class="nav-cta" onclick="goto('contact');return false">洽談合作</a>
-<button class="theme-toggle" id="themeToggle" aria-label="切換深淺色" onclick="toggleTheme()"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg></button>
-<div class="mobile-toggle" onclick="toggleMobile()">☰</div>
+</div>
 </div>
 </nav>
 
@@ -306,19 +298,11 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .float-cta{position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:#010133;font-weight:700;padding:14px 24px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);text-decoration:none;font-size:15px;transition:transform .2s,box-shadow .2s}
 .float-cta:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(2,8,32,.4)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.side-nav{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:1400;display:flex;flex-direction:column;gap:2px;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border:1px solid var(--light-gray);border-radius:22px;padding:8px 6px;box-shadow:var(--shadow)}
-.side-nav a{display:flex;align-items:center;gap:7px;justify-content:flex-end;padding:5px 9px;font-size:12px;color:var(--gray);text-decoration:none;border-radius:16px;transition:all .2s}
-.side-nav a .sn-dot{width:8px;height:8px;border-radius:50%;background:#C6CEDA;transition:all .2s;flex:0 0 auto}
-.side-nav a .sn-txt{opacity:0;transform:translateX(6px);transition:all .2s;white-space:nowrap;font-weight:600}
-.side-nav a:hover,.side-nav a.on{color:var(--blue)}
-.side-nav a:hover .sn-txt,.side-nav a.on .sn-txt{opacity:1;transform:none}
-.side-nav a.on .sn-dot{background:var(--gold);box-shadow:0 0 0 3px rgba(253,181,21,.28)}
 .learn-more{display:flex;justify-content:flex-end;margin-top:20px}
 .learn-more a{font-size:13px;font-weight:600;color:var(--blue);text-decoration:none;border-bottom:2px solid var(--gold);padding-bottom:2px}
 .learn-more a:hover{color:var(--gold-dark)}
 .moments-more{display:inline-block;margin-top:14px;font-size:14px;font-weight:700;color:var(--blue);text-decoration:none;border-bottom:2px solid var(--gold);padding-bottom:1px}
 .moments-more:hover{color:var(--gold-dark)}
-@media(max-width:1180px){.side-nav{display:none}}
 .weekly-overlay{display:none;position:fixed;inset:0;background:rgba(5,10,24,.9);z-index:3000;padding:26px}
 .weekly-overlay.open{display:flex}
 .weekly-overlay-inner{position:relative;flex:1;max-width:1200px;margin:0 auto;display:flex}
@@ -328,6 +312,24 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .about-toc{max-width:1100px;margin:28px auto 0;padding:0 24px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
 .about-toc a{display:inline-block;padding:8px 20px;border:1px solid var(--gold);border-radius:999px;text-decoration:none;font-size:14px;color:inherit;background:rgba(255,255,255,.06);transition:all .2s}
 .about-toc a:hover{background:var(--gold);color:#010133}
+.focus-card{display:grid;grid-template-columns:1.15fr 1fr;background:var(--white);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-hover);text-decoration:none;color:inherit;transition:transform .25s,box-shadow .25s}
+.focus-card:hover{transform:translateY(-4px);box-shadow:0 22px 54px rgba(2,8,32,.16)}
+.focus-img{width:100%;height:100%;min-height:320px;object-fit:cover;display:block}
+.focus-body{padding:40px 40px 36px;display:flex;flex-direction:column;justify-content:center}
+.focus-top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.focus-tag{font-size:13px;font-weight:700;color:var(--blue);background:var(--gold-light);padding:4px 14px;border-radius:12px}
+.focus-date{font-size:13px;color:var(--gray)}
+.focus-card h3{font-size:26px;line-height:1.4;color:var(--blue);font-weight:800;margin-bottom:14px}
+.focus-card p{font-size:15px;line-height:1.8;color:var(--gray);margin:0 0 20px}
+.focus-more{font-size:14px;font-weight:700;color:var(--blue);border-bottom:2px solid var(--gold);align-self:flex-start;padding-bottom:2px}
+@media(max-width:860px){.focus-card{grid-template-columns:1fr}.focus-img{min-height:0;aspect-ratio:16/9}.focus-body{padding:26px 22px 28px}.focus-card h3{font-size:20px}}
+.author-flex{display:flex;gap:36px;align-items:flex-start;max-width:1020px}
+.author-photo{width:170px;height:170px;border-radius:50%;object-fit:cover;border:5px solid var(--gold);box-shadow:var(--shadow-hover);flex:0 0 auto}
+.author-main h3{font-size:24px;font-weight:800;color:var(--blue);margin-bottom:12px}
+.author-bio{font-size:15.5px;line-height:1.9;margin-bottom:18px}
+.author-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.author-chips span{font-size:13px;font-weight:600;color:var(--blue);background:var(--gold-light);padding:6px 14px;border-radius:999px}
+@media(max-width:860px){.author-flex{flex-direction:column;align-items:center;text-align:center}.author-photo{width:140px;height:140px}.author-chips{justify-content:center}}
 .home-latest-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
 .home-post-card{display:block;background:var(--white);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s}
 .home-post-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(2,8,32,.14)}
@@ -362,23 +364,130 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <h1 id="hero-name">翁振軒 <span class="gold">SEAN OWN</span></h1>
 <p class="hero-subtitle" id="hero-subtitle">企業投資｜數位出海｜社會服務</p>
 <p class="hero-slogan" id="hero-slogan">財自道生，利緣義取</p>
-<div class="hero-buttons">
-<a href="#" class="btn btn-primary" onclick="goto('about');return false" id="hero-btn1">認識更多 → 關於我</a>
-<a href="#" class="btn btn-outline" onclick="goto('contact');return false" id="hero-btn2">洽談合作 → 聯絡我</a>
-</div></div>
+</div>
 </div></section>
 
-<!-- ② 核心業務（合作方向） -->
-<section class="section" id="sec-services" style="background:var(--white)"><div class="section-inner">
-<h2 class="section-title">核心業務｜合作方向</h2><p class="section-subtitle">推動中國數字服務出海，建設中華文化國際傳播基地</p><div class="title-line"></div>
-<div class="coop-services" id="coop-grid">
-<div class="coop-item"><div class="coop-icon">🌐</div><h3>龍遊AI數字服務出海</h3><p>澳台雙算力架構，Facebook API 授權，80 語種全球推廣</p><div class="coop-links"><a class="coop-link" href="/macau-35-plan-report.html" target="_blank" rel="noopener">查看商會產業報告 ↗</a></div></div>
-<div class="coop-item"><div class="coop-icon">🏙️</div><h3>文化旅遊</h3><p>澳門文化旅遊與體驗規劃，INBOUND + OUTBOUND 文旅設計</p><div class="coop-links"><a class="coop-link" href="http://www.yatatravelagency.com/" target="_blank" rel="noopener">YATA 旅行社 ↗</a></div></div>
-<div class="coop-item"><div class="coop-icon">📚</div><h3>AI 科普教育</h3><p>全民 AI 科普生態，ECI 國際認證培訓體系</p><div class="coop-links"><a class="coop-link" href="https://www.macaodaily.com/html/2026-01/23/content_1885103.htm" target="_blank" rel="noopener">澳門日報報導 ↗</a><a class="coop-link" href="https://www.eciawards.org.cn/" target="_blank" rel="noopener">ECI 官網 ↗</a></div></div>
-<div class="coop-item"><div class="coop-icon">🎬</div><h3>融媒體與 IP 運營</h3><p>融媒體中心搭建，文娛 IP 落地運營</p><div class="coop-links"><a class="coop-link" href="https://www.macaodaily.com/html/2026-06/03/content_1912209.htm" target="_blank" rel="noopener">澳門日報報導 ↗</a></div></div>
-</div>
-<p style="text-align:center;margin-top:22px;opacity:.75;font-size:14px">以上為主要洽談方向，若有其他跨界合作提案，歡迎透過頁面下方「聯絡我」表單敘述您的需求。</p>
+
+<!-- ② 本期焦點 -->
+<section class="section" id="sec-focus" style="background:var(--bg)"><div class="section-inner">
+<h2 class="section-title">本期焦點</h2><p class="section-subtitle">最新發布 · 封面故事</p><div class="title-line"></div>
+<div id="focus-card"></div>
 </div></section>
+
+<!-- ⑤ 最新文章精選 -->
+<section class="section" id="sec-articles" style="background:var(--bg)"><div class="section-inner">
+<h2 class="section-title">更多專欄</h2><p class="section-subtitle">產業觀點與跨界見聞，持續更新</p><div class="title-line"></div>
+<div class="home-latest-grid" id="home-latest"></div>
+<div style="text-align:center;margin-top:32px"><a href="/articles/" class="btn btn-primary" style="padding:14px 40px">查看全部文章 →</a></div>
+</div></section>
+
+<!-- ⑤ 關於作者 -->
+<section class="section" id="sec-author" style="background:var(--white)"><div class="section-inner">
+<h2 class="section-title">關於作者</h2><p class="section-subtitle">內容背後的人：企業投資｜數位出海｜社會服務</p><div class="title-line"></div>
+<div class="author-flex">
+<img src="assets/images/about-avatar.jpg" alt="翁振軒 Sean Own 大頭照" class="author-photo">
+<div class="author-main">
+<h3>翁振軒 Sean Own</h3>
+<p class="author-bio">長期往返台灣、大陸、美國與澳門，專注企業經營、產業顧問與協會資源整合。近年以澳門為基地，推動中國數位服務出海、中華文創 IP 落地與青年跨界連結。ECI 2025 年度數位創新影響力人物，UC Berkeley 學士。</p>
+<div class="author-chips">
+<span>🏢 創辦人暨董事總經理｜澳門龍遊集團</span>
+<span>🚀 聯合創始人｜龍遊數字服務出海平台</span>
+<span>🏛️ 董事｜東望洋集團</span>
+<span>🤝 會長｜粵港澳大灣區電子商會</span>
+<span>🧧 監事長｜澳門台商聯誼會</span>
+<span>🎨 館長｜澳門龍遊絲綢文化藝術中心</span>
+</div>
+<button class="btn btn-primary" id="about-expand-btn" onclick="toggleAboutDetail()" aria-expanded="false">展開完整經歷、職務與理念 ▾</button>
+</div></div>
+<div id="about-detail" hidden style="margin-top:52px">
+<section class="section" id="sec-identities" style="background:var(--white)"><div class="section-inner">
+<h3 class="section-title" style="font-size:28px">核心身分精要</h3><p class="section-subtitle">點擊頭銜，查看「關於我」對應履歷</p><div class="title-line"></div>
+<div class="coop-services">
+<a class="coop-item" href="#" style="text-decoration:none;color:inherit" onclick="goto('about','about-business');return false"><div class="coop-icon">🏢</div><h3>創辦人暨董事總經理｜澳門龍遊集團</h3><p>數位服務出海的掌舵者</p></a>
+<a class="coop-item" href="#" style="text-decoration:none;color:inherit" onclick="goto('about','about-business');return false"><div class="coop-icon">🚀</div><h3>聯合創始人｜龍遊數字服務出海平台</h3><p>8 年跨境數位服務實戰</p></a>
+<a class="coop-item" href="#" style="text-decoration:none;color:inherit" onclick="goto('about','about-business');return false"><div class="coop-icon">🏛️</div><h3>董事｜東望洋集團</h3><p>多元產業佈局，紮根澳門</p></a>
+<a class="coop-item" href="#" style="text-decoration:none;color:inherit" onclick="goto('about','about-social');return false"><div class="coop-icon">🤝</div><h3>會長｜粵港澳大灣區電子商會</h3><p>連結大灣區產業資源與標準</p></a>
+<a class="coop-item" href="#" style="text-decoration:none;color:inherit" onclick="goto('about','about-social');return false"><div class="coop-icon">🧧</div><h3>監事長｜澳門台商聯誼會</h3><p>澳台經貿文化交流的橋樑</p></a>
+<a class="coop-item" href="#" style="text-decoration:none;color:inherit" onclick="goto('about','about-social');return false"><div class="coop-icon">🎨</div><h3>館長｜澳門龍遊絲綢文化藝術中心</h3><p>讓絲綢文化走進當代生活</p></a>
+</div></div></section>
+
+<section class="section"><div class="section-inner"><h3 class="section-title" id="about-story" style="font-size:26px">個人故事</h3><div class="title-line"></div><div class="about-intro">
+<img src="assets/images/about-avatar.jpg" alt="Sean Own" class="about-avatar">
+<div class="about-text" id="about-intro">
+<p>翁振軒 Sean Own，長期往返台灣、大陸、美國與澳門，專注企業經營、產業顧問與協會資源整合。近年以澳門為基地，推動中國數位服務出海、中華文創 IP 落地與青年跨界連結。</p>
+</div>
+<div style="margin-top:10px"><a href="#" class="btn btn-primary" onclick="goto('about','about-timeline');return false">查看完整經歷 →</a></div>
+</div></div></section>
+
+<section class="section" style="background:var(--white)"><div class="section-inner">
+<h3 class="section-title" id="about-timeline" style="font-size:26px">人生軌跡</h3><p class="section-subtitle">跨域半生 以行踐諾</p><div class="title-line"></div>
+<div class="htimeline" id="timeline-list">
+<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">1978</div><div class="ht-desc">出生於台北，祖籍浙江龍遊</div></div>
+<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">1990s</div><div class="ht-desc">台北成長，1988 年赴美國加州求學，奠定基礎教育與國際視野</div></div>
+<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">2000s</div><div class="ht-desc">UC Berkeley 畢業回大陸發展，深耕電商，帶領團隊服務 80+ 企業</div></div>
+<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">2010s</div><div class="ht-desc">定居澳門，任東望洋集團董事，累積企業經營與資源整合經驗</div></div>
+<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">2020s</div><div class="ht-desc">創立龍遊集團，接任粵港澳大灣區電子商會會長，推動數位產業、文創 IP 與青年交流</div></div>
+<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">未來</div><div class="ht-desc">持續連結澳門資源，協助更多青年找到方向與優勢</div></div>
+</div></div></section>
+
+<section class="section"><div class="section-inner"><div class="info-grid">
+<div class="info-box" id="education-box"><h3>教育背景</h3><ul id="education-list">
+<li>學士：交叉學科研究（Interdisciplinary Studies）</li>
+<li>加州大學柏克萊分校 UC Berkeley | 1997-2001</li>
+<li>論文主題：國際經貿與大中華研究</li>
+</ul></div>
+<div class="info-box" id="honors-box"><h3>榮譽與認證</h3><ul id="honors-list">
+<li>ECI 2025年度數位創新影響力人物</li>
+<li>第十一至十三屆「贏在廣州」大學生創業大賽專家評委</li>
+</ul></div>
+</div></div></section>
+
+<section class="section" style="background:var(--white)"><div class="section-inner">
+<h3 class="section-title" id="about-business" style="font-size:26px">企業職務｜商業履歷</h3><p class="section-subtitle">把生意做成立，把標準做成橋</p><div class="title-line"></div>
+<div class="assoc-list">
+<div class="assoc-item"><div class="assoc-num">1</div><div class="assoc-info"><div class="title">創辦人暨董事總經理</div><div class="org">澳門龍遊集團</div><div class="desc">2025年創立，以AI數字服務出海為核心業務</div></div></div>
+<div class="assoc-item"><div class="assoc-num">2</div><div class="assoc-info"><div class="title">聯合創始人</div><div class="org">澳門龍遊數字服務出海平台</div><div class="desc">8年運營，助力近百家企業海外曝光提升330%</div></div></div>
+<div class="assoc-item"><div class="assoc-num">3</div><div class="assoc-info"><div class="title">董事</div><div class="org">東望洋集團</div><div class="desc">2013年加入，澳門知名綜合企業集團</div></div></div>
+</div></div></section>
+
+<section class="section"><div class="section-inner">
+<h3 class="section-title" id="about-social" style="font-size:26px">社會暨協會身分｜公職與社會參與</h3><p class="section-subtitle">以商會為橋，把資源接到需要的人手上</p><div class="title-line"></div>
+<div class="assoc-list">
+<div class="assoc-item"><div class="assoc-num">1</div><div class="assoc-info"><div class="title">會長</div><div class="org">粵港澳大灣區電子商會</div><div class="desc">第三屆會長，推動數字服務出海標準建設</div></div></div>
+<div class="assoc-item"><div class="assoc-num">2</div><div class="assoc-info"><div class="title">理事長</div><div class="org">ECI@澳門創新專委會</div><div class="desc">推動AI科普教育與創新創業生態</div></div></div>
+<div class="assoc-item"><div class="assoc-num">3</div><div class="assoc-info"><div class="title">電子商務專委會主任</div><div class="org">澳門網絡視聽協會</div><div class="desc">推動網絡視聽內容與電商深度融合</div></div></div>
+<div class="assoc-item"><div class="assoc-num">4</div><div class="assoc-info"><div class="title">聯絡部委員</div><div class="org">澳門中華總商會</div><div class="desc">澳門歷史最悠久的商會之一，服務工商界</div></div></div>
+<div class="assoc-item"><div class="assoc-num">5</div><div class="assoc-info"><div class="title">監事長</div><div class="org">澳門台商聯誼會</div><div class="desc">服務在澳台商，促進澳台經貿文化交流</div></div></div>
+<div class="assoc-item"><div class="assoc-num">6</div><div class="assoc-info"><div class="title">理事長</div><div class="org">澳門台灣青年企業家協會</div><div class="desc">培育台青創業，推動兩岸青創交流合作</div></div></div>
+<div class="assoc-item"><div class="assoc-num">7</div><div class="assoc-info"><div class="title">監事長</div><div class="org">粵港澳大灣區數字產業協會</div><div class="desc">推動大灣區數字產業協同與創新發展</div></div></div>
+<div class="assoc-item"><div class="assoc-num">8</div><div class="assoc-info"><div class="title">常務副理事長</div><div class="org">澳門休閒旅遊創新服務協會</div><div class="desc">推動旅遊業創新與數字化轉型</div></div></div>
+<div class="assoc-item"><div class="assoc-num">9</div><div class="assoc-info"><div class="title">館長</div><div class="org">澳門龍遊絲綢文化藝術中心</div><div class="desc">推動中華文化國際傳播與絲綢文化傳承</div></div></div>
+<div class="assoc-item"><div class="assoc-num">10</div><div class="assoc-info"><div class="title">專家評委（第11-13屆）</div><div class="org">「贏在廣州」大學生創業大賽</div><div class="desc">培育青年創業人才，連續三屆擔任評委</div></div></div>
+</div></div></section>
+
+<section class="section philosophy" style="background:var(--white)"><div class="section-inner">
+<h3 class="section-title" id="about-values" style="font-size:26px">價值理念</h3><p class="section-subtitle">財自道生，利緣義取</p><div class="title-line"></div>
+<div class="philosophy-quote" id="phil-quote">財自道生 利緣義取</div>
+<p class="philosophy-sub" id="phil-sub">以澳門為樞紐，推動中華文化國際傳播與中國數字服務出海</p>
+<div class="philosophy-cards">
+<div class="philosophy-card"><div class="philosophy-card-num">01</div><div class="philosophy-card-title">選擇比努力重要</div><p class="philosophy-card-desc">看趨勢、看優勢、看意義——選擇順勢而為的方向，選擇能發揮獨特優勢的領域，選擇自己真正相信的事情。方向對了，努力才有意義。</p></div>
+<div class="philosophy-card"><div class="philosophy-card-num">02</div><div class="philosophy-card-title">恃人不如自恃</div><p class="philosophy-card-desc">依靠自己才是根本。資源整合的前提是自身有價值，跨界遷移的底氣是底層能力扎實。先讓自己值得被合作，再談資源對接。</p></div>
+<div class="philosophy-card"><div class="philosophy-card-num">03</div><div class="philosophy-card-title">龍遊商幫精神</div><p class="philosophy-card-desc">祖籍浙江龍遊，傳承商幫精神——誠信經商、回饋故里、扶攜後進。以商業力量推動文化傳播，以文化底蘊滋養商業發展。</p></div>
+</div>
+</div></section>
+</div>
+</div></section>
+
+<!-- ⑨ 媒體報導 -->
+<section class="section" id="sec-media" style="background:var(--white)"><div class="section-inner">
+<h2 class="section-title">媒體報導</h2><p class="section-subtitle">媒體採訪與活動報導</p><div class="title-line"></div>
+<div class="media-featured" id="media-featured"></div><div id="media-categories"></div>
+</div></section>
+
+
+<!-- ⑧ 合作與聯絡 -->
+<div class="coop-hero" id="sec-contact"><h2 id="contact-hero-title">合作與聯絡</h2><p id="contact-hero-sub">合作諮詢 · 聯絡 · 隨時歡迎</p></div>
+
 
 <!-- ③ 數據成績 -->
 <section class="stats-bar" id="sec-stats"><div class="section-inner">
@@ -387,13 +496,26 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div><div class="stat-number">100+</div><div class="stat-label">服務企業</div></div>
 <div><div class="stat-number">+330%</div><div class="stat-label">海外曝光提升</div></div>
 <div><div class="stat-number">80+</div><div class="stat-label">語種內容生成</div></div>
-<div class="learn-more"><a href="#" onclick="goto('coop');return false">瞭解詳情：核心業務與合作方向 →</a></div>
 </div>
 </div></section>
 
+
+<!-- ② 核心業務（合作方向） -->
+<section class="section" id="sec-services" style="background:var(--white)"><div class="section-inner">
+<h3 class="section-title" style="font-size:26px">合作方向</h3><p class="section-subtitle">推動中國數位服務出海，建設中華文化國際傳播基地</p><div class="title-line"></div>
+<div class="coop-services" id="coop-grid">
+<div class="coop-item"><div class="coop-icon">🌐</div><h3>龍遊AI數字服務出海</h3><p>澳台雙算力架構，Facebook API 授權，80 語種全球推廣</p><div class="coop-links"><a class="coop-link" href="/macau-35-plan-report.html" target="_blank" rel="noopener">查看商會產業報告 ↗</a></div></div>
+<div class="coop-item"><div class="coop-icon">🏙️</div><h3>文化旅遊</h3><p>澳門文化旅遊與體驗規劃，INBOUND + OUTBOUND 文旅設計</p><div class="coop-links"><a class="coop-link" href="http://www.yatatravelagency.com/" target="_blank" rel="noopener">YATA 旅行社 ↗</a></div></div>
+<div class="coop-item"><div class="coop-icon">📚</div><h3>AI 科普教育</h3><p>全民 AI 科普生態，ECI 國際認證培訓體系</p><div class="coop-links"><a class="coop-link" href="https://www.macaodaily.com/html/2026-01/23/content_1885103.htm" target="_blank" rel="noopener">澳門日報報導 ↗</a><a class="coop-link" href="https://www.eciawards.org.cn/" target="_blank" rel="noopener">ECI 官網 ↗</a></div></div>
+<div class="coop-item"><div class="coop-icon">🎬</div><h3>融媒體與 IP 運營</h3><p>融媒體中心搭建，文娛 IP 落地運營</p><div class="coop-links"><a class="coop-link" href="https://www.macaodaily.com/html/2026-06/03/content_1912209.htm" target="_blank" rel="noopener">澳門日報報導 ↗</a></div></div>
+</div>
+<p style="text-align:center;margin-top:22px;opacity:.75;font-size:14px">以上為主要洽談方向，若有其他跨界合作提案，歡迎透過下方表單敘述您的需求。</p>
+</div></section>
+
+
 <!-- ④ 產業實踐與代表項目 -->
 <section class="section" id="sec-projects" style="background:var(--bg)"><div class="section-inner">
-<h2 class="section-title">產業實踐與代表項目</h2><p class="section-subtitle">重要演講與項目落地</p><div class="title-line"></div>
+<h3 class="section-title" style="font-size:26px">代表項目</h3><p class="section-subtitle">重要演講與項目落地</p><div class="title-line"></div>
 <div class="insights-cats" id="works-cats">
 <button class="insights-cat active" data-wcat="全部">全部</button>
 <button class="insights-cat" data-wcat="AI數位">AI 數位</button>
@@ -410,178 +532,10 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="practice-card" data-wcat="商會項目"><span class="year">2026</span><h3>灣青 AI 聯全球</h3><p>大會主席，落地五大戰略合作：AI 融媒體中心、風神音樂祭 IP、文化研學基地、產教融合、本草中國 IP。</p></div>
 <div class="practice-card" data-wcat="文創IP"><span class="year">2026 籌備中</span><h3>中華文化 IP 國際版權中心</h3><p>以中華文化為核心的 IP 版權交易中心，推動中華文化的國際化傳播與產品商業化運營。</p></div>
 <div class="practice-card" data-wcat="文創IP"><span class="year">進行中</span><h3>龍遊絲綢藝文展</h3><p>以絲綢為載體的當代藝文策展，推動絲綢文化傳承與文創轉化。</p></div>
-<div class="learn-more"><a href="#" onclick="goto('coop');return false">瞭解詳情：洽談合作方向 →</a></div>
 </div>
 </div></section>
 
-<!-- ⑨ 媒體報導 -->
-<section class="section" id="sec-media" style="background:var(--white)"><div class="section-inner">
-<h2 class="section-title">媒體報導</h2><p class="section-subtitle">媒體採訪與活動報導</p><div class="title-line"></div>
-<div class="media-featured" id="media-featured"></div><div id="media-categories"></div>
-</div></section>
 
-<!-- ⑤ 最新文章精選 -->
-<section class="section" id="sec-articles" style="background:var(--bg)"><div class="section-inner">
-<h2 class="section-title">最新文章精選</h2><p class="section-subtitle">澳門觀察 · 產業評論 · 商道隨筆</p><div class="title-line"></div>
-<div class="home-latest-grid" id="home-latest"></div>
-<div style="text-align:center;margin-top:28px"><a href="#" id="articles-toggle-btn" class="btn btn-outline" onclick="toggleFullArticles();return false">查看全部專欄 →</a></div>
-<div id="articles-full" style="display:none;margin-top:44px">
-<div class="hdi-section">
-<p class="hdi-embed-lead">📌 本週數據專題——《GDP 之外：用 HDI 重新丈量發展》。往下走進星圖：67 個經濟體、完整排行榜與反差洞察（數據：UNDP 人類發展報告 2025）。</p>
-<div class="hdi-embed"><iframe id="hdi-frame" src="hdi-starfield/index.html" title="GDP 之外：用 HDI 重新丈量發展 — 互動數據星圖" loading="lazy"></iframe></div>
-</div>
-<div id="weekly-entry" style="display:none;margin:0 auto 34px;padding:20px 26px;background:var(--white);border:1px solid var(--gold);border-radius:16px;box-shadow:var(--shadow);align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px">
-<div><div style="font-weight:700;color:var(--blue);font-size:16px;margin-bottom:4px">📰 澳門週訊</div><div style="font-size:13px;opacity:.7">每週彙整澳門產業、政策、商會、文旅動態，附個人短評</div></div>
-<a href="#" class="btn btn-outline" onclick="openWeekly();return false">查看全部澳門週訊 →</a>
-</div>
-<div class="insights-cats">
-<button class="insights-cat active" data-cat="澳門觀察">澳門觀察<span class="sub">在地面看澳門</span></button>
-<button class="insights-cat" data-cat="全部">全部<span class="sub">所有文章</span></button>
-<button class="insights-cat" data-cat="產業評論">產業評論<span class="sub">數位經濟 · 產業分析</span></button>
-<button class="insights-cat" data-cat="商道隨筆">商道隨筆<span class="sub">經營感悟 · 人物故事</span></button>
-<button class="insights-cat" data-cat="行走見聞">行走見聞<span class="sub">遊記 · 參訪 · 實地活動</span></button>
-<button class="insights-cat" data-cat="文化雅述">文化雅述<span class="sub">歷史 · 典故 · 文化</span></button>
-<button class="insights-cat" data-cat="研究報告">研究報告<span class="sub">深度數據研究</span></button>
-</div>
-<div class="insights-search"><span class="insights-search-icon">🔍</span><input type="text" id="post-search" aria-label="搜尋文章" placeholder="搜尋文章標題或內容..." oninput="debouncedSearch(this.value)"><button type="button" class="search-clear" id="search-clear" onclick="clearSearch()" aria-label="清除搜尋" style="display:none">×</button></div>
-<div class="articles-grid moments-grid" id="articles-grid"></div>
-<div style="margin-top:8px">
-<h3 style="font-size:24px;font-weight:800;color:var(--blue);margin:64px 0 12px;padding-left:14px;border-left:5px solid var(--gold);position:relative">研究報告<a href="reports.html" style="position:absolute;right:0;bottom:10px;font-size:14px;font-weight:600;color:var(--blue)">查看全部研究報告 →</a></h3><p class="section-subtitle">產業視角戰略報告</p><div class="title-line"></div>
-<div style="background:var(--white);border-radius:16px;padding:36px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center">
-  <div>
-    <div style="display:inline-block;padding:4px 12px;border-radius:12px;background:var(--gold-light);color:var(--blue);font-size:12px;font-weight:600;margin-bottom:14px">SEAN OWN · 財政數據研究特輯</div>
-    <h3 style="font-size:24px;color:var(--blue);margin-bottom:10px;line-height:1.4">澳門財政五年決算透視：公開賬本背後的支出邏輯與產業啟示</h3>
-    <p style="font-size:15px;color:var(--gray);margin-bottom:18px;line-height:1.7">解讀 2020–2024 一般綜合預算決算：五年總支出 4,759.5 億、九大功能分類結構、民生五類佔比 40.1%，並探討財政數據背後的產業機會。數據經立法會意見書原始頁逐條核對。</p>
-    <div style="display:flex;gap:14px;flex-wrap:wrap">
-      <a href="macau-budget-article.html" class="btn btn-primary" style="padding:12px 28px">線上閱讀報告</a>
-      <a href="assets/reports/macau-budget-ledger-report.pdf" download class="btn btn-outline" style="padding:12px 28px">下載 PDF（4 頁 / 1.3 MB）</a>
-      <a href="macau-budget-ledger.html" target="_blank" rel="noopener" class="btn btn-outline" style="padding:12px 28px">互動賬本 ↗</a>
-    </div>
-  </div>
-  <div style="text-align:center">
-    <div style="width:120px;height:160px;background:linear-gradient(135deg,var(--blue),var(--gold));border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;padding:12px;line-height:1.5">澳門財政五年決算<br>公開賬本透視</div>
-    <div style="font-size:12px;color:var(--gray);margin-top:10px">2026.09.08 發布</div>
-  </div>
-</div>
-<div style="background:var(--white);border-radius:16px;padding:36px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center;margin-top:32px">
-  <div>
-    <div style="display:inline-block;padding:4px 12px;border-radius:12px;background:var(--gold-light);color:var(--blue);font-size:12px;font-weight:600;margin-bottom:14px">SEAN OWN · 旅行研究特輯</div>
-    <h3 style="font-size:24px;color:var(--blue);margin-bottom:10px;line-height:1.4">澳門旅行特輯：建築、文化、美食與中西交融慢生活</h3>
-    <p style="font-size:15px;color:var(--gray);margin-bottom:18px;line-height:1.7">12 頁雜誌風視覺簡報，完整收錄 5–7 天澳門慢旅行路線——澳門半島世遺城區、氹仔葡韻、路環漁村與橫琴，附 2026 國際煙花比賽匯演、米其林美食清單與口岸交通實用攻略。</p>
-    <div style="display:flex;gap:14px;flex-wrap:wrap">
-      <a href="assets/reports/macau-travel-guide-2026.pdf" target="_blank" rel="noopener" class="btn btn-primary" style="padding:12px 28px">線上閱讀報告</a>
-      <a href="assets/reports/macau-travel-guide-2026.pdf" download class="btn btn-outline" style="padding:12px 28px">下載 PDF（12 頁 / 4.8 MB）</a>
-    </div>
-  </div>
-  <div style="text-align:center">
-    <img src="assets/reports/macau-travel-guide-cover.jpg" alt="澳門旅行特輯封面——大三巴牌坊黃昏" style="width:120px;height:160px;object-fit:cover;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,0.18)">
-    <div style="font-size:12px;color:var(--gray);margin-top:10px">2026.09.08 發布</div>
-  </div>
-</div>
-<div style="background:var(--white);border-radius:16px;padding:36px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center;margin-top:32px">
-  <div>
-    <div style="display:inline-block;padding:4px 12px;border-radius:12px;background:var(--gold-light);color:var(--blue);font-size:12px;font-weight:600;margin-bottom:14px">SEAN OWN · 數據研究特輯</div>
-    <h3 style="font-size:24px;color:var(--blue);margin-bottom:10px;line-height:1.4">GDP 之外：用 HDI 重新丈量發展——2025 人類發展報告數據特輯</h3>
-    <p style="font-size:15px;color:var(--gray);margin-bottom:18px;line-height:1.7">以 UNDP《人類發展報告 2025》真實數據拆解「經濟總量 ≠ 人類發展」：67 個經濟體人均 GDP × HDI 散點圖、完整排行榜（中國第 78、澳門折算約第 21）與四組反差洞察。</p>
-    <div style="display:flex;gap:14px;flex-wrap:wrap">
-      <a href="hdi-starfield/index.html" target="_blank" rel="noopener" class="btn btn-primary" style="padding:12px 28px">線上閱讀報告</a>
-      <a href="assets/reports/hdi-report-2025.pdf" download class="btn btn-outline" style="padding:12px 28px">下載 PDF（11 頁 / 2.0 MB）</a>
-    </div>
-  </div>
-  <div style="text-align:center">
-    <img src="assets/reports/hdi-report-cover.jpg" alt="GDP 之外：用 HDI 重新丈量發展——報告封面" style="width:120px;height:160px;object-fit:cover;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,0.18)">
-    <div style="font-size:12px;color:var(--gray);margin-top:10px">2026.09.08 發布</div>
-  </div>
-</div>
-</div>
-</div>
-</div></section>
-
-<!-- ⑦ 關於我 -->
-<div class="about-banner" id="sec-about"><div class="about-banner-content"><h2 id="about-banner-title">關於我</h2><p id="about-banner-sub">財自道生，利緣義取｜企業經營 · 社會服務 · 創作者</p></div></div>
-<div class="about-toc">
-<a href="#sec-identities" onclick="goto('about','sec-identities');return false">身分精要</a>
-<a href="#about-story" onclick="goto('about','about-story');return false">個人故事</a>
-<a href="#about-timeline" onclick="goto('about','about-timeline');return false">人生軌跡</a>
-<a href="#about-business" onclick="goto('about','about-business');return false">商業履歷</a>
-<a href="#about-social" onclick="goto('about','about-social');return false">社會責任</a>
-<a href="#about-values" onclick="goto('about','about-values');return false">價值理念</a>
-</div>
-
-<section class="section" id="sec-identities" style="background:var(--white)"><div class="section-inner">
-<h3 class="section-title" style="font-size:28px">核心身分精要</h3><p class="section-subtitle">點擊頭銜，查看「關於我」對應履歷</p><div class="title-line"></div>
-<div class="coop-services">
-<a class="coop-item" href="#" style="text-decoration:none;color:inherit" onclick="goto('about','about-business');return false"><div class="coop-icon">🏢</div><h3>創辦人暨董事總經理｜澳門龍遊集團</h3><p>數位服務出海的掌舵者</p></a>
-<a class="coop-item" href="#" style="text-decoration:none;color:inherit" onclick="goto('about','about-business');return false"><div class="coop-icon">🚀</div><h3>聯合創始人｜龍遊數字服務出海平台</h3><p>8 年跨境數位服務實戰</p></a>
-<a class="coop-item" href="#" style="text-decoration:none;color:inherit" onclick="goto('about','about-business');return false"><div class="coop-icon">🏛️</div><h3>董事｜東望洋集團</h3><p>多元產業佈局，紮根澳門</p></a>
-<a class="coop-item" href="#" style="text-decoration:none;color:inherit" onclick="goto('about','about-social');return false"><div class="coop-icon">🤝</div><h3>會長｜粵港澳大灣區電子商會</h3><p>連結大灣區產業資源與標準</p></a>
-<a class="coop-item" href="#" style="text-decoration:none;color:inherit" onclick="goto('about','about-social');return false"><div class="coop-icon">🧧</div><h3>監事長｜澳門台商聯誼會</h3><p>澳台經貿文化交流的橋樑</p></a>
-<a class="coop-item" href="#" style="text-decoration:none;color:inherit" onclick="goto('about','about-social');return false"><div class="coop-icon">🎨</div><h3>館長｜澳門龍遊絲綢文化藝術中心</h3><p>讓絲綢文化走進當代生活</p></a>
-</div></div></section>
-
-
-<section class="section"><div class="section-inner"><h3 class="section-title" id="about-story" style="font-size:26px">個人故事</h3><div class="title-line"></div><div class="about-intro">
-<img src="assets/images/about-avatar.jpg" alt="Sean Own" class="about-avatar">
-<div class="about-text" id="about-intro">
-<p>翁振軒 Sean Own，長期往返台灣、大陸、美國與澳門，專注企業經營、產業顧問與協會資源整合。近年以澳門為基地，推動中國數位服務出海、中華文創 IP 落地與青年跨界連結。</p>
-</div>
-<div style="margin-top:10px"><a href="#" class="btn btn-primary" onclick="goto('about','about-timeline');return false">查看完整經歷 →</a></div>
-</div></div></div></section>
-<section class="section" style="background:var(--white)"><div class="section-inner">
-<h3 class="section-title" id="about-timeline" style="font-size:26px">人生軌跡</h3><p class="section-subtitle">跨域半生 以行踐諾</p><div class="title-line"></div>
-<div class="htimeline" id="timeline-list">
-<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">1978</div><div class="ht-desc">出生於台北，祖籍浙江龍遊</div></div>
-<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">1990s</div><div class="ht-desc">台北成長，1988 年赴美國加州求學，奠定基礎教育與國際視野</div></div>
-<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">2000s</div><div class="ht-desc">UC Berkeley 畢業回大陸發展，深耕電商，帶領團隊服務 80+ 企業</div></div>
-<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">2010s</div><div class="ht-desc">定居澳門，任東望洋集團董事，累積企業經營與資源整合經驗</div></div>
-<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">2020s</div><div class="ht-desc">創立龍遊集團，接任粵港澳大灣區電子商會會長，推動數位產業、文創 IP 與青年交流</div></div>
-<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">未來</div><div class="ht-desc">持續連結澳門資源，協助更多青年找到方向與優勢</div></div>
-</div></div></section>
-<section class="section"><div class="section-inner"><div class="info-grid">
-<div class="info-box" id="education-box"><h3>教育背景</h3><ul id="education-list">
-<li>學士：交叉學科研究（Interdisciplinary Studies）</li>
-<li>加州大學柏克萊分校 UC Berkeley | 1997-2001</li>
-<li>論文主題：國際經貿與大中華研究</li>
-</ul></div>
-<div class="info-box" id="honors-box"><h3>榮譽與認證</h3><ul id="honors-list">
-<li>ECI 2025年度數位創新影響力人物</li>
-<li>第十一至十三屆「贏在廣州」大學生創業大賽專家評委</li>
-</ul></div>
-</div></div></section>
-<section class="section" style="background:var(--white)"><div class="section-inner">
-<h3 class="section-title" id="about-business" style="font-size:26px">企業職務｜商業履歷</h3><p class="section-subtitle">把生意做成立，把標準做成橋</p><div class="title-line"></div>
-<div class="assoc-list">
-<div class="assoc-item"><div class="assoc-num">1</div><div class="assoc-info"><div class="title">創辦人暨董事總經理</div><div class="org">澳門龍遊集團</div><div class="desc">2025年創立，以AI數字服務出海為核心業務</div></div></div>
-<div class="assoc-item"><div class="assoc-num">2</div><div class="assoc-info"><div class="title">聯合創始人</div><div class="org">澳門龍遊數字服務出海平台</div><div class="desc">8年運營，助力近百家企業海外曝光提升330%</div></div></div>
-<div class="assoc-item"><div class="assoc-num">3</div><div class="assoc-info"><div class="title">董事</div><div class="org">東望洋集團</div><div class="desc">2013年加入，澳門知名綜合企業集團</div></div></div>
-</div></div></section>
-<section class="section"><div class="section-inner">
-<h3 class="section-title" id="about-social" style="font-size:26px">社會暨協會身分｜公職與社會參與</h3><p class="section-subtitle">以商會為橋，把資源接到需要的人手上</p><div class="title-line"></div>
-<div class="assoc-list">
-<div class="assoc-item"><div class="assoc-num">1</div><div class="assoc-info"><div class="title">會長</div><div class="org">粵港澳大灣區電子商會</div><div class="desc">第三屆會長，推動數字服務出海標準建設</div></div></div>
-<div class="assoc-item"><div class="assoc-num">2</div><div class="assoc-info"><div class="title">理事長</div><div class="org">ECI@澳門創新專委會</div><div class="desc">推動AI科普教育與創新創業生態</div></div></div>
-<div class="assoc-item"><div class="assoc-num">3</div><div class="assoc-info"><div class="title">電子商務專委會主任</div><div class="org">澳門網絡視聽協會</div><div class="desc">推動網絡視聽內容與電商深度融合</div></div></div>
-<div class="assoc-item"><div class="assoc-num">4</div><div class="assoc-info"><div class="title">聯絡部委員</div><div class="org">澳門中華總商會</div><div class="desc">澳門歷史最悠久的商會之一，服務工商界</div></div></div>
-<div class="assoc-item"><div class="assoc-num">5</div><div class="assoc-info"><div class="title">監事長</div><div class="org">澳門台商聯誼會</div><div class="desc">服務在澳台商，促進澳台經貿文化交流</div></div></div>
-<div class="assoc-item"><div class="assoc-num">6</div><div class="assoc-info"><div class="title">理事長</div><div class="org">澳門台灣青年企業家協會</div><div class="desc">培育台青創業，推動兩岸青創交流合作</div></div></div>
-<div class="assoc-item"><div class="assoc-num">7</div><div class="assoc-info"><div class="title">監事長</div><div class="org">粵港澳大灣區數字產業協會</div><div class="desc">推動大灣區數字產業協同與創新發展</div></div></div>
-<div class="assoc-item"><div class="assoc-num">8</div><div class="assoc-info"><div class="title">常務副理事長</div><div class="org">澳門休閒旅遊創新服務協會</div><div class="desc">推動旅遊業創新與數字化轉型</div></div></div>
-<div class="assoc-item"><div class="assoc-num">9</div><div class="assoc-info"><div class="title">館長</div><div class="org">澳門龍遊絲綢文化藝術中心</div><div class="desc">推動中華文化國際傳播與絲綢文化傳承</div></div></div>
-<div class="assoc-item"><div class="assoc-num">10</div><div class="assoc-info"><div class="title">專家評委（第11-13屆）</div><div class="org">「贏在廣州」大學生創業大賽</div><div class="desc">培育青年創業人才，連續三屆擔任評委</div></div></div>
-</div></div></section>
-<section class="section philosophy" style="background:var(--white)"><div class="section-inner">
-<h3 class="section-title" id="about-values" style="font-size:26px">價值理念</h3><p class="section-subtitle">財自道生，利緣義取</p><div class="title-line"></div>
-<div class="philosophy-quote" id="phil-quote">財自道生 利緣義取</div>
-<p class="philosophy-sub" id="phil-sub">以澳門為樞紐，推動中華文化國際傳播與中國數字服務出海</p>
-<div class="philosophy-cards">
-<div class="philosophy-card"><div class="philosophy-card-num">01</div><div class="philosophy-card-title">選擇比努力重要</div><p class="philosophy-card-desc">看趨勢、看優勢、看意義——選擇順勢而為的方向，選擇能發揮獨特優勢的領域，選擇自己真正相信的事情。方向對了，努力才有意義。</p></div>
-<div class="philosophy-card"><div class="philosophy-card-num">02</div><div class="philosophy-card-title">恃人不如自恃</div><p class="philosophy-card-desc">依靠自己才是根本。資源整合的前提是自身有價值，跨界遷移的底氣是底層能力扎實。先讓自己值得被合作，再談資源對接。</p></div>
-<div class="philosophy-card"><div class="philosophy-card-num">03</div><div class="philosophy-card-title">龍遊商幫精神</div><p class="philosophy-card-desc">祖籍浙江龍遊，傳承商幫精神——誠信經商、回饋故里、扶攜後進。以商業力量推動文化傳播，以文化底蘊滋養商業發展。</p></div>
-</div>
-</div></section>
-
-<!-- ⑩ 聯絡我 -->
-<div class="coop-hero" id="sec-contact"><h2 id="contact-hero-title">合作與聯絡</h2><p id="contact-hero-sub">合作諮詢 · 聯絡 · 隨時歡迎</p></div>
 <section class="section"><div class="section-inner">
 <div class="contact-grid">
 <div class="contact-info">
@@ -613,21 +567,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 </form>
 </div></div>
 </div></section>
-<nav class="side-nav" aria-label="快速導覽">
-<a href="#sec-hero" data-snav="sec-hero" onclick="document.getElementById('sec-hero').scrollIntoView({behavior:'smooth'});return false"><span class="sn-txt">首頁</span><span class="sn-dot"></span></a>
-<a href="#sec-services" data-snav="sec-services" onclick="document.getElementById('sec-services').scrollIntoView({behavior:'smooth'});return false"><span class="sn-txt">核心業務</span><span class="sn-dot"></span></a>
-<a href="#sec-stats" data-snav="sec-stats" onclick="document.getElementById('sec-stats').scrollIntoView({behavior:'smooth'});return false"><span class="sn-txt">數據成果</span><span class="sn-dot"></span></a>
-<a href="#sec-projects" data-snav="sec-projects" onclick="document.getElementById('sec-projects').scrollIntoView({behavior:'smooth'});return false"><span class="sn-txt">代表項目</span><span class="sn-dot"></span></a>
-<a href="#sec-media" data-snav="sec-media" onclick="document.getElementById('sec-media').scrollIntoView({behavior:'smooth'});return false"><span class="sn-txt">媒體報導</span><span class="sn-dot"></span></a>
-<a href="#sec-articles" data-snav="sec-articles" onclick="document.getElementById('sec-articles').scrollIntoView({behavior:'smooth'});return false"><span class="sn-txt">最新文章</span><span class="sn-dot"></span></a>
-<a href="#sec-about" data-snav="sec-about" onclick="document.getElementById('sec-about').scrollIntoView({behavior:'smooth'});return false"><span class="sn-txt">關於我</span><span class="sn-dot"></span></a>
-<a href="#sec-contact" data-snav="sec-contact" onclick="document.getElementById('sec-contact').scrollIntoView({behavior:'smooth'});return false"><span class="sn-txt">合作聯絡</span><span class="sn-dot"></span></a>
-</nav>
 </main>
-<script>
-(function(){var links=[].slice.call(document.querySelectorAll('.side-nav a'));if(!links.length)return;var ids=links.map(function(a){return a.getAttribute('data-snav')});function upd(){var mid=window.scrollY+window.innerHeight/2,cur=ids[0];ids.forEach(function(id){var el=document.getElementById(id);if(el&&el.offsetTop<=mid)cur=id});links.forEach(function(a){a.classList.toggle('on',a.getAttribute('data-snav')===cur)})}window.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd()})();
-</script>
-
 <!-- 澳門週訊全螢幕閱讀 -->
 <div class="weekly-overlay" id="weekly-overlay" onclick="if(event.target===this)closeWeekly()">
 <div class="weekly-overlay-inner">
@@ -640,27 +580,20 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <script>
 const SECMAP={about:'sec-about',column:'sec-articles',works:'sec-projects',coop:'sec-services',contact:'sec-contact',media:'sec-media'};
 function goto(sec,anchor){
-document.getElementById('navLinks').classList.remove('open');
-document.querySelectorAll('.nav-links a').forEach(a=>a.classList.toggle('active',a.dataset.sec===sec));
 if(sec==='home'){window.scrollTo({top:0,behavior:'smooth'});return}
+var det=document.getElementById('about-detail');
+if(sec==='about'&&det&&det.hidden){det.hidden=false;var eb=document.getElementById('about-expand-btn');if(eb){eb.textContent='收起完整經歷 ▴';eb.setAttribute('aria-expanded','true')}}
 var el=anchor?document.getElementById(anchor):null;
 if(!el)el=document.getElementById(SECMAP[sec]||('sec-'+sec));
 if(el)el.scrollIntoView({behavior:'smooth'});
-if(sec==='column')toggleFullArticles(true);
 }
-function toggleFullArticles(force){var f=document.getElementById('articles-full');if(!f)return;var show=(force===true)?true:(f.style.display==='none');f.style.display=show?'block':'none';var b=document.getElementById('articles-toggle-btn');if(b)b.textContent=show?'收起全部專欄 ↑':'查看全部專欄 →';if(show){var hf=document.getElementById('hdi-frame');if(hf&&hf.contentWindow){try{hf.contentWindow.postMessage({type:'hdi-measure'},'*')}catch(e){}}}}
+function toggleAboutDetail(){var det=document.getElementById('about-detail');if(!det)return;det.hidden=!det.hidden;var eb=document.getElementById('about-expand-btn');if(eb){eb.textContent=det.hidden?'展開完整經歷、職務與理念 ▾':'收起完整經歷 ▴';eb.setAttribute('aria-expanded',det.hidden?'false':'true');if(!det.hidden)det.scrollIntoView({behavior:'smooth',block:'nearest'})}}
 function openWeekly(){document.getElementById('weekly-overlay').classList.add('open');document.body.style.overflow='hidden'}
 function closeWeekly(){document.getElementById('weekly-overlay').classList.remove('open');document.body.style.overflow=''}
-function toggleMobile(){document.getElementById('navLinks').classList.toggle('open')}
 function filterWorks(cat){document.querySelectorAll('#works-cats .insights-cat').forEach(b=>b.classList.toggle('active',b.dataset.wcat===cat));document.querySelectorAll('#works-grid .practice-card').forEach(c=>{c.style.display=(cat==='全部'||c.dataset.wcat===cat)?'':'none'})}
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('#works-cats .insights-cat');if(b)filterWorks(b.dataset.wcat)});
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('seanown-theme',t)}catch(e){}}
-function toggleTheme(){const cur=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';setTheme(cur)}
-(function(){let t=null;try{t=localStorage.getItem('seanown-theme')}catch(e){}if(!t){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'}setTheme(t)})();
+document.documentElement.setAttribute('data-theme','light');
 window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50)});
-(function(){var SPY=[['sec-hero','home'],['sec-services','coop'],['sec-stats','coop'],['sec-projects','works'],['sec-media','media'],['sec-articles','column'],['sec-identities','about'],['sec-about','about'],['sec-contact','contact']];
-window.addEventListener('scroll',function(){var y=window.scrollY+160,cur='home';for(var i=0;i<SPY.length;i++){var el=document.getElementById(SPY[i][0]);if(el&&el.offsetTop<=y)cur=SPY[i][1]}
-document.querySelectorAll('.nav-links a').forEach(a=>a.classList.toggle('active',a.dataset.sec===cur));});})();
 window.addEventListener('message',function(e){if(e.data&&e.data.type==='hdi-height'){var f=document.getElementById('hdi-frame');if(f&&e.data.height>400&&e.data.height<12000){f.style.height=Math.round(e.data.height+8)+'px'}}if(e.data&&e.data.type==='ledger-height'){var lf=document.getElementById('ledger-frame');if(lf&&e.data.height>400){var cap=window.innerHeight?Math.round(window.innerHeight*0.82):880;var nh=Math.min(Math.round(e.data.height+8),Math.max(cap,560));lf.style.height=nh+'px'}}});
 (function(){function route(){var M={'/about':'about','/column':'column','/works':'works','/contact':'contact'};var p=location.pathname.replace(/\/+$/,'')||'/';var h=decodeURIComponent(location.hash||'');
 if(M[p]){setTimeout(function(){goto(M[p],(p==='/about'&&/^#assoc/.test(h))?'about-social':undefined)},400)}
@@ -731,8 +664,9 @@ let allPosts=[];let currentCat='澳門觀察';let searchQuery='';let searchTimer
 const CAT_AVATAR={'澳門觀察':'assets/images/avatars/shiju.jpg','產業評論':'assets/images/avatars/shangdao.jpg','商道隨筆':'assets/images/avatars/zixing.jpg','行走見聞':'assets/images/avatars/shanhai.jpg','文化雅述':'assets/images/avatars/gujin.jpg','研究報告':'assets/images/avatar-1x1.jpg'};
 async function loadPosts(){try{const res=await fetch('data/posts.json');const data=await res.json();
 // 只顯示「已上線」文章；status 為「整理中」或不存在的（向後相容）視為已上線
-allPosts=(data.posts||[]).filter(p=>p.status!=='整理中');renderPosts();renderHomeLatest()}catch(e){console.error('Load posts failed:',e)}}
-function renderHomeLatest(){const g=document.getElementById('home-latest');if(!g||!allPosts.length)return;const items=allPosts.slice(0,3);g.innerHTML=items.map(p=>{const txt=(p.body||'').replace(/<[^>]+>/g,'').replace(/[#*>\n`]/g,'').trim().slice(0,72);const img=(p.images&&p.images[0])||'';return `<a class="home-post-card" href="${p.slug?'/article/'+p.slug+'/':'#'}" ${p.slug?'':'onclick="openArticleByNum(\''+p.num+'\');return false"'}>${img?`<img class="home-post-img" src="${wsrc(img)}" data-fb="${img}" alt="${(p.title||'').replace(/"/g,'')}" loading="lazy" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}else{this.style.display='none'}">`:''}<div class="home-post-body"><div class="home-post-top"><span class="home-post-tag">${p.category||''}</span><span class="home-post-date">${formatDate(p.date)}</span></div><h3>${p.title||''}</h3><p>${txt}…</p></div></a>`}).join('')}
+allPosts=(data.posts||[]).filter(p=>p.status!=='整理中');renderFocus();renderHomeLatest()}catch(e){console.error('Load posts failed:',e)}}
+function renderFocus(){const g=document.getElementById('focus-card');if(!g||!allPosts.length)return;const p=allPosts.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')))[0];if(!p)return;const txt=(p.body||'').replace(/<[^>]+>/g,'').replace(/[#*>\n`]/g,'').trim().slice(0,88);const raw=(p.images&&p.images[0])||'';const img=raw?wsrc(raw):(p.slug?'/assets/og/'+p.slug+'.jpg':'');const href=p.slug?('/article/'+p.slug+'/'):'#';const jump=p.slug?'':` onclick="openArticleByNum(\'${p.num}\');return false"`;g.innerHTML=`<a class="focus-card" href="${href}"${jump}><img class="focus-img" src="${img}" data-fb="${raw||img}" alt="${(p.title||'').replace(/"/g,'')} — 文章封面" loading="lazy" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}"><div class="focus-body"><div class="focus-top"><span class="focus-tag">${p.category||''}</span><span class="focus-date">${formatDate(p.date)} 發布</span></div><h3>${p.title||''}</h3><p>${txt}…</p><span class="focus-more">閱讀全文 →</span></div></a>`}
+function renderHomeLatest(){const g=document.getElementById('home-latest');if(!g||!allPosts.length)return;const items=allPosts.slice(0,6);g.innerHTML=items.map(p=>{const txt=(p.body||'').replace(/<[^>]+>/g,'').replace(/[#*>\n`]/g,'').trim().slice(0,72);const img=(p.images&&p.images[0])?wsrc(p.images[0]):(p.slug?'/assets/og/'+p.slug+'.jpg':'');const raw=(p.images&&p.images[0])||img;return `<a class="home-post-card" href="${p.slug?'/article/'+p.slug+'/':'#'}" ${p.slug?'':'onclick="openArticleByNum(\''+p.num+'\');return false"'}>${img?`<img class="home-post-img" src="${img}" data-fb="${raw}" alt="${(p.title||'').replace(/"/g,'')}" loading="lazy" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}else{this.style.display='none'}">`:''}<div class="home-post-body"><div class="home-post-top"><span class="home-post-tag">${p.category||''}</span><span class="home-post-date">${formatDate(p.date)}</span></div><h3>${p.title||''}</h3><p>${txt}…</p></div></a>`}).join('')}
 function openArticleByNum(n){const i=allPosts.findIndex(p=>String(p.num)===String(n));if(i>-1)openArticle(i)}
 function searchPosts(q){searchQuery=q.trim().toLowerCase();renderPosts()}
 function debouncedSearch(q){const clear=document.getElementById('search-clear');if(clear)clear.style.display=q?'flex':'none';clearTimeout(searchTimer);searchTimer=setTimeout(()=>searchPosts(q),250)}
@@ -744,7 +678,7 @@ function wsrc(p){return String(p||'').replace(/\.(jpe?g|png)$/i,'.webp')}
 function formatDate(d){if(!d)return'';const dt=new Date(d);return dt.getFullYear()+'.'+String(dt.getMonth()+1).padStart(2,'0')}
 function formatDateAgo(d){if(!d)return'';const now=new Date();const dt=new Date(d);const diff=Math.floor((now-dt)/86400000);if(diff<0)return '剛剛';if(diff===0)return '今天';if(diff===1)return '昨天';if(diff<7)return diff+'天前';if(diff<30)return Math.floor(diff/7)+'週前';if(diff<365)return Math.floor(diff/30)+'個月前';return Math.floor(diff/365)+'年前'}
 function openArticle(i){const p=allPosts[i];if(!p)return;if(String(p.num)==='34'){document.title='澳門2020-2024財政決算分析｜公開賬本的產業啟示｜翁振軒專欄';var _md=document.querySelector('meta[name="description"]');if(_md)_md.setAttribute('content','解讀澳門特區五年一般綜合預算決算數據，分析九大功能支出結構，探討財政政策背後的產業機會與發展方向');}const imgs=p.images||[];const gridCls=imgs.length===1?'single':(imgs.length===2||imgs.length===4)?'grid-2':(imgs.length===3?'grid-3':'grid-9');const imgBox=document.getElementById('modal-images');imgBox.innerHTML=imgs.length?`<div class="moments-images ${gridCls}" style="margin:24px 40px 0">${imgs.map(src=>`<img src="${src}" alt="" loading="lazy" onclick="openLightbox('${src}')" onerror="this.style.display='none'">`).join('')}</div>`:'';document.getElementById('modal-tag').textContent=p.category;document.getElementById('modal-title').textContent=p.title;document.getElementById('modal-date').textContent=formatDate(p.date);const ledgerEmbed=(String(p.num)==='34')?'<div class="ledger-embed"><iframe id="ledger-frame" src="macau-budget-ledger.html" title="澳門政府五年賬本 — 互動數據賬本" loading="lazy"></iframe><div class="ledger-embed-link">📊 本文數據全部來自這本互動賬本（上方可轉輪盤、查明細、切年度）｜<a href="macau-budget-ledger.html" target="_blank">新視窗開啟完整版 ↗</a></div></div>':'';document.getElementById('modal-body').innerHTML=ledgerEmbed+marked.parse(p.body||'')+`<div class="post-footer-mod"><div class="post-author"><strong>作者簡介</strong>｜翁振軒（Sean Own），粵港澳大灣區電子商會會長，專注澳門產業觀察與數字 IP 實踐。</div>${(()=>{const rel=allPosts.filter(x=>x.category===p.category&&String(x.num)!==String(p.num)).slice(0,2);return rel.length?`<div class="post-rel"><strong>延伸閱讀</strong>${rel.map(x=>`<a href="#" onclick="openArticleByNum('${x.num}');return false">${x.title}</a>`).join('')}</div>`:''})()}<div class="post-cta">對這個議題有興趣交流或合作？歡迎<a href="#" onclick="closeArticle();goto('contact');return false">至聯絡區留言</a>。</div></div>`;document.getElementById('article-modal').classList.add('active');document.body.style.overflow='hidden'}
-function closeArticle(){document.getElementById('article-modal').classList.remove('active');document.body.style.overflow='';document.title='SEAN OWN | 翁振軒 — 澳門台商 · 產業顧問 · 協會資源整合者';var _md=document.querySelector('meta[name="description"]');if(_md)_md.setAttribute('content','翁振軒 Sean Own — 龍遊集團創辦人、粵港澳大灣區電子商會會長。以澳門為樞紐，推動中國數字服務出海與中華文化國際傳播。')}
+function closeArticle(){document.getElementById('article-modal').classList.remove('active');document.body.style.overflow='';document.title='翁振軒 Sean Own｜澳門產業觀察｜AI 數位服務出海';var _md=document.querySelector('meta[name="description"]');if(_md)_md.setAttribute('content','翁振軒 Sean Own — 龍遊集團創辦人、粵港澳大灣區電子商會會長。以澳門為樞紐，推動中國數字服務出海與中華文化國際傳播。')}
 function openLightbox(src){const lb=document.getElementById('lightbox');const im=document.getElementById('lightbox-img');im.src=src;im.alt='圖片放大檢視';lb.classList.add('active')}
 function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.getElementById('lightbox-img').src=''}
 // Category filter
