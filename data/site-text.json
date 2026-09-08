@@ -233,53 +233,33 @@
     "cooperations": [
       {
         "icon": "🌐",
-        "title": "AI數字服務出海",
-        "desc": "澳台雙算力架構，Facebook API授權，80語種全球推廣",
+        "title": "龍遊AI數字服務出海",
+        "desc": "澳台雙算力架構，Facebook API 授權，80 語種全球推廣",
         "link": "/macau-35-plan-report.html",
         "linkText": "查看商會產業報告 ↗"
       },
       {
         "icon": "🏙️",
         "title": "文化旅遊",
-        "desc": "澳門文化旅遊與沉浸式體驗規劃，AI+文旅設計",
+        "desc": "澳門文化旅遊與體驗規劃，INBOUND + OUTBOUND 文旅設計",
         "link": "http://www.yatatravelagency.com/",
         "linkText": "YATA 旅行社 ↗"
       },
       {
-        "icon": "🎨",
-        "title": "文化IP × Web3",
-        "desc": "中華文化IP數字化藏品交易，NFR/NFT商業模式"
-      },
-      {
-        "icon": "🤝",
-        "title": "產業資源對接",
-        "desc": "電子產業供應鏈，兩岸港澳及海外商會資源"
-      },
-      {
         "icon": "📚",
-        "title": "AI科普教育",
-        "desc": "全民AI科普生態，國際認證導師培訓體系",
+        "title": "AI 科普教育",
+        "desc": "全民 AI 科普生態，ECI 國際認證培訓體系",
         "link": "https://www.macaodaily.com/html/2026-01/23/content_1885103.htm",
         "linkText": "澳門日報報導 ↗",
-        "link2": "https://www.eciawards.org.cn/index",
+        "link2": "https://www.eciawards.org.cn/",
         "link2Text": "ECI 官網 ↗"
       },
       {
         "icon": "🎬",
-        "title": "融媒體與IP運營",
-        "desc": "融媒體中心搭建，文娛IP落地運營",
+        "title": "融媒體與 IP 運營",
+        "desc": "融媒體中心搭建，文娛 IP 落地運營",
         "link": "https://www.macaodaily.com/html/2026-06/03/content_1912209.htm",
         "linkText": "澳門日報報導 ↗"
-      },
-      {
-        "icon": "🏛️",
-        "title": "商會治理諮詢",
-        "desc": "協會架構設計，RACI權責分工，大型活動策劃"
-      },
-      {
-        "icon": "🌏",
-        "title": "跨區域市場進入",
-        "desc": "大灣區、東南亞、中東、葡語國家市場佈局"
       }
     ],
     "contact": {
