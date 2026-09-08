@@ -9,9 +9,10 @@
   name = "contact"
   fields = [
     { name = "name", label = "姓名", required = true },
-    { name = "email", label = "電子郵箱", required = true },
-    { name = "subject", label = "主題", required = true },
-    { name = "message", label = "留言", required = true }
+    { name = "organization", label = "所屬單位" },
+    { name = "email", label = "聯繫信箱", required = true },
+    { name = "coop_type", label = "合作類型", required = true },
+    { name = "message", label = "需求描述", required = true }
   ]
 
 # 靜態資源長效緩存（性能優化）
@@ -53,18 +54,33 @@
 # 舊「協會身分」頁 301 永久重定向 → 關於我（SEO 保護，不產生 404）
 [[redirects]]
   from = "/association"
-  to = "/"
+  to = "/about"
   status = 301
   force = true
 
 [[redirects]]
   from = "/associations"
-  to = "/"
+  to = "/about"
   status = 301
   force = true
 
+# 新網址架構：/about /column /works /contact → SPA 路由（200 rewrite，URL 保持不變）
 [[redirects]]
   from = "/about"
   to = "/"
-  status = 301
-  force = true
+  status = 200
+
+[[redirects]]
+  from = "/column"
+  to = "/"
+  status = 200
+
+[[redirects]]
+  from = "/works"
+  to = "/"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/"
+  status = 200
