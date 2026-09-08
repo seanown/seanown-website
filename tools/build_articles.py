@@ -278,6 +278,41 @@ ATTACHMENTS = {
             },
         ],
     },
+    'hdi-2025-human-development-report': {
+        'kicker': '附件 · 原版報告',
+        'title': 'GDP 之外：用 HDI 重新丈量發展（原版全 11 頁）',
+        'sub': '像翻雜誌一樣讀原版報告：左右兩頁、可翻頁。亦可下載完整 PDF，或開啟互動星海版。',
+        'pdf': '../../assets/reports/hdi-report-2025.pdf',
+        'pdf_label': '下載完整報告 PDF（11 頁 / 2.0 MB）',
+        'link': '../../hdi-starfield/index.html',
+        'open_label': '互動星海版（可滑動 · 星空動畫）↗',
+        'hint': '想看星空動畫與完整數據？下方可下載 PDF，或開啟互動星海版。',
+        'pages': [
+            {'img': '../../assets/images/hdi-pages/p01.webp', 'img2': '../../assets/images/hdi-pages/p02.webp',
+             'alt': '報告封面：GDP 之外，用 HDI 重新丈量發展', 'alt2': '01 夜燈不等於燭光',
+             'pn1': 'PDF 第 1 頁', 'pn2': 'PDF 第 2 頁'},
+            {'img': '../../assets/images/hdi-pages/p03.webp', 'img2': '../../assets/images/hdi-pages/p04.webp',
+             'alt': '02 HDI 是什麼：三把尺，一把指數', 'alt2': '三把尺細節：收入封頂等設計',
+             'pn1': 'PDF 第 3 頁', 'pn2': 'PDF 第 4 頁'},
+            {'img': '../../assets/images/hdi-pages/p05.webp', 'img2': '../../assets/images/hdi-pages/p06.webp',
+             'alt': '03 核心一圖：人均 GDP × HDI 星圖', 'alt2': '04 HDI 排行榜：誰在頂端，中國在哪',
+             'pn1': 'PDF 第 5 頁', 'pn2': 'PDF 第 6 頁'},
+            {'img': '../../assets/images/hdi-pages/p07.webp', 'img2': '../../assets/images/hdi-pages/p08.webp',
+             'alt': '澳門 0.934 折算約第 21 位（附註）', 'alt2': '05 四個反差：GDP 看不見的東西',
+             'pn1': 'PDF 第 7 頁', 'pn2': 'PDF 第 8 頁'},
+            {'img': '../../assets/images/hdi-pages/p09.webp', 'img2': '../../assets/images/hdi-pages/p10.webp',
+             'alt': '中國 33 年 HDI +62% 與澳門比較', 'alt2': '數據來源 Data Sources',
+             'pn1': 'PDF 第 9 頁', 'pn2': 'PDF 第 10 頁'},
+            {'img': '../../assets/images/hdi-pages/p11.webp',
+             'alt': '封底：SEAN OWN 數據研究特輯',
+             'h': '讀完這份報告',
+             'body': ('<p>封底的三個數字，就是全篇的座標系：<strong>冰島 0.972</strong> 說明小經濟體也能登頂；'
+                      '<strong>中國 0.797</strong> 是 33 年 +62% 的進行式；<strong>中國澳門 0.934</strong> 提醒我們——'
+                      '賭收蓋得起醫院，大學與科研卻要時間生長。</p>'
+                      '<p>GDP 回答「有多大」，HDI 回答「活得如何」。兩把尺都拿在手裡，才量得出一個真實的世界。</p>'),
+             'pn1': 'PDF 第 11 頁 · 封底'},
+        ],
+    },
 }
 
 RDR_CSS = """
@@ -299,6 +334,12 @@ RDR_CSS = """
 .rdr-right p{font-size:15px;line-height:1.85;color:#3D4A55;margin:0 0 13px;text-align:justify}
 .rdr-right strong{color:#14503A}
 .rdr-hint{margin-top:auto;padding-top:14px;font-size:12.5px;color:#8A8266;border-top:1px dashed #E7DCC2}
+.rdr-spread.is-dual{grid-template-columns:1fr 1fr}
+.rdr-spread.is-dual .rdr-left{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:18px 14px 14px;overflow:auto}
+.rdr-spread.is-dual .rdr-left img{position:static;width:auto;max-width:100%;max-height:600px;object-fit:contain;border-radius:3px;box-shadow:0 8px 26px rgba(80,60,20,.2)}
+.rdr-right-page{padding:18px 14px 14px;align-items:center;justify-content:flex-start;overflow:auto}
+.rdr-right-page img{width:auto;max-width:100%;max-height:600px;border-radius:3px;box-shadow:0 8px 26px rgba(80,60,20,.2)}
+.rdr-pgnum{display:block;font-size:11.5px;letter-spacing:2px;color:#B8912E;font-weight:700;margin-top:12px}
 .rdr-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:16px}
 .rdr-btn2{background:#1F6B4A;color:#fff;border:none;border-radius:999px;padding:9px 24px;font-size:14px;cursor:pointer;font-family:inherit;transition:background .2s}
 .rdr-btn2:hover{background:#14503A}
@@ -317,6 +358,10 @@ RDR_CSS = """
 .rdr-spread.is-on{display:block}
 .rdr-left{height:230px;border-right:none;border-bottom:1px dashed #E7DCC2}
 .rdr-left img{position:absolute}
+.rdr-spread.is-dual .rdr-left{height:auto;padding:14px 10px 10px}
+.rdr-spread.is-dual .rdr-left img{max-height:none;width:100%}
+.rdr-right-page{padding:14px 10px 10px}
+.rdr-right-page img{max-height:none;width:100%}
 .rdr-right{padding:20px 18px 18px}
 .rdr-title{font-size:19px}
 }
@@ -327,14 +372,23 @@ def build_reader(att):
     spreads = []
     n = len(att['pages'])
     for i, p in enumerate(att['pages']):
-        spreads.append(
-            ('<div class="rdr-spread%s">'
-             '<div class="rdr-left"><img src="%s" alt="%s" loading="lazy"></div>'
-             '<div class="rdr-right"><span class="rdr-pageno">第 %d 頁 · 共 %d 頁</span>'
-             '<h3>%s</h3>%s'
-             '<p class="rdr-hint">想查每一筆明細？下方可下載 PDF，或開啟可篩選的互動賬本。</p></div></div>'
-             ) % (' is-on' if i == 0 else '', p['img'], esc(p['alt']), i + 1, n,
-                  esc(p['h']), p['body']))
+        cls = ' is-dual' if p.get('img2') else ''
+        if p.get('img2'):
+            html = ('<div class="rdr-spread is-dual%s">'
+                    '<div class="rdr-left"><img src="%s" alt="%s" loading="lazy"><span class="rdr-pgnum">%s</span></div>'
+                    '<div class="rdr-right rdr-right-page"><img src="%s" alt="%s" loading="lazy"><span class="rdr-pgnum">%s</span></div>'
+                    '</div>') % (' is-on' if i == 0 else '', p['img'], esc(p['alt']),
+                                 esc(p.get('pn1', '')), p['img2'], esc(p.get('alt2', '')),
+                                 esc(p.get('pn2', '')))
+        else:
+            html = ('<div class="rdr-spread%s">'
+                    '<div class="rdr-left"><img src="%s" alt="%s" loading="lazy"></div>'
+                    '<div class="rdr-right"><span class="rdr-pageno">第 %d 頁 · 共 %d 頁</span>'
+                    '<h3>%s</h3>%s'
+                    '<p class="rdr-hint">%s</p></div></div>'
+                    ) % (' is-on' if i == 0 else '', p['img'], esc(p['alt']), i + 1, n,
+                         esc(p['h']), p['body'], esc(att.get('hint', '想查每一筆明細？下方可下載 PDF，或開啟可篩選的互動賬本。')))
+        spreads.append(html)
     dots = ''.join('<button class="rdr-dot%s" data-rp="%d" aria-label="第 %d 頁"></button>'
                    % (' on' if i == 0 else '', i, i + 1) for i in range(n))
     rdr = (
@@ -350,7 +404,7 @@ def build_reader(att):
         '</div>'
         '<div class="rdr-actions">'
         '<a class="rdr-dl" href="%s" download>⬇ %s</a>'
-        '<a class="rdr-open" href="%s" target="_blank" rel="noopener">互動賬本（可轉 · 可查 · 可篩選）↗</a>'
+        '<a class="rdr-open" href="%s" target="_blank" rel="noopener">%s</a>'
         '</div>'
         '<script>(function(){var sp=document.querySelectorAll("#rdrStage .rdr-spread");if(!sp.length)return;'
         'var cur=0,dots=document.querySelectorAll(".rdr-dot"),pv=document.getElementById("rdrPrev"),nx=document.getElementById("rdrNext");'
@@ -365,7 +419,8 @@ def build_reader(att):
         '</section>'
     ) % (esc(att['kicker']), esc(att['title']), esc(att['sub']),
          ''.join(spreads), dots,
-         att['pdf'], esc(att['pdf_label']), att['link'])
+         att['pdf'], esc(att['pdf_label']), att['link'],
+         esc(att.get('open_label', '互動賬本（可轉 · 可查 · 可篩選）↗')))
     return rdr
 
 

@@ -102,6 +102,56 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 .float-cta{position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);text-decoration:none;font-size:14px;transition:transform .2s,box-shadow .2s}
 .float-cta:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(2,8,32,.4)}
 @media(max-width:720px){h1{font-size:25px}.article h2{font-size:20px}.article p,.article li{font-size:16px}.rel-grid{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}.wrap{padding:26px 18px 0}.author{flex-direction:column;gap:14px}.lead{font-size:15.5px}}
+
+/* ---------- 附件：雜誌翻頁閱讀器 ---------- */
+.rdr{margin:34px 0 40px;background:#F7F1E3;border:1px solid #E7DCC2;border-radius:18px;padding:26px 26px 22px;box-shadow:0 14px 40px rgba(1,1,51,.08)}
+.rdr-badge{display:inline-block;background:#1F6B4A;color:#F2EFE3;font-size:12px;font-weight:700;letter-spacing:2px;padding:4px 14px;border-radius:999px;margin-bottom:12px}
+.rdr-title{font-family:Georgia,"Songti TC",serif;font-size:23px;color:#14503A;line-height:1.35;margin:0 0 6px}
+.rdr-sub{font-size:14px;color:#8A8266;margin:0 0 18px}
+.rdr-stage{position:relative;background:#FFFDF6;border:1px solid #E7DCC2;border-radius:14px;overflow:hidden}
+.rdr-spread{display:none;grid-template-columns:1.05fr 1fr;min-height:520px}
+.rdr-spread.is-on{display:grid;animation:rdrIn .45s ease}
+@keyframes rdrIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.rdr-left{position:relative;background:#F7F1E3;border-right:1px dashed #E7DCC2;overflow:hidden}
+.rdr-left img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center top}
+.rdr-left::after{content:'';position:absolute;top:0;bottom:0;right:-14px;width:14px;background:linear-gradient(90deg,rgba(80,60,20,.14),rgba(80,60,20,0))}
+.rdr-right{padding:30px 30px 26px;display:flex;flex-direction:column}
+.rdr-pageno{font-size:12px;letter-spacing:2px;color:#B8912E;font-weight:700;margin-bottom:10px}
+.rdr-right h3{font-family:Georgia,"Songti TC",serif;font-size:21px;color:#14503A;margin:0 0 14px;line-height:1.4}
+.rdr-right p{font-size:15px;line-height:1.85;color:#3D4A55;margin:0 0 13px;text-align:justify}
+.rdr-right strong{color:#14503A}
+.rdr-hint{margin-top:auto;padding-top:14px;font-size:12.5px;color:#8A8266;border-top:1px dashed #E7DCC2}
+.rdr-spread.is-dual{grid-template-columns:1fr 1fr}
+.rdr-spread.is-dual .rdr-left{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:18px 14px 14px;overflow:auto}
+.rdr-spread.is-dual .rdr-left img{position:static;width:auto;max-width:100%;max-height:600px;object-fit:contain;border-radius:3px;box-shadow:0 8px 26px rgba(80,60,20,.2)}
+.rdr-right-page{padding:18px 14px 14px;align-items:center;justify-content:flex-start;overflow:auto}
+.rdr-right-page img{width:auto;max-width:100%;max-height:600px;border-radius:3px;box-shadow:0 8px 26px rgba(80,60,20,.2)}
+.rdr-pgnum{display:block;font-size:11.5px;letter-spacing:2px;color:#B8912E;font-weight:700;margin-top:12px}
+.rdr-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:16px}
+.rdr-btn2{background:#1F6B4A;color:#fff;border:none;border-radius:999px;padding:9px 24px;font-size:14px;cursor:pointer;font-family:inherit;transition:background .2s}
+.rdr-btn2:hover{background:#14503A}
+.rdr-btn2:disabled{opacity:.4;cursor:default}
+.rdr-dots{display:flex;gap:8px}
+.rdr-dot{width:9px;height:9px;border-radius:50%;background:#D8CBA8;border:none;padding:0;cursor:pointer;transition:all .2s}
+.rdr-dot.on{background:#B8912E;transform:scale(1.25)}
+.rdr-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.rdr-dl{display:inline-block;background:#B8912E;color:#fff;font-weight:700;font-size:14.5px;padding:12px 28px;border-radius:999px;text-decoration:none;transition:all .2s}
+.rdr-dl:hover{background:#9A7822;transform:translateY(-2px)}
+.rdr-open{display:inline-block;background:transparent;color:#14503A;border:1.5px solid #1F6B4A;font-weight:700;font-size:14.5px;padding:11px 26px;border-radius:999px;text-decoration:none;transition:all .2s}
+.rdr-open:hover{background:rgba(31,107,74,.08)}
+@media(max-width:820px){
+.rdr{padding:18px 14px 16px}
+.rdr-spread{grid-template-columns:1fr;min-height:0}
+.rdr-spread.is-on{display:block}
+.rdr-left{height:230px;border-right:none;border-bottom:1px dashed #E7DCC2}
+.rdr-left img{position:absolute}
+.rdr-spread.is-dual .rdr-left{height:auto;padding:14px 10px 10px}
+.rdr-spread.is-dual .rdr-left img{max-height:none;width:100%}
+.rdr-right-page{padding:14px 10px 10px}
+.rdr-right-page img{max-height:none;width:100%}
+.rdr-right{padding:20px 18px 18px}
+.rdr-title{font-size:19px}
+}
 </style>
 </head>
 <body>
@@ -117,7 +167,7 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 <h1>📊 GDP 之外：用 HDI 重新丈量發展</h1>
 <div class="rule"></div>
 <p class="lead">我們太習慣用一個數字丈量成敗——GDP。城市比總量，國家比增速，好像數字足夠大，一切問題就足夠小。但聯合國開發計劃署（UNDP）從 1990 年起，每年發布一份《人類發展報告》，用另一把尺子重新丈量世界：人類發展指數（H…</p>
-
+<section class="rdr" id="report-reader"><span class="rdr-badge">附件 · 原版報告</span><h2 class="rdr-title">GDP 之外：用 HDI 重新丈量發展（原版全 11 頁）</h2><p class="rdr-sub">像翻雜誌一樣讀原版報告：左右兩頁、可翻頁。亦可下載完整 PDF，或開啟互動星海版。</p><div class="rdr-stage" id="rdrStage"><div class="rdr-spread is-dual is-on"><div class="rdr-left"><img src="../../assets/images/hdi-pages/p01.webp" alt="報告封面：GDP 之外，用 HDI 重新丈量發展" loading="lazy"><span class="rdr-pgnum">PDF 第 1 頁</span></div><div class="rdr-right rdr-right-page"><img src="../../assets/images/hdi-pages/p02.webp" alt="01 夜燈不等於燭光" loading="lazy"><span class="rdr-pgnum">PDF 第 2 頁</span></div></div><div class="rdr-spread is-dual"><div class="rdr-left"><img src="../../assets/images/hdi-pages/p03.webp" alt="02 HDI 是什麼：三把尺，一把指數" loading="lazy"><span class="rdr-pgnum">PDF 第 3 頁</span></div><div class="rdr-right rdr-right-page"><img src="../../assets/images/hdi-pages/p04.webp" alt="三把尺細節：收入封頂等設計" loading="lazy"><span class="rdr-pgnum">PDF 第 4 頁</span></div></div><div class="rdr-spread is-dual"><div class="rdr-left"><img src="../../assets/images/hdi-pages/p05.webp" alt="03 核心一圖：人均 GDP × HDI 星圖" loading="lazy"><span class="rdr-pgnum">PDF 第 5 頁</span></div><div class="rdr-right rdr-right-page"><img src="../../assets/images/hdi-pages/p06.webp" alt="04 HDI 排行榜：誰在頂端，中國在哪" loading="lazy"><span class="rdr-pgnum">PDF 第 6 頁</span></div></div><div class="rdr-spread is-dual"><div class="rdr-left"><img src="../../assets/images/hdi-pages/p07.webp" alt="澳門 0.934 折算約第 21 位（附註）" loading="lazy"><span class="rdr-pgnum">PDF 第 7 頁</span></div><div class="rdr-right rdr-right-page"><img src="../../assets/images/hdi-pages/p08.webp" alt="05 四個反差：GDP 看不見的東西" loading="lazy"><span class="rdr-pgnum">PDF 第 8 頁</span></div></div><div class="rdr-spread is-dual"><div class="rdr-left"><img src="../../assets/images/hdi-pages/p09.webp" alt="中國 33 年 HDI +62% 與澳門比較" loading="lazy"><span class="rdr-pgnum">PDF 第 9 頁</span></div><div class="rdr-right rdr-right-page"><img src="../../assets/images/hdi-pages/p10.webp" alt="數據來源 Data Sources" loading="lazy"><span class="rdr-pgnum">PDF 第 10 頁</span></div></div><div class="rdr-spread"><div class="rdr-left"><img src="../../assets/images/hdi-pages/p11.webp" alt="封底：SEAN OWN 數據研究特輯" loading="lazy"></div><div class="rdr-right"><span class="rdr-pageno">第 6 頁 · 共 6 頁</span><h3>讀完這份報告</h3><p>封底的三個數字，就是全篇的座標系：<strong>冰島 0.972</strong> 說明小經濟體也能登頂；<strong>中國 0.797</strong> 是 33 年 +62% 的進行式；<strong>中國澳門 0.934</strong> 提醒我們——賭收蓋得起醫院，大學與科研卻要時間生長。</p><p>GDP 回答「有多大」，HDI 回答「活得如何」。兩把尺都拿在手裡，才量得出一個真實的世界。</p><p class="rdr-hint">想看星空動畫與完整數據？下方可下載 PDF，或開啟互動星海版。</p></div></div></div><div class="rdr-nav"><button class="rdr-btn2" id="rdrPrev" type="button">← 上一頁</button><div class="rdr-dots"><button class="rdr-dot on" data-rp="0" aria-label="第 1 頁"></button><button class="rdr-dot" data-rp="1" aria-label="第 2 頁"></button><button class="rdr-dot" data-rp="2" aria-label="第 3 頁"></button><button class="rdr-dot" data-rp="3" aria-label="第 4 頁"></button><button class="rdr-dot" data-rp="4" aria-label="第 5 頁"></button><button class="rdr-dot" data-rp="5" aria-label="第 6 頁"></button></div><button class="rdr-btn2" id="rdrNext" type="button">下一頁 →</button></div><div class="rdr-actions"><a class="rdr-dl" href="../../assets/reports/hdi-report-2025.pdf" download>⬇ 下載完整報告 PDF（11 頁 / 2.0 MB）</a><a class="rdr-open" href="../../hdi-starfield/index.html" target="_blank" rel="noopener">互動星海版（可滑動 · 星空動畫）↗</a></div><script>(function(){var sp=document.querySelectorAll("#rdrStage .rdr-spread");if(!sp.length)return;var cur=0,dots=document.querySelectorAll(".rdr-dot"),pv=document.getElementById("rdrPrev"),nx=document.getElementById("rdrNext");function go(k){if(k<0||k>=sp.length)return;sp[cur].classList.remove("is-on");dots[cur].classList.remove("on");cur=k;sp[cur].classList.add("is-on");dots[cur].classList.add("on");pv.disabled=cur===0;nx.disabled=cur===sp.length-1}pv.addEventListener("click",function(){go(cur-1)});nx.addEventListener("click",function(){go(cur+1)});dots.forEach(function(d,i){d.addEventListener("click",function(){go(i)})});document.addEventListener("keydown",function(e){if(!document.getElementById("report-reader"))return;if(e.key==="ArrowLeft")go(cur-1);if(e.key==="ArrowRight")go(cur+1)});pv.disabled=true;nx.disabled=sp.length===1})();</script></section>
 
 <div class="abody"><p>我們太習慣用一個數字丈量成敗——GDP。城市比總量，國家比增速，好像數字足夠大，一切問題就足夠小。但聯合國開發計劃署（UNDP）從 1990 年起，每年發布一份《人類發展報告》，用另一把尺子重新丈量世界：<strong>人類發展指數（HDI）</strong>。它只問三件事——你活得久不久（健康）、學得多不多（教育）、過得好不好（生活水平）。</p>
 <h2>三把尺子，量出另一個世界</h2>
