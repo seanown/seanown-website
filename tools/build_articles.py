@@ -222,6 +222,141 @@ h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-botto
 @media(max-width:720px){h1{font-size:25px}.article h2{font-size:20px}.article p,.article li{font-size:16px}.rel-grid{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}.wrap{padding:26px 18px 0}.author{flex-direction:column;gap:14px}.lead{font-size:15.5px}}
 """
 
+# ---------- 附件：雜誌翻頁閱讀器（研究報告類文章） ----------
+ATTACHMENTS = {
+    'macau-budget-2020-2024-analysis': {
+        'kicker': '附件 · 研究報告',
+        'title': '澳門政府五年賬本（2020–2024 決算）',
+        'sub': '像翻雜誌一樣讀這份報告：左頁圖表、右頁解讀，共 4 頁。亦可下載 PDF 或開啟可查可篩的互動版。',
+        'pdf': '../../assets/reports/macau-budget-ledger-report.pdf',
+        'pdf_label': '下載完整報告 PDF（4 頁 / 1.3 MB）',
+        'link': '../../macau-budget-ledger.html',
+        'pages': [
+            {
+                'img': '../../assets/images/ledger-shot-dashboard.webp',
+                'alt': '五年總支出看板與民生佔比圓環',
+                'h': '財政大盤一覽',
+                'body': ('<p>2020–2024 五年，澳門一般綜合預算<strong>累計總支出 4,759.5 億元</strong>，年均 951.9 億元；'
+                         '2024 年度總支出 979.5 億元，對比 2023 年 <strong>+8.1%</strong>，回歸常態增長軌道。</p>'
+                         '<p>按約 68 萬人口粗略估算，人均年財政支出<strong>約 14 萬元</strong>——公庫的每一筆錢，都對應著城市運作的真實脈動。</p>'),
+            },
+            {
+                'img': '../../assets/images/ledger-shot-wheel.webp',
+                'alt': '支出結構輪盤：九大功能分類五年決算額',
+                'h': '錢都花在哪：九大分類',
+                'body': ('<p>輪盤把九大功能分類攤開：「其他功能」（現金分享、醫療補貼、稅項返還等惠民措施）五年合計 1,129.1 億元；'
+                         '<strong>經濟服務 805.0 億元</strong>居實質政策分類之首；教育 619.5 億、衛生 559.6 億緊隨其後。</p>'
+                         '<p>教育、衛生、社會保障、房屋、社會及社區服務五大民生類別，合計佔總支出<strong> 40.1%</strong>，是公共財政的壓艙石。</p>'),
+            },
+            {
+                'img': '../../assets/images/ledger-shot-trend.webp',
+                'alt': '年度總支出趨勢：2020–2024',
+                'h': '五年走勢：逆週期調節',
+                'body': ('<p>走勢呈完整周期：<strong>2021 年 891.5 億</strong>為五年低點（疫情緊縮）；2022 年兩度《預算修改法》增撥投資，'
+                         '衝上<strong> 1,021.5 億</strong>的唯一千億高點；2023 年特別措施退出回落至 905.7 億；2024 年復甦回升至 979.5 億。</p>'
+                         '<p>「應急收縮 — 擴張托底 — 常態回歸」，正是澳門財政逆週期調節的完整軌跡。</p>'),
+            },
+            {
+                'img': '../../assets/images/ledger-shot-donut.webp',
+                'alt': '支出分類佔比甜甜圈圖',
+                'h': '結構啟示：讀懂賬本找機會',
+                'body': ('<p><strong>房屋支出五年增長近四倍</strong>，2024 年按年大增 49.2%、增幅居九大分類之首——公屋興建與都市更新，'
+                         '將持續帶動建築、建材、物業上下游。</p>'
+                         '<p>經濟服務重點從疫情救助轉向產業培育，配合「1+4」多元策略，中小企支援、旅遊推廣與數位經濟投入，'
+                         '就是產業界的切入點。</p>'),
+            },
+        ],
+    },
+}
+
+RDR_CSS = """
+/* ---------- 附件：雜誌翻頁閱讀器 ---------- */
+.rdr{margin:34px 0 40px;background:#F7F1E3;border:1px solid #E7DCC2;border-radius:18px;padding:26px 26px 22px;box-shadow:0 14px 40px rgba(1,1,51,.08)}
+.rdr-badge{display:inline-block;background:#1F6B4A;color:#F2EFE3;font-size:12px;font-weight:700;letter-spacing:2px;padding:4px 14px;border-radius:999px;margin-bottom:12px}
+.rdr-title{font-family:Georgia,"Songti TC",serif;font-size:23px;color:#14503A;line-height:1.35;margin:0 0 6px}
+.rdr-sub{font-size:14px;color:#8A8266;margin:0 0 18px}
+.rdr-stage{position:relative;background:#FFFDF6;border:1px solid #E7DCC2;border-radius:14px;overflow:hidden}
+.rdr-spread{display:none;grid-template-columns:1.05fr 1fr;min-height:520px}
+.rdr-spread.is-on{display:grid;animation:rdrIn .45s ease}
+@keyframes rdrIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.rdr-left{position:relative;background:#F7F1E3;border-right:1px dashed #E7DCC2;overflow:hidden}
+.rdr-left img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center top}
+.rdr-left::after{content:'';position:absolute;top:0;bottom:0;right:-14px;width:14px;background:linear-gradient(90deg,rgba(80,60,20,.14),rgba(80,60,20,0))}
+.rdr-right{padding:30px 30px 26px;display:flex;flex-direction:column}
+.rdr-pageno{font-size:12px;letter-spacing:2px;color:#B8912E;font-weight:700;margin-bottom:10px}
+.rdr-right h3{font-family:Georgia,"Songti TC",serif;font-size:21px;color:#14503A;margin:0 0 14px;line-height:1.4}
+.rdr-right p{font-size:15px;line-height:1.85;color:#3D4A55;margin:0 0 13px;text-align:justify}
+.rdr-right strong{color:#14503A}
+.rdr-hint{margin-top:auto;padding-top:14px;font-size:12.5px;color:#8A8266;border-top:1px dashed #E7DCC2}
+.rdr-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:16px}
+.rdr-btn2{background:#1F6B4A;color:#fff;border:none;border-radius:999px;padding:9px 24px;font-size:14px;cursor:pointer;font-family:inherit;transition:background .2s}
+.rdr-btn2:hover{background:#14503A}
+.rdr-btn2:disabled{opacity:.4;cursor:default}
+.rdr-dots{display:flex;gap:8px}
+.rdr-dot{width:9px;height:9px;border-radius:50%;background:#D8CBA8;border:none;padding:0;cursor:pointer;transition:all .2s}
+.rdr-dot.on{background:#B8912E;transform:scale(1.25)}
+.rdr-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.rdr-dl{display:inline-block;background:#B8912E;color:#fff;font-weight:700;font-size:14.5px;padding:12px 28px;border-radius:999px;text-decoration:none;transition:all .2s}
+.rdr-dl:hover{background:#9A7822;transform:translateY(-2px)}
+.rdr-open{display:inline-block;background:transparent;color:#14503A;border:1.5px solid #1F6B4A;font-weight:700;font-size:14.5px;padding:11px 26px;border-radius:999px;text-decoration:none;transition:all .2s}
+.rdr-open:hover{background:rgba(31,107,74,.08)}
+@media(max-width:820px){
+.rdr{padding:18px 14px 16px}
+.rdr-spread{grid-template-columns:1fr;min-height:0}
+.rdr-spread.is-on{display:block}
+.rdr-left{height:230px;border-right:none;border-bottom:1px dashed #E7DCC2}
+.rdr-left img{position:absolute}
+.rdr-right{padding:20px 18px 18px}
+.rdr-title{font-size:19px}
+}
+"""
+
+
+def build_reader(att):
+    spreads = []
+    n = len(att['pages'])
+    for i, p in enumerate(att['pages']):
+        spreads.append(
+            ('<div class="rdr-spread%s">'
+             '<div class="rdr-left"><img src="%s" alt="%s" loading="lazy"></div>'
+             '<div class="rdr-right"><span class="rdr-pageno">第 %d 頁 · 共 %d 頁</span>'
+             '<h3>%s</h3>%s'
+             '<p class="rdr-hint">想查每一筆明細？下方可下載 PDF，或開啟可篩選的互動賬本。</p></div></div>'
+             ) % (' is-on' if i == 0 else '', p['img'], esc(p['alt']), i + 1, n,
+                  esc(p['h']), p['body']))
+    dots = ''.join('<button class="rdr-dot%s" data-rp="%d" aria-label="第 %d 頁"></button>'
+                   % (' on' if i == 0 else '', i, i + 1) for i in range(n))
+    rdr = (
+        '<section class="rdr" id="report-reader">'
+        '<span class="rdr-badge">%s</span>'
+        '<h2 class="rdr-title">%s</h2>'
+        '<p class="rdr-sub">%s</p>'
+        '<div class="rdr-stage" id="rdrStage">%s</div>'
+        '<div class="rdr-nav">'
+        '<button class="rdr-btn2" id="rdrPrev" type="button">← 上一頁</button>'
+        '<div class="rdr-dots">%s</div>'
+        '<button class="rdr-btn2" id="rdrNext" type="button">下一頁 →</button>'
+        '</div>'
+        '<div class="rdr-actions">'
+        '<a class="rdr-dl" href="%s" download>⬇ %s</a>'
+        '<a class="rdr-open" href="%s" target="_blank" rel="noopener">互動賬本（可轉 · 可查 · 可篩選）↗</a>'
+        '</div>'
+        '<script>(function(){var sp=document.querySelectorAll("#rdrStage .rdr-spread");if(!sp.length)return;'
+        'var cur=0,dots=document.querySelectorAll(".rdr-dot"),pv=document.getElementById("rdrPrev"),nx=document.getElementById("rdrNext");'
+        'function go(k){if(k<0||k>=sp.length)return;sp[cur].classList.remove("is-on");dots[cur].classList.remove("on");'
+        'cur=k;sp[cur].classList.add("is-on");dots[cur].classList.add("on");'
+        'pv.disabled=cur===0;nx.disabled=cur===sp.length-1}'
+        'pv.addEventListener("click",function(){go(cur-1)});nx.addEventListener("click",function(){go(cur+1)});'
+        'dots.forEach(function(d,i){d.addEventListener("click",function(){go(i)})});'
+        'document.addEventListener("keydown",function(e){if(!document.getElementById("report-reader"))return;'
+        'if(e.key==="ArrowLeft")go(cur-1);if(e.key==="ArrowRight")go(cur+1)});'
+        'pv.disabled=true;nx.disabled=sp.length===1})();</script>'
+        '</section>'
+    ) % (esc(att['kicker']), esc(att['title']), esc(att['sub']),
+         ''.join(spreads), dots,
+         att['pdf'], esc(att['pdf_label']), att['link'])
+    return rdr
+
 
 def build(post, allposts):
     num = str(post.get('num', '')).strip()
@@ -256,6 +391,10 @@ def build(post, allposts):
         gallery = '<div class="gallery">' + ''.join(
             '<img src="%s" alt="%s 實拍圖 %d" loading="lazy" onclick="document.getElementById(\'lbimg\').src=this.src;document.getElementById(\'lb\').style.display=\'flex\'">'
             % (x, esc(title), n + 1) for n, x in enumerate(imgs[1:])) + '</div>'
+
+    att = ATTACHMENTS.get(slug)
+    reader = build_reader(att) if att else ''
+    page_css = CSS + (RDR_CSS if att else '')
 
     ld = {
         "@context": "https://schema.org",
@@ -319,6 +458,7 @@ def build(post, allposts):
 <h1>{title}</h1>
 <div class="rule"></div>
 <p class="lead">{lead}</p>
+{reader}
 {cover}
 {body}
 {gallery}
@@ -358,8 +498,9 @@ def build(post, allposts):
         title=esc(title), cat=esc(cat), desc=esc(desc), kw=esc(kw), url=url,
         og_title=esc(title[:30]), og_desc=esc(desc[:80]),
         og_img='%s/assets/og/%s.jpg' % (SITE, slug),
-        ld=json.dumps(ld, ensure_ascii=False), css=CSS, site=SITE,
+        ld=json.dumps(ld, ensure_ascii=False), css=page_css, site=SITE,
         lead=esc(plain(post.get('body') or title, 110)),
+        reader=reader,
         date_fmt=date.replace('-', ' 年 ', 1).replace('-', ' 月 ') + ' 日' if date else '',
         loc_fmt=(' · ' + esc(loc)) if loc else '',
         cover=cover, body=body_html, gallery=gallery, rel=rel_html,
