@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="澳門特區政府 2020–2024 年一般綜合預算決算公開賬本：五年總支出看板、支出結構輪盤、年度趨勢、明細中心與分類佔比。資料來源：澳門立法會意見書、統計暨普查局、財政局。">
+<title>澳門政府五年賬本：千億公庫怎麼花（2020–2024 決算）</title>
+<style>
+  :root{
+    --cream:#F7F1E3; --card:#FFFDF6; --line:#E7DCC2;
+    --green:#1F6B4A; --green-deep:#14503A;
+    --gold:#B8912E; --navy:#22405C; --muted:#8A8266;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'PingFang TC','Microsoft JhengHei','Noto Sans CJK TC','Heiti TC',sans-serif;background:var(--cream);color:var(--navy);line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+  /* ---------- Hero ---------- */
+  .hero{background:linear-gradient(135deg,#12482F 0%,#1F6B4A 58%,#2C7A55 100%);color:#fff;padding:60px 0 54px;position:relative;overflow:hidden}
+  .hero::after{content:'';position:absolute;right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;border:28px solid rgba(255,255,255,.06)}
+  .hero::before{content:'';position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;border:22px solid rgba(255,255,255,.05)}
+  .hero-inner{max-width:1080px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+  .eyebrow{letter-spacing:.34em;font-size:12px;color:#C9E3D2}
+  h1{font-family:Georgia,'Songti TC','Noto Serif CJK TC',serif;font-size:42px;line-height:1.25;margin:12px 0 4px;font-weight:700}
+  .gold-line{width:64px;height:4px;background:var(--gold);border-radius:2px;margin:16px 0 16px}
+  .subtitle{font-size:17px;color:#EAF3EC}
+  .hero-meta{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);padding:6px 14px;border-radius:999px;font-size:13px;color:#F2EFE3}
+  .dot{width:8px;height:8px;border-radius:50%;background:#AFC2B5;flex:0 0 auto}
+  .dot.on{background:#FFD97A;box-shadow:0 0 8px rgba(255,217,122,.85)}
+
+  /* ---------- Sections ---------- */
+  main{padding:46px 0 8px}
+  .section{margin-bottom:46px}
+  .sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+  .sec-no{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;margin-top:5px}
+  h2{font-family:Georgia,'Songti TC','Noto Serif CJK TC',serif;font-size:24px;color:var(--green-deep);line-height:1.3}
+  .sec-sub{font-size:13px;color:var(--muted)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(80,60,20,.05)}
+
+  /* ---------- KPI ---------- */
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:14px}
+  .kpi-label{font-size:13px;color:var(--muted);letter-spacing:.06em}
+  .kpi-value{font-family:Georgia,'Songti TC',serif;font-size:34px;font-weight:700;color:var(--gold);margin:4px 0 2px;line-height:1.2;font-variant-numeric:tabular-nums}
+  .kpi-value small{font-size:15px;color:var(--muted);font-weight:400;margin-left:2px}
+  .kpi-note{font-size:12px;color:var(--muted)}
+  .ring-card{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+  .ring-wrap{flex:0 0 190px;max-width:190px}
+  .ring-svg{width:100%;display:block}
+  .ring-text{flex:1 1 300px;min-width:260px}
+  .ring-title{font-size:16px;font-weight:700;color:var(--green-deep)}
+  .ring-pct{font-family:Georgia,'Songti TC',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1.2}
+  .ring-break{font-size:13px;color:#6B7A8C;margin:6px 0 8px}
+  .ring-note{font-size:12px;color:var(--muted)}
+
+  /* ---------- Wheel ---------- */
+  .wheel-flex{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+  .wheel-left{flex:0 0 340px;text-align:center;max-width:100%}
+  #wheel-svg{width:100%;max-width:340px;display:block}
+  .btn-primary{background:var(--green);color:#fff;border:none;border-radius:999px;padding:11px 32px;font-size:15px;cursor:pointer;font-family:inherit;margin-top:14px;letter-spacing:.05em}
+  .btn-primary:hover{background:var(--green-deep)}
+  .btn-primary:disabled{opacity:.55;cursor:default}
+  .wheel-right{flex:1 1 280px;min-width:250px}
+  .wheel-cat{font-size:14px;font-weight:700;letter-spacing:.1em}
+  .wheel-big{font-family:Georgia,'Songti TC',serif;font-size:42px;font-weight:700;color:var(--gold);line-height:1.25;font-variant-numeric:tabular-nums}
+  .wheel-sub{font-size:13px;color:var(--muted);margin-bottom:12px}
+  .wheel-line{font-size:15px;margin-bottom:8px}
+  .wheel-note{font-size:13px;color:#6B7A8C;border-left:3px solid var(--line);padding-left:12px;margin-top:12px}
+  .wheel-hint{color:var(--muted);font-size:14px;padding-top:20px}
+  .legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:4px 14px;margin-top:18px;font-size:13px;padding:0}
+  .legend li{display:flex;align-items:center;gap:8px;cursor:pointer;padding:4px 8px;border-radius:8px;list-style:none}
+  .legend li:hover{background:#F2EBDA}
+  .lg-dot{width:10px;height:10px;border-radius:3px;flex:0 0 auto}
+  .lg-amt{margin-left:auto;color:var(--gold);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  /* ---------- Trend ---------- */
+  .chart-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .chart-head h3{font-size:17px;color:var(--green-deep)}
+  .unit-note{font-size:12px;color:var(--muted)}
+  .chart-note{font-size:13px;color:#6B7A8C;border-top:1px dashed var(--line);margin-top:14px;padding-top:12px}
+
+  /* ---------- Detail ---------- */
+  .filter-bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+  .filter-bar label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+  select{font-family:inherit;font-size:14px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--navy);min-width:150px}
+  #detail-count{margin-left:auto;font-size:13px;color:var(--muted)}
+  .table-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:660px}
+  th{background:#F2EBDA;color:var(--green-deep);font-size:13px;padding:10px 12px;text-align:left;white-space:nowrap;font-weight:700}
+  td{padding:10px 12px;border-bottom:1px solid #F0E9D6;vertical-align:top}
+  .num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  .dt-amt{color:var(--navy)}
+  .dt-share{color:var(--gold);white-space:nowrap}
+  .dt-name{font-weight:600;white-space:nowrap}
+  .cat-chip{display:inline-block;padding:2px 10px;border-radius:999px;color:#fff;font-size:12px;white-space:nowrap}
+  .dt-note{color:#6B7A8C;font-size:13px;min-width:240px}
+  .load-more{text-align:center;padding-top:16px}
+  #load-more-btn{background:transparent;border:1px solid var(--green);color:var(--green);border-radius:999px;padding:9px 26px;font-size:14px;cursor:pointer;font-family:inherit}
+  #load-more-btn:hover{background:#EAF3EC}
+
+  /* ---------- Highlight cards ---------- */
+  .hl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .hl-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;gap:14px;box-shadow:0 2px 12px rgba(80,60,20,.05)}
+  .hl-icon{flex:0 0 46px;height:46px;border-radius:12px;background:#EAF3EC;display:flex;align-items:center;justify-content:center}
+  .hl-icon svg{width:24px;height:24px;stroke:var(--green);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .hl-tag{display:inline-block;font-size:11px;color:var(--green);background:#EAF3EC;border-radius:999px;padding:2px 10px;margin-bottom:6px}
+  .hl-title{font-size:16px;font-weight:700;color:var(--green-deep);line-height:1.4}
+  .hl-num{font-family:Georgia,'Songti TC',serif;color:var(--gold);font-weight:700}
+  .hl-desc{font-size:13px;color:#6B7A8C;margin-top:6px}
+
+  /* ---------- Donut ---------- */
+  .toggle{display:flex;gap:8px}
+  .toggle-btn{border:1px solid var(--green);color:var(--green);background:transparent;border-radius:999px;padding:6px 16px;font-size:13px;cursor:pointer;font-family:inherit}
+  .toggle-btn.active{background:var(--green);color:#fff}
+  .donut-flex{display:flex;gap:32px;flex-wrap:wrap;align-items:center}
+  .donut-wrap{position:relative;flex:0 0 260px;max-width:260px;margin:0 auto}
+  #donut-svg{width:100%;display:block}
+  .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;text-align:center}
+  .donut-center-year{font-size:12px;color:var(--muted)}
+  .donut-center-val{font-family:Georgia,'Songti TC',serif;font-size:24px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums}
+  .donut-legend{flex:1 1 300px;min-width:260px;list-style:none;display:flex;flex-direction:column;gap:9px}
+  .donut-legend li{display:flex;align-items:center;gap:10px;font-size:14px;border-bottom:1px dashed #EFE7D2;padding-bottom:9px}
+  .dl-name{font-weight:600}
+  .dl-amt{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--navy);white-space:nowrap}
+  .dl-pct{width:58px;text-align:right;color:var(--gold);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  /* ---------- Footer ---------- */
+  footer{background:#12482F;color:#D9E7DD;margin-top:34px;padding:38px 0 42px;font-size:13px}
+  .foot-inner{max-width:1080px;margin:0 auto;padding:0 20px}
+  .foot-title{color:#FFD97A;font-weight:700;letter-spacing:.24em;font-size:12px;margin-bottom:10px}
+  footer p{margin-bottom:6px}
+  footer .foot-fine{color:#9DB8A6;font-size:12px}
+
+  @media (max-width:640px){
+    h1{font-size:32px}
+    .kpi-value{font-size:28px}
+    .wheel-left{flex:1 1 100%}
+    .ring-pct{font-size:32px}
+    .card{padding:18px}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">澳門特區財政決算 · 公開賬本</p>
+    <h1>澳門政府五年賬本</h1>
+    <div class="gold-line"></div>
+    <p class="subtitle">千億公庫怎麼花 —— 2020–2024 年一般綜合預算決算，九大功能分類逐項攤開</p>
+    <div class="hero-meta">
+      <span class="chip"><span class="dot" id="sync-dot"></span><span id="sync-status">正在連結線上數據表…</span></span>
+      <span class="chip">單位：澳門元（圖表以「億／百萬」標示）</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ① 五年總支出看板 -->
+  <section class="section" id="sec-dashboard">
+    <div class="sec-head">
+      <span class="sec-no">①</span>
+      <div>
+        <h2>五年總支出看板</h2>
+        <p class="sec-sub">五個預算年度、九大功能分類的每一筆決算支出，先看總量</p>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="card">
+        <p class="kpi-label">五年總支出</p>
+        <p class="kpi-value"><span id="kpi-total" data-sp-bindable="database" data-sp-database-id="k11kNiE4zkGFHPVIIaLE4h">—</span><small>億元</small></p>
+        <p class="kpi-note">2020–2024 決算，按功能分類加總</p>
+      </div>
+      <div class="card">
+        <p class="kpi-label">年度平均支出</p>
+        <p class="kpi-value"><span id="kpi-avg" data-sp-bindable="database" data-sp-database-id="k11kNiE4zkGFHPVIIaLE4h">—</span><small>億元</small></p>
+        <p class="kpi-note">五年總支出 ÷ 5</p>
+      </div>
+      <div class="card">
+        <p class="kpi-label">2024 年度總支出</p>
+        <p class="kpi-value"><span id="kpi-2024" data-sp-bindable="database" data-sp-database-id="k11kNiE4zkGFHPVIIaLE4h">—</span><small>億元</small></p>
+        <p class="kpi-note"><span id="kpi-2024-delta" data-sp-bindable="database" data-sp-database-id="k11kNiE4zkGFHPVIIaLE4h">—</span></p>
+      </div>
+      <div class="card">
+        <p class="kpi-label">人均年支出</p>
+        <p class="kpi-value"><span id="kpi-pcap" data-sp-bindable="database" data-sp-database-id="k11kNiE4zkGFHPVIIaLE4h">—</span><small>萬元</small></p>
+        <p class="kpi-note">按約 68 萬人口粗略估算</p>
+      </div>
+    </div>
+    <div class="card ring-card">
+      <div class="ring-wrap">
+        <svg viewBox="0 0 200 200" class="ring-svg" role="img" aria-label="民生社會五類佔比進度環">
+          <circle cx="100" cy="100" r="84" fill="none" stroke="#EFE7D2" stroke-width="16"></circle>
+          <circle id="ring-fg" cx="100" cy="100" r="84" fill="none" stroke="#1F6B4A" stroke-width="16" stroke-linecap="round" stroke-dasharray="0 527.8" transform="rotate(-90 100 100)"></circle>
+          <text x="100" y="97" text-anchor="middle" font-size="11" fill="#8A8266">民生社會五類</text>
+          <text id="ring-mid" x="100" y="119" text-anchor="middle" font-size="15" font-weight="700" fill="#B8912E" data-sp-bindable="database" data-sp-database-id="k11kNiE4zkGFHPVIIaLE4h">—</text>
+        </svg>
+      </div>
+      <div class="ring-text">
+        <p class="ring-title">民生社會五類佔比（進度環）</p>
+        <p class="ring-pct" id="ring-pct" data-sp-bindable="database" data-sp-database-id="k11kNiE4zkGFHPVIIaLE4h">—</p>
+        <p class="ring-break" id="ring-break" data-sp-bindable="database" data-sp-database-id="k11kNiE4zkGFHPVIIaLE4h">—</p>
+        <p class="ring-note">教育、衛生、社會保障、房屋、社會及社區服務五類，五年合計佔五年總支出的比例。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② 支出結構輪盤 -->
+  <section class="section" id="sec-wheel">
+    <div class="sec-head">
+      <span class="sec-no">②</span>
+      <div>
+        <h2>支出結構輪盤</h2>
+        <p class="sec-sub">輪盤以各分類五年決算總額為段寬，共九段；停下後展示該分類的五年賬目</p>
+      </div>
+    </div>
+    <div class="card wheel-flex">
+      <div class="wheel-left">
+        <svg id="wheel-svg" viewBox="0 0 320 320" role="img" aria-label="支出結構輪盤"></svg>
+        <button id="wheel-btn" class="btn-primary" type="button">開始旋轉</button>
+      </div>
+      <div class="wheel-right">
+        <div id="wheel-detail">
+          <p class="wheel-hint">點擊「開始旋轉」，四秒減速停下後，指針停在哪個分類，即展示該分類五年決算合計、2024 年度金額與說明。也可以直接點擊下方圖例查看。</p>
+        </div>
+        <ul class="legend" id="wheel-legend"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ 年度支出趨勢 -->
+  <section class="section" id="sec-trend">
+    <div class="sec-head">
+      <span class="sec-no">③</span>
+      <div>
+        <h2>年度支出趨勢</h2>
+        <p class="sec-sub">五年之間，總支出在千億上下如何起伏</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="chart-head">
+        <h3>一般綜合預算・總支出</h3>
+        <span class="unit-note">單位：億澳門元</span>
+      </div>
+      <div id="trend-chart" data-sp-bindable="database" data-sp-database-id="k11kNiE4zkGFHPVIIaLE4h"></div>
+      <p class="chart-note">2022 年總支出首次突破千億元，主要受兩次《預算修改法》向超額儲備增撥公共投資帶動；2021 年為五年低點，2023 年隨疫情開支退坡回落，2024 年回升至約 979.5 億元。</p>
+    </div>
+  </section>
+
+  <!-- ④ 財政支出明細中心 -->
+  <section class="section" id="sec-detail">
+    <div class="sec-head">
+      <span class="sec-no">④</span>
+      <div>
+        <h2>財政支出明細中心</h2>
+        <p class="sec-sub">45 條決算紀錄，按年度與分類篩選查閱；數據與線上表格同步</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="filter-bar">
+        <label for="filter-year">年度
+          <select id="filter-year"><option value="">全部年度</option></select>
+        </label>
+        <label for="filter-cat">支出分類
+          <select id="filter-cat"><option value="">全部分類</option></select>
+        </label>
+        <span id="detail-count" data-sp-bindable="database" data-sp-database-id="k11kNiE4zkGFHPVIIaLE4h">—</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>條目</th>
+              <th>年度</th>
+              <th>分類</th>
+              <th style="text-align:right">金額（百萬澳門元）</th>
+              <th style="text-align:right">佔比</th>
+              <th>說明</th>
+            </tr>
+          </thead>
+          <tbody id="detail-body">
+            <tr id="row-template" style="display:none" aria-hidden="true">
+              <td class="dt-name">—</td>
+              <td class="dt-year">—</td>
+              <td class="dt-cat">—</td>
+              <td class="dt-amt num">—</td>
+              <td class="dt-share num">—</td>
+              <td class="dt-note">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="load-more">
+        <button id="load-more-btn" type="button">載入更多</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑤ 重點支出項目 -->
+  <section class="section" id="sec-highlights">
+    <div class="sec-head">
+      <span class="sec-no">⑤</span>
+      <div>
+        <h2>重點支出項目</h2>
+        <p class="sec-sub">從決算數字裡，看政府把錢花在了哪幾件大事上</p>
+      </div>
+    </div>
+    <div class="hl-grid">
+      <div class="hl-card">
+        <div class="hl-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle></svg></div>
+        <div>
+          <span class="hl-tag">其他功能</span>
+          <p class="hl-title">現金分享計劃</p>
+          <p class="hl-desc">現金分享連同醫療補貼、電費補貼、稅費減免等惠民措施，主要列入「其他功能」分類。2020 年該分類決算達 <span class="hl-num">250.1 億</span>，為疫情下的高位。</p>
+        </div>
+      </div>
+      <div class="hl-card">
+        <div class="hl-icon"><svg viewBox="0 0 24 24"><rect x="9" y="4" width="6" height="16" rx="1"></rect><rect x="4" y="9" width="16" height="6" rx="1"></rect></svg></div>
+        <div>
+          <span class="hl-tag">衛生</span>
+          <p class="hl-title">離島醫療綜合體</p>
+          <p class="hl-desc">2021 年建設投入約 <span class="hl-num">26.6 億</span>，帶動衛生開支升至 119.1 億元；離島醫療大樓其後投入運作，澳門醫療服務體系擴容。</p>
+        </div>
+      </div>
+      <div class="hl-card">
+        <div class="hl-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"></path><path d="M4 20.5V5.5"></path><line x1="9" y1="8" x2="16" y2="8"></line><line x1="9" y1="12" x2="16" y2="12"></line></svg></div>
+        <div>
+          <span class="hl-tag">教育</span>
+          <p class="hl-title">十五年免費教育</p>
+          <p class="hl-desc">由幼兒至高中教育納入免費教育系統，教育開支五年合計約 <span class="hl-num">619.5 億</span>；2024 年達 133.7 億元，按年增長 5.4%。</p>
+        </div>
+      </div>
+      <div class="hl-card">
+        <div class="hl-icon"><svg viewBox="0 0 24 24"><path d="M4 11.5 12 4l8 7.5"></path><path d="M6.5 10v10h11V10"></path><path d="M10.5 20v-6h3v6"></path></svg></div>
+        <div>
+          <span class="hl-tag">房屋</span>
+          <p class="hl-title">公共房屋</p>
+          <p class="hl-desc">房屋開支由 2020 年 12.8 億元增至 2024 年 <span class="hl-num">62.9 億</span>，增長近四倍；2024 年按年大增 49.2%，公屋興建與維護持續加碼。</p>
+        </div>
+      </div>
+      <div class="hl-card">
+        <div class="hl-icon"><svg viewBox="0 0 24 24"><path d="M5 20V9l7-5 7 5v11"></path><path d="M9 20v-6h6v6"></path><path d="M3 20h18"></path></svg></div>
+        <div>
+          <span class="hl-tag">跨境基建</span>
+          <p class="hl-title">青茂口岸</p>
+          <p class="hl-desc">2020 年「其他功能」分類包含青茂口岸北聯檢大樓等工程開支；口岸於 2020 年 9 月啟用，成為澳門通往珠海的 24 小時步行通道之一。</p>
+        </div>
+      </div>
+      <div class="hl-card">
+        <div class="hl-icon"><svg viewBox="0 0 24 24"><path d="M4 9h16l-1.5-5h-13z"></path><path d="M5.5 9v11h13V9"></path><path d="M9.5 20v-6h5v6"></path></svg></div>
+        <div>
+          <span class="hl-tag">經濟服務</span>
+          <p class="hl-title">中小企援助</p>
+          <p class="hl-desc">2020 年疫情下臨時放寬《中小企業援助計劃》申請，經濟服務決算 <span class="hl-num">164.6 億</span>；五年合計約 805.0 億元，規模居各政策分類前列。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑥ 支出分類佔比圖 -->
+  <section class="section" id="sec-donut">
+    <div class="sec-head">
+      <span class="sec-no">⑥</span>
+      <div>
+        <h2>支出分類佔比圖</h2>
+        <p class="sec-sub">九大功能分類的甜甜圈切面，可切換「2024 年度」與「五年合計」</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="chart-head">
+        <h3>分類佔比</h3>
+        <div class="toggle">
+          <button id="donut-btn-2024" class="toggle-btn active" type="button">2024 年度</button>
+          <button id="donut-btn-all" class="toggle-btn" type="button">五年合計</button>
+        </div>
+      </div>
+      <div class="donut-flex">
+        <div class="donut-wrap">
+          <svg id="donut-svg" viewBox="0 0 220 220" role="img" aria-label="支出分類佔比甜甜圈圖"></svg>
+          <div class="donut-center">
+            <p class="donut-center-year" id="donut-center-year" data-sp-bindable="database" data-sp-database-id="k11kNiE4zkGFHPVIIaLE4h">—</p>
+            <p class="donut-center-val" id="donut-center-val" data-sp-bindable="database" data-sp-database-id="k11kNiE4zkGFHPVIIaLE4h">—</p>
+          </div>
+        </div>
+        <ul class="donut-legend" id="donut-legend"></ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <p class="foot-title">資料來源</p>
+    <p>澳門特別行政區立法會第二常設委員會歷年度「一般綜合預算」決算意見書；統計暨普查局《統計年鑑》；財政局公開資料。</p>
+    <p>註：各分類金額按立法會意見書功能分類表記錄；「其他功能」包括現金分享計劃等惠民措施及部門間轉移開支。個別年度受預算修改及會計調整影響，分類加總與官方年度總數可能存在約 0.1% 的尾數差異。</p>
+    <p class="foot-fine">本頁僅作資訊展示用途，數據如與官方公佈不一致，以官方為準。 © 2026 公開賬本</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ================= 基本配置 ================= */
+  var DATABASE_ID = 'k11kNiE4zkGFHPVIIaLE4h';
+  var FIVE_CATS = ['教育', '衛生', '社會保障', '房屋', '社會及社區服務'];
+  var CAT_ORDER = ['一般公共服務', '司法、秩序及治安', '教育', '衛生', '社會保障', '房屋', '社會及社區服務', '經濟服務', '其他功能'];
+  var CAT_COLORS = {
+    '一般公共服務': '#7A8B99',
+    '司法、秩序及治安': '#2C5F7C',
+    '教育': '#1F6B4A',
+    '衛生': '#3E8E7E',
+    '社會保障': '#B8912E',
+    '房屋': '#C2704E',
+    '社會及社區服務': '#7C8A3F',
+    '經濟服務': '#8C5A86',
+    '其他功能': '#B7A98C'
+  };
+
+  /* ================= 離線快照（無 SDK 環境降級用） ================= */
+  var FALLBACK_ROWS = [
+    { name: '一般公共服務｜2020', year: '2020', cat: '一般公共服務', amt: 6278, share: 6.5, note: '行政、立法及財政事務等公共行政核心運作開支。' },
+    { name: '司法、秩序及治安｜2020', year: '2020', cat: '司法、秩序及治安', amt: 12392, share: 12.9, note: '警察及海關、消防、民防、司法及懲教等維護公共安全體系開支。' },
+    { name: '教育｜2020', year: '2020', cat: '教育', amt: 12242, share: 12.7, note: '十五年免費教育、學校津貼資助及高等教育支援，全年公共教育開支122.4億元。' },
+    { name: '衛生｜2020', year: '2020', cat: '衛生', amt: 10062, share: 10.5, note: '防疫物資採購、「保障口罩供應計劃」及核酸檢測開支大幅增加，離島醫療綜合體動工。' },
+    { name: '社會保障｜2020', year: '2020', cat: '社會保障', amt: 9072, share: 9.4, note: '社會保障基金給付、養老金及各項津貼等投入。' },
+    { name: '房屋｜2020', year: '2020', cat: '房屋', amt: 1277, share: 1.3, note: '公共房屋興建及房屋相關計劃開支。' },
+    { name: '社會及社區服務｜2020', year: '2020', cat: '社會及社區服務', amt: 3333, share: 3.5, note: '文化、體育及康樂、氣象等社區服務開支。' },
+    { name: '經濟服務｜2020', year: '2020', cat: '經濟服務', amt: 16459, share: 17.1, note: '《中小企業援助計劃》臨時放寬申請支援受疫情影響中小企；工商業發展基金向中葡合作發展基金注資。' },
+    { name: '其他功能｜2020', year: '2020', cat: '其他功能', amt: 25013, share: 26.0, note: '現金分享計劃、電費及醫療補貼、稅項返還等惠民措施，以及青茂口岸北聯檢大樓等工程開支。' },
+    { name: '一般公共服務｜2021', year: '2021', cat: '一般公共服務', amt: 6200, share: 7.0, note: '公共行政核心運作開支保持平穩。' },
+    { name: '司法、秩序及治安｜2021', year: '2021', cat: '司法、秩序及治安', amt: 11084, share: 12.4, note: '維持警察及海關、消防、司法及懲教等公共安全體系運作。' },
+    { name: '教育｜2021', year: '2021', cat: '教育', amt: 11933, share: 13.4, note: '十五年免費教育及學校資助持續，全年公共教育開支119.3億元。' },
+    { name: '衛生｜2021', year: '2021', cat: '衛生', amt: 11911, share: 13.4, note: '離島醫療綜合體建設投入約26.6億元，防疫及醫療開支維持高位。' },
+    { name: '社會保障｜2021', year: '2021', cat: '社會保障', amt: 6911, share: 7.8, note: '社會保障基金給付及養老金等投入，隨疫情措施調整回落。' },
+    { name: '房屋｜2021', year: '2021', cat: '房屋', amt: 1633, share: 1.8, note: '公共房屋興建及維護開支。' },
+    { name: '社會及社區服務｜2021', year: '2021', cat: '社會及社區服務', amt: 3287, share: 3.7, note: '文化、體育及康樂等社區服務開支。' },
+    { name: '經濟服務｜2021', year: '2021', cat: '經濟服務', amt: 14347, share: 16.1, note: '持續支援中小企及工商業發展，助力經濟逐步復甦。' },
+    { name: '其他功能｜2021', year: '2021', cat: '其他功能', amt: 21846, share: 24.5, note: '現金分享計劃、醫療補貼、電費補貼及稅費減免等惠民措施持續。' },
+    { name: '一般公共服務｜2022', year: '2022', cat: '一般公共服務', amt: 6264, share: 6.1, note: '公共行政運作開支平穩。' },
+    { name: '司法、秩序及治安｜2022', year: '2022', cat: '司法、秩序及治安', amt: 11333, share: 11.1, note: '維持公共安全與執法體系運作。' },
+    { name: '教育｜2022', year: '2022', cat: '教育', amt: 11729, share: 11.5, note: '公共教育開支117.3億元，免費教育及學生福利津貼持續。' },
+    { name: '衛生｜2022', year: '2022', cat: '衛生', amt: 13693, share: 13.4, note: '疫情防控、核酸檢測及醫療設施開支增加，全年衛生開支136.9億元。' },
+    { name: '社會保障｜2022', year: '2022', cat: '社會保障', amt: 6613, share: 6.5, note: '社會保障基金各項給付及津貼。' },
+    { name: '房屋｜2022', year: '2022', cat: '房屋', amt: 2699, share: 2.6, note: '公共房屋興建及長者公寓籌備等開支。' },
+    { name: '社會及社區服務｜2022', year: '2022', cat: '社會及社區服務', amt: 3143, share: 3.1, note: '文化、體育及社區設施運作開支。' },
+    { name: '經濟服務｜2022', year: '2022', cat: '經濟服務', amt: 14689, share: 14.4, note: '中小企援助、水電補貼及促進旅遊復甦等措施。' },
+    { name: '其他功能｜2022', year: '2022', cat: '其他功能', amt: 31988, share: 31.3, note: '兩次《預算修改法》向超額儲備撥款424.1億元支持公共投資，全年總支出破千億元。' },
+    { name: '一般公共服務｜2023', year: '2023', cat: '一般公共服務', amt: 6729, share: 7.4, note: '公共行政運作開支輕微上升。' },
+    { name: '司法、秩序及治安｜2023', year: '2023', cat: '司法、秩序及治安', amt: 12153, share: 13.4, note: '執法與安全保障開支隨社會復常回升。' },
+    { name: '教育｜2023', year: '2023', cat: '教育', amt: 12679, share: 14.0, note: '公共教育開支126.8億元，按年增長8.1%。' },
+    { name: '衛生｜2023', year: '2023', cat: '衛生', amt: 10420, share: 11.5, note: '醫療服務復常，離島醫療綜合體投入服務的前期開支。' },
+    { name: '社會保障｜2023', year: '2023', cat: '社會保障', amt: 7355, share: 8.1, note: '社會保障基金給付及各項津貼投入回升。' },
+    { name: '房屋｜2023', year: '2023', cat: '房屋', amt: 4213, share: 4.7, note: '公共房屋興建開支上升，全年42.1億元。' },
+    { name: '社會及社區服務｜2023', year: '2023', cat: '社會及社區服務', amt: 3472, share: 3.8, note: '文化、體育活動陸續恢復，社區服務開支回穩。' },
+    { name: '經濟服務｜2023', year: '2023', cat: '經濟服務', amt: 18354, share: 20.3, note: '旅遊復甦推廣及中小企支援開支增加，全年183.5億元。' },
+    { name: '其他功能｜2023', year: '2023', cat: '其他功能', amt: 15195, share: 16.8, note: '現金分享等惠民措施持續，規模較疫情高峰期回落。' },
+    { name: '一般公共服務｜2024', year: '2024', cat: '一般公共服務', amt: 6880, share: 7.0, note: '公共行政運作開支平穩增長。' },
+    { name: '司法、秩序及治安｜2024', year: '2024', cat: '司法、秩序及治安', amt: 12216, share: 12.5, note: '維持治安、消防及民防體系運作。' },
+    { name: '教育｜2024', year: '2024', cat: '教育', amt: 13366, share: 13.6, note: '開支133.7億元，按年增長5.4%，持續投資人才培養。' },
+    { name: '衛生｜2024', year: '2024', cat: '衛生', amt: 9879, share: 10.1, note: '醫療服務持續擴容，離島醫療大樓投入運作。' },
+    { name: '社會保障｜2024', year: '2024', cat: '社會保障', amt: 10004, share: 10.2, note: '社會保障基金給付提升，開支100.0億元，按年增長36.0%。' },
+    { name: '房屋｜2024', year: '2024', cat: '房屋', amt: 6286, share: 6.4, note: '開支62.9億元，按年增長49.2%，公共房屋興建與維護投入加大。' },
+    { name: '社會及社區服務｜2024', year: '2024', cat: '社會及社區服務', amt: 3798, share: 3.9, note: '文化體育盛事及社區設施開支38.0億元。' },
+    { name: '經濟服務｜2024', year: '2024', cat: '經濟服務', amt: 16648, share: 17.0, note: '旅遊推廣、中小企支援及產業多元發展投入，開支166.5億元。' },
+    { name: '其他功能｜2024', year: '2024', cat: '其他功能', amt: 18871, share: 19.3, note: '現金分享計劃等惠民措施及部門間轉移，按年增長24.2%。' }
+  ];
+
+  /* ================= 狀態 ================= */
+  var db = null;
+  try {
+    if (window.__SMART_PAGE__ && window.__SMART_PAGE__.database) { db = window.__SMART_PAGE__.database; }
+  } catch (e) { db = null; }
+
+  var ROWS = [];
+  var ID2TEXT = { '年度': {}, '支出分類': {} };
+  var SCHEMA_OPTIONS = {};
+  var WHEEL_SEGS = [];
+  var wheelState = { angle: 0, spinning: false };
+  var state = { filterYear: '', filterCat: '', visible: 10, mode: 'y2024', lastMore: 0 };
+  var refreshTimer = null;
+
+  /* ================= 工具函數 ================= */
+  function el(id) { return document.getElementById(id); }
+  function bind(node) {
+    node.setAttribute('data-sp-bindable', 'database');
+    node.setAttribute('data-sp-database-id', DATABASE_ID);
+  }
+  function fmtD(n, dec) {
+    if (!isFinite(n)) { return '—'; }
+    var neg = n < 0; n = Math.abs(n);
+    var s = n.toFixed(dec == null ? 1 : dec);
+    var parts = s.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return (neg ? '-' : '') + parts.join('.');
+  }
+  function svgEl(tag, attrs) {
+    var d = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (var k in attrs) { if (attrs.hasOwnProperty(k)) { d.setAttribute(k, attrs[k]); } }
+    return d;
+  }
+  function pt(cx, cy, r, deg) {
+    var rad = deg * Math.PI / 180;
+    return { x: cx + r * Math.sin(rad), y: cy - r * Math.cos(rad) };
+  }
+  function annSector(cx, cy, rIn, rOut, a0, a1) {
+    var large = (a1 - a0) > 180 ? 1 : 0;
+    var p1 = pt(cx, cy, rOut, a0), p2 = pt(cx, cy, rOut, a1);
+    var p3 = pt(cx, cy, rIn, a1), p4 = pt(cx, cy, rIn, a0);
+    return 'M' + p1.x.toFixed(2) + ' ' + p1.y.toFixed(2) +
+      ' A' + rOut + ' ' + rOut + ' 0 ' + large + ' 1 ' + p2.x.toFixed(2) + ' ' + p2.y.toFixed(2) +
+      ' L' + p3.x.toFixed(2) + ' ' + p3.y.toFixed(2) +
+      ' A' + rIn + ' ' + rIn + ' 0 ' + large + ' 0 ' + p4.x.toFixed(2) + ' ' + p4.y.toFixed(2) + ' Z';
+  }
+  function catColor(c) { return CAT_COLORS[c] || '#8A8266'; }
+
+  /* ================= 聚合 ================= */
+  function aggregates() {
+    var yearTotals = {}, catTotals = {}, cat2024 = {}, grand = 0;
+    for (var i = 0; i < ROWS.length; i++) {
+      var r = ROWS[i];
+      grand += r.amt;
+      yearTotals[r.year] = (yearTotals[r.year] || 0) + r.amt;
+      catTotals[r.cat] = (catTotals[r.cat] || 0) + r.amt;
+      if (r.year === '2024') { cat2024[r.cat] = (cat2024[r.cat] || 0) + r.amt; }
+    }
+    return { yearTotals: yearTotals, catTotals: catTotals, cat2024: cat2024, grand: grand };
+  }
+
+  /* ================= 資料載入（SDK） ================= */
+  function normRow(r) {
+    var y = r['年度']; var c = r['支出分類'];
+    if (y != null && ID2TEXT['年度'][y]) { y = ID2TEXT['年度'][y]; }
+    if (c != null && ID2TEXT['支出分類'][c]) { c = ID2TEXT['支出分類'][c]; }
+    var name = r['條目名稱'] || ((c || '') + '｜' + (y || ''));
+    return {
+      name: String(name),
+      year: y == null ? '' : String(y),
+      cat: c == null ? '' : String(c),
+      amt: Number(r['金額百萬澳門元'] || 0),
+      share: Number(r['佔年度比重百分比'] || 0),
+      note: r['說明'] == null ? '' : String(r['說明'])
+    };
+  }
+
+  function loadAll(startCursor, acc, guard) {
+    acc = acc || []; guard = guard || 0;
+    if (guard > 100) { return Promise.resolve(acc); }
+    return db.query({
+      databaseId: DATABASE_ID,
+      pageSize: 200,
+      sorts: [{ property: '金額百萬澳門元', direction: 'descending' }],
+      startCursor: startCursor
+    }).then(function (r) {
+      acc = acc.concat(r.results || []);
+      var next = r.nextCursor;
+      if (r.hasMore && next && next !== startCursor && (r.results || []).length) {
+        return loadAll(next, acc, guard + 1);
+      }
+      return acc;
+    });
+  }
+
+  function buildSchemaMaps(schema) {
+    (schema.properties || []).forEach(function (f) {
+      if (f.type === 'select' && f.config && f.config.options) {
+        var m = {}; var opts = [];
+        f.config.options.forEach(function (o) { m[o.id] = o.text; opts.push(o); });
+        ID2TEXT[f.name] = m;
+        SCHEMA_OPTIONS[f.name] = opts;
+      }
+    });
+  }
+
+  function acceptDbRows(rows) {
+    var arr = [];
+    (rows || []).forEach(function (r) {
+      var n = normRow(r);
+      if (n.cat && n.year) { arr.push(n); }
+    });
+    if (arr.length) {
+      ROWS = arr;
+      setSyncStatus('on');
+      fillFilterOptions();
+      refreshAll();
+    } else {
+      useFallbackRows();
+    }
+  }
+
+  function useFallbackRows() {
+    ROWS = FALLBACK_ROWS.slice();
+    setSyncStatus('off');
+    fillFilterOptions();
+    refreshAll();
+  }
+
+  /* ================= 資料變更訂閱（單次註冊） ================= */
+  function subscribeUpdates() {
+    if (!db || typeof db.onUpdated !== 'function') { return; }
+    db.onUpdated(function (payload) {
+      var ids = (payload && payload.databaseIds) || [];
+      if (ids.indexOf(DATABASE_ID) === -1) { return; }
+      if (refreshTimer) { clearTimeout(refreshTimer); }
+      refreshTimer = setTimeout(function () {
+        refreshTimer = null;
+        loadAll().then(acceptDbRows).catch(function (err) { console.error('[database] 刷新失敗:', err); });
+      }, 300);
+    });
+  }
+
+  /* ================= 篩選器 ================= */
+  function fillFilterOptions() {
+    var ySel = el('filter-year'), cSel = el('filter-cat');
+    if (!ySel || !cSel) { return; }
+    var years = [], cats = [];
+    if (SCHEMA_OPTIONS['年度']) { SCHEMA_OPTIONS['年度'].forEach(function (o) { years.push(o.text); }); }
+    if (SCHEMA_OPTIONS['支出分類']) { SCHEMA_OPTIONS['支出分類'].forEach(function (o) { cats.push(o.text); }); }
+    if (!years.length) {
+      var yset = {};
+      ROWS.forEach(function (r) { yset[r.year] = 1; });
+      years = Object.keys(yset).sort();
+    }
+    if (!cats.length) {
+      ROWS.forEach(function (r) { if (cats.indexOf(r.cat) === -1) { cats.push(r.cat); } });
+    }
+    years.sort();
+    ySel.innerHTML = '<option value="">全部年度</option>';
+    cSel.innerHTML = '<option value="">全部分類</option>';
+    years.forEach(function (t) {
+      var o = document.createElement('option');
+      o.value = t; o.textContent = t;
+      ySel.appendChild(o);
+    });
+    cats.forEach(function (t) {
+      var o = document.createElement('option');
+      o.value = t; o.textContent = t;
+      cSel.appendChild(o);
+    });
+    ySel.value = state.filterYear;
+    cSel.value = state.filterCat;
+  }
+
+  function filteredRows() {
+    var arr = ROWS.filter(function (r) {
+      return (!state.filterYear || r.year === state.filterYear) && (!state.filterCat || r.cat === state.filterCat);
+    });
+    arr.sort(function (a, b) {
+      if (a.year !== b.year) { return a.year < b.year ? -1 : 1; }
+      return b.amt - a.amt;
+    });
+    return arr;
+  }
+
+  /* ================= 同步狀態 ================= */
+  function setSyncStatus(mode) {
+    var s = el('sync-status'), d = el('sync-dot');
+    if (!s) { return; }
+    if (mode === 'on') { s.textContent = '已連結線上數據表 · 數據即時同步'; if (d) { d.className = 'dot on'; } }
+    else if (mode === 'off') { s.textContent = '離線快照模式 · 顯示內建決算數據'; if (d) { d.className = 'dot'; } }
+    else { s.textContent = '正在連結線上數據表…'; if (d) { d.className = 'dot'; } }
+  }
+
+  /* ================= ① 看板 ================= */
+  function renderKPIs() {
+    var a = aggregates();
+    var t1 = el('kpi-total'); if (t1) { t1.textContent = fmtD(a.grand / 1000, 1); }
+    var t2 = el('kpi-avg'); if (t2) { t2.textContent = fmtD(a.grand / 1000 / 5, 1); }
+    var y24 = a.yearTotals['2024'] || 0, y23 = a.yearTotals['2023'] || 0;
+    var t3 = el('kpi-2024'); if (t3) { t3.textContent = fmtD(y24 / 1000, 1); }
+    var d = y23 ? (y24 - y23) / y23 * 100 : 0;
+    var t4 = el('kpi-2024-delta'); if (t4) { t4.textContent = '對比 2023 年 ' + (d >= 0 ? '+' : '−') + fmtD(Math.abs(d), 1) + '%'; }
+    var pc = (a.grand / 1000 / 5) * 1e8 / 680000 / 1e4;
+    var t5 = el('kpi-pcap'); if (t5) { t5.textContent = '約 ' + fmtD(pc, 1); }
+  }
+
+  function renderRing() {
+    var a = aggregates();
+    var sum = 0;
+    FIVE_CATS.forEach(function (c) { sum += (a.catTotals[c] || 0); });
+    var pct = a.grand ? sum / a.grand * 100 : 0;
+    var C = 2 * Math.PI * 84;
+    var fg = el('ring-fg');
+    if (fg) { fg.setAttribute('stroke-dasharray', fmtD(pct / 100 * C, 1) + ' ' + fmtD(C, 1)); }
+    var p1 = el('ring-pct'); if (p1) { p1.textContent = fmtD(pct, 1) + '%'; }
+    var p2 = el('ring-mid'); if (p2) { p2.textContent = fmtD(pct, 1) + '%'; }
+    var parts = FIVE_CATS.map(function (c) {
+      var v = a.catTotals[c] || 0;
+      return c + ' ' + fmtD(v / 1000, 1) + ' 億（' + fmtD(a.grand ? v / a.grand * 100 : 0, 1) + '%）';
+    });
+    var p3 = el('ring-break'); if (p3) { p3.textContent = parts.join(' · '); }
+  }
+
+  /* ================= ② 輪盤 ================= */
+  function setWheelRot(ang) {
+    var g = document.getElementById('wheel-rot');
+    if (g) { g.setAttribute('transform', 'rotate(' + ang.toFixed(2) + ' 160 160)'); }
+  }
+
+  function buildWheel() {
+    var a = aggregates();
+    var svg = el('wheel-svg'); if (!svg) { return; }
+    svg.innerHTML = '';
+    WHEEL_SEGS = [];
+    var cx = 160, cy = 160, rOut = 140, rIn = 54;
+    var cats = CAT_ORDER.filter(function (c) { return (a.catTotals[c] || 0) > 0; });
+    var grand = a.grand || 1;
+    var acc = 0;
+    var g = svgEl('g', { id: 'wheel-rot' });
+    cats.forEach(function (c, i) {
+      var frac = (a.catTotals[c] || 0) / grand;
+      var a0 = acc * 360, a1 = (acc + frac) * 360;
+      acc += frac;
+      WHEEL_SEGS.push({ cat: c, t0: a0, t1: a1 });
+      g.appendChild(svgEl('path', { d: annSector(cx, cy, rIn, rOut, a0, a1), fill: catColor(c), stroke: '#FFFDF6', 'stroke-width': 2 }));
+      var mid = (a0 + a1) / 2;
+      var pos = pt(cx, cy, 97, mid);
+      g.appendChild(svgEl('circle', { cx: pos.x.toFixed(2), cy: pos.y.toFixed(2), r: 13, fill: '#FFFDF6', opacity: 0.94 }));
+      var tx = svgEl('text', { x: pos.x.toFixed(2), y: (pos.y + 4.5).toFixed(2), 'text-anchor': 'middle', 'font-size': '12', 'font-weight': '700', fill: '#14503A' });
+      tx.textContent = String(i + 1);
+      g.appendChild(tx);
+    });
+    svg.appendChild(g);
+    var hub = svgEl('g', {});
+    hub.appendChild(svgEl('circle', { cx: cx, cy: cy, r: 40, fill: '#FFFDF6', stroke: '#14503A', 'stroke-width': 2 }));
+    var t1 = svgEl('text', { x: cx, y: cy - 6, 'text-anchor': 'middle', 'font-size': '10', fill: '#8A8266' });
+    t1.setAttribute('data-sp-bindable', 'database');
+    t1.setAttribute('data-sp-database-id', DATABASE_ID);
+    t1.textContent = '五年合計';
+    var t2 = svgEl('text', { x: cx, y: cy + 14, 'text-anchor': 'middle', 'font-size': '15', 'font-weight': '700', fill: '#B8912E' });
+    t2.setAttribute('data-sp-bindable', 'database');
+    t2.setAttribute('data-sp-database-id', DATABASE_ID);
+    t2.textContent = fmtD(a.grand / 1000, 1) + ' 億';
+    hub.appendChild(t1); hub.appendChild(t2);
+    svg.appendChild(hub);
+    svg.appendChild(svgEl('polygon', { points: cx + ',6 ' + (cx - 13) + ',30 ' + (cx + 13) + ',30', fill: '#14503A' }));
+    setWheelRot(wheelState.angle);
+
+    var ul = el('wheel-legend');
+    if (ul) {
+      ul.innerHTML = '';
+      cats.forEach(function (c, i) {
+        var li = document.createElement('li');
+        bind(li);
+        var dot = document.createElement('span'); dot.className = 'lg-dot'; dot.style.background = catColor(c);
+        var nm = document.createElement('span'); nm.textContent = (i + 1) + '. ' + c;
+        var amt = document.createElement('span'); amt.className = 'lg-amt'; amt.textContent = fmtD((a.catTotals[c] || 0) / 1000, 1) + ' 億';
+        li.appendChild(dot); li.appendChild(nm); li.appendChild(amt);
+        li.addEventListener('click', function () { showWheelDetail(c); });
+        ul.appendChild(li);
+      });
+    }
+  }
+
+  function catAt(w) {
+    for (var i = 0; i < WHEEL_SEGS.length; i++) {
+      if (w >= WHEEL_SEGS[i].t0 && w < WHEEL_SEGS[i].t1) { return WHEEL_SEGS[i].cat; }
+    }
+    return WHEEL_SEGS.length ? WHEEL_SEGS[WHEEL_SEGS.length - 1].cat : '';
+  }
+
+  function showWheelDetail(cat) {
+    if (!cat) { return; }
+    var a = aggregates();
+    var total = a.catTotals[cat] || 0;
+    var pct = a.grand ? total / a.grand * 100 : 0;
+    var rec = null;
+    for (var i = 0; i < ROWS.length; i++) {
+      if (ROWS[i].cat === cat && ROWS[i].year === '2024') { rec = ROWS[i]; break; }
+    }
+    var d = el('wheel-detail'); if (!d) { return; }
+    d.innerHTML = '';
+    var h = document.createElement('p'); h.className = 'wheel-cat'; h.style.color = catColor(cat); h.textContent = cat; bind(h); d.appendChild(h);
+    var b = document.createElement('p'); b.className = 'wheel-big'; b.textContent = fmtD(total / 1000, 1) + ' 億'; bind(b); d.appendChild(b);
+    var s = document.createElement('p'); s.className = 'wheel-sub'; s.textContent = '五年決算合計 · 佔五年總支出 ' + fmtD(pct, 1) + '%'; bind(s); d.appendChild(s);
+    if (rec) {
+      var l = document.createElement('p'); l.className = 'wheel-line';
+      l.textContent = '2024 年決算 ' + fmtD(rec.amt / 1000, 1) + ' 億元，佔當年支出 ' + fmtD(rec.share, 1) + '%'; bind(l); d.appendChild(l);
+      var n = document.createElement('p'); n.className = 'wheel-note'; n.textContent = rec.note || '—'; bind(n); d.appendChild(n);
+    }
+  }
+
+  function spin() {
+    if (wheelState.spinning || !WHEEL_SEGS.length) { return; }
+    wheelState.spinning = true;
+    var btn = el('wheel-btn');
+    if (btn) { btn.disabled = true; btn.textContent = '旋轉中…'; }
+    var start = wheelState.angle;
+    var target = start + 5 * 360 + Math.random() * 360;
+    var t0 = null, DUR = 4000;
+    function frame(ts) {
+      if (!t0) { t0 = ts; }
+      var p = Math.min((ts - t0) / DUR, 1);
+      var e = 1 - Math.pow(1 - p, 3);
+      var ang = start + (target - start) * e;
+      setWheelRot(ang);
+      if (p < 1) {
+        window.requestAnimationFrame(frame);
+      } else {
+        wheelState.angle = target % 360;
+        wheelState.spinning = false;
+        if (btn) { btn.disabled = false; btn.textContent = '再轉一次'; }
+        var w = (360 - (target % 360)) % 360;
+        showWheelDetail(catAt(w));
+      }
+    }
+    window.requestAnimationFrame(frame);
+  }
+
+  /* ================= ③ 趨勢 ================= */
+  function renderTrend() {
+    var box = el('trend-chart'); if (!box) { return; }
+    var a = aggregates();
+    var years = ['2020', '2021', '2022', '2023', '2024'];
+    var vals = years.map(function (y) { return (a.yearTotals[y] || 0) / 1000; });
+    var W = 680, H = 320, pL = 64, pR = 20, pT = 30, pB = 42;
+    var iW = W - pL - pR, iH = H - pT - pB, maxV = 1200, step = 300;
+    box.innerHTML = '';
+    var svg = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%' });
+    svg.setAttribute('role', 'img');
+    for (var gv = 0; gv <= maxV; gv += step) {
+      var gy = pT + iH * (1 - gv / maxV);
+      svg.appendChild(svgEl('line', { x1: pL, y1: gy, x2: W - pR, y2: gy, stroke: gv === 0 ? '#D8CDAF' : '#EFE7D2', 'stroke-width': 1 }));
+      var tg = svgEl('text', { x: pL - 10, y: gy + 4, 'text-anchor': 'end', 'font-size': '11', fill: '#8A8266' });
+      tg.textContent = String(gv);
+      svg.appendChild(tg);
+    }
+    var n = years.length, slot = iW / n, bw = Math.min(64, slot * 0.52);
+    years.forEach(function (yr, i) {
+      var v = vals[i];
+      var x = pL + slot * i + (slot - bw) / 2;
+      var bh = iH * v / maxV;
+      var yTop = pT + iH - bh;
+      svg.appendChild(svgEl('rect', { x: x.toFixed(1), y: yTop.toFixed(1), width: bw.toFixed(1), height: Math.max(bh, 1).toFixed(1), rx: 6, fill: i === n - 1 ? '#B8912E' : '#1F6B4A' }));
+      var tv = svgEl('text', { x: (x + bw / 2).toFixed(1), y: (yTop - 8).toFixed(1), 'text-anchor': 'middle', 'font-size': '13', 'font-weight': '700', fill: '#22405C' });
+      tv.setAttribute('data-sp-bindable', 'database');
+      tv.setAttribute('data-sp-database-id', DATABASE_ID);
+      tv.textContent = fmtD(v, 1);
+      svg.appendChild(tv);
+      var ty = svgEl('text', { x: (x + bw / 2).toFixed(1), y: H - 16, 'text-anchor': 'middle', 'font-size': '12', fill: '#8A8266' });
+      ty.textContent = yr;
+      svg.appendChild(ty);
+    });
+    var unit = svgEl('text', { x: 12, y: 16, 'font-size': '11', fill: '#8A8266' });
+    unit.textContent = '億澳門元';
+    svg.appendChild(unit);
+    box.appendChild(svg);
+  }
+
+  /* ================= ④ 明細中心 ================= */
+  function buildRow(r) {
+    var tr = document.createElement('tr');
+    var td1 = document.createElement('td'); td1.className = 'dt-name'; td1.textContent = r.name; bind(td1);
+    var td2 = document.createElement('td'); td2.className = 'dt-year'; td2.textContent = r.year; bind(td2);
+    var td3 = document.createElement('td'); td3.className = 'dt-cat';
+    var chip = document.createElement('span'); chip.className = 'cat-chip'; chip.style.background = catColor(r.cat); chip.textContent = r.cat; bind(chip);
+    td3.appendChild(chip); bind(td3);
+    var td4 = document.createElement('td'); td4.className = 'dt-amt num'; td4.textContent = fmtD(r.amt, 0); bind(td4);
+    var td5 = document.createElement('td'); td5.className = 'dt-share num'; td5.textContent = fmtD(r.share, 1) + '%'; bind(td5);
+    var td6 = document.createElement('td'); td6.className = 'dt-note'; td6.textContent = r.note || '—'; bind(td6);
+    tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
+    tr.appendChild(td4); tr.appendChild(td5); tr.appendChild(td6);
+    return tr;
+  }
+
+  function renderDetail() {
+    var body = el('detail-body'); if (!body) { return; }
+    var rows = filteredRows();
+    body.innerHTML = '';
+    var shown = rows.slice(0, state.visible);
+    if (!shown.length) {
+      var trE = document.createElement('tr');
+      var tdE = document.createElement('td'); tdE.colSpan = 6; tdE.style.textAlign = 'center'; tdE.style.color = '#8A8266';
+      tdE.textContent = '暫無符合條件的紀錄';
+      trE.appendChild(tdE); body.appendChild(trE);
+    } else {
+      shown.forEach(function (r) { body.appendChild(buildRow(r)); });
+    }
+    var btn = el('load-more-btn');
+    if (btn) {
+      if (state.visible >= rows.length) { btn.style.display = 'none'; }
+      else { btn.style.display = ''; btn.textContent = '載入更多（餘 ' + (rows.length - state.visible) + ' 條）'; }
+    }
+    var cnt = el('detail-count');
+    if (cnt) { cnt.textContent = '共 ' + rows.length + ' 條紀錄 · 已顯示 ' + Math.min(state.visible, rows.length) + ' 條'; }
+  }
+
+  function moreRows() {
+    var now = Date.now();
+    if (now - state.lastMore < 400) { return; }
+    state.lastMore = now;
+    state.visible += 10;
+    renderDetail();
+  }
+
+  /* ================= ⑥ 甜甜圈 ================= */
+  function renderDonut() {
+    var a = aggregates();
+    var data = CAT_ORDER.map(function (c) {
+      return { cat: c, amt: state.mode === 'all' ? (a.catTotals[c] || 0) : (a.cat2024[c] || 0) };
+    }).filter(function (d) { return d.amt > 0; });
+    var total = 0;
+    data.forEach(function (d) { total += d.amt; });
+    var svg = el('donut-svg');
+    if (svg) {
+      svg.innerHTML = '';
+      var C = 2 * Math.PI * 84, off = 0;
+      var g = svgEl('g', { transform: 'rotate(-90 110 110)' });
+      data.forEach(function (d) {
+        var len = d.amt / total * C;
+        var circ = svgEl('circle', {
+          cx: 110, cy: 110, r: 84, fill: 'none',
+          stroke: catColor(d.cat), 'stroke-width': 34,
+          'stroke-dasharray': fmtD(Math.max(len - 1.5, 0.5), 1) + ' ' + fmtD(C - len + 1.5, 1),
+          'stroke-dashoffset': fmtD(-off, 1)
+        });
+        g.appendChild(circ);
+        off += len;
+      });
+      svg.appendChild(g);
+    }
+    var cy1 = el('donut-center-year'); if (cy1) { cy1.textContent = state.mode === 'all' ? '五年合計' : '2024 年度'; }
+    var cy2 = el('donut-center-val'); if (cy2) { cy2.textContent = fmtD(total / 1000, 1) + ' 億'; }
+    var ul = el('donut-legend');
+    if (ul) {
+      ul.innerHTML = '';
+      data.forEach(function (d) {
+        var li = document.createElement('li'); bind(li);
+        var dot = document.createElement('span'); dot.className = 'lg-dot'; dot.style.background = catColor(d.cat);
+        var nm = document.createElement('span'); nm.className = 'dl-name'; nm.textContent = d.cat;
+        var am = document.createElement('span'); am.className = 'dl-amt'; am.textContent = fmtD(d.amt / 1000, 1) + ' 億';
+        var pc = document.createElement('span'); pc.className = 'dl-pct'; pc.textContent = fmtD(total ? d.amt / total * 100 : 0, 1) + '%';
+        li.appendChild(dot); li.appendChild(nm); li.appendChild(am); li.appendChild(pc);
+        ul.appendChild(li);
+      });
+    }
+  }
+
+  /* ================= 總刷新 ================= */
+  function refreshAll() {
+    renderKPIs();
+    renderRing();
+    buildWheel();
+    renderTrend();
+    renderDonut();
+    renderDetail();
+  }
+
+  /* ================= 事件綁定 ================= */
+  function wireEvents() {
+    var fy = el('filter-year'), fc = el('filter-cat');
+    if (fy) { fy.addEventListener('change', function () { state.filterYear = fy.value; state.visible = 10; renderDetail(); }); }
+    if (fc) { fc.addEventListener('change', function () { state.filterCat = fc.value; state.visible = 10; renderDetail(); }); }
+    var lm = el('load-more-btn');
+    if (lm) { lm.addEventListener('click', moreRows); }
+    window.addEventListener('scroll', function () {
+      var b = el('load-more-btn');
+      if (!b || b.style.display === 'none') { return; }
+      var rect = b.getBoundingClientRect();
+      if (rect.top > 0 && rect.top < window.innerHeight + 240) { moreRows(); }
+    });
+    var wb = el('wheel-btn');
+    if (wb) { wb.addEventListener('click', spin); }
+    var b24 = el('donut-btn-2024'), ball = el('donut-btn-all');
+    if (b24) { b24.addEventListener('click', function () { state.mode = 'y2024'; b24.className = 'toggle-btn active'; if (ball) { ball.className = 'toggle-btn'; } renderDonut(); }); }
+    if (ball) { ball.addEventListener('click', function () { state.mode = 'all'; ball.className = 'toggle-btn active'; if (b24) { b24.className = 'toggle-btn'; } renderDonut(); }); }
+  }
+
+  /* ================= 初始化 ================= */
+  function init() {
+    wireEvents();
+    if (db && typeof db.query === 'function' && typeof db.getSchema === 'function') {
+      setSyncStatus('loading');
+      subscribeUpdates();
+      db.getSchema({ databaseId: DATABASE_ID }).then(function (schema) {
+        buildSchemaMaps(schema);
+        loadAll().then(acceptDbRows).catch(function () { useFallbackRows(); });
+      }).catch(function () { useFallbackRows(); });
+    } else {
+      useFallbackRows();
+    }
+  }
+
+  init();
+})();
+</script>
+<script>
+(function(){
+  function rpt(){ if(window.parent&&window.parent!==window){ try{ window.parent.postMessage({type:'ledger-height',height:document.documentElement.scrollHeight},'*'); }catch(e){} } }
+  window.addEventListener('load',function(){ rpt(); setTimeout(rpt,800); setTimeout(rpt,2200); });
+  window.addEventListener('resize',rpt);
+  window.addEventListener('message',function(e){ if(e.data&&e.data.type==='hdi-measure'){ rpt(); } });
+})();
+</script>
+</body>
+</html>
