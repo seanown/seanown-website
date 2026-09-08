@@ -151,7 +151,7 @@
     <p class="subtitle">千億公庫怎麼花 —— 2020–2024 年一般綜合預算決算，九大功能分類逐項攤開</p>
     <div class="hero-meta">
       <span class="chip"><span class="dot" id="sync-dot"></span><span id="sync-status">正在連結線上數據表…</span></span>
-      <span class="chip">單位：澳門元（圖表以「億／百萬」標示）</span>
+      <span class="chip">單位：澳門元（全頁金額均以「億」標示）</span>
     </div>
   </div>
 </header>
@@ -275,7 +275,7 @@
               <th>條目</th>
               <th>年度</th>
               <th>分類</th>
-              <th style="text-align:right">金額（百萬澳門元）</th>
+              <th style="text-align:right">金額（億澳門元）</th>
               <th style="text-align:right">佔比</th>
               <th>說明</th>
             </tr>
@@ -667,13 +667,13 @@
   /* ================= ① 看板 ================= */
   function renderKPIs() {
     var a = aggregates();
-    var t1 = el('kpi-total'); if (t1) { t1.textContent = fmtD(a.grand / 1000, 1); }
-    var t2 = el('kpi-avg'); if (t2) { t2.textContent = fmtD(a.grand / 1000 / 5, 1); }
+    var t1 = el('kpi-total'); if (t1) { t1.textContent = fmtD(a.grand / 100, 1); }
+    var t2 = el('kpi-avg'); if (t2) { t2.textContent = fmtD(a.grand / 100 / 5, 1); }
     var y24 = a.yearTotals['2024'] || 0, y23 = a.yearTotals['2023'] || 0;
-    var t3 = el('kpi-2024'); if (t3) { t3.textContent = fmtD(y24 / 1000, 1); }
+    var t3 = el('kpi-2024'); if (t3) { t3.textContent = fmtD(y24 / 100, 1); }
     var d = y23 ? (y24 - y23) / y23 * 100 : 0;
     var t4 = el('kpi-2024-delta'); if (t4) { t4.textContent = '對比 2023 年 ' + (d >= 0 ? '+' : '−') + fmtD(Math.abs(d), 1) + '%'; }
-    var pc = (a.grand / 1000 / 5) * 1e8 / 680000 / 1e4;
+    var pc = (a.grand / 100 / 5) * 1e8 / 680000 / 1e4;
     var t5 = el('kpi-pcap'); if (t5) { t5.textContent = '約 ' + fmtD(pc, 1); }
   }
 
@@ -689,7 +689,7 @@
     var p2 = el('ring-mid'); if (p2) { p2.textContent = fmtD(pct, 1) + '%'; }
     var parts = FIVE_CATS.map(function (c) {
       var v = a.catTotals[c] || 0;
-      return c + ' ' + fmtD(v / 1000, 1) + ' 億（' + fmtD(a.grand ? v / a.grand * 100 : 0, 1) + '%）';
+      return c + ' ' + fmtD(v / 100, 1) + ' 億（' + fmtD(a.grand ? v / a.grand * 100 : 0, 1) + '%）';
     });
     var p3 = el('ring-break'); if (p3) { p3.textContent = parts.join(' · '); }
   }
@@ -733,7 +733,7 @@
     var t2 = svgEl('text', { x: cx, y: cy + 14, 'text-anchor': 'middle', 'font-size': '15', 'font-weight': '700', fill: '#B8912E' });
     t2.setAttribute('data-sp-bindable', 'database');
     t2.setAttribute('data-sp-database-id', DATABASE_ID);
-    t2.textContent = fmtD(a.grand / 1000, 1) + ' 億';
+    t2.textContent = fmtD(a.grand / 100, 1) + ' 億';
     hub.appendChild(t1); hub.appendChild(t2);
     svg.appendChild(hub);
     svg.appendChild(svgEl('polygon', { points: cx + ',6 ' + (cx - 13) + ',30 ' + (cx + 13) + ',30', fill: '#14503A' }));
@@ -747,7 +747,7 @@
         bind(li);
         var dot = document.createElement('span'); dot.className = 'lg-dot'; dot.style.background = catColor(c);
         var nm = document.createElement('span'); nm.textContent = (i + 1) + '. ' + c;
-        var amt = document.createElement('span'); amt.className = 'lg-amt'; amt.textContent = fmtD((a.catTotals[c] || 0) / 1000, 1) + ' 億';
+        var amt = document.createElement('span'); amt.className = 'lg-amt'; amt.textContent = fmtD((a.catTotals[c] || 0) / 100, 1) + ' 億';
         li.appendChild(dot); li.appendChild(nm); li.appendChild(amt);
         li.addEventListener('click', function () { showWheelDetail(c); });
         ul.appendChild(li);
@@ -774,11 +774,11 @@
     var d = el('wheel-detail'); if (!d) { return; }
     d.innerHTML = '';
     var h = document.createElement('p'); h.className = 'wheel-cat'; h.style.color = catColor(cat); h.textContent = cat; bind(h); d.appendChild(h);
-    var b = document.createElement('p'); b.className = 'wheel-big'; b.textContent = fmtD(total / 1000, 1) + ' 億'; bind(b); d.appendChild(b);
+    var b = document.createElement('p'); b.className = 'wheel-big'; b.textContent = fmtD(total / 100, 1) + ' 億'; bind(b); d.appendChild(b);
     var s = document.createElement('p'); s.className = 'wheel-sub'; s.textContent = '五年決算合計 · 佔五年總支出 ' + fmtD(pct, 1) + '%'; bind(s); d.appendChild(s);
     if (rec) {
       var l = document.createElement('p'); l.className = 'wheel-line';
-      l.textContent = '2024 年決算 ' + fmtD(rec.amt / 1000, 1) + ' 億元，佔當年支出 ' + fmtD(rec.share, 1) + '%'; bind(l); d.appendChild(l);
+      l.textContent = '2024 年決算 ' + fmtD(rec.amt / 100, 1) + ' 億元，佔當年支出 ' + fmtD(rec.share, 1) + '%'; bind(l); d.appendChild(l);
       var n = document.createElement('p'); n.className = 'wheel-note'; n.textContent = rec.note || '—'; bind(n); d.appendChild(n);
     }
   }
@@ -815,7 +815,7 @@
     var box = el('trend-chart'); if (!box) { return; }
     var a = aggregates();
     var years = ['2020', '2021', '2022', '2023', '2024'];
-    var vals = years.map(function (y) { return (a.yearTotals[y] || 0) / 1000; });
+    var vals = years.map(function (y) { return (a.yearTotals[y] || 0) / 100; });
     var W = 680, H = 320, pL = 64, pR = 20, pT = 30, pB = 42;
     var iW = W - pL - pR, iH = H - pT - pB, maxV = 1200, step = 300;
     box.innerHTML = '';
@@ -858,7 +858,7 @@
     var td3 = document.createElement('td'); td3.className = 'dt-cat';
     var chip = document.createElement('span'); chip.className = 'cat-chip'; chip.style.background = catColor(r.cat); chip.textContent = r.cat; bind(chip);
     td3.appendChild(chip); bind(td3);
-    var td4 = document.createElement('td'); td4.className = 'dt-amt num'; td4.textContent = fmtD(r.amt, 0); bind(td4);
+    var td4 = document.createElement('td'); td4.className = 'dt-amt num'; td4.textContent = fmtD(r.amt / 100, 2); bind(td4);
     var td5 = document.createElement('td'); td5.className = 'dt-share num'; td5.textContent = fmtD(r.share, 1) + '%'; bind(td5);
     var td6 = document.createElement('td'); td6.className = 'dt-note'; td6.textContent = r.note || '—'; bind(td6);
     tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
@@ -923,7 +923,7 @@
       svg.appendChild(g);
     }
     var cy1 = el('donut-center-year'); if (cy1) { cy1.textContent = state.mode === 'all' ? '五年合計' : '2024 年度'; }
-    var cy2 = el('donut-center-val'); if (cy2) { cy2.textContent = fmtD(total / 1000, 1) + ' 億'; }
+    var cy2 = el('donut-center-val'); if (cy2) { cy2.textContent = fmtD(total / 100, 1) + ' 億'; }
     var ul = el('donut-legend');
     if (ul) {
       ul.innerHTML = '';
@@ -931,7 +931,7 @@
         var li = document.createElement('li'); bind(li);
         var dot = document.createElement('span'); dot.className = 'lg-dot'; dot.style.background = catColor(d.cat);
         var nm = document.createElement('span'); nm.className = 'dl-name'; nm.textContent = d.cat;
-        var am = document.createElement('span'); am.className = 'dl-amt'; am.textContent = fmtD(d.amt / 1000, 1) + ' 億';
+        var am = document.createElement('span'); am.className = 'dl-amt'; am.textContent = fmtD(d.amt / 100, 1) + ' 億';
         var pc = document.createElement('span'); pc.className = 'dl-pct'; pc.textContent = fmtD(total ? d.amt / total * 100 : 0, 1) + '%';
         li.appendChild(dot); li.appendChild(nm); li.appendChild(am); li.appendChild(pc);
         ul.appendChild(li);
