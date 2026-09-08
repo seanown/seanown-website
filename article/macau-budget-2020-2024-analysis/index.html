@@ -35,14 +35,25 @@ a{color:var(--blue);text-decoration:none}
 .brand span{color:var(--gold)}
 .topbar .minimal-hint{font-size:13px;color:var(--gray);text-decoration:none}
 .topbar .minimal-hint:hover{color:var(--blue)}
-.wrap{max-width:780px;margin:0 auto;padding:36px 24px 0}
+.wrap{max-width:1120px;margin:0 auto;padding:36px 24px 0}
+/* PC：雜誌跨頁雙欄——左右兩頁並排、圖文交織；手機自動回單欄 */
+@media(min-width:900px){
+.abody{column-count:2;column-gap:56px;column-rule:1px solid var(--line)}
+.abody h2{column-span:all;margin-top:34px}
+.abody h3{break-after:avoid-column}
+.abody .tbl-wrap{column-span:all;break-inside:avoid}
+.abody blockquote{break-inside:avoid;margin-bottom:20px}
+.abody ul,.abody ol{break-inside:avoid}
+.abody hr{column-span:all}
+}
+@media(min-width:900px) and (max-width:1279px){.wrap{max-width:960px}}
 .crumb{font-size:13px;color:var(--gray);margin-bottom:22px}
 .crumb a:hover{color:var(--blue)}
 .meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 .tag{background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:5px 14px;border-radius:4px;letter-spacing:1px}
 .date{color:var(--gray);font-size:14px}
-h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px}
-.lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px}
+h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px;max-width:960px}
+.lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px;max-width:940px}
 .rule{width:56px;height:4px;background:var(--gold);border-radius:2px;margin:0 0 26px}
 .cover{margin:0 0 26px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10)}
 .cover img{width:100%;display:block}
@@ -148,7 +159,7 @@ h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-botto
 <p class="lead">澳門特區政府 2020–2024 年一般綜合預算決算近日完整公開，涵蓋九大功能分類、四十五條明細紀錄的「公開賬本」，不僅是一份財政收支清單，更是觀察澳門五年發展路徑的核心依據。從疫情應對到復甦回升，從民生托底到經濟多元，…</p>
 <section class="rdr" id="report-reader"><span class="rdr-badge">附件 · 研究報告</span><h2 class="rdr-title">澳門政府五年賬本（2020–2024 決算）</h2><p class="rdr-sub">像翻雜誌一樣讀這份報告：左頁圖表、右頁解讀，共 4 頁。亦可下載 PDF 或開啟可查可篩的互動版。</p><div class="rdr-stage" id="rdrStage"><div class="rdr-spread is-on"><div class="rdr-left"><img src="../../assets/images/ledger-shot-dashboard.webp" alt="五年總支出看板與民生佔比圓環" loading="lazy"></div><div class="rdr-right"><span class="rdr-pageno">第 1 頁 · 共 4 頁</span><h3>財政大盤一覽</h3><p>2020–2024 五年，澳門一般綜合預算<strong>累計總支出 4,759.5 億元</strong>，年均 951.9 億元；2024 年度總支出 979.5 億元，對比 2023 年 <strong>+8.1%</strong>，回歸常態增長軌道。</p><p>按約 68 萬人口粗略估算，人均年財政支出<strong>約 14 萬元</strong>——公庫的每一筆錢，都對應著城市運作的真實脈動。</p><p class="rdr-hint">想查每一筆明細？下方可下載 PDF，或開啟可篩選的互動賬本。</p></div></div><div class="rdr-spread"><div class="rdr-left"><img src="../../assets/images/ledger-shot-wheel.webp" alt="支出結構輪盤：九大功能分類五年決算額" loading="lazy"></div><div class="rdr-right"><span class="rdr-pageno">第 2 頁 · 共 4 頁</span><h3>錢都花在哪：九大分類</h3><p>輪盤把九大功能分類攤開：「其他功能」（現金分享、醫療補貼、稅項返還等惠民措施）五年合計 1,129.1 億元；<strong>經濟服務 805.0 億元</strong>居實質政策分類之首；教育 619.5 億、衛生 559.6 億緊隨其後。</p><p>教育、衛生、社會保障、房屋、社會及社區服務五大民生類別，合計佔總支出<strong> 40.1%</strong>，是公共財政的壓艙石。</p><p class="rdr-hint">想查每一筆明細？下方可下載 PDF，或開啟可篩選的互動賬本。</p></div></div><div class="rdr-spread"><div class="rdr-left"><img src="../../assets/images/ledger-shot-trend.webp" alt="年度總支出趨勢：2020–2024" loading="lazy"></div><div class="rdr-right"><span class="rdr-pageno">第 3 頁 · 共 4 頁</span><h3>五年走勢：逆週期調節</h3><p>走勢呈完整周期：<strong>2021 年 891.5 億</strong>為五年低點（疫情緊縮）；2022 年兩度《預算修改法》增撥投資，衝上<strong> 1,021.5 億</strong>的唯一千億高點；2023 年特別措施退出回落至 905.7 億；2024 年復甦回升至 979.5 億。</p><p>「應急收縮 — 擴張托底 — 常態回歸」，正是澳門財政逆週期調節的完整軌跡。</p><p class="rdr-hint">想查每一筆明細？下方可下載 PDF，或開啟可篩選的互動賬本。</p></div></div><div class="rdr-spread"><div class="rdr-left"><img src="../../assets/images/ledger-shot-donut.webp" alt="支出分類佔比甜甜圈圖" loading="lazy"></div><div class="rdr-right"><span class="rdr-pageno">第 4 頁 · 共 4 頁</span><h3>結構啟示：讀懂賬本找機會</h3><p><strong>房屋支出五年增長近四倍</strong>，2024 年按年大增 49.2%、增幅居九大分類之首——公屋興建與都市更新，將持續帶動建築、建材、物業上下游。</p><p>經濟服務重點從疫情救助轉向產業培育，配合「1+4」多元策略，中小企支援、旅遊推廣與數位經濟投入，就是產業界的切入點。</p><p class="rdr-hint">想查每一筆明細？下方可下載 PDF，或開啟可篩選的互動賬本。</p></div></div></div><div class="rdr-nav"><button class="rdr-btn2" id="rdrPrev" type="button">← 上一頁</button><div class="rdr-dots"><button class="rdr-dot on" data-rp="0" aria-label="第 1 頁"></button><button class="rdr-dot" data-rp="1" aria-label="第 2 頁"></button><button class="rdr-dot" data-rp="2" aria-label="第 3 頁"></button><button class="rdr-dot" data-rp="3" aria-label="第 4 頁"></button></div><button class="rdr-btn2" id="rdrNext" type="button">下一頁 →</button></div><div class="rdr-actions"><a class="rdr-dl" href="../../assets/reports/macau-budget-ledger-report.pdf" download>⬇ 下載完整報告 PDF（4 頁 / 1.3 MB）</a><a class="rdr-open" href="../../macau-budget-ledger.html" target="_blank" rel="noopener">互動賬本（可轉 · 可查 · 可篩選）↗</a></div><script>(function(){var sp=document.querySelectorAll("#rdrStage .rdr-spread");if(!sp.length)return;var cur=0,dots=document.querySelectorAll(".rdr-dot"),pv=document.getElementById("rdrPrev"),nx=document.getElementById("rdrNext");function go(k){if(k<0||k>=sp.length)return;sp[cur].classList.remove("is-on");dots[cur].classList.remove("on");cur=k;sp[cur].classList.add("is-on");dots[cur].classList.add("on");pv.disabled=cur===0;nx.disabled=cur===sp.length-1}pv.addEventListener("click",function(){go(cur-1)});nx.addEventListener("click",function(){go(cur+1)});dots.forEach(function(d,i){d.addEventListener("click",function(){go(i)})});document.addEventListener("keydown",function(e){if(!document.getElementById("report-reader"))return;if(e.key==="ArrowLeft")go(cur-1);if(e.key==="ArrowRight")go(cur+1)});pv.disabled=true;nx.disabled=sp.length===1})();</script></section>
 
-<p>澳門特區政府 2020–2024 年一般綜合預算決算近日完整公開，涵蓋九大功能分類、四十五條明細紀錄的「公開賬本」，不僅是一份財政收支清單，更是觀察澳門五年發展路徑的核心依據。從疫情應對到復甦回升，從民生托底到經濟多元，公庫的每一筆支出，都對應著城市運作的真實脈動。</p>
+<div class="abody"><p>澳門特區政府 2020–2024 年一般綜合預算決算近日完整公開，涵蓋九大功能分類、四十五條明細紀錄的「公開賬本」，不僅是一份財政收支清單，更是觀察澳門五年發展路徑的核心依據。從疫情應對到復甦回升，從民生托底到經濟多元，公庫的每一筆支出，都對應著城市運作的真實脈動。</p>
 <h2>一、財政大盤：從疫情波動到復甦穩增</h2>
 <p>2020 至 2024 年五年間，澳門一般綜合預算累計總支出達 <strong>4,759.5 億澳門元</strong>，年均支出 <strong>951.9 億元</strong>；按約 68 萬人口估算，人均年財政支出<strong>約 14 萬元</strong>。</p>
 <p>五年間財政支出走勢呈現明顯階段性特徵：2021 年受疫情緊縮政策影響，總支出降至 <strong>891.5 億元</strong>，為五年最低點；2022 年透過兩次《預算修改法》增撥公共投資，總支出升至 <strong>1,021.5 億元</strong>，成為五年規模高點、唯一突破千億的年份；2023 年隨疫情特別措施陸續退出，支出回落至 <strong>905.7 億元</strong>；2024 年經濟復甦帶動財政回升，總支出達 <strong>979.5 億元</strong>，按年增長 8.1%，逐步回歸常態增長軌道。</p>
@@ -173,7 +184,7 @@ h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-botto
 <h2>四、結語</h2>
 <p>「公開賬本」的價值，不僅在於財政透明，更在於讓社會清晰看到城市發展的資源投向。過去五年，澳門公共財政始終以民生為核心，同時兼顧經濟托底與基建配套，走過了疫情衝擊與復甦的完整周期。</p>
 <p>站在新的節點，澳門財政可進一步強化「產業導向」的功能，將更多公共資源配置到長期增長領域，以財政槓桿帶動社會資本，共同推動經濟適度多元與產業升級。而對於產業界而言，讀懂財政賬本的邏輯，也就找到了參與城市發展的切入點。</p>
-<blockquote>📊 本文所有數據已做成一本互動賬本，就嵌在文章頂部——五年總支出看板、支出結構輪盤、年度趨勢與 45 條決算明細，可轉、可查、可篩選，亦可<a href="../../macau-budget-ledger.html" target="_blank">點此在新視窗開啟完整版《澳門政府五年賬本》</a>。<br>數據來源：澳門立法會《一般綜合預算決算意見書》（2020–2024 各年度）、統計暨普查局、財政局。全頁金額以「億澳門元」標示，九大分類加總與官方年度總數或有約 0.002% 的進位尾差。本文為個人產業觀點，歡迎交流與探討。</blockquote>
+<blockquote>📊 本文所有數據已做成一本互動賬本，就嵌在文章頂部——五年總支出看板、支出結構輪盤、年度趨勢與 45 條決算明細，可轉、可查、可篩選，亦可<a href="../../macau-budget-ledger.html" target="_blank">點此在新視窗開啟完整版《澳門政府五年賬本》</a>。<br>數據來源：澳門立法會《一般綜合預算決算意見書》（2020–2024 各年度）、統計暨普查局、財政局。全頁金額以「億澳門元」標示，九大分類加總與官方年度總數或有約 0.002% 的進位尾差。本文為個人產業觀點，歡迎交流與探討。</blockquote></div>
 
 </article>
 

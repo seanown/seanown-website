@@ -35,14 +35,25 @@ a{color:var(--blue);text-decoration:none}
 .brand span{color:var(--gold)}
 .topbar .minimal-hint{font-size:13px;color:var(--gray);text-decoration:none}
 .topbar .minimal-hint:hover{color:var(--blue)}
-.wrap{max-width:780px;margin:0 auto;padding:36px 24px 0}
+.wrap{max-width:1120px;margin:0 auto;padding:36px 24px 0}
+/* PC：雜誌跨頁雙欄——左右兩頁並排、圖文交織；手機自動回單欄 */
+@media(min-width:900px){
+.abody{column-count:2;column-gap:56px;column-rule:1px solid var(--line)}
+.abody h2{column-span:all;margin-top:34px}
+.abody h3{break-after:avoid-column}
+.abody .tbl-wrap{column-span:all;break-inside:avoid}
+.abody blockquote{break-inside:avoid;margin-bottom:20px}
+.abody ul,.abody ol{break-inside:avoid}
+.abody hr{column-span:all}
+}
+@media(min-width:900px) and (max-width:1279px){.wrap{max-width:960px}}
 .crumb{font-size:13px;color:var(--gray);margin-bottom:22px}
 .crumb a:hover{color:var(--blue)}
 .meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 .tag{background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:5px 14px;border-radius:4px;letter-spacing:1px}
 .date{color:var(--gray);font-size:14px}
-h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px}
-.lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px}
+h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px;max-width:960px}
+.lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px;max-width:940px}
 .rule{width:56px;height:4px;background:var(--gold);border-radius:2px;margin:0 0 26px}
 .cover{margin:0 0 26px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10)}
 .cover img{width:100%;display:block}
@@ -108,7 +119,7 @@ h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-botto
 <p class="lead">我們太習慣用一個數字丈量成敗——GDP。城市比總量，國家比增速，好像數字足夠大，一切問題就足夠小。但聯合國開發計劃署（UNDP）從 1990 年起，每年發布一份《人類發展報告》，用另一把尺子重新丈量世界：人類發展指數（H…</p>
 
 
-<p>我們太習慣用一個數字丈量成敗——GDP。城市比總量，國家比增速，好像數字足夠大，一切問題就足夠小。但聯合國開發計劃署（UNDP）從 1990 年起，每年發布一份《人類發展報告》，用另一把尺子重新丈量世界：<strong>人類發展指數（HDI）</strong>。它只問三件事——你活得久不久（健康）、學得多不多（教育）、過得好不好（生活水平）。</p>
+<div class="abody"><p>我們太習慣用一個數字丈量成敗——GDP。城市比總量，國家比增速，好像數字足夠大，一切問題就足夠小。但聯合國開發計劃署（UNDP）從 1990 年起，每年發布一份《人類發展報告》，用另一把尺子重新丈量世界：<strong>人類發展指數（HDI）</strong>。它只問三件事——你活得久不久（健康）、學得多不多（教育）、過得好不好（生活水平）。</p>
 <h2>三把尺子，量出另一個世界</h2>
 <p>HDI 由三個維度取幾何平均：出生時預期壽命、平均與預期受教育年數、人均國民總收入（GNI）。別小看這個設計——<strong>取幾何平均</strong>，意味著任何一項短板都會被放大：錢多但命短、樓高但課室少的社會，分數就是上不去。</p>
 <h2>幾組耐人尋味的對比</h2>
@@ -118,7 +129,7 @@ h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-botto
 <p>澳門的故事更特別：UNDP 榜單從不計算澳門，但按特區政府統計暨普查局依同一方法測算，<strong>澳門 HDI 達 0.934</strong>（2023 年），若放進 UNDP 榜單折算約排第 21 位——而澳門人均 GDP 以世行口徑位居全球第 18。財富位次與發展位次並不重合，這正是 HDI 有意思的地方：<strong>它提醒我們，經濟總量是手段，人的壽命、學識與生活，才是目的。</strong></p>
 <h2>寫在最後</h2>
 <p>澳門三五規劃把「非博彩業增加值佔比六成」寫成硬指標，本質上也是一次從「GDP 思維」走向「人的發展思維」的轉身。數字要增長，但增長要落到每一個人身上——落在醫院、課室和尋常日子裡，才算數。</p>
-<blockquote>我把這個主題做成了一幅完整的互動數據星圖，就嵌在「文章」頁的頂部——67 個經濟體的散點圖、完整排行榜與反差洞察，歡迎回到列表頁往下滑細看。數據來源：UNDP《人類發展報告 2025》、澳門統計暨普查局、世界銀行。</blockquote>
+<blockquote>我把這個主題做成了一幅完整的互動數據星圖，就嵌在「文章」頁的頂部——67 個經濟體的散點圖、完整排行榜與反差洞察，歡迎回到列表頁往下滑細看。數據來源：UNDP《人類發展報告 2025》、澳門統計暨普查局、世界銀行。</blockquote></div>
 
 </article>
 

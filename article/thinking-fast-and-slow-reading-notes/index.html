@@ -35,14 +35,25 @@ a{color:var(--blue);text-decoration:none}
 .brand span{color:var(--gold)}
 .topbar .minimal-hint{font-size:13px;color:var(--gray);text-decoration:none}
 .topbar .minimal-hint:hover{color:var(--blue)}
-.wrap{max-width:780px;margin:0 auto;padding:36px 24px 0}
+.wrap{max-width:1120px;margin:0 auto;padding:36px 24px 0}
+/* PC：雜誌跨頁雙欄——左右兩頁並排、圖文交織；手機自動回單欄 */
+@media(min-width:900px){
+.abody{column-count:2;column-gap:56px;column-rule:1px solid var(--line)}
+.abody h2{column-span:all;margin-top:34px}
+.abody h3{break-after:avoid-column}
+.abody .tbl-wrap{column-span:all;break-inside:avoid}
+.abody blockquote{break-inside:avoid;margin-bottom:20px}
+.abody ul,.abody ol{break-inside:avoid}
+.abody hr{column-span:all}
+}
+@media(min-width:900px) and (max-width:1279px){.wrap{max-width:960px}}
 .crumb{font-size:13px;color:var(--gray);margin-bottom:22px}
 .crumb a:hover{color:var(--blue)}
 .meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 .tag{background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:5px 14px;border-radius:4px;letter-spacing:1px}
 .date{color:var(--gray);font-size:14px}
-h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px}
-.lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px}
+h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px;max-width:960px}
+.lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px;max-width:940px}
 .rule{width:56px;height:4px;background:var(--gold);border-radius:2px;margin:0 0 26px}
 .cover{margin:0 0 26px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10)}
 .cover img{width:100%;display:block}
@@ -108,7 +119,7 @@ h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-botto
 <p class="lead">丹尼爾·卡尼曼（Daniel Kahneman, 1934–2024）——諾貝爾經濟學獎得主的代表作，行為經濟學奠基之作。一本關於「我們如何思考、又為何常常想錯」的認知心理學經典，用兩套思維系統，解釋判斷、決策與偏誤背後…</p>
 
 
-<p>丹尼爾·卡尼曼（Daniel Kahneman, 1934–2024）——諾貝爾經濟學獎得主的代表作，行為經濟學奠基之作。一本關於「我們如何思考、又為何常常想錯」的認知心理學經典，用兩套思維系統，解釋判斷、決策與偏誤背後的機制。</p>
+<div class="abody"><p>丹尼爾·卡尼曼（Daniel Kahneman, 1934–2024）——諾貝爾經濟學獎得主的代表作，行為經濟學奠基之作。一本關於「我們如何思考、又為何常常想錯」的認知心理學經典，用兩套思維系統，解釋判斷、決策與偏誤背後的機制。</p>
 <h2>這本書講了什麼</h2>
 <blockquote><strong>一句話總覽</strong>：我們的大腦裡住著兩個「我」——一個快、靠直覺，一個慢、靠推理。生活中大部分判斷由「快」的那個做主——這既是高效，也是系統性犯錯的根源。</blockquote>
 <ul><li><strong>作者</strong>：丹尼爾·卡尼曼（Daniel Kahneman）</li><li><strong>領域</strong>：認知心理學／行為經濟學</li><li><strong>核心命題</strong>：直覺判斷的偏差是系統性、可預測的</li><li><strong>關鍵詞</strong>：雙系統 · 偏誤 · 決策（Heuristics & Biases）</li><li><strong>理論夥伴</strong>：阿莫斯·特沃斯基（Amos Tversky）</li><li><strong>代表貢獻</strong>：前景理論（Prospect Theory）· 2002 諾貝爾經濟學獎</li></ul>
@@ -140,7 +151,7 @@ h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-botto
 <p><strong>讀前提示</strong>：內容紮實、篇幅較長，建議分章慢讀，並搭配本筆記隨讀隨記——把每一章的偏誤對照自己的真實決策，效果最佳。</p>
 <hr>
 <p>慢下來，給思考留一點空間。</p>
-<p>*個人讀書筆記 · 僅供學習交流 · 整理於 2026 年 9 月 · [互動版讀書摘要卡](https://workbuddy.link/p/MNPmAogAhyD5zGynsCvK87)*</p>
+<p>*個人讀書筆記 · 僅供學習交流 · 整理於 2026 年 9 月 · [互動版讀書摘要卡](https://workbuddy.link/p/MNPmAogAhyD5zGynsCvK87)*</p></div>
 
 </article>
 

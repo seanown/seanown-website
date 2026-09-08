@@ -35,14 +35,25 @@ a{color:var(--blue);text-decoration:none}
 .brand span{color:var(--gold)}
 .topbar .minimal-hint{font-size:13px;color:var(--gray);text-decoration:none}
 .topbar .minimal-hint:hover{color:var(--blue)}
-.wrap{max-width:780px;margin:0 auto;padding:36px 24px 0}
+.wrap{max-width:1120px;margin:0 auto;padding:36px 24px 0}
+/* PC：雜誌跨頁雙欄——左右兩頁並排、圖文交織；手機自動回單欄 */
+@media(min-width:900px){
+.abody{column-count:2;column-gap:56px;column-rule:1px solid var(--line)}
+.abody h2{column-span:all;margin-top:34px}
+.abody h3{break-after:avoid-column}
+.abody .tbl-wrap{column-span:all;break-inside:avoid}
+.abody blockquote{break-inside:avoid;margin-bottom:20px}
+.abody ul,.abody ol{break-inside:avoid}
+.abody hr{column-span:all}
+}
+@media(min-width:900px) and (max-width:1279px){.wrap{max-width:960px}}
 .crumb{font-size:13px;color:var(--gray);margin-bottom:22px}
 .crumb a:hover{color:var(--blue)}
 .meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 .tag{background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:5px 14px;border-radius:4px;letter-spacing:1px}
 .date{color:var(--gray);font-size:14px}
-h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px}
-.lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px}
+h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px;max-width:960px}
+.lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px;max-width:940px}
 .rule{width:56px;height:4px;background:var(--gold);border-radius:2px;margin:0 0 26px}
 .cover{margin:0 0 26px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10)}
 .cover img{width:100%;display:block}
@@ -108,7 +119,7 @@ h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-botto
 <p class="lead">中國人做事，向來習慣立下一個五年之約。自 1953 年第一個五年計劃啟動，這套以五年為時間維度的治理邏輯，我們已經踏實走過七十餘載。這七十多年間，世界不少國家政黨輪替、路線反覆更迭，我們卻埋頭腳下，一環接一環完成每一個五…</p>
 
 <figure class="cover"><img src="../../assets/images/posts/31-1.jpg" alt="從一業獨大到百業共生：澳門三五規劃，真正改變的從來不是數字 — 澳門觀察 配圖" loading="lazy"></figure>
-<p>中國人做事，向來習慣立下一個五年之約。自 1953 年第一個五年計劃啟動，這套以五年為時間維度的治理邏輯，我們已經踏實走過七十餘載。這七十多年間，世界不少國家政黨輪替、路線反覆更迭，我們卻埋頭腳下，一環接一環完成每一個五年佈局，不把寶貴的時間耗費在無謂的爭辯當中。</p>
+<div class="abody"><p>中國人做事，向來習慣立下一個五年之約。自 1953 年第一個五年計劃啟動，這套以五年為時間維度的治理邏輯，我們已經踏實走過七十餘載。這七十多年間，世界不少國家政黨輪替、路線反覆更迭，我們卻埋頭腳下，一環接一環完成每一個五年佈局，不把寶貴的時間耗費在無謂的爭辯當中。</p>
 <p>澳門回歸祖國二十七載，迎來屬於自己的第三個五年規劃，這件事本身，就值得我們沉下心，掂量背後沉甸甸的分量。</p>
 <p>這份規劃於 2026 年 8 月 18 日正式對外發布，全書十篇三十六章，約 86000 字，涵蓋三十五項主要指標、六十八個專欄、三百一十項重點工作。宏大文本從來不是一夜揮就的成果，整個編製週期歷時約 18 個月，先後落地四十場前期調研、三十六項專題研究，公開諮詢歷時四十天。對比諮詢稿，正式文本多出將近 30000 字。我落腳澳門十三年，親眼見證這座城市從博彩一業獨大，一步步認真謀求產業多元轉型，心裡清楚，多出來的並非冰冷文字，是社會各界的聲音被收納，是民意真正被傾聽、被揉進制度設計之中。</p>
 <p>當中有兩組數字最觸動人心。其一，重大項目預算總投資約 1300 億澳門元，對於澳門這座微型經濟體，這是前所未有的大手筆。這代表政府不再僅僅是藍圖的繪製者，更是親身入局的實踐者與推動者。其二，設定 2030 年非博彩業增加值佔本地生產總值比重達到六成左右，這不是用於宣傳包裝的漂亮口號，而是具備約束效力的硬指標。往後每年財政預算編排、產業政策導向、政府績效考核，都要拿這項標準來對帳。敢於把目標釘死，背後是十足的擔當。</p>
@@ -121,7 +132,7 @@ h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-botto
 <p>這三件事得到回應，六成的指標才具備現實意義；倘若無法惠及民生，就算非博彩數字被人為拉高，只不過是財富在體系內部轉移，和基層百姓毫無關係。</p>
 <p>規劃文稿中寫明要全面推進中小企業數位化轉型、穩步推進片區活化、引導遊客走進社區帶動在地消費，這些方向都切中要害。但有一句現實必須直言：推動這一切的執行者，要有蹲下身，陪伴一間餅店慢慢打磨三年的耐心。數位轉型從來不等同於採購一套系統、開設一個網店，而是把老店積累三十年的匠心手藝，翻譯成市場能夠理解的語言，交付給真正願意消費的客群。這份工作沒有光環，少有媒體曝光，可是澳門的產業多元，終究要靠一間間本土小店堆砌起來。</p>
 <p>澳門四百年來最寶貴的稟賦，便是中西文化並存共生的從容，不同文化在同一座城裡各得其所，不必強求互相同化。這也是中央賦予澳門「一中心、一平台、一基地」定位最堅實的底氣。新一個五年週期，澳門不需要複製另一個深圳，也不必模仿新加坡，而是把自身獨有的從容氣質，淬煉成產品、服務，變成海內外願意專程前來體驗的價值。</p>
-<p>「一分部署，九分落實。」行政長官在記者會的這句話，值得被重點記下，它的分量勝過規劃文件裡任何一組數字。五年之後再回頭審視今日這 86000 字，我們要看有多少文字化為工地的機聲、市場的訂單，化為澳門尋常百姓日子裡那份安穩從容。</p>
+<p>「一分部署，九分落實。」行政長官在記者會的這句話，值得被重點記下，它的分量勝過規劃文件裡任何一組數字。五年之後再回頭審視今日這 86000 字，我們要看有多少文字化為工地的機聲、市場的訂單，化為澳門尋常百姓日子裡那份安穩從容。</p></div>
 
 </article>
 

@@ -35,14 +35,25 @@ a{color:var(--blue);text-decoration:none}
 .brand span{color:var(--gold)}
 .topbar .minimal-hint{font-size:13px;color:var(--gray);text-decoration:none}
 .topbar .minimal-hint:hover{color:var(--blue)}
-.wrap{max-width:780px;margin:0 auto;padding:36px 24px 0}
+.wrap{max-width:1120px;margin:0 auto;padding:36px 24px 0}
+/* PC：雜誌跨頁雙欄——左右兩頁並排、圖文交織；手機自動回單欄 */
+@media(min-width:900px){
+.abody{column-count:2;column-gap:56px;column-rule:1px solid var(--line)}
+.abody h2{column-span:all;margin-top:34px}
+.abody h3{break-after:avoid-column}
+.abody .tbl-wrap{column-span:all;break-inside:avoid}
+.abody blockquote{break-inside:avoid;margin-bottom:20px}
+.abody ul,.abody ol{break-inside:avoid}
+.abody hr{column-span:all}
+}
+@media(min-width:900px) and (max-width:1279px){.wrap{max-width:960px}}
 .crumb{font-size:13px;color:var(--gray);margin-bottom:22px}
 .crumb a:hover{color:var(--blue)}
 .meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 .tag{background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:5px 14px;border-radius:4px;letter-spacing:1px}
 .date{color:var(--gray);font-size:14px}
-h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px}
-.lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px}
+h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px;max-width:960px}
+.lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px;max-width:940px}
 .rule{width:56px;height:4px;background:var(--gold);border-radius:2px;margin:0 0 26px}
 .cover{margin:0 0 26px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10)}
 .cover img{width:100%;display:block}
@@ -108,7 +119,7 @@ h1{font-size:34px;line-height:1.4;color:var(--blue);font-weight:800;margin-botto
 <p class="lead">揭陽實業傳奇｜康夫創始人黃華群憑一身潮汕拼勁，締造多個行業第一：吹風機領域唯一「中國馳名商標」、連續十年全國吹風機總銷量冠軍、國內美發沙龍覆蓋率行業第一、早年首款1800W大功率吹風機反超歐洲老牌。1989年塘埔村小作坊…</p>
 
 <figure class="cover"><img src="../../assets/images/posts/24-1.jpg" alt="揭陽實業傳奇｜康夫創始人黃華群 — 商道隨筆 配圖" loading="lazy"></figure>
-<p>憑一身潮汕拼勁，締造多個行業第一：吹風機領域唯一「中國馳名商標」、連續十年全國吹風機總銷量冠軍、國內美發沙龍覆蓋率行業第一、早年首款1800W大功率吹風機反超歐洲老牌。<br>1989年塘埔村小作坊起步，捨棄低利代工，自創「康夫（功夫）」品牌，產品暢銷全球60國。</p>
+<div class="abody"><p>憑一身潮汕拼勁，締造多個行業第一：吹風機領域唯一「中國馳名商標」、連續十年全國吹風機總銷量冠軍、國內美發沙龍覆蓋率行業第一、早年首款1800W大功率吹風機反超歐洲老牌。<br>1989年塘埔村小作坊起步，捨棄低利代工，自創「康夫（功夫）」品牌，產品暢銷全球60國。</p></div>
 <div class="gallery"><img src="../../assets/images/posts/24-2.jpg" alt="揭陽實業傳奇｜康夫創始人黃華群 實拍圖 1" loading="lazy" onclick="document.getElementById('lbimg').src=this.src;document.getElementById('lb').style.display='flex'"><img src="../../assets/images/posts/24-3.jpg" alt="揭陽實業傳奇｜康夫創始人黃華群 實拍圖 2" loading="lazy" onclick="document.getElementById('lbimg').src=this.src;document.getElementById('lb').style.display='flex'"><img src="../../assets/images/posts/24-4.jpg" alt="揭陽實業傳奇｜康夫創始人黃華群 實拍圖 3" loading="lazy" onclick="document.getElementById('lbimg').src=this.src;document.getElementById('lb').style.display='flex'"><img src="../../assets/images/posts/24-5.jpg" alt="揭陽實業傳奇｜康夫創始人黃華群 實拍圖 4" loading="lazy" onclick="document.getElementById('lbimg').src=this.src;document.getElementById('lb').style.display='flex'"><img src="../../assets/images/posts/24-6.jpg" alt="揭陽實業傳奇｜康夫創始人黃華群 實拍圖 5" loading="lazy" onclick="document.getElementById('lbimg').src=this.src;document.getElementById('lb').style.display='flex'"><img src="../../assets/images/posts/24-7.jpg" alt="揭陽實業傳奇｜康夫創始人黃華群 實拍圖 6" loading="lazy" onclick="document.getElementById('lbimg').src=this.src;document.getElementById('lb').style.display='flex'"></div>
 </article>
 
