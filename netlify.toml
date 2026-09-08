@@ -49,3 +49,22 @@
   from = "/admin"
   to = "/admin/index.html"
   status = 200
+
+# 舊「協會身分」頁 301 永久重定向 → 關於我（SEO 保護，不產生 404）
+[[redirects]]
+  from = "/association"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/associations"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/about"
+  to = "/"
+  status = 301
+  force = true
