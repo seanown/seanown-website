@@ -10,6 +10,7 @@ POSTS = os.path.join(ROOT, 'data', 'posts.json')
 
 # 文章英文 slug（SEO 友善，關鍵詞命名）
 SLUGS = {
+    '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
     '33': 'hdi-2025-human-development-report',
     '32': 'thinking-fast-and-slow-reading-notes',
@@ -424,6 +425,41 @@ def build_reader(att):
     return rdr
 
 
+QK_CSS = """
+/* ---------- 金句手繪卡片組（自訂 HTML 片段用） ---------- */
+.qk{column-span:all;margin:4px 0 0}
+.qk-grid{display:grid;grid-template-columns:1fr;gap:30px}
+@media(min-width:900px){.qk-grid{grid-template-columns:1fr 1fr;gap:34px 52px}}
+.article .qk-card{display:block;background:#fff;border:1px solid #E9ECF2;border-radius:14px;padding:22px 22px 24px;margin:0;box-shadow:0 12px 28px -24px rgba(1,1,51,.4);break-inside:avoid}
+.qk-inner{display:flex;gap:20px;align-items:flex-start}
+.qk-badge{flex:0 0 106px;margin:0}
+.qk-img{width:100%;height:auto;display:block}
+.qk-scribble{margin:5px 0 0;text-align:center;font-size:11px;color:#9AA2B1;letter-spacing:.05em}
+.qk-text{flex:1 1 auto;min-width:0}
+.article .qk-num{font-size:11px;letter-spacing:.28em;color:#9AA2B1;margin:0 0 8px;font-weight:400}
+.article .qk-tag{display:inline-block;background:#FFF3D0;color:#002676;font-size:11.5px;font-weight:700;letter-spacing:.14em;padding:3px 11px;border-radius:999px;margin:0 0 12px;border:none}
+.article h2.qk-quote{font-size:20px;line-height:1.62;color:#1A1A1A;font-weight:800;margin:0 0 12px;padding:0 0 0 14px;border:none;border-left:3px solid var(--gold)}
+.article p.qk-bg{margin:0 0 10px;font-size:13.5px;line-height:1.85;color:#667085;text-align:left}
+.article p.qk-bg .qk-lbl{display:inline;margin-right:8px;font-size:10px;letter-spacing:.2em;color:#9AA2B1}
+.article p.qk-insight{margin:0;font-size:13.5px;line-height:1.85;color:#1A1A1A;background:#F8F9FB;border-radius:10px;padding:11px 14px;text-align:left}
+.article p.qk-insight .qk-lbl{display:block;margin-bottom:3px;font-size:10px;letter-spacing:.2em;color:#9AA2B1}
+.qk-more{display:inline-block;margin-top:11px;font-size:12.5px;color:var(--blue);font-weight:700}
+.qk-more:hover{color:var(--gold-dark)}
+@media(max-width:640px){.article .qk-card{padding:18px 16px 20px}.qk-badge{flex:0 0 84px}.qk-inner{gap:14px}.article h2.qk-quote{font-size:18.5px}}
+/* 長標題自適應（不影響站上其他文章） */
+@media(max-width:720px){.article h1{font-size:clamp(17px,5vw,22px);letter-spacing:.02em;line-height:1.42;word-break:break-word}}
+/* 手繪線稿筆觸 */
+.qk .ln{fill:none;stroke:#1f1d1a;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.qk .thin{stroke-width:1.3}
+.qk .gray{fill:none;stroke:#9b958a;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.qk .dash{fill:none;stroke:#aaa49a;stroke-width:1.3;stroke-dasharray:5 5;stroke-linecap:round}
+.qk .wash{fill:#ecebe6;stroke:none}
+.qk .wash2{fill:#f4f3ef;stroke:none}
+.qk .inkfill{fill:#1f1d1a;stroke:none}
+.qk .ring{fill:none;stroke:#1f1d1a;stroke-width:1.8;opacity:.85}
+.qk .ring2{fill:none;stroke:#1f1d1a;stroke-width:.9;opacity:.22}
+"""
+
 def build(post, allposts):
     num = str(post.get('num', '')).strip()
     slug = SLUGS.get(num) or ('post-' + (num or 'x'))
@@ -432,7 +468,11 @@ def build(post, allposts):
     date = (post.get('date') or '').strip()
     loc = (post.get('location') or '').strip()
     imgs = [fix_asset(x) for x in (post.get('images') or [])]
-    body_html = md_to_html(post.get('body') or '', title)
+    raw_rel = (post.get('raw_html') or '').strip()
+    if raw_rel:  # 自訂 HTML 片段（跳過 Markdown 解析，原樣嵌入）
+        body_html = io.open(os.path.join(ROOT, raw_rel), encoding='utf-8').read()
+    else:
+        body_html = md_to_html(post.get('body') or '', title)
     desc = plain(post.get('body') or title, 105) or title
     url = '%s/article/%s/' % (SITE, slug)
 
@@ -460,7 +500,7 @@ def build(post, allposts):
 
     att = ATTACHMENTS.get(slug)
     reader = build_reader(att) if att else ''
-    page_css = CSS + (RDR_CSS if att else '')
+    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '')
 
     ld = {
         "@context": "https://schema.org",

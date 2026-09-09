@@ -1,6 +1,18 @@
 {
   "posts": [
     {
+      "num": 35,
+      "title": "近期反思：十二句話，十二幅手繪",
+      "category": "商道隨筆",
+      "date": "2026-09-09",
+      "location": "澳門",
+      "status": "已上線",
+      "images": [],
+      "raw_html": "data/raw/12-quotes-sketch.html",
+      "body": "把近期的閱讀、行走與觀察，濃縮成十二句話。每一句配一幅手繪線稿：左邊是畫，右邊是原話、背景與認知啟示。不追求體系完整，只求回到語境裡，把句子重新讀一遍。",
+      "slug": "recent-reflections-twelve-quotes-sketch"
+    },
+    {
       "num": 34,
       "title": "澳門財政五年決算透視：公開賬本背後的支出邏輯與產業啟示",
       "category": "研究報告",
