@@ -333,6 +333,7 @@ a{color:var(--blue);text-decoration:none}
 .os-card:hover{border-color:var(--gold);transform:translateY(-2px)}
 .os-card .os-n{font-size:17px;font-weight:800;color:var(--blue);margin-bottom:3px}
 .os-card .os-d{font-size:13px;color:var(--gray)}
+.os-card .os-grp{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--blue);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 8px;margin-bottom:7px}
 .foot{margin-top:46px;padding:26px 24px 46px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);text-align:center}
 .foot a{color:var(--blue)}
 @media(max-width:720px){.masthead h1{font-size:28px}.tl-card{flex-direction:column;align-items:flex-start}.tl-img{flex:0 0 auto;width:100%;height:170px}.wrap{padding:26px 18px 0}}
@@ -467,43 +468,34 @@ def build_series_page(s, posts, all_series):
 
 
 def build_series_index(posts):
-    """產生輯總覽頁 series/index.html"""
-    rows = ''
+    """產生輯總覽頁 series/index.html
+
+    全部輯按 order 一次排到底（主線輯在最前）。分組名（如「行記」）改為
+    顯示在卡片上的小標籤，不再切分區塊——否則分組邏輯會壓過 order，
+    讓行記排到主線前面。
+    """
+    coll_name = {c['id']: c['name'] for c in SERIES.get('collections', [])}
+    cards = ''
     any_series = False
-    for c in SERIES.get('collections', []):
-        subs = [s for s in sorted_series() if s.get('collection') == c['id']]
-        blocks = ''
-        for s in subs:
-            m = series_members(posts, s['id'])
-            if not m:
-                continue
-            any_series = True
-            cn = str(s.get('cover_num') or m[0].get('num', '')).strip()
-            cs = SLUGS.get(cn) or ('post-' + cn)
-            blocks += (
-                '<a class="os-card" href="%s/series/%s/" style="flex:1 1 300px">'
-                '<div class="os-n">%s</div>'
-                '<div class="os-d" style="margin-bottom:6px">%s</div>'
-                '<div class="os-d">%d 篇 · %s</div></a>'
-            ) % (SITE, esc(s['id']), esc(s['name']), esc(s.get('subtitle') or ''),
-                 len(m), esc(s.get('period') or ''))
-        if blocks:
-            rows += ('<div class="sec-lab" style="max-width:1080px;margin:0 auto;padding:26px 24px 0">%s</div>'
-                     '<div class="other-ser">%s</div>' % (esc(c['name']), blocks))
-    loose = [s for s in sorted_series() if not s.get('collection')]
-    if loose:
-        blocks = ''
-        for s in loose:
-            m = series_members(posts, s['id'])
-            if not m:
-                continue
-            any_series = True
-            blocks += ('<a class="os-card" href="%s/series/%s/"><div class="os-n">%s</div>'
-                       '<div class="os-d">%d 篇 · %s</div></a>'
-                       % (SITE, esc(s['id']), esc(s['name']), len(m), esc(s.get('period') or '')))
-        if blocks:
-            rows += ('<div class="sec-lab" style="max-width:1080px;margin:0 auto;padding:26px 24px 0">其他輯</div>'
-                     '<div class="other-ser">%s</div>' % blocks)
+    for s in sorted_series():
+        m = series_members(posts, s['id'])
+        if not m:
+            continue
+        any_series = True
+        grp = coll_name.get(s.get('collection'), '')
+        cards += (
+            '<a class="os-card" href="%s/series/%s/" style="flex:1 1 300px">'
+            '%s'
+            '<div class="os-n">%s</div>'
+            '<div class="os-d" style="margin-bottom:6px">%s</div>'
+            '<div class="os-d">%d 篇 · %s</div></a>'
+        ) % (SITE, esc(s['id']),
+             ('<div class="os-grp">%s</div>' % esc(grp)) if grp else '',
+             esc(s['name']), esc(s.get('subtitle') or ''),
+             len(m), esc(s.get('period') or ''))
+    rows = ''
+    if cards:
+        rows = '<div class="other-ser" style="padding-top:30px">%s</div>' % cards
     if not any_series:
         return
 
