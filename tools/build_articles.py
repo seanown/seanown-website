@@ -37,7 +37,6 @@ SLUGS = {
     '20': 'kaipu-group-reunion',
     '21': 'nanjing-firms-eyeing-shantou',
     '22': 'jieyang-shantou-overseas-letters',
-    '23': 'all-meat-pizza-shantou',
     '24': 'kangfu-founder-huang-huaqun',
     '25': 'macau-ai-cross-border-services',
     '26': 'ai-content-marketing-ctr-jump',
