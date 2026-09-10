@@ -3,7 +3,7 @@
 從 data/posts.json 生成每篇文章的獨立內頁：article/<slug>/index.html
 每頁含：獨立 URL、單獨 TDK、Berkeley 藍金排版、作者簡介、延伸閱讀、洽談合作 CTA、JSON-LD Article。
 """
-import io, os, re, json, html
+import io, os, re, json, html, glob
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POSTS = os.path.join(ROOT, 'data', 'posts.json')
@@ -1138,6 +1138,36 @@ card.classList.toggle('hide',c!=='全部'&&card.getAttribute('data-cat')!==c);
     print('generated /articles/ list page (%d cards)' % len(items))
 
 
+PAGE_NODE_RE = re.compile(r'\s+data-page-node-id="[A-Za-z0-9_-]+"')
+
+
+def sanitize_outputs():
+    """清掉預覽工具注入的 data-page-node-id 屬性。
+
+    WorkBuddy 的 HTML 預覽面板在開啟本機 HTML 時，會往標籤注入
+    data-page-node-id="..."，讓檔案變大（10KB → 19KB）、<h1> 被吃掉。
+    每次 build 收尾統一清一次，讓「重跑 build 就恢復」這條永遠成立。
+    """
+    targets = []
+    targets += glob.glob(os.path.join(ROOT, 'article', '*', 'index.html'))
+    targets += glob.glob(os.path.join(ROOT, 'series', '*', 'index.html'))
+    targets += [os.path.join(ROOT, 'series', 'index.html'),
+                os.path.join(ROOT, 'articles', 'index.html')]
+    total = 0
+    for f in targets:
+        if not os.path.exists(f):
+            continue
+        s = io.open(f, encoding='utf-8').read()
+        n = len(PAGE_NODE_RE.findall(s))
+        if n:
+            io.open(f, 'w', encoding='utf-8', newline='\n').write(
+                PAGE_NODE_RE.sub('', s))
+            total += n
+    if total:
+        print('sanitized data-page-node-id: %d' % total)
+    return total
+
+
 def main():
     data = json.load(io.open(POSTS, encoding='utf-8'))
     posts = data['posts']
@@ -1156,6 +1186,7 @@ def main():
             nser += 1
             print('  /series/%s/  %s（%d 篇）' % r)
     build_series_index(published)
+    sanitize_outputs()
     io.open(POSTS, 'w', encoding='utf-8', newline='\n').write(
         json.dumps(data, ensure_ascii=False, indent=2) + '\n')
     print('generated %d article pages, %d series pages' % (len(made), nser))
