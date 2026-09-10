@@ -60,7 +60,6 @@ SLUGS = {
     '07': 'august-eighth-fathers-day-origin',
     '08': 'liqiu-start-of-autumn',
     '11': 'fuhang-a-fathers-wisdom',
-    '12': 'jianlai-sword-immortals-oath',
     '13': 'jiangxi-seven-days',
     '20': 'kaipu-group-reunion',
     '21': 'chaoshan-journey-letters-home',
