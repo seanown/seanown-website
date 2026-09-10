@@ -35,6 +35,12 @@ html{scroll-behavior:smooth}
 .masthead .kicker{font-size:14px;letter-spacing:6px;color:var(--gold);font-weight:700;margin-bottom:14px}
 .masthead h1{font-size:44px;font-weight:800;letter-spacing:2px;margin-bottom:12px}
 .masthead p{color:rgba(255,255,255,.75);font-size:16px}
+.ser-bar{max-width:1180px;margin:0 auto;padding:16px 24px 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ser-bar .sb-lab{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700}
+.ser-bar a{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:7px 16px;font-size:13.5px;font-weight:700;color:var(--blue);transition:all .2s}
+.ser-bar a:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+.ser-bar a span{font-size:11.5px;color:var(--gray);margin-left:5px;font-weight:600}
+.ser-bar a:hover span{color:var(--gold)}
 .filter-bar{position:sticky;top:62px;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 .lc-cat{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 18px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;transition:all .2s}
 .lc-cat span{font-size:12px;color:var(--gray);margin-left:5px}
@@ -73,6 +79,8 @@ html{scroll-behavior:smooth}
 <h1>專欄文章</h1>
 <p>澳門產業觀察 · 數位經濟趨勢 · 商道與文化隨筆 — 共 33 篇</p>
 </header>
+
+<div class="ser-bar"><span class="sb-lab">輯</span><a href="https://seanown.org/series/jiangxi/">江西行<span>7 篇</span></a><a href="https://seanown.org/series/">全部輯 ›</a></div>
 
 <div class="filter-bar" id="cats"><button class="lc-cat on" data-c="全部">全部<span>33</span></button><button class="lc-cat" data-c="澳門觀察">澳門觀察<span>2</span></button><button class="lc-cat" data-c="產業評論">產業評論<span>5</span></button><button class="lc-cat" data-c="商道隨筆">商道隨筆<span>11</span></button><button class="lc-cat" data-c="行走見聞">行走見聞<span>9</span></button><button class="lc-cat" data-c="文化雅述">文化雅述<span>4</span></button><button class="lc-cat" data-c="研究報告">研究報告<span>2</span></button></div>
 

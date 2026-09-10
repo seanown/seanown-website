@@ -7,6 +7,30 @@ import io, os, re, json, html
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POSTS = os.path.join(ROOT, 'data', 'posts.json')
+SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
+
+# 輯（Series）定義：由 data/series.json 驅動，posts.json 用 series 欄位掛載
+SERIES = {'collections': [], 'series': []}
+SERIES_BY_ID = {}
+
+
+def load_series():
+    """載入輯定義。檔案不存在時退化為空，不阻斷原有 build。"""
+    global SERIES, SERIES_BY_ID
+    SERIES = {'collections': [], 'series': []}
+    if os.path.exists(SERIES_JSON):
+        SERIES = json.load(io.open(SERIES_JSON, encoding='utf-8'))
+    SERIES.setdefault('collections', [])
+    SERIES.setdefault('series', [])
+    SERIES_BY_ID = {s['id']: s for s in SERIES['series']}
+    return SERIES
+
+
+def series_members(posts, sid):
+    """取回某輯的成員文章，按日期升序（旅行／事件順序），同日再按篇號。"""
+    ms = [p for p in posts
+          if (p.get('series') or '').strip() == sid and p.get('status') != '整理中']
+    return sorted(ms, key=lambda p: (str(p.get('date', '')), str(p.get('num', ''))))
 
 # 文章英文 slug（SEO 友善，關鍵詞命名）
 SLUGS = {
@@ -232,6 +256,294 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 .float-cta:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(2,8,32,.4)}
 @media(max-width:720px){h1{font-size:25px}.article h2{font-size:20px}.article p,.article li{font-size:16px}.rel-grid{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}.wrap{padding:26px 18px 0}.author{flex-direction:column;gap:14px}.lead{font-size:15.5px}}
 """
+
+# ---------- 輯（Series）導覽 ----------
+SERIES_NAV_CSS = """
+.series-nav{margin-top:34px;background:linear-gradient(135deg,#F5F7FC 0%,#EEF2FA 100%);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:22px 24px}
+.sn-kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--blue);background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px 12px;margin-bottom:10px}
+.sn-title{display:block;font-size:22px;font-weight:800;color:var(--blue);margin-bottom:4px}
+.sn-title:hover{color:var(--gold-dark)}
+.sn-meta{font-size:13px;color:var(--gray);margin-bottom:16px}
+.sn-links{display:flex;gap:10px;flex-wrap:wrap}
+.sn-links a{flex:1 1 180px;min-width:0;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px;font-size:13.5px;line-height:1.5;color:var(--text);transition:all .2s}
+.sn-links a:hover{border-color:var(--gold);transform:translateY(-2px)}
+.sn-links .sn-lab{display:block;font-size:11px;letter-spacing:1.5px;color:var(--gray);font-weight:700;margin-bottom:3px}
+.sn-links .sn-all{flex:0 0 auto;text-align:center;color:var(--blue);font-weight:700;background:var(--blue);color:#fff;border-color:var(--blue)}
+.sn-links .sn-all:hover{background:var(--blue-dark);color:#fff}
+.sn-empty{opacity:.45;pointer-events:none}
+@media(max-width:720px){.series-nav{padding:18px}.sn-title{font-size:19px}.sn-links a{flex:1 1 100%}}
+"""
+
+# ---------- 輯頁（series/<id>/index.html）獨立版型 ----------
+SERIES_PAGE_CSS = """
+:root{--blue:#002676;--blue-dark:#010133;--gold:#FDB515;--gold-dark:#FC9313;--bg:#F8F9FB;--text:#1A1A1A;--gray:#667085;--line:#E4E8EF}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--text);background:var(--bg);line-height:1.8;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1080px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:800;color:var(--blue);font-size:17px;letter-spacing:.5px}
+.brand span{color:var(--gold)}
+.mini-cta{background:var(--blue);color:#fff;font-size:14px;font-weight:700;padding:9px 20px;border-radius:999px}
+.mini-cta:hover{background:var(--blue-dark)}
+.masthead{background:linear-gradient(135deg,#002676 0%,#010133 100%);color:#fff;padding:60px 24px 54px}
+.masthead-in{max-width:1080px;margin:0 auto}
+.kicker{font-size:13px;letter-spacing:5px;color:var(--gold);font-weight:700;margin-bottom:12px}
+.masthead h1{font-size:42px;font-weight:800;letter-spacing:2px;margin-bottom:10px}
+.masthead .sub{color:rgba(255,255,255,.8);font-size:16px;margin-bottom:6px}
+.masthead .period{color:var(--gold);font-size:14px;font-weight:700;letter-spacing:1px}
+.wrap{max-width:1080px;margin:0 auto;padding:36px 24px 0}
+.intro{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:26px 28px;margin-bottom:34px}
+.intro .i-lab{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700;margin-bottom:12px}
+.intro p{font-size:15.5px;color:#2B2B2B;margin-bottom:12px;white-space:pre-line}
+.intro p:last-child{margin-bottom:0}
+.sec-lab{font-size:13px;letter-spacing:3px;color:var(--gray);font-weight:700;margin-bottom:16px}
+.timeline{list-style:none;position:relative;padding-left:26px}
+.timeline:before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;margin-bottom:18px}
+.tl-item:before{content:"";position:absolute;left:-25px;top:16px;width:11px;height:11px;border-radius:50%;background:var(--gold);border:2px solid #fff;box-shadow:0 0 0 2px var(--line)}
+.tl-card{display:flex;gap:18px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;align-items:center;transition:all .22s}
+.tl-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 10px 26px rgba(2,8,32,.09)}
+.tl-img{flex:0 0 132px;height:88px;border-radius:8px;overflow:hidden;background:var(--bg)}
+.tl-img img{width:100%;height:100%;object-fit:cover;display:block}
+.tl-body{flex:1;min-width:0}
+.tl-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:5px}
+.tl-no{font-size:11px;font-weight:800;color:var(--blue);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 8px;letter-spacing:1px}
+.tl-date{font-size:12.5px;color:var(--gray)}
+.tl-loc{font-size:12.5px;color:var(--gray)}
+.tl-body h2{font-size:18px;font-weight:800;line-height:1.5;margin-bottom:5px}
+.tl-body h2 a{color:var(--text)}
+.tl-card:hover h2 a{color:var(--blue)}
+.tl-body p{font-size:14px;color:var(--gray)}
+.tl-arr{flex:0 0 auto;font-size:20px;color:var(--gold)}
+.other-ser{max-width:1080px;margin:0 auto;padding:8px 24px 0;display:flex;gap:12px;flex-wrap:wrap}
+.os-card{flex:1 1 240px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px 18px;transition:all .2s}
+.os-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.os-card .os-n{font-size:17px;font-weight:800;color:var(--blue);margin-bottom:3px}
+.os-card .os-d{font-size:13px;color:var(--gray)}
+.foot{margin-top:46px;padding:26px 24px 46px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);text-align:center}
+.foot a{color:var(--blue)}
+@media(max-width:720px){.masthead h1{font-size:28px}.tl-card{flex-direction:column;align-items:flex-start}.tl-img{flex:0 0 auto;width:100%;height:170px}.wrap{padding:26px 18px 0}}
+"""
+
+
+def build_series_page(s, posts, all_series):
+    """產生單一輯頁 series/<id>/index.html"""
+    sid = s['id']
+    members = series_members(posts, sid)
+    if not members:
+        return None
+    cover_num = str(s.get('cover_num') or members[0].get('num', '')).strip()
+    cover_slug = SLUGS.get(cover_num) or ('post-' + cover_num)
+
+    items = ''
+    for i, p in enumerate(members):
+        pn = str(p.get('num', '')).strip()
+        pslug = SLUGS.get(pn) or ('post-' + pn)
+        loc = (p.get('location') or '').strip()
+        ptitle = (p.get('title') or '').strip()
+        plead = plain(p.get('body') or '', 58)
+        if ptitle and plead.startswith(ptitle):  # 正文開頭常重複一次標題，去掉
+            plead = plead[len(ptitle):].lstrip('。：: ·|｜—-,，')
+        items += (
+            '<li class="tl-item"><a class="tl-card" href="%s/article/%s/">'
+            '<div class="tl-img"><img src="../../assets/og/%s.jpg" alt="%s 封面" loading="lazy"></div>'
+            '<div class="tl-body"><div class="tl-top">'
+            '<span class="tl-no">%02d / %02d</span>'
+            '<span class="tl-date">%s</span>'
+            '%s'
+            '</div><h2>%s</h2><p>%s</p></div>'
+            '<div class="tl-arr">›</div></a></li>'
+        ) % (SITE, pslug, pslug, esc(p.get('title')), i + 1, len(members),
+             (p.get('date') or '').replace('-', '.'),
+             ('<span class="tl-loc">· %s</span>' % esc(loc)) if loc else '',
+             esc(ptitle), esc(plead))
+
+    others = ''
+    for o in all_series:
+        if o['id'] == sid:
+            continue
+        om = series_members(posts, o['id'])
+        if not om:
+            continue
+        others += ('<a class="os-card" href="%s/series/%s/"><div class="os-n">%s</div>'
+                   '<div class="os-d">%d 篇 · %s</div></a>'
+                   % (SITE, esc(o['id']), esc(o['name']), len(om), esc(o.get('period') or '')))
+    if others:
+        others = ('<div class="sec-lab" style="max-width:1080px;margin:0 auto;padding:34px 24px 0">'
+                  '其他輯</div><div class="other-ser">%s</div>' % others)
+
+    coll_name = ''
+    for c in SERIES.get('collections', []):
+        if c['id'] == s.get('collection'):
+            coll_name = c['name']
+            break
+
+    name = s.get('name') or sid
+    url = '%s/series/%s/' % (SITE, sid)
+    desc = plain(s.get('intro') or s.get('subtitle') or name, 100)
+    ld = {
+        "@context": "https://schema.org", "@type": "CollectionPage",
+        "name": "%s｜翁振軒 Sean Own" % name, "url": url, "description": desc,
+        "inLanguage": "zh-Hant",
+        "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
+    }
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{name}｜輯｜翁振軒 Sean Own</title>
+<meta name="description" content="{desc}">
+<meta name="keywords" content="{kw}">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="{name}｜輯｜翁振軒 Sean Own">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="{og}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{ld}</script>
+<style>{css}</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="mini-cta" href="{site}/articles/">專欄文章</a>
+</div></div>
+
+<div class="masthead"><div class="masthead-in">
+<div class="kicker">{kicker}</div>
+<h1>{name}</h1>
+<div class="sub">{sub}</div>
+<div class="period">{period} · 共 {n} 篇</div>
+</div></div>
+
+<div class="wrap">
+<div class="intro"><div class="i-lab">輯 序</div>{intro}</div>
+<div class="sec-lab">按行程順序</div>
+<ul class="timeline">{items}</ul>
+</div>
+
+{others}
+
+<div class="foot">© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/articles/">全部文章</a></div>
+</body>
+</html>
+""".format(
+        name=esc(name), desc=esc(desc), kw=esc('%s,%s,翁振軒,Sean Own,專欄' % (name, coll_name)),
+        url=url, og='%s/assets/og/%s.jpg' % (SITE, cover_slug),
+        ld=json.dumps(ld, ensure_ascii=False), css=SERIES_PAGE_CSS, site=SITE,
+        kicker=esc(('%s · 輯' % coll_name) if coll_name else '輯'),
+        sub=esc(s.get('subtitle') or ''), period=esc(s.get('period') or ''),
+        n=len(members), items=items, others=others,
+        intro=''.join('<p>%s</p>' % esc(x.strip())
+                      for x in (s.get('intro') or '（輯序待補）').split('\n\n') if x.strip()),
+    )
+    d = os.path.join(ROOT, 'series', sid)
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+    return sid, name, len(members)
+
+
+def build_series_index(posts):
+    """產生輯總覽頁 series/index.html"""
+    rows = ''
+    any_series = False
+    for c in SERIES.get('collections', []):
+        subs = [s for s in SERIES['series'] if s.get('collection') == c['id']]
+        blocks = ''
+        for s in subs:
+            m = series_members(posts, s['id'])
+            if not m:
+                continue
+            any_series = True
+            cn = str(s.get('cover_num') or m[0].get('num', '')).strip()
+            cs = SLUGS.get(cn) or ('post-' + cn)
+            blocks += (
+                '<a class="os-card" href="%s/series/%s/" style="flex:1 1 300px">'
+                '<div class="os-n">%s</div>'
+                '<div class="os-d" style="margin-bottom:6px">%s</div>'
+                '<div class="os-d">%d 篇 · %s</div></a>'
+            ) % (SITE, esc(s['id']), esc(s['name']), esc(s.get('subtitle') or ''),
+                 len(m), esc(s.get('period') or ''))
+        if blocks:
+            rows += ('<div class="sec-lab" style="max-width:1080px;margin:0 auto;padding:26px 24px 0">%s</div>'
+                     '<div class="other-ser">%s</div>' % (esc(c['name']), blocks))
+    loose = [s for s in SERIES['series'] if not s.get('collection')]
+    if loose:
+        blocks = ''
+        for s in loose:
+            m = series_members(posts, s['id'])
+            if not m:
+                continue
+            any_series = True
+            blocks += ('<a class="os-card" href="%s/series/%s/"><div class="os-n">%s</div>'
+                       '<div class="os-d">%d 篇 · %s</div></a>'
+                       % (SITE, esc(s['id']), esc(s['name']), len(m), esc(s.get('period') or '')))
+        if blocks:
+            rows += ('<div class="sec-lab" style="max-width:1080px;margin:0 auto;padding:26px 24px 0">其他輯</div>'
+                     '<div class="other-ser">%s</div>' % blocks)
+    if not any_series:
+        return
+
+    url = SITE + '/series/'
+    desc = '翁振軒專欄分輯總覽：同一主題的文章收成一輯，按順序讀。'
+    ld = {
+        "@context": "https://schema.org", "@type": "CollectionPage",
+        "name": "輯總覽｜翁振軒 Sean Own", "url": url, "description": desc,
+        "inLanguage": "zh-Hant",
+        "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
+    }
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>輯總覽｜翁振軒 Sean Own</title>
+<meta name="description" content="{desc}">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="輯總覽｜翁振軒 Sean Own">
+<meta property="og:description" content="{desc}">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{ld}</script>
+<style>{css}</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="mini-cta" href="{site}/articles/">專欄文章</a>
+</div></div>
+
+<div class="masthead"><div class="masthead-in">
+<div class="kicker">SERIES</div>
+<h1>輯</h1>
+<div class="sub">同一主題的文章收成一輯，按順序讀。</div>
+</div></div>
+
+{rows}
+
+<div class="foot">© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/articles/">全部文章</a></div>
+</body>
+</html>
+""".format(desc=esc(desc), url=url, ld=json.dumps(ld, ensure_ascii=False),
+           css=SERIES_PAGE_CSS, site=SITE, rows=rows)
+    d = os.path.join(ROOT, 'series')
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+
 
 # ---------- 附件：雜誌翻頁閱讀器（研究報告類文章） ----------
 ATTACHMENTS = {
@@ -487,6 +799,39 @@ def build(post, allposts):
             '<span class="rc-tag">%s</span><h3>%s</h3><p>%s</p></a>'
         ) % (SITE, ps, esc(p.get('category')), esc(p.get('title')), esc(plain(p.get('body'), 46)))
 
+    # ---- 輯導覽：本篇所屬輯 + 輯內上一篇／下一篇 ----
+    series_nav = ''
+    sid = (post.get('series') or '').strip()
+    if sid and sid in SERIES_BY_ID:
+        s = SERIES_BY_ID[sid]
+        ms = series_members(allposts, sid)
+        idx = next((i for i, p in enumerate(ms)
+                    if str(p.get('num', '')).strip() == num), -1)
+        coll_name = next((c['name'] for c in SERIES.get('collections', [])
+                          if c['id'] == s.get('collection')), '輯')
+        if idx > 0:
+            pp = ms[idx - 1]
+            prev_a = ('<a href="%s/article/%s/"><span class="sn-lab">上一篇</span>%s</a>'
+                      % (SITE, SLUGS.get(str(pp.get('num', '')).strip()), esc(pp.get('title'))))
+        else:
+            prev_a = '<a class="sn-empty"><span class="sn-lab">上一篇</span>（已是第一篇）</a>'
+        if 0 <= idx < len(ms) - 1:
+            nx = ms[idx + 1]
+            next_a = ('<a href="%s/article/%s/"><span class="sn-lab">下一篇</span>%s</a>'
+                      % (SITE, SLUGS.get(str(nx.get('num', '')).strip()), esc(nx.get('title'))))
+        else:
+            next_a = '<a class="sn-empty"><span class="sn-lab">下一篇</span>（已是最後一篇）</a>'
+        series_nav = (
+            '\n\n<div class="series-nav">'
+            '<span class="sn-kicker">%s · 輯</span>'
+            '<a class="sn-title" href="%s/series/%s/">《%s》</a>'
+            '<div class="sn-meta">第 %d / %d 篇 · %s</div>'
+            '<div class="sn-links">%s<a class="sn-all" href="%s/series/%s/">查看全輯</a>%s</div>'
+            '</div>'
+        ) % (esc(coll_name), SITE, sid, esc(s.get('name') or sid),
+             idx + 1, len(ms), esc(s.get('period') or ''),
+             prev_a, SITE, sid, next_a)
+
     cover = ''
     gallery = ''
     if imgs:
@@ -499,7 +844,7 @@ def build(post, allposts):
 
     att = ATTACHMENTS.get(slug)
     reader = build_reader(att) if att else ''
-    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '')
+    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '') + (SERIES_NAV_CSS if series_nav.strip() else '')
 
     ld = {
         "@context": "https://schema.org",
@@ -567,7 +912,7 @@ def build(post, allposts):
 {cover}
 <div class="abody">{body}</div>
 {gallery}
-</article>
+</article>{series_nav}
 
 <div class="author">
 <img class="a-img" src="../../assets/images/avatar-1x1.jpg" alt="翁振軒 Sean Own 大頭照" loading="lazy">
@@ -609,6 +954,7 @@ def build(post, allposts):
         date_fmt=date.replace('-', ' 年 ', 1).replace('-', ' 月 ') + ' 日' if date else '',
         loc_fmt=(' · ' + esc(loc)) if loc else '',
         cover=cover, body=body_html, gallery=gallery, rel=rel_html,
+        series_nav=series_nav,
     )
 
     d = os.path.join(ROOT, 'article', slug)
@@ -640,6 +986,18 @@ def build_list(posts):
             '<h2>%s</h2><p>%s</p></div></a>'
         ) % (SITE, slug, esc(cat), cover, esc(title), esc(cat), esc(cat),
              date.replace('-', '.'), esc(title), esc(lead))
+
+    ser_bar = ''
+    chips = ''
+    for s in SERIES['series']:
+        m = series_members(items, s['id'])
+        if not m:
+            continue
+        chips += '<a href="%s/series/%s/">%s<span>%d 篇</span></a>' % (
+            SITE, esc(s['id']), esc(s['name']), len(m))
+    if chips:
+        ser_bar = ('<div class="ser-bar"><span class="sb-lab">輯</span>%s'
+                   '<a href="%s/series/">全部輯 ›</a></div>' % (chips, SITE))
 
     cat_btns = '<button class="lc-cat on" data-c="全部">全部<span>%d</span></button>' % len(items)
     for c in CATS:
@@ -692,6 +1050,12 @@ html{{scroll-behavior:smooth}}
 .masthead .kicker{{font-size:14px;letter-spacing:6px;color:var(--gold);font-weight:700;margin-bottom:14px}}
 .masthead h1{{font-size:44px;font-weight:800;letter-spacing:2px;margin-bottom:12px}}
 .masthead p{{color:rgba(255,255,255,.75);font-size:16px}}
+.ser-bar{{max-width:1180px;margin:0 auto;padding:16px 24px 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center}}
+.ser-bar .sb-lab{{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700}}
+.ser-bar a{{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:7px 16px;font-size:13.5px;font-weight:700;color:var(--blue);transition:all .2s}}
+.ser-bar a:hover{{background:var(--blue);border-color:var(--blue);color:#fff}}
+.ser-bar a span{{font-size:11.5px;color:var(--gray);margin-left:5px;font-weight:600}}
+.ser-bar a:hover span{{color:var(--gold)}}
 .filter-bar{{position:sticky;top:62px;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}}
 .lc-cat{{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 18px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;transition:all .2s}}
 .lc-cat span{{font-size:12px;color:var(--gray);margin-left:5px}}
@@ -731,6 +1095,8 @@ html{{scroll-behavior:smooth}}
 <p>澳門產業觀察 · 數位經濟趨勢 · 商道與文化隨筆 — 共 {n} 篇</p>
 </header>
 
+{ser_bar}
+
 <div class="filter-bar" id="cats">{cats}</div>
 
 <main class="grid" id="grid">{cards}</main>
@@ -758,7 +1124,7 @@ card.classList.toggle('hide',c!=='全部'&&card.getAttribute('data-cat')!==c);
 </html>
 """.format(desc=esc(desc), url=url, og='%s/assets/og/articles.jpg' % SITE,
            ld=json.dumps(ld, ensure_ascii=False), site=SITE,
-           n=len(items), cats=cat_btns, cards=cards)
+           n=len(items), cats=cat_btns, cards=cards, ser_bar=ser_bar)
     d = os.path.join(ROOT, 'articles')
     os.makedirs(d, exist_ok=True)
     with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
@@ -772,15 +1138,23 @@ def main():
     published = [p for p in posts if p.get('status') != '整理中']
     for p in posts:
         p['slug'] = SLUGS.get(str(p.get('num', '')).strip(), '')
+    load_series()
     made = []
     for p in published:
         made.append(build(p, published))
     build_list(published)
+    nser = 0
+    for s in SERIES['series']:
+        r = build_series_page(s, published, SERIES['series'])
+        if r:
+            nser += 1
+            print('  /series/%s/  %s（%d 篇）' % r)
+    build_series_index(published)
     io.open(POSTS, 'w', encoding='utf-8', newline='\n').write(
         json.dumps(data, ensure_ascii=False, indent=2) + '\n')
-    print('generated %d article pages' % len(made))
-    for s, t in made:
-        print('  /article/%s/  %s' % (s, t[:34]))
+    print('generated %d article pages, %d series pages' % (len(made), nser))
+    for sl, t in made:
+        print('  /article/%s/  %s' % (sl, t[:34]))
 
 
 if __name__ == '__main__':
