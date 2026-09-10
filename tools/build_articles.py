@@ -54,26 +54,16 @@ SLUGS = {
     '31': 'macau-five-year-plan-diversification',
     '01': 'three-choices-define-your-life',
     '02': 'rent-hike-still-profitable-yet-closed',
-    '03': 'sun-yat-sen-party-and-country',
     '04': 'qixi-festival-original-meaning',
     '05': 'richard-koo-balance-sheet-recession',
-    '06': 'just-set-out-is-the-answer',
+    '06': 'two-thoughts-set-out-and-palm',
     '07': 'august-eighth-fathers-day-origin',
     '08': 'liqiu-start-of-autumn',
-    '09': 'ring-finger-longer-than-index',
     '11': 'fuhang-a-fathers-wisdom',
     '12': 'jianlai-sword-immortals-oath',
-    '13': 'jinggangshan-first-mountain',
-    '14': 'wulong-waterfall-pools',
-    '15': 'wugongshan-young-hikers',
-    '16': 'one-promise-a-lifetime',
-    '17': 'ninghong-tea-xiushui',
-    '18': 'tengwang-pavilion-night-tour',
-    '19': 'yimen-chen-clan-dean',
+    '13': 'jiangxi-seven-days',
     '20': 'kaipu-group-reunion',
-    '21': 'nanjing-firms-eyeing-shantou',
-    '22': 'jieyang-shantou-overseas-letters',
-    '24': 'kangfu-founder-huang-huaqun',
+    '21': 'chaoshan-journey-letters-home',
     '25': 'macau-ai-cross-border-services',
     '26': 'ai-content-marketing-ctr-jump',
     '27': 'macau-1-plus-4-digital-hub',
@@ -970,7 +960,7 @@ def build(post, allposts):
     return slug, title
 
 
-CATS = ['澳門觀察', '產業評論', '商道隨筆', '行走見聞', '文化雅述', '研究報告']
+CATS = ['澳門觀察', '行走見聞', '閱讀筆記', '文化隨筆', '生活隨筆']
 
 
 def build_list(posts):
@@ -993,17 +983,21 @@ def build_list(posts):
         ) % (SITE, slug, esc(cat), cover, esc(title), esc(cat), esc(cat),
              date.replace('-', '.'), esc(title), esc(lead))
 
-    ser_bar = ''
-    chips = ''
+    # 輯資料：全部輯清單 + 欄目 → 輯（以該輯成員最多的分類歸屬）
+    all_ser = []
+    ser_of_cat = {}
     for s in sorted_series():
         m = series_members(items, s['id'])
         if not m:
             continue
-        chips += '<a href="%s/series/%s/">%s<span>%d 篇</span></a>' % (
-            SITE, esc(s['id']), esc(s['name']), len(m))
-    if chips:
-        ser_bar = ('<div class="ser-bar"><span class="sb-lab">輯</span>%s'
-                   '<a href="%s/series/">全部輯 ›</a></div>' % (chips, SITE))
+        all_ser.append({'id': s['id'], 'name': s['name'], 'n': len(m)})
+        cnt = {}
+        for p in m:
+            k = (p.get('category') or '').strip()
+            cnt[k] = cnt.get(k, 0) + 1
+        top = max(cnt.items(), key=lambda kv: kv[1])[0] if cnt else ''
+        ser_of_cat.setdefault(top, []).append(
+            {'id': s['id'], 'name': s['name'], 'n': len(m)})
 
     cat_btns = '<button class="lc-cat on" data-c="全部">全部<span>%d</span></button>' % len(items)
     for c in CATS:
@@ -1026,7 +1020,7 @@ def build_list(posts):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>專欄文章｜翁振軒 Sean Own</title>
 <meta name="description" content="{desc}">
-<meta name="keywords" content="翁振軒,專欄,澳門觀察,產業評論,商道隨筆,數位經濟,Sean Own">
+<meta name="keywords" content="翁振軒,專欄,澳門觀察,行走見聞,閱讀筆記,文化隨筆,生活隨筆,數位經濟,Sean Own">
 <link rel="canonical" href="{url}">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <meta name="theme-color" content="#002676">
@@ -1056,12 +1050,14 @@ html{{scroll-behavior:smooth}}
 .masthead .kicker{{font-size:14px;letter-spacing:6px;color:var(--gold);font-weight:700;margin-bottom:14px}}
 .masthead h1{{font-size:44px;font-weight:800;letter-spacing:2px;margin-bottom:12px}}
 .masthead p{{color:rgba(255,255,255,.75);font-size:16px}}
-.ser-bar{{max-width:1180px;margin:0 auto;padding:16px 24px 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center}}
-.ser-bar .sb-lab{{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700}}
-.ser-bar a{{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:7px 16px;font-size:13.5px;font-weight:700;color:var(--blue);transition:all .2s}}
-.ser-bar a:hover{{background:var(--blue);border-color:var(--blue);color:#fff}}
-.ser-bar a span{{font-size:11.5px;color:var(--gray);margin-left:5px;font-weight:600}}
-.ser-bar a:hover span{{color:var(--gold)}}
+.ser-panel{{max-width:1180px;margin:0 auto;padding:0 24px;gap:10px;flex-wrap:wrap;align-items:center;display:none}}
+.ser-panel.on{{display:flex;margin-top:16px}}
+.ser-panel .sp-lab{{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700}}
+.ser-panel a{{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:7px 16px;font-size:13.5px;font-weight:700;color:var(--blue);transition:all .2s}}
+.ser-panel a:hover{{background:var(--blue);border-color:var(--blue);color:#fff}}
+.ser-panel a span{{font-size:11.5px;color:var(--gray);margin-left:5px;font-weight:600}}
+.ser-panel a:hover span{{color:var(--gold)}}
+.ser-panel .sp-all{{border-color:var(--line);color:var(--gray);font-weight:600}}
 .filter-bar{{position:sticky;top:62px;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}}
 .lc-cat{{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 18px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;transition:all .2s}}
 .lc-cat span{{font-size:12px;color:var(--gray);margin-left:5px}}
@@ -1101,9 +1097,9 @@ html{{scroll-behavior:smooth}}
 <p>澳門產業觀察 · 數位經濟趨勢 · 商道與文化隨筆 — 共 {n} 篇</p>
 </header>
 
-{ser_bar}
-
 <div class="filter-bar" id="cats">{cats}</div>
+
+<div class="ser-panel" id="serPanel"></div>
 
 <main class="grid" id="grid">{cards}</main>
 
@@ -1115,6 +1111,16 @@ html{{scroll-behavior:smooth}}
 <a class="float-cta" href="{site}/#sec-contact">洽談合作</a>
 <script>
 (function(){{
+var ALL_SER={all_ser},SER_OF_CAT={ser_of_cat},SITE='{site}';
+var panel=document.getElementById('serPanel');
+function renderPanel(c){{
+var list=(c==='全部')?ALL_SER:(SER_OF_CAT[c]||[]);
+if(!list.length){{panel.innerHTML='';panel.classList.remove('on');return;}}
+var h='<span class="sp-lab">輯</span>';
+list.forEach(function(s){{h+='<a href="'+SITE+'/series/'+s.id+'/">'+s.name+'<span>'+s.n+' 篇</span></a>';}});
+h+='<a class="sp-all" href="'+SITE+'/series/">全部輯 ›</a>';
+panel.innerHTML=h;panel.classList.add('on');
+}}
 var btns=document.querySelectorAll('.lc-cat');
 btns.forEach(function(b){{b.addEventListener('click',function(){{
 btns.forEach(function(x){{x.classList.remove('on')}});
@@ -1123,14 +1129,18 @@ var c=b.getAttribute('data-c');
 document.querySelectorAll('.lc-card').forEach(function(card){{
 card.classList.toggle('hide',c!=='全部'&&card.getAttribute('data-cat')!==c);
 }});
+renderPanel(c);
 }})}});
+renderPanel('全部');
 }})();
 </script>
 </body>
 </html>
 """.format(desc=esc(desc), url=url, og='%s/assets/og/articles.jpg' % SITE,
            ld=json.dumps(ld, ensure_ascii=False), site=SITE,
-           n=len(items), cats=cat_btns, cards=cards, ser_bar=ser_bar)
+           n=len(items), cats=cat_btns, cards=cards,
+           all_ser=json.dumps(all_ser, ensure_ascii=False),
+           ser_of_cat=json.dumps(ser_of_cat, ensure_ascii=False))
     d = os.path.join(ROOT, 'articles')
     os.makedirs(d, exist_ok=True)
     with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
