@@ -26,11 +26,24 @@ def load_series():
     return SERIES
 
 
+def sorted_series():
+    """輯的顯示順序：order 小的在前，同值再按輯名。"""
+    return sorted(SERIES['series'],
+                  key=lambda s: (int(s.get('order', 99) or 99), s.get('name', '')))
+
+
 def series_members(posts, sid):
-    """取回某輯的成員文章，按日期升序（旅行／事件順序），同日再按篇號。"""
+    """取回某輯的成員文章。
+
+    order_dir='desc' → 新的在前（主線／隨筆類，讓最新觀點當門面）
+    order_dir='asc'（預設）→ 日期升序（行記類，按實際行程順序讀）
+    同日再按篇號。
+    """
     ms = [p for p in posts
           if (p.get('series') or '').strip() == sid and p.get('status') != '整理中']
-    return sorted(ms, key=lambda p: (str(p.get('date', '')), str(p.get('num', ''))))
+    desc = str(SERIES_BY_ID.get(sid, {}).get('order_dir') or 'asc').lower() == 'desc'
+    return sorted(ms, key=lambda p: (str(p.get('date', '')), str(p.get('num', ''))),
+                  reverse=desc)
 
 # 文章英文 slug（SEO 友善，關鍵詞命名）
 SLUGS = {
@@ -48,7 +61,6 @@ SLUGS = {
     '07': 'august-eighth-fathers-day-origin',
     '08': 'liqiu-start-of-autumn',
     '09': 'ring-finger-longer-than-index',
-    '10': 'global-chinese-influencer-award-extended',
     '11': 'fuhang-a-fathers-wisdom',
     '12': 'jianlai-sword-immortals-oath',
     '13': 'jinggangshan-first-mountain',
@@ -333,6 +345,7 @@ def build_series_page(s, posts, all_series):
     members = series_members(posts, sid)
     if not members:
         return None
+    desc_order = str(s.get('order_dir') or 'asc').lower() == 'desc'
     cover_num = str(s.get('cover_num') or members[0].get('num', '')).strip()
     cover_slug = SLUGS.get(cover_num) or ('post-' + cover_num)
 
@@ -360,7 +373,7 @@ def build_series_page(s, posts, all_series):
              esc(ptitle), esc(plead))
 
     others = ''
-    for o in all_series:
+    for o in sorted_series():
         if o['id'] == sid:
             continue
         om = series_members(posts, o['id'])
@@ -426,7 +439,7 @@ def build_series_page(s, posts, all_series):
 
 <div class="wrap">
 <div class="intro"><div class="i-lab">輯 序</div>{intro}</div>
-<div class="sec-lab">按行程順序</div>
+<div class="sec-lab">{sec_lab}</div>
 <ul class="timeline">{items}</ul>
 </div>
 
@@ -442,6 +455,7 @@ def build_series_page(s, posts, all_series):
         kicker=esc(('%s · 輯' % coll_name) if coll_name else '輯'),
         sub=esc(s.get('subtitle') or ''), period=esc(s.get('period') or ''),
         n=len(members), items=items, others=others,
+        sec_lab='按時間倒序 · 最新在前' if desc_order else '按時間順序',
         intro=''.join('<p>%s</p>' % esc(x.strip())
                       for x in (s.get('intro') or '（輯序待補）').split('\n\n') if x.strip()),
     )
@@ -457,7 +471,7 @@ def build_series_index(posts):
     rows = ''
     any_series = False
     for c in SERIES.get('collections', []):
-        subs = [s for s in SERIES['series'] if s.get('collection') == c['id']]
+        subs = [s for s in sorted_series() if s.get('collection') == c['id']]
         blocks = ''
         for s in subs:
             m = series_members(posts, s['id'])
@@ -476,7 +490,7 @@ def build_series_index(posts):
         if blocks:
             rows += ('<div class="sec-lab" style="max-width:1080px;margin:0 auto;padding:26px 24px 0">%s</div>'
                      '<div class="other-ser">%s</div>' % (esc(c['name']), blocks))
-    loose = [s for s in SERIES['series'] if not s.get('collection')]
+    loose = [s for s in sorted_series() if not s.get('collection')]
     if loose:
         blocks = ''
         for s in loose:
@@ -989,7 +1003,7 @@ def build_list(posts):
 
     ser_bar = ''
     chips = ''
-    for s in SERIES['series']:
+    for s in sorted_series():
         m = series_members(items, s['id'])
         if not m:
             continue
@@ -1144,7 +1158,7 @@ def main():
         made.append(build(p, published))
     build_list(published)
     nser = 0
-    for s in SERIES['series']:
+    for s in sorted_series():
         r = build_series_page(s, published, SERIES['series'])
         if r:
             nser += 1
