@@ -656,7 +656,7 @@ const CAT_AVATAR={'澳門觀察':'assets/images/avatars/shiju.jpg','行走見聞
 async function loadPosts(){try{const res=await fetch('data/posts.json');const data=await res.json();
 // 只顯示「已上線」文章；status 為「整理中」或不存在的（向後相容）視為已上線
 allPosts=(data.posts||[]).filter(p=>p.status!=='整理中');renderFocus();renderHomeLatest()}catch(e){console.error('Load posts failed:',e)}}
-function renderFocus(){const g=document.getElementById('focus-card');if(!g||!allPosts.length)return;const p=allPosts.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')))[0];if(!p)return;const txt=(p.body||'').replace(/<[^>]+>/g,'').replace(/[#*>\n`]/g,'').trim().slice(0,88);const raw=(p.images&&p.images[0])||'';const img=raw?wsrc(raw):(p.slug?'/assets/og/'+p.slug+'.jpg':'');const href=p.slug?('/article/'+p.slug+'/'):'#';const jump=p.slug?'':` onclick="openArticleByNum(\'${p.num}\');return false"`;g.innerHTML=`<a class="focus-card" href="${href}"${jump}><img class="focus-img" src="${img}" data-fb="${raw||img}" alt="${(p.title||'').replace(/"/g,'')} — 文章封面" loading="lazy" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}"><div class="focus-body"><div class="focus-top"><span class="focus-tag">${p.category||''}</span><span class="focus-date">${formatDate(p.date)} 發布</span></div><h3>${p.title||''}</h3><p>${txt}…</p><span class="focus-more">閱讀全文 →</span></div></a>`}
+function renderFocus(){const g=document.getElementById('focus-card');if(!g||!allPosts.length)return;const p=allPosts.filter(x=>!x.no_focus).slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')))[0];if(!p)return;const txt=(p.body||'').replace(/<[^>]+>/g,'').replace(/[#*>\n`]/g,'').trim().slice(0,88);const raw=(p.images&&p.images[0])||'';const img=raw?wsrc(raw):(p.slug?'/assets/og/'+p.slug+'.jpg':'');const href=p.slug?('/article/'+p.slug+'/'):'#';const jump=p.slug?'':` onclick="openArticleByNum(\'${p.num}\');return false"`;g.innerHTML=`<a class="focus-card" href="${href}"${jump}><img class="focus-img" src="${img}" data-fb="${raw||img}" alt="${(p.title||'').replace(/"/g,'')} — 文章封面" loading="lazy" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}"><div class="focus-body"><div class="focus-top"><span class="focus-tag">${p.category||''}</span><span class="focus-date">${formatDate(p.date)} 發布</span></div><h3>${p.title||''}</h3><p>${txt}…</p><span class="focus-more">閱讀全文 →</span></div></a>`}
 function renderHomeLatest(){const g=document.getElementById('home-latest');if(!g||!allPosts.length)return;const items=allPosts.slice(0,6);g.innerHTML=items.map(p=>{const txt=(p.body||'').replace(/<[^>]+>/g,'').replace(/[#*>\n`]/g,'').trim().slice(0,72);const img=(p.images&&p.images[0])?wsrc(p.images[0]):(p.slug?'/assets/og/'+p.slug+'.jpg':'');const raw=(p.images&&p.images[0])||img;return `<a class="home-post-card" href="${p.slug?'/article/'+p.slug+'/':'#'}" ${p.slug?'':'onclick="openArticleByNum(\''+p.num+'\');return false"'}>${img?`<img class="home-post-img" src="${img}" data-fb="${raw}" alt="${(p.title||'').replace(/"/g,'')}" loading="lazy" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}else{this.style.display='none'}">`:''}<div class="home-post-body"><div class="home-post-top"><span class="home-post-tag">${p.category||''}</span><span class="home-post-date">${formatDate(p.date)}</span></div><h3>${p.title||''}</h3><p>${txt}…</p></div></a>`}).join('')}
 function openArticleByNum(n){const i=allPosts.findIndex(p=>String(p.num)===String(n));if(i>-1)openArticle(i)}
 function searchPosts(q){searchQuery=q.trim().toLowerCase();renderPosts()}
@@ -782,6 +782,35 @@ loadPosts();loadMedia();loadSiteText();
 <script type="application/json" id="embedded-posts">
 {
   "posts": [
+    {
+      "num": 37,
+      "title": "納瓦爾：三步找到「天生該吃這碗飯」的領域",
+      "category": "生活隨筆",
+      "date": "2026-09-12",
+      "location": "澳門",
+      "status": "已上線",
+      "images": [
+        "assets/images/posts/37-1.jpg"
+      ],
+      "body": "> 在「成為自己」這件事上，沒有人能比你做得更好。—— 納瓦爾 \n\n如果你還在迷茫該做什麼、往哪走，別急著模仿別人。納瓦爾用一生經驗告訴我們：真正的捷徑，是把自己變成「稀缺品」。下面三步，帶你從內到外，把天賦變成事業👇\n\n## 第一步：向內挖掘，找到你的「特定知識」\n\n什麼是特定知識？\n\n- 無法被培訓，只能被學習（基因＋獨特經歷）\n- 對你像玩耍，對別人像工作\n- 往往處於知識邊緣，需要深度投入\n\n社會可以培訓你，就可以培訓別人取代你。\n\n### 💡 如何找到你的特定知識\n\n1. **追溯「心流時刻」**——做什麼事會忘記時間？\n2. **傾聽「非功利熱愛」**——不給錢也願意做的是什麼？\n3. **進行「技能疊加」**——把 2～3 項前 25% 的技能組合起來，就是獨一無二的你。\n\n## 第二步：向外驗證，尋找「需求交叉點」\n\n納瓦爾財富公式：\n\n> **特定知識 ＋ 社會需求 ＋ 槓桿 ＝ 財富**\n\n問自己：你的知識能解決什麼高價值痛點？幫人省錢？省時間？獲得快樂？避免痛苦？\n\n### ⚡ 別等「完美」再發布\n\n納瓦爾說：靈感是會腐爛的。\n\n1. 今天有靈感 → **24 小時內做出最小產品**（一篇短文、一個清單、一個簡單工具）\n2. 立刻發布，哪怕只發給 10 個人\n3. 根據反饋迭代，而不是空想\n4. 用「無需許可」的槓桿：代碼或媒體\n\n## 第三步：持續放大，構建你的「複利系統」\n\n所有回報都來自複利，你需要四樣：\n\n- **責任槓桿**：用真名，建立信任\n- **判斷力複利**：每日微決策，定期複盤\n- **人際複利**：只選高智商、高能量、高誠信的人\n- **內容複利**：寫文章、做視頻，睡覺也在幫你工作\n\n## ✅ 今日啟動清單\n\n1. 寫下 3 件你「毫不費力且忘我」的事\n2. 把這 3 件事組合，寫出能解決的 1 個獨特問題\n3. 用 24 小時做出一個「最小產品」\n4. 發給 3 個朋友，問：「這對你有用嗎？你願意為此付多少錢？」\n\n從「證明自己」，轉向「為誰解決什麼」。\n\n## 💎 納瓦爾的終極提醒\n\n財富不會流向最努力的人，而會流向最「像自己」的人。\n\n不要做更好的別人，要做不可替代的自己。從今天起，把你的「特定知識」，變成你的「無限遊戲」吧。\n",
+      "slug": "naval-three-steps-find-your-calling",
+      "no_focus": true
+    },
+    {
+      "num": 36,
+      "title": "財富與時代槓桿：新時代澳門文化商業的佈局思維",
+      "category": "澳門觀察",
+      "date": "2026-09-11",
+      "location": "澳門",
+      "status": "已上線",
+      "images": [
+        "assets/images/posts/36-1.jpg",
+        "assets/images/posts/36-2.jpg",
+        "assets/images/posts/36-3.jpg"
+      ],
+      "body": "長期以來，多數人對於賺錢、經營與創業的理解，大多停留在「付出勞動，換取酬勞」的單一邏輯。\n\n但隨著產業迭代、國際格局重組，真正決定一個人、一個團隊能夠走得遠、走得穩、走得大的，從來不是勞動的密度，而是底層的思維架構，以及長期累積的槓桿效應。\n\n## 一、財富的兩種底層邏輯\n\n所有財富的底層邏輯，其實只有兩種。\n\n**第一種，是出售時間換取收益。**\n\n這是最普遍、最穩定、最安全的生活方式。無論是工作、執行、跑業務，本質都是用有限的時間，換取當下可見的回報。它確定性高、心裡踏實、即時落地。\n\n但它有天生天花板：時間永遠不夠用、永遠有上限。再努力，也只是線性增長。努力可以養家糊口、穩定生活，卻很難讓人跨越層級、建立資產、搭建可長期傳承的品牌與影響力。\n\n很多人一生忙碌、勤奮、不停奔跑，依舊焦慮，核心原因就是：長年活在「賣時間」的模式裡，沒有建立自己的長期槓桿。\n\n**第二種，是建立槓桿、累積複利、讓價值自我流轉。**\n\n真正的長期財富、品牌高度、時代機遇，全部來自這一條路。\n\n所謂槓桿，不是投機、不是捷徑。是一次深耕、長期輸出、反覆變現、持續放大。\n\n槓桿可以是：IP、美學、內容、文化體系、平台資源、國際鏈路、品牌認知。\n\n它最大的特點：前期慢、後期極快；前期辛苦、後期輕鬆；前期無人看見、後期無人能取代。\n\n## 二、普通佈局者 vs 成熟佈局者\n\n普通人喜歡多線並行、到處抓機會、什麼熱做什麼。最後精力分散、積累零散、毫無護城河。\n\n成熟的佈局者，只做「深度專注」。把時間、心力、資源全部集中在一條長期賽道，慢慢堆疊，直到形成屬於自己的時代優勢。\n\n> 人生最大的內耗，是「目標與路徑錯配」。\n\n很多人想要長期、想要品牌、想要格局、想要跨越週期，卻一直用「短期打工思維」經營人生。短期求快，長期求穩，本質完全矛盾，自然越努力越慌、越忙越空。\n\n## 三、澳門的歷史級轉型節點\n\n\n現在的澳門，正處於歷史級轉型節點。\n\n舊的模式正在退場，新的時代正在開啟。很多人看見的是壓力、變動、不確定性。我們看見的，是全新的時代入口、新一輪的國際機遇。\n\n國家戰略一句「國家所需、澳門所長」，已經講透未來十年的商業底層邏輯。\n\n內地市場體量大、競爭激烈、高度內卷。我們不需要、也不應該重複內地的同質賽道。\n\n澳門真正不可替代的價值，只有一個：**背靠祖國、連接世界、做內地做不了、不方便做、很難國際化的事。**\n\n## 四、東方美學的大航海時代\n\n其中最大、最長遠、最有時代紅利的賽道，就是：**東方美學、非遺文化、中國文化IP的國際輸出。**\n\n過去幾百年，世界的審美、生活方式、文化敘事，都由西方定義。但時代變了。\n\n屬於中國文化的大航海時代，已經來臨。\n\n未來十年，是東方美學重新走向全球、中式文化重新影響世界的黃金週期。\n\n但文化這條路，從來不是快錢生意。它沒有立刻的回報、沒有短期的爆發、沒有速成的結果。它需要耐心、需要沉澱、需要故事、需要美學、需要體系、更需要一群理念相同的人，一起扛過前期浪潮，一起等待時代落地。\n\n> 短期不暴利，長期無上限。\n\n## 五、三地互補的時代底盤\n\n我近年所有佈局，都圍繞「平台、資源、國際、文化、長期」展開。\n\n深耕粵港澳大灣區資源、整合澳門新舊圈層、搭建政企與國際對接體系、持續佈局新的商業與文化平台。\n\n未來的佈局非常清晰：\n\n- **澳門**——做文化平台與國際窗口\n- **香港**——做金融資本與全球鏈路\n- **大灣區**——做產業落地與支撐\n\n三地互補、無可替代，這是我們接得住時代紅利的底盤。\n\n與此同時，我們佈局了屬於東方美學的國際文化平台 [silklyart.com](https://silklyart.com/)，以絲綢文化為載體，把中國千年美學、工藝、非遺故事，用國際看得懂的方式，對接全球視野、海外設計與國際市場。\n\n不做短期流量，只做長期文化資產。\n\n\n## 六、結語：佈局者贏\n\n這個時代，早已不是「辛苦就能贏」。\n\n而是佈局者贏、長期者贏、文化者贏、平台者贏。\n\n浪潮來臨，與同頻者共行。\n\n**迎接屬於我們的，新東方文化時代。**\n\n---\n\n*本文為 seanown.org 個人品牌專欄文章，配圖均為原創視覺素材，未經授權請勿轉載。*",
+      "slug": "wealth-leverage-macau"
+    },
     {
       "num": 35,
       "title": "近期反思：十二句話，十二幅手繪",

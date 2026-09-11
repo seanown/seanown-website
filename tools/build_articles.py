@@ -47,6 +47,8 @@ def series_members(posts, sid):
 
 # 文章英文 slug（SEO 友善，關鍵詞命名）
 SLUGS = {
+    '37': 'naval-three-steps-find-your-calling',
+    '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
     '33': 'hdi-2025-human-development-report',
