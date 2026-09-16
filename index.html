@@ -290,7 +290,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="nav-right">
 <a href="/articles/" class="nav-col-link">專欄文章</a>
 <a href="/series/" class="nav-col-link">專題輯</a>
-<a href="#" class="nav-cta" onclick="goto('contact');return false">洽談合作</a>
+<a href="#sec-contact" class="nav-cta" onclick="goto('contact');return false">洽談合作</a>
 </div>
 </div>
 </nav>
@@ -556,7 +556,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <iframe src="macau-weekly.html" title="澳門週訊"></iframe>
 </div></div>
 
-<a href="#" class="float-cta" onclick="goto('contact');return false">洽談合作</a>
+<a href="#sec-contact" class="float-cta" onclick="goto('contact');return false">洽談合作</a>
 
 <script>
 const SECMAP={about:'sec-author',column:'sec-articles',works:'sec-projects',coop:'sec-services',contact:'sec-contact',media:'sec-media'};
@@ -580,7 +580,9 @@ window.addEventListener('scroll',()=>{document.getElementById('nav').classList.t
 window.addEventListener('message',function(e){if(e.data&&e.data.type==='hdi-height'){var f=document.getElementById('hdi-frame');if(f&&e.data.height>400&&e.data.height<12000){f.style.height=Math.round(e.data.height+8)+'px'}}if(e.data&&e.data.type==='ledger-height'){var lf=document.getElementById('ledger-frame');if(lf&&e.data.height>400){var cap=window.innerHeight?Math.round(window.innerHeight*0.82):880;var nh=Math.min(Math.round(e.data.height+8),Math.max(cap,560));lf.style.height=nh+'px'}}});
 (function(){function route(){var M={'/about':'about','/column':'column','/works':'works','/contact':'contact'};var p=location.pathname.replace(/\/+$/,'')||'/';var h=decodeURIComponent(location.hash||'');
 if(M[p]){setTimeout(function(){goto(M[p],(p==='/about'&&/^#assoc/.test(h))?'about-social':undefined)},400)}
-else if(/^#assoc/.test(h)){setTimeout(function(){goto('about','about-social')},400)}}
+else if(/^#assoc/.test(h)){setTimeout(function(){goto('about','about-social')},400)}
+else if(/^#contact$/i.test(h)){setTimeout(function(){goto('contact')},400)}
+else if(/^#sec-[a-z0-9-]+$/i.test(h)){setTimeout(function(){var t=document.getElementById(h.slice(1));if(t){if(document.getElementById('about-detail'))openAboutDetail();t.scrollIntoView({behavior:'smooth'})}},400)}}
 route()})();
 </script>
 
