@@ -278,6 +278,36 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<style>
+/* 著作專區 */
+.books-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:8px}
+.book-card{background:var(--white);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--light-gray);display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s}
+.book-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.book-cover{height:190px;background:linear-gradient(135deg,#0a1430,#16213e);display:flex;align-items:center;justify-content:center;color:#fff;font-size:56px;position:relative}
+.book-status{position:absolute;top:14px;right:14px;background:rgba(184,145,46,.95);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:1px}
+.book-body{padding:22px 24px 26px;flex:1;display:flex;flex-direction:column}
+.book-title{font-size:20px;font-weight:800;color:#1A1A1A;margin-bottom:6px}
+.book-sub{font-size:13px;color:var(--gold);font-weight:700;margin-bottom:12px}
+.book-desc{font-size:14px;color:#475467;line-height:1.7;flex:1}
+.book-format{margin-top:16px;font-size:12px;color:#667085;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.book-format span{background:#F0F4F8;color:#002676;padding:3px 10px;border-radius:10px;font-weight:600}
+@media(max-width:768px){.books-grid{grid-template-columns:1fr}}
+/* 訂閱專區 */
+.subscribe-wrap{background:linear-gradient(135deg,#0a1430,#16213e);border-radius:22px;padding:44px 36px;text-align:center;color:#fff;margin-top:8px}
+.subscribe-wrap h2{color:#fff}
+.subscribe-wrap .section-subtitle{color:rgba(255,255,255,.72)}
+.subscribe-form{display:flex;gap:12px;max-width:580px;margin:26px auto 0;flex-wrap:wrap;justify-content:center}
+.subscribe-form .sf-field{flex:1;min-width:170px;text-align:left}
+.subscribe-form label{display:block;font-size:12px;color:rgba(255,255,255,.7);margin-bottom:6px}
+.subscribe-form input{width:100%;padding:13px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:15px;box-sizing:border-box}
+.subscribe-form input::placeholder{color:rgba(255,255,255,.45)}
+.subscribe-form input:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.14)}
+.subscribe-btn{padding:13px 32px;border:none;border-radius:12px;background:var(--gold);color:#1a1a2e;font-weight:800;font-size:15px;cursor:pointer;transition:transform .2s,box-shadow .2s;white-space:nowrap;align-self:flex-end}
+.subscribe-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(184,145,46,.4)}
+.subscribe-note{margin-top:16px;font-size:12px;color:rgba(255,255,255,.55)}
+.subscribe-success{display:none;text-align:center;padding:14px;font-size:18px;font-weight:700;color:#fff}
+.subscribe-success.show{display:block}
+</style>
 </head>
 <body>
 <nav class="nav" id="nav">
@@ -511,6 +541,32 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="media-featured" id="media-featured"></div><div id="media-categories"></div>
 </div></section>
 
+<!-- ⑩ 著作出版 -->
+<section class="section" id="sec-books" style="background:var(--bg)"><div class="section-inner">
+<h2 class="section-title">著作出版</h2><p class="section-subtitle">將寫作結集成書，讓觀察沉澱為可收藏的知識</p><div class="title-line"></div>
+<div class="books-grid">
+  <div class="book-card">
+    <div class="book-cover">📕<span class="book-status">籌備中</span></div>
+    <div class="book-body">
+      <div class="book-title">首部著作 · 籌備中</div>
+      <div class="book-sub">澳門產業觀察與數位出海實戰</div>
+      <div class="book-desc">從產業顧問視角，記錄澳門與大灣區的數位轉型現場，以及中華文化 IP 走向國際的真實路徑。</div>
+      <div class="book-format"><span>預計出版 籌備中</span></div>
+    </div>
+  </div>
+  <div class="book-card">
+    <div class="book-cover">📘<span class="book-status">籌備中</span></div>
+    <div class="book-body">
+      <div class="book-title">電子書系列 · 籌備中</div>
+      <div class="book-sub">專欄文章主題結集</div>
+      <div class="book-desc">將已發表的專欄文章按主題重新編排，推出電子書系列，方便隨身閱讀與收藏。</div>
+      <div class="book-format"><span>實體書</span><span>電子書</span></div>
+    </div>
+  </div>
+</div>
+<p style="text-align:center;margin-top:24px;opacity:.7;font-size:14px">更多著作計畫陸續公開，歡迎<a href="#" onclick="goto('subscribe');return false" style="color:var(--blue);font-weight:700">訂閱</a>掌握最新進度。</p>
+</div></section>
+
 <!-- ② 核心業務（合作方向） -->
 <section class="section" id="sec-services" style="background:var(--white)"><div class="section-inner">
 <h3 class="section-title" style="font-size:26px">合作方向</h3><p class="section-subtitle">推動中國數位服務出海，建設中華文化國際傳播基地</p><div class="title-line"></div>
@@ -521,6 +577,24 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="coop-item"><div class="coop-icon">🎬</div><h3>融媒體與 IP 運營</h3><p>融媒體中心搭建，文娛 IP 落地運營</p><div class="coop-links"><a class="coop-link" href="https://www.macaodaily.com/html/2026-06/03/content_1912209.htm" target="_blank" rel="noopener">澳門日報報導 ↗</a></div></div>
 </div>
 <p style="text-align:center;margin-top:22px;opacity:.75;font-size:14px">以上為主要洽談方向，若有其他跨界合作提案，歡迎透過下方表單敘述您的需求。</p>
+</div></section>
+
+<!-- ⑪ 訂閱我的寫作 -->
+<section class="section" id="sec-subscribe" style="background:var(--bg)"><div class="section-inner">
+<h2 class="section-title">訂閱我的寫作</h2><p class="section-subtitle">新文章與著作進度，第一時間寄到你的信箱</p><div class="title-line"></div>
+<div class="subscribe-wrap">
+  <form name="subscribe" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return submitSubscribe(event)">
+    <input type="hidden" name="form-name" value="subscribe">
+    <p hidden aria-hidden="true"><label>Don't fill this: <input name="bot-field"></label></p>
+    <div class="subscribe-form">
+      <div class="sf-field"><label>姓名</label><input type="text" name="name" required minlength="2" maxlength="50" placeholder="您的稱呼"></div>
+      <div class="sf-field"><label>電子信箱</label><input type="email" name="email" required placeholder="example@email.com"></div>
+      <button type="submit" class="subscribe-btn">訂閱更新</button>
+    </div>
+    <p class="subscribe-note">我們只會在有新文章或著作進度時寄信，絕不轉讓你的資料。</p>
+    <div class="subscribe-success" id="subscribe-success">✓ 訂閱成功，感謝你的支持！</div>
+  </form>
+</div>
 </div></section>
 
 <!-- ⑧ 合作與聯絡 -->
@@ -571,7 +645,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <a href="#sec-contact" class="float-cta" onclick="goto('contact');return false">洽談合作</a>
 
 <script>
-const SECMAP={about:'sec-author',column:'sec-articles',works:'sec-projects',coop:'sec-services',contact:'sec-contact',media:'sec-media'};
+const SECMAP={about:'sec-author',column:'sec-articles',works:'sec-projects',coop:'sec-services',contact:'sec-contact',media:'sec-media',books:'sec-books',subscribe:'sec-subscribe'};
 function openAboutDetail(){var det=document.getElementById('about-detail');if(!det)return false;if(det.hidden){det.hidden=false;var eb=document.getElementById('about-expand-btn');if(eb){eb.textContent='收起完整經歷 ▴';eb.setAttribute('aria-expanded','true')}return true}return false}
 function goto(sec,anchor){
 if(sec==='home'){window.scrollTo({top:0,behavior:'smooth'});return}
@@ -742,6 +816,23 @@ btn.innerHTML='<span class="form-spinner"></span> 送出中...';
 try{await fetch('/',{method:'POST',body:new FormData(form)})}catch(err){}
 form.innerHTML='<div style="text-align:center;padding:40px 20px"><div style="font-size:48px;margin-bottom:12px">✓</div><h3 style="color:var(--blue);margin-bottom:8px;font-size:22px">訊息已送出</h3><p style="color:var(--gray);font-size:14px">我會盡快回覆您，謝謝！</p></div>';
 return false;
+}
+// Subscribe form (Netlify Form)
+async function submitSubscribe(e){
+  e.preventDefault();
+  const form=e.target;
+  const name=form.querySelector('[name="name"]');
+  const email=form.querySelector('[name="email"]');
+  if(name && name.value.trim().length<2){name.classList.add('error');name.focus();return false}
+  if(email){const re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;if(!re.test(email.value.trim())){email.classList.add('error');email.focus();return false}}
+  const btn=form.querySelector('button[type="submit"]');
+  btn.disabled=true;btn.innerHTML='送出中...';
+  try{await fetch('/',{method:'POST',body:new FormData(form)})}catch(err){}
+  const wrap=document.getElementById('subscribe-success');
+  if(wrap)wrap.classList.add('show');
+  const sf=form.querySelector('.subscribe-form');if(sf)sf.style.display='none';
+  const note=form.querySelector('.subscribe-note');if(note)note.style.display='none';
+  return false;
 }
 // Load and render site text (editable via CMS / admin-simple.html -> data/site-text.json)
 async function loadSiteText(){

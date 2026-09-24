@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>媒體報導｜翁振軒 Sean Own</title>
+<meta name="description" content="翁振軒 Sean Own 的媒體採訪與活動報導總覽：論壇盛會、文化盛事、考察交流、專訪報導與產業動態。">
+<meta property="og:title" content="媒體報導｜翁振軒 Sean Own">
+<meta property="og:description" content="翁振軒 Sean Own 的媒體採訪與活動報導總覽。">
+<meta property="og:image" content="https://seanown.org/assets/og/seanown-home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<style>
+:root{--blue:#002676;--gold:#B8912E;--white:#fff;--bg:#F5F6F8;--light-gray:#E4E8EF;--text:#1A1A1A;--gray:#667085}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:inherit;text-decoration:none}
+.topbar{background:var(--white);border-bottom:1px solid var(--light-gray);position:sticky;top:0;z-index:10}
+.topbar-inner{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:800;font-size:17px;color:var(--blue)}
+.brand span{color:var(--gold)}
+.back-link{font-size:14px;font-weight:600;color:var(--blue)}
+.wrap{max-width:1080px;margin:0 auto;padding:48px 24px 80px}
+.page-title{font-size:34px;font-weight:800;color:var(--text)}
+.page-sub{margin-top:6px;color:var(--gray);font-size:15px}
+.title-line{width:64px;height:4px;background:var(--gold);border-radius:2px;margin:16px 0 36px}
+.media-cat{margin-top:30px;border-bottom:1px solid var(--light-gray)}
+.media-cat summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;user-select:none;padding:6px 0}
+.media-cat summary::-webkit-details-marker{display:none}
+.media-cat summary:hover .mc-arrow{transform:translateY(2px)}
+.media-cat .cat-name{font-size:22px;font-weight:800;color:var(--text)}
+.mc-count{font-size:13px;color:var(--gray);font-weight:500}
+.mc-arrow{margin-left:auto;color:var(--gold);font-weight:800;font-size:16px;transition:transform .2s}
+.media-cat[open] .mc-arrow{transform:rotate(180deg)}
+.media-cat-list{margin-top:6px}
+.media-list-card{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid #E4E8EF;transition:background .2s}
+.media-list-card:hover{background:#F8F9FB}
+.media-list-date{font-size:13px;color:#667085;min-width:90px;font-weight:600}
+.media-list-title{flex:1;font-size:14px;font-weight:500;color:#1A1A1A}
+.media-list-source{font-size:12px;color:#002676;background:#F0F4F8;padding:4px 10px;border-radius:12px;white-space:nowrap}
+.media-list-card:hover .media-list-title{color:var(--blue)}
+@media(max-width:768px){.media-list-card{flex-wrap:wrap;gap:6px}.media-list-source{margin-top:4px}.page-title{font-size:28px}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner">
+  <div class="brand">翁振軒 <span>SEAN OWN</span></div>
+  <a class="back-link" href="/">← 返回首頁</a>
+</div></header>
+<main class="wrap">
+  <h1 class="page-title">媒體報導</h1>
+  <p class="page-sub">媒體採訪與活動報導總覽</p>
+  <div class="title-line"></div>
+  <div id="media-all"></div>
+  <p style="text-align:center;margin-top:40px"><a class="back-link" href="/">← 返回首頁 · 閱讀專欄文章</a></p>
+</main>
+<script>
+function wsrc(p){return String(p||'').replace(/\.(jpe?g|png)$/i,'.webp')}
+function fmt(d){if(!d)return'';const dt=new Date(d);return dt.getFullYear()+'.'+String(dt.getMonth()+1).padStart(2,'0')}
+async function loadMedia(){
+  try{
+    const res=await fetch('/data/media.json');
+    const data=await res.json();
+    const items=data.media||[];
+    const order=['考察交流','論壇盛會','文化盛事','專訪報導','產業動態'];
+    const groups={};
+    items.forEach(m=>{const c=m.category||'其他';(groups[c]=groups[c]||[]).push(m)});
+    const card=m=>`<a href="${m.url||'#'}" target="_blank" rel="noopener" class="media-list-card"><span class="media-list-date">${fmt(m.date)}</span><span class="media-list-title">${m.title}</span><span class="media-list-source">${m.source||''}</span></a>`;
+    let html='';
+    order.filter(c=>groups[c]).forEach(c=>{html+=`<details class="media-cat" open><summary><span class="cat-name">${c}</span><span class="mc-count">${groups[c].length} 則</span><span class="mc-arrow">▾</span></summary><div class="media-cat-list">${groups[c].map(card).join('')}</div></details>`});
+    if(groups['其他'])html+=`<details class="media-cat" open><summary><span class="cat-name">其他</span><span class="mc-count">${groups['其他'].length} 則</span><span class="mc-arrow">▾</span></summary><div class="media-cat-list">${groups['其他'].map(card).join('')}</div></details>`;
+    document.getElementById('media-all').innerHTML=html;
+  }catch(e){document.getElementById('media-all').innerHTML='<p style="color:#667085">報導資料載入失敗，請稍後再試。</p>'}
+}
+loadMedia();
+</script>
+</body>
+</html>
