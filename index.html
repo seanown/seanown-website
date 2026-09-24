@@ -428,6 +428,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <section class="section" id="sec-articles" style="background:var(--bg)"><div class="section-inner">
 <h2 class="section-title">更多專欄</h2><p class="section-subtitle">產業觀點與跨界見聞，持續更新</p><div class="title-line"></div>
 <div class="home-latest-grid" id="home-latest"></div>
+<div class="series-jump"><span class="sj-label">按專題輯逛</span><a href="/series/macau-reader/" class="sj-chip">📘 讀懂澳門</a><a href="/series/cultural-ip-global/" class="sj-chip">🎨 東方美學 · 文化出海</a><a href="/series/youth-crossover/" class="sj-chip">🚀 給青年的跨界課</a><a href="/series/life-essays/" class="sj-chip">📖 生活哲思</a><a href="/series/" class="sj-chip sj-all">全部輯 →</a></div>
 <div style="text-align:center;margin-top:32px"><a href="/articles/" class="btn btn-primary" style="padding:14px 40px">查看全部文章 →</a></div>
 </div></section>
 
@@ -747,6 +748,12 @@ route()})();
 .media-list-title{flex:1;font-size:14px;font-weight:500;color:#1A1A1A}
 .media-list-source{font-size:12px;color:#002676;background:#F0F4F8;padding:4px 10px;border-radius:12px;white-space:nowrap}
 @media(max-width:768px){.article-modal-header{padding:30px 20px 16px}.article-modal-body{padding:20px}.article-modal-header h2{font-size:20px}.media-list-card{flex-wrap:gap}.media-list-source{margin-top:4px}}
+.series-jump{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-top:24px}
+.series-jump .sj-label{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700;margin-right:2px}
+.series-jump .sj-chip{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:7px 16px;font-size:13.5px;font-weight:700;color:var(--blue);transition:all .2s;text-decoration:none}
+.series-jump .sj-chip:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+.series-jump .sj-chip.sj-all{border-color:var(--line);color:var(--gray);font-weight:600}
+@media(max-width:620px){.series-jump{padding:0 16px}}
 </style>
 <script>
 // Load and render articles

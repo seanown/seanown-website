@@ -1000,6 +1000,14 @@ def build_list(posts):
         ser_of_cat.setdefault(top, []).append(
             {'id': s['id'], 'name': s['name'], 'n': len(m)})
 
+    ser_chips = ''
+    for s in all_ser:
+        ser_chips += '<a class="sj-chip" href="%s/series/%s/">%s</a>' % (
+            SITE, esc(s['id']), esc(s['name']))
+    if ser_chips:
+        ser_chips = ('<span class="sj-label">按專題輯逛</span>' + ser_chips +
+                     '<a class="sj-chip sj-all" href="%s/series/">全部輯 →</a>' % SITE)
+
     cat_btns = '<button class="lc-cat on" data-c="全部">全部<span>%d</span></button>' % len(items)
     for c in CATS:
         n = sum(1 for p in items if p.get('category') == c)
@@ -1084,6 +1092,12 @@ html{{scroll-behavior:smooth}}
 .float-cta:hover{{transform:translateY(-3px);box-shadow:0 16px 34px rgba(2,8,32,.4)}}
 @media(max-width:960px){{.grid{{grid-template-columns:repeat(2,1fr)}}.masthead h1{{font-size:34px}}}}
 @media(max-width:620px){{.grid{{grid-template-columns:1fr;padding:30px 16px 50px}}.filter-bar{{top:62px;padding:12px 14px}}.masthead{{padding:46px 18px 40px}}.masthead h1{{font-size:28px}}}}
+.ser-jump{{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;max-width:1180px;margin:18px auto 0;padding:0 24px}}
+.ser-jump .sj-label{{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700;margin-right:4px}}
+.sj-chip{{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:7px 16px;font-size:13.5px;font-weight:700;color:var(--blue);transition:all .2s}}
+.sj-chip:hover{{background:var(--blue);border-color:var(--blue);color:#fff}}
+.sj-chip.sj-all{{border-color:var(--line);color:var(--gray);font-weight:600}}
+@media(max-width:620px){{.ser-jump{{padding:0 16px}}}}
 </style>
 </head>
 <body>
@@ -1099,6 +1113,8 @@ html{{scroll-behavior:smooth}}
 </header>
 
 <div class="filter-bar" id="cats">{cats}</div>
+
+<div class="ser-jump" id="serjump">{ser_chips}</div>
 
 <main class="grid" id="grid">{cards}</main>
 
@@ -1126,7 +1142,7 @@ card.classList.toggle('hide',c!=='全部'&&card.getAttribute('data-cat')!==c);
 </html>
 """.format(desc=esc(desc), url=url, og='%s/assets/og/articles.jpg' % SITE,
            ld=json.dumps(ld, ensure_ascii=False), site=SITE,
-           n=len(items), cats=cat_btns, cards=cards)
+           n=len(items), cats=cat_btns, cards=cards, ser_chips=ser_chips)
     d = os.path.join(ROOT, 'articles')
     os.makedirs(d, exist_ok=True)
     with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
