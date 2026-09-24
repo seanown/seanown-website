@@ -1100,8 +1100,6 @@ html{{scroll-behavior:smooth}}
 
 <div class="filter-bar" id="cats">{cats}</div>
 
-<div class="ser-panel" id="serPanel"></div>
-
 <main class="grid" id="grid">{cards}</main>
 
 <footer class="foot">
@@ -1112,16 +1110,7 @@ html{{scroll-behavior:smooth}}
 <a class="float-cta" href="{site}/#sec-contact">洽談合作</a>
 <script>
 (function(){{
-var ALL_SER={all_ser},SER_OF_CAT={ser_of_cat},SITE='{site}';
-var panel=document.getElementById('serPanel');
-function renderPanel(c){{
-var list=(c==='全部')?ALL_SER:(SER_OF_CAT[c]||[]);
-if(!list.length){{panel.innerHTML='';panel.classList.remove('on');return;}}
-var h='<span class="sp-lab">輯</span>';
-list.forEach(function(s){{h+='<a href="'+SITE+'/series/'+s.id+'/">'+s.name+'<span>'+s.n+' 篇</span></a>';}});
-h+='<a class="sp-all" href="'+SITE+'/series/">全部輯 ›</a>';
-panel.innerHTML=h;panel.classList.add('on');
-}}
+var SITE='{site}';
 var btns=document.querySelectorAll('.lc-cat');
 btns.forEach(function(b){{b.addEventListener('click',function(){{
 btns.forEach(function(x){{x.classList.remove('on')}});
@@ -1130,18 +1119,14 @@ var c=b.getAttribute('data-c');
 document.querySelectorAll('.lc-card').forEach(function(card){{
 card.classList.toggle('hide',c!=='全部'&&card.getAttribute('data-cat')!==c);
 }});
-renderPanel(c);
 }})}});
-renderPanel('全部');
 }})();
 </script>
 </body>
 </html>
 """.format(desc=esc(desc), url=url, og='%s/assets/og/articles.jpg' % SITE,
            ld=json.dumps(ld, ensure_ascii=False), site=SITE,
-           n=len(items), cats=cat_btns, cards=cards,
-           all_ser=json.dumps(all_ser, ensure_ascii=False),
-           ser_of_cat=json.dumps(ser_of_cat, ensure_ascii=False))
+           n=len(items), cats=cat_btns, cards=cards)
     d = os.path.join(ROOT, 'articles')
     os.makedirs(d, exist_ok=True)
     with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
