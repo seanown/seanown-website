@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://seanown.org/</loc><lastmod>2026-09-08</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://seanown.org/series/</loc><lastmod>2026-09-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://seanown.org/series/jiangxi/</loc><lastmod>2026-09-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://seanown.org/series/macau-gba/</loc><lastmod>2026-09-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://seanown.org/series/chaoshan/</loc><lastmod>2026-09-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://seanown.org/series/culture/</loc><lastmod>2026-09-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://seanown.org/series/reading/</loc><lastmod>2026-09-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://seanown.org/series/people/</loc><lastmod>2026-09-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-    <url><loc>https://seanown.org/article/wealth-leverage-macau/</loc><lastmod>2026-09-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://seanown.org/article/macau-budget-2020-2024-analysis/</loc><lastmod>2026-09-08</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://seanown.org/</loc><lastmod>2026-09-25</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://seanown.org/articles/</loc><lastmod>2026-09-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://seanown.org/media/</loc><lastmod>2026-09-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://seanown.org/macau-budget-article.html</loc><lastmod>2026-09-25</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://seanown.org/macau-budget-ledger.html</loc><lastmod>2026-09-25</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://seanown.org/macau-35-plan-report.html</loc><lastmod>2026-09-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://seanown.org/hdi-starfield/index.html</loc><lastmod>2026-09-25</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://seanown.org/macau-weekly.html</loc><lastmod>2026-09-25</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://seanown.org/reports.html</loc><lastmod>2026-09-25</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://seanown.org/article/naval-three-steps-find-your-calling/</loc><lastmod>2026-09-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://seanown.org/article/wealth-leverage-macau/</loc><lastmod>2026-09-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://seanown.org/article/recent-reflections-twelve-quotes-sketch/</loc><lastmod>2026-09-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://seanown.org/article/macau-budget-2020-2024-analysis/</loc><lastmod>2026-09-08</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/hdi-2025-human-development-report/</loc><lastmod>2026-09-07</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/thinking-fast-and-slow-reading-notes/</loc><lastmod>2026-09-07</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/macau-five-year-plan-diversification/</loc><lastmod>2026-09-03</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -17,42 +20,17 @@
   <url><loc>https://seanown.org/article/rent-hike-still-profitable-yet-closed/</loc><lastmod>2026-08-22</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/qixi-festival-original-meaning/</loc><lastmod>2026-08-19</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/richard-koo-balance-sheet-recession/</loc><lastmod>2026-08-17</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://seanown.org/article/two-thoughts-set-out-and-palm/</loc><lastmod>2026-08-10</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/august-eighth-fathers-day-origin/</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/liqiu-start-of-autumn/</loc><lastmod>2026-08-07</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/fuhang-a-fathers-wisdom/</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://seanown.org/article/jiangxi-seven-days/</loc><lastmod>2026-07-29</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/kaipu-group-reunion/</loc><lastmod>2026-07-24</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://seanown.org/article/chaoshan-journey-letters-home/</loc><lastmod>2026-07-23</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/macau-ai-cross-border-services/</loc><lastmod>2026-06-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/ai-content-marketing-ctr-jump/</loc><lastmod>2026-05-20</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/macau-1-plus-4-digital-hub/</loc><lastmod>2026-04-10</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/chinese-cultural-ip-globalization/</loc><lastmod>2026-03-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/young-entrepreneur-cross-boundary-thinking/</loc><lastmod>2026-02-18</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://seanown.org/article/recent-reflections-twelve-quotes-sketch/</loc><lastmod>2026-09-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://seanown.org/article/choices-over-effort-three-turning-points/</loc><lastmod>2026-01-10</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://seanown.org/macau-budget-article.html</loc><lastmod>2026-09-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://seanown.org/macau-budget-ledger.html</loc><lastmod>2026-09-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://seanown.org/macau-35-plan-report.html</loc><lastmod>2026-09-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://seanown.org/hdi-starfield/index.html</loc><lastmod>2026-09-08</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://seanown.org/macau-weekly.html</loc><lastmod>2026-09-08</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://seanown.org/reports.html</loc><lastmod>2026-09-08</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://seanown.org/articles/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url>
-    <loc>https://seanown.org/article/jiangxi-seven-days/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
-    <loc>https://seanown.org/article/chaoshan-journey-letters-home/</loc>
-    <lastmod>2026-07-23</lastmod>
-  </url>
-  <url>
-    <loc>https://seanown.org/article/two-thoughts-set-out-and-palm/</loc>
-    <lastmod>2026-08-10</lastmod>
-  </url>
-  <url>
-    <loc>https://seanown.org/series/life/</loc>
-    <lastmod>2026-09-10</lastmod>
-  </url>
-  <url>
-    <loc>https://seanown.org/article/naval-three-steps-find-your-calling/</loc>
-    <lastmod>2026-09-12</lastmod>
-  </url>
 </urlset>
