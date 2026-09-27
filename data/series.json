@@ -1,5 +1,5 @@
 {
-  "_comment": "輯（Series）定義檔。posts.json 每篇文章用 series 欄位掛到某一個輯的 id。order 決定顯示先後；order_dir=asc 按時間順序、desc 新的在前。cinematic-macau 為「給旅遊局、電影模式遊澳門」專書計畫，內容由另一專案同步產出，現階段 0 篇成員，重跑 build 後仍不產生頁面，待掛載文章自動上架。",
+  "_comment": "輯（Series）定義檔。posts.json 每篇文章用 series 欄位掛到某一個輯的 id。order 決定顯示先後；order_dir=asc 按時間順序、desc 新的在前。macau-film 為「給旅遊局、電影模式遊澳門」專書計畫，內容由另一專案同步產出，現已掛載《捕風追影》觀後感，為「澳門電影」專輯首篇。",
   "collections": [],
   "series": [
     {
@@ -39,7 +39,7 @@
       "intro": "日子不只是被填滿，更該被讀出滋味。這一輯收錄隨筆、節氣、書摘與行走——從一句話的反思，到一場江西七日、一封潮汕僑批；從付航的父親智慧，到《思考，快與慢》的認知偏誤，再到辜朝明「資產負債表衰退」的宏觀啟示。\n\n慢下來，才看得見。"
     },
     {
-      "id": "cinematic-macau",
+      "id": "macau-film",
       "name": "澳門電影",
       "order": 5,
       "order_dir": "asc",

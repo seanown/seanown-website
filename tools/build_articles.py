@@ -378,7 +378,7 @@ def build_series_page(s, posts, all_series):
                    % (SITE, esc(o['id']), esc(o['name']), len(om), esc(o.get('period') or '')))
     if others:
         others = ('<div class="sec-lab" style="max-width:1080px;margin:0 auto;padding:34px 24px 0">'
-                  '其他輯</div><div class="other-ser">%s</div>' % others)
+                  '其他專輯</div><div class="other-ser">%s</div>' % others)
 
     coll_name = ''
     for c in SERIES.get('collections', []):
@@ -400,7 +400,7 @@ def build_series_page(s, posts, all_series):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{name}｜輯｜翁振軒 Sean Own</title>
+<title>{name}｜專輯｜翁振軒 Sean Own</title>
 <meta name="description" content="{desc}">
 <meta name="keywords" content="{kw}">
 <link rel="canonical" href="{url}">
@@ -408,7 +408,7 @@ def build_series_page(s, posts, all_series):
 <meta name="theme-color" content="#002676">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{url}">
-<meta property="og:title" content="{name}｜輯｜翁振軒 Sean Own">
+<meta property="og:title" content="{name}｜專輯｜翁振軒 Sean Own">
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="{og}">
 <meta property="og:image:width" content="1200">
@@ -432,7 +432,7 @@ def build_series_page(s, posts, all_series):
 </div></div>
 
 <div class="wrap">
-<div class="intro"><div class="i-lab">輯 序</div>{intro}</div>
+<div class="intro"><div class="i-lab">專輯 序</div>{intro}</div>
 <div class="sec-lab">{sec_lab}</div>
 <ul class="timeline">{items}</ul>
 </div>
@@ -446,7 +446,7 @@ def build_series_page(s, posts, all_series):
         name=esc(name), desc=esc(desc), kw=esc('%s,%s,翁振軒,Sean Own,專欄' % (name, coll_name)),
         url=url, og='%s/assets/og/%s.jpg' % (SITE, cover_slug),
         ld=json.dumps(ld, ensure_ascii=False), css=SERIES_PAGE_CSS, site=SITE,
-        kicker=esc(('%s · 輯' % coll_name) if coll_name else '輯'),
+        kicker=esc(coll_name or '專輯'),
         sub=esc(s.get('subtitle') or ''), period=esc(s.get('period') or ''),
         n=len(members), items=items, others=others,
         sec_lab='按時間倒序 · 最新在前' if desc_order else '按時間順序',
@@ -493,10 +493,10 @@ def build_series_index(posts):
         return
 
     url = SITE + '/series/'
-    desc = '翁振軒專欄分輯總覽：同一主題的文章收成一輯，按順序讀。'
+    desc = '翁振軒專欄專輯總覽：同一主題的文章收成一專輯，按順序讀。'
     ld = {
         "@context": "https://schema.org", "@type": "CollectionPage",
-        "name": "輯總覽｜翁振軒 Sean Own", "url": url, "description": desc,
+        "name": "專輯總覽｜翁振軒 Sean Own", "url": url, "description": desc,
         "inLanguage": "zh-Hant",
         "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
     }
@@ -505,14 +505,14 @@ def build_series_index(posts):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>輯總覽｜翁振軒 Sean Own</title>
+<title>專輯總覽｜翁振軒 Sean Own</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{url}">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <meta name="theme-color" content="#002676">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{url}">
-<meta property="og:title" content="輯總覽｜翁振軒 Sean Own">
+<meta property="og:title" content="專輯總覽｜翁振軒 Sean Own">
 <meta property="og:description" content="{desc}">
 <meta property="og:locale" content="zh_TW">
 <meta name="twitter:card" content="summary_large_image">
@@ -527,8 +527,8 @@ def build_series_index(posts):
 
 <div class="masthead"><div class="masthead-in">
 <div class="kicker">SERIES</div>
-<h1>輯</h1>
-<div class="sub">同一主題的文章收成一輯，按順序讀。</div>
+<h1>專輯</h1>
+<div class="sub">同一主題的文章收成一專輯，按順序讀。</div>
 </div></div>
 
 {rows}
@@ -809,7 +809,7 @@ def build(post, allposts):
         idx = next((i for i, p in enumerate(ms)
                     if str(p.get('num', '')).strip() == num), -1)
         coll_name = next((c['name'] for c in SERIES.get('collections', [])
-                          if c['id'] == s.get('collection')), '輯')
+                          if c['id'] == s.get('collection')), '專輯')
         if idx > 0:
             pp = ms[idx - 1]
             prev_a = ('<a href="%s/article/%s/"><span class="sn-lab">上一篇</span>%s</a>'
@@ -827,7 +827,7 @@ def build(post, allposts):
             '<span class="sn-kicker">%s</span>'
             '<a class="sn-title" href="%s/series/%s/">《%s》</a>'
             '<div class="sn-meta">第 %d / %d 篇 · %s</div>'
-            '<div class="sn-links">%s<a class="sn-all" href="%s/series/%s/">查看全輯</a>%s</div>'
+            '<div class="sn-links">%s<a class="sn-all" href="%s/series/%s/">查看全部專輯</a>%s</div>'
             '</div>'
         ) % (esc(coll_name), SITE, sid, esc(s.get('name') or sid),
              idx + 1, len(ms), esc(s.get('period') or ''),
@@ -985,9 +985,9 @@ def build_list(posts):
         cards += (
             '<a class="lc-card" href="%s/article/%s/" data-cat="%s">'
             '<div class="lc-img"><img src="%s" alt="%s — %s 封面" loading="lazy"></div>'
-            '<div class="lc-body"><div class="lc-top"><span class="lc-tag">%s</span><span class="lc-date">%s</span></div>'
+            '<div class="lc-body"><div class="lc-top"><span class="lc-date">%s</span></div>'
             '<h2>%s</h2><p>%s</p></div></a>'
-        ) % (SITE, slug, esc(cat), cover, esc(title), esc(cat), esc(cat),
+        ) % (SITE, slug, esc(cat), cover, esc(title), esc(cat),
              date.replace('-', '.'), esc(title), esc(lead))
 
     # 輯資料：全部輯清單 + 欄目 → 輯（以該輯成員最多的分類歸屬）
@@ -1011,8 +1011,8 @@ def build_list(posts):
         ser_chips += '<a class="sj-chip" href="%s/series/%s/">%s</a>' % (
             SITE, esc(s['id']), esc(s['name']))
     if ser_chips:
-        ser_chips = ('<span class="sj-label">按專題輯逛</span>' + ser_chips +
-                     '<a class="sj-chip sj-all" href="%s/series/">全部輯 →</a>' % SITE)
+        ser_chips = ('<span class="sj-label">按專輯逛</span>' + ser_chips +
+                     '<a class="sj-chip sj-all" href="%s/series/">全部專輯 →</a>' % SITE)
 
     cat_btns = '<button class="lc-cat on" data-c="全部">全部<span>%d</span></button>' % len(items)
     for c in CATS:
@@ -1118,7 +1118,6 @@ html{{scroll-behavior:smooth}}
 <p>澳門產業觀察 · 數位經濟趨勢 · 商道與文化隨筆 — 共 {n} 篇</p>
 </header>
 
-<div class="filter-bar" id="cats">{cats}</div>
 
 <div class="ser-jump" id="serjump">{ser_chips}</div>
 
