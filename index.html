@@ -723,8 +723,8 @@ let allPosts=[];let currentCat='澳門觀察';let searchQuery='';let searchTimer
 // 分類大頭貼（方形）
 const CAT_AVATAR={'澳門觀察':'assets/images/avatars/shiju.jpg','行走見聞':'assets/images/avatars/shanhai.jpg','閱讀筆記':'assets/images/avatars/zixing.jpg','文化隨筆':'assets/images/avatars/gujin.jpg','生活隨筆':'assets/images/avatars/xinjing.jpg'};
 async function loadPosts(){try{const res=await fetch('data/posts.json');const data=await res.json();
-// 只顯示「已上線」文章；status 為「整理中」或不存在的（向後相容）視為已上線
-allPosts=(data.posts||[]).filter(p=>p.status!=='整理中');renderFocus();renderHomeLatest()}catch(e){console.error('Load posts failed:',e)}}
+// 只顯示「已上線」文章，並按日期（同日再按編號）降序，讓最新上線的排到首頁最前
+allPosts=(data.posts||[]).filter(p=>p.status==='已上線').slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||String(b.num||'').localeCompare(String(a.num||'')));renderFocus();renderHomeLatest()}catch(e){console.error('Load posts failed:',e)}}
 function renderFocus(){const g=document.getElementById('focus-card');if(!g||!allPosts.length)return;const p=allPosts.filter(x=>!x.no_focus).slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')))[0];if(!p)return;const txt=(p.body||'').replace(/<[^>]+>/g,'').replace(/[#*>\n`]/g,'').trim().slice(0,88);const raw=(p.images&&p.images[0])||'';const img=raw?wsrc(raw):(p.slug?'/assets/og/'+p.slug+'.jpg':'');const href=p.slug?('/article/'+p.slug+'/'):'#';const jump=p.slug?'':` onclick="openArticleByNum(\'${p.num}\');return false"`;g.innerHTML=`<a class="focus-card" href="${href}"${jump}><img class="focus-img" src="${img}" data-fb="${raw||img}" alt="${(p.title||'').replace(/"/g,'')} — 文章封面" loading="lazy" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}"><div class="focus-body"><div class="focus-top"><span class="focus-tag">${p.category||''}</span><span class="focus-date">${formatDate(p.date)} 發布</span></div><h3>${p.title||''}</h3><p>${txt}…</p><span class="focus-more">閱讀全文 →</span></div></a>`}
 function renderHomeLatest(){const g=document.getElementById('home-latest');if(!g||!allPosts.length)return;const items=allPosts.slice(0,6);g.innerHTML=items.map(p=>{const txt=(p.body||'').replace(/<[^>]+>/g,'').replace(/[#*>\n`]/g,'').trim().slice(0,72);const img=(p.images&&p.images[0])?wsrc(p.images[0]):(p.slug?'/assets/og/'+p.slug+'.jpg':'');const raw=(p.images&&p.images[0])||img;return `<a class="home-post-card" href="${p.slug?'/article/'+p.slug+'/':'#'}" ${p.slug?'':'onclick="openArticleByNum(\''+p.num+'\');return false"'}>${img?`<img class="home-post-img" src="${img}" data-fb="${raw}" alt="${(p.title||'').replace(/"/g,'')}" loading="lazy" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}else{this.style.display='none'}">`:''}<div class="home-post-body"><div class="home-post-top"><span class="home-post-tag">${p.category||''}</span><span class="home-post-date">${formatDate(p.date)}</span></div><h3>${p.title||''}</h3><p>${txt}…</p></div></a>`}).join('')}
 function openArticleByNum(n){const i=allPosts.findIndex(p=>String(p.num)===String(n));if(i>-1)openArticle(i)}
@@ -1226,7 +1226,7 @@ document.addEventListener('DOMContentLoaded',function(){
       var grid=document.getElementById('articles-grid');
       if(grid && grid.children.length===0){
         var eb=document.getElementById('embedded-posts');
-        if(eb){var d=JSON.parse(eb.textContent);var all=(d.posts||[]).filter(function(p){return p.status!=='整理中';});if(all.length){allPosts=all;renderPosts();}}
+        if(eb){var d=JSON.parse(eb.textContent);var all=(d.posts||[]).filter(function(p){return p.status==='已上線';});if(all.length){allPosts=all;renderPosts();}}
       }
       var catwrap=document.getElementById('media-categories');
       if(catwrap && catwrap.children.length===0){
