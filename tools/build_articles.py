@@ -171,6 +171,8 @@ def md_to_html(body, title=''):
                 i += 1
             out.append('<ol>' + ''.join('<li>%s</li>' % inline(x) for x in items) + '</ol>')
             continue
+        if s.startswith('<img') and s.endswith('>'):  # 獨立成行的圖：直接輸出為 .abody 直接子元素，方能 column-span:all 跨欄
+            flush(); out.append(s); i += 1; continue
         buf.append(ln); i += 1
     flush()
     return '\n'.join(out)
