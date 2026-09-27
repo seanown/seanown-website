@@ -211,6 +211,7 @@ a{color:var(--blue);text-decoration:none}
 .date{color:var(--gray);font-size:14px}
 h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px;max-width:960px}
 .lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px;max-width:940px}
+.subtitle{font-size:19px;line-height:1.5;color:var(--blue);font-weight:600;margin:6px 0 18px;letter-spacing:.3px;max-width:960px}
 .rule{width:56px;height:4px;background:var(--gold);border-radius:2px;margin:0 0 26px}
 .cover{margin:0 0 26px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10)}
 .cover img{width:100%;display:block}
@@ -773,6 +774,8 @@ def build(post, allposts):
     num = str(post.get('num', '')).strip()
     slug = SLUGS.get(num) or ('post-' + (num or 'x'))
     title = (post.get('title') or '').strip()
+    subtitle = (post.get('subtitle') or '').strip()
+    subtitle_html = '<p class="subtitle">%s</p>' % esc(subtitle) if subtitle else ''
     cat = (post.get('category') or '').strip()
     date = (post.get('date') or '').strip()
     loc = (post.get('location') or '').strip()
@@ -821,7 +824,7 @@ def build(post, allposts):
             next_a = '<a class="sn-empty"><span class="sn-lab">下一篇</span>（已是最後一篇）</a>'
         series_nav = (
             '\n\n<div class="series-nav">'
-            '<span class="sn-kicker">%s · 輯</span>'
+            '<span class="sn-kicker">%s</span>'
             '<a class="sn-title" href="%s/series/%s/">《%s》</a>'
             '<div class="sn-meta">第 %d / %d 篇 · %s</div>'
             '<div class="sn-links">%s<a class="sn-all" href="%s/series/%s/">查看全輯</a>%s</div>'
@@ -904,6 +907,7 @@ def build(post, allposts):
 <article class="article">
 <div class="meta"><span class="tag">{cat}</span><span class="date">{date_fmt}{loc_fmt}</span></div>
 <h1>{title}</h1>
+{subtitle_html}
 <div class="rule"></div>
 <p class="lead">{lead}</p>
 {reader}
@@ -952,6 +956,7 @@ def build(post, allposts):
         date_fmt=date.replace('-', ' 年 ', 1).replace('-', ' 月 ') + ' 日' if date else '',
         loc_fmt=(' · ' + esc(loc)) if loc else '',
         cover=cover, body=body_html, gallery=gallery, rel=rel_html,
+        subtitle_html=subtitle_html,
         series_nav=series_nav,
     )
 
