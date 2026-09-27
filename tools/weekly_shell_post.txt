@@ -1,0 +1,42 @@
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  <div class="brand-mark">澳門新聞週報</div>
+  <div>WorkBuddy 自動化任務 · 2026.09.07 自動生成</div>
+</div>
+
+<script>
+  // Tab navigation
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const target = document.querySelector(tab.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Update active tab on scroll
+  const sections = document.querySelectorAll('.section, .category');
+  const tabs = document.querySelectorAll('.nav-tab');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= 120 && rect.bottom >= 120) {
+        const id = sec.id || sec.querySelector('[id]')?.id;
+        if (id) current = id;
+      }
+    });
+    if (current) {
+      tabs.forEach(t => {
+        t.classList.toggle('active', t.getAttribute('href') === '#' + current);
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

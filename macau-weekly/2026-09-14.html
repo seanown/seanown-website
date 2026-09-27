@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>澳門新聞週報 09.07 — 09.13</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #F5F2EC;
+    --surface: #FFFFFF;
+    --ink: #1A1A1A;
+    --ink-2: #4A4A4A;
+    --ink-3: #888;
+    --line: #E0DDD5;
+    --brand: #0B3D2E;
+    --brand-light: #1A6B52;
+    --accent: #C75B12;
+    --accent-light: #F0A050;
+    --gold: #B8860B;
+    --c1: #2E5C8A;
+    --c2: #1A6B52;
+    --c3: #8B4513;
+    --c4: #6B2D8C;
+    --c5: #B8860B;
+    --c6: #A0333E;
+    --c7: #4A6B82;
+    --c8: #2A6B4A;
+    --c9: #6B1A4A;
+    --c10: #1A4A5C;
+  }
+  body {
+    font-family: 'Noto Serif TC', 'Source Han Serif', 'PingFang TC', 'Microsoft JhengHei', serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: var(--brand);
+    color: #fff;
+    padding: 48px 0 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+  }
+  .header-tag {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    border: 1px solid var(--accent-light);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .header .date {
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 1px;
+  }
+  .header .week-range {
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 6px;
+  }
+
+  /* ===== SECTION ===== */
+  .section { padding: 40px 0; border-bottom: 1px solid var(--line); }
+  .section:last-child { border-bottom: none; }
+  .section-num {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 22px;
+    padding-left: 16px;
+    border-left: 5px solid var(--accent);
+  }
+
+  /* ===== OVERVIEW ===== */
+  .overview {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 28px 32px;
+    border: 1px solid var(--line);
+  }
+  .overview p {
+    font-size: 17px;
+    line-height: 2;
+    color: var(--ink-2);
+  }
+  .overview strong { color: var(--brand); font-weight: 600; }
+  .overview-highlights {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .highlight-chip {
+    flex: 1;
+    min-width: 200px;
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 18px 20px;
+    border-left: 4px solid var(--accent);
+  }
+  .highlight-chip .num {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'Georgia', serif;
+  }
+  .highlight-chip .label {
+    font-size: 14px;
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+  .highlight-chip .desc {
+    font-size: 15px;
+    color: var(--ink-2);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* ===== DATA DASHBOARD ===== */
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .data-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+  .data-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .data-card .icon {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-size: 20px;
+    opacity: 0.3;
+  }
+  .data-card .label {
+    font-size: 14px;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .data-card .value {
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--brand);
+    font-family: 'Georgia', serif;
+    line-height: 1.2;
+  }
+  .data-card .change {
+    font-size: 15px;
+    margin-top: 6px;
+  }
+  .data-card .change.pos { color: var(--c8); }
+  .data-card .change.neg { color: var(--c6); }
+  .data-card .change.neu { color: var(--ink-3); }
+  .data-card .period {
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-top: 6px;
+  }
+  .data-bar {
+    margin-top: 12px;
+    height: 4px;
+    background: var(--bg);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .data-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+  }
+
+  /* SVG chart */
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 28px 16px;
+    margin-top: 16px;
+  }
+  .chart-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--brand);
+  }
+  .chart-unit {
+    font-size: 13px;
+    color: var(--ink-3);
+    float: right;
+    margin-top: 4px;
+  }
+  .chart-card svg { width: 100%; height: auto; display: block; }
+
+  /* GDP dual bar */
+  .gdp-compare {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .gdp-item { text-align: center; }
+  .gdp-bar-wrap {
+    display: flex;
+    gap: 6px;
+    align-items: flex-end;
+    height: 80px;
+  }
+  .gdp-bar {
+    width: 36px;
+    border-radius: 4px 4px 0 0;
+  }
+  .gdp-label { font-size: 14px; color: var(--ink-3); margin-top: 6px; }
+  .gdp-value { font-size: 20px; font-weight: 600; color: var(--brand); }
+
+  /* ===== NEWS CATEGORIES ===== */
+  .category {
+    margin-bottom: 32px;
+    background: var(--surface);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .category-header {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+  }
+  .category-header .cat-num {
+    font-size: 30px;
+    font-weight: 700;
+    font-family: 'Georgia', serif;
+    opacity: 0.5;
+  }
+  .category-header .cat-title {
+    font-size: 19px;
+    font-weight: 600;
+    flex: 1;
+  }
+  .category-header .cat-count {
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  .category-body { padding: 20px 24px; }
+  .news-item {
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--line);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .news-item:last-child { border-bottom: none; }
+  .news-item .bullet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+  .news-item .content { flex: 1; }
+  .news-item .title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .news-item .desc {
+    font-size: 15.5px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .news-item .source {
+    font-size: 13.5px;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+  .category-summary {
+    margin-top: 16px;
+    padding: 16px 18px;
+    background: var(--bg);
+    border-radius: 8px;
+    border-left: 4px solid;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-2);
+  }
+  .category-summary strong { font-weight: 600; }
+
+  /* ===== CONCERT TABLE ===== */
+  .concert-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    margin-top: 12px;
+  }
+  .concert-table th {
+    background: var(--brand);
+    color: #fff;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .concert-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .concert-table tr:hover { background: var(--bg); }
+  .concert-table .free { color: var(--c8); font-weight: 600; }
+  .concert-table .past { opacity: 0.5; }
+  .badge {
+    display: inline-block;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  .badge.kpop { background: #FCE4EC; color: #AD1457; }
+  .badge.cantonese { background: #E8F5E9; color: #2E7D32; }
+  .badge.mando { background: #E3F2FD; color: #1565C0; }
+  .badge.event { background: #FFF3E0; color: #E65100; }
+  .badge.free { background: #E0F2F1; color: #00695C; }
+
+  /* ===== AI CARDS ===== */
+  .ai-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .ai-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 24px;
+    border-top: 4px solid var(--c10);
+    position: relative;
+  }
+  .ai-card .ai-tag {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c10);
+    margin-bottom: 8px;
+  }
+  .ai-card .ai-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .ai-card .ai-desc {
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .ai-card .ai-num {
+    position: absolute;
+    top: 16px; right: 20px;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--bg);
+    font-family: 'Georgia', serif;
+    line-height: 1;
+  }
+
+  /* ===== SOURCES ===== */
+  .source-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .source-list {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .source-list h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .source-list ul { list-style: none; }
+  .source-list li {
+    font-size: 15px;
+    color: var(--ink-2);
+    padding: 6px 0;
+    display: flex;
+    gap: 10px;
+  }
+  .source-list li .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    margin-top: 8px; flex-shrink: 0;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: var(--brand);
+    color: rgba(255,255,255,0.7);
+    padding: 28px 0;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .footer .brand-mark {
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  /* ===== NAV TABS ===== */
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav-tab {
+    padding: 14px 18px;
+    font-size: 14.5px;
+    color: var(--ink-3);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+  @media (max-width: 768px) {
+    .data-grid { grid-template-columns: 1fr; }
+    .ai-grid { grid-template-columns: 1fr; }
+    .source-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 24px; }
+    .overview-highlights { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="container">
+    <span class="header-tag">Macau Weekly Digest</span>
+    <h1>澳門新聞週報</h1>
+    <div class="date">第 38 期 · 2026年9月14日（週一）出報</div>
+    <div class="week-range">09.07 — 09.13</div>
+  </div>
+</div>
+
+<!-- ===== NAV TABS ===== -->
+<div class="nav-tabs">
+  <div class="container" style="display: flex; gap: 0; padding: 0;">
+    <a class="nav-tab active" href="#overview">總覽</a>
+    <a class="nav-tab" href="#data">數據看板</a>
+    <a class="nav-tab" href="#cat1">時政</a>
+    <a class="nav-tab" href="#cat2">經濟民生</a>
+    <a class="nav-tab" href="#cat3">社會文化</a>
+    <a class="nav-tab" href="#cat4">旅遊盛事</a>
+    <a class="nav-tab" href="#cat5">中葡平台</a>
+    <a class="nav-tab" href="#cat6">中華文化</a>
+    <a class="nav-tab" href="#cat7">社團社區</a>
+    <a class="nav-tab" href="#cat8">大灣區</a>
+    <a class="nav-tab" href="#cat9">演唱會</a>
+    <a class="nav-tab" href="#cat10">AI 精選</a>
+    <a class="nav-tab" href="#sources">來源</a>
+  </div>
+</div>
+
+<div class="container">
+  <!-- ===== 一、本週總覽 ===== -->
+  <div class="section" id="overview">
+    <div class="section-num">PART 01</div>
+    <h2 class="section-title">本週總覽</h2>
+    <div class="overview">
+      <p>本週澳門有三大主線：一是橫琴與澳門協同的「人才與教育」雙引擎啟動，9月7日「澳琴人才卡」發布（A卡26項、B卡16項權益，並與中行、工行、招行簽約），9月8日澳琴國際教育（大學）城三校聯合開學典禮舉行、1,450名研究生入學，岑浩輝與中聯辦主任鄭新聰共同見證；二是澳門基礎教育國際競爭力獲實證肯定，PISA 2025 澳門學生在「使用運算工具解難」取得572分、位列全球第一，科學與數學均排全球第三；三是區域合作與數字基建提速，深圳市在澳發行10億元離岸人民幣地方政府債券、澳琴數字樞紐港數據跨境綜合服務平台上線、國家首個地球系統數據國際交換中心（澳門）啟動建設。與此同時，青茂口岸迎來五周年（累計驗放1.41億人次）、特區設立民航業發展工作組、琴澳藥監簽署合作備忘錄，多方面展現澳門在「一中心、一平台、一基地」定位下的佈局。</p>
+      <div class="overview-highlights">
+        <div class="highlight-chip">
+          <div class="num">1.41億</div>
+          <div class="label">人次</div>
+          <div class="desc">青茂口岸五周年累計驗放（今年首八月日均10.6萬）</div>
+        </div>
+        <div class="highlight-chip">
+          <div class="num">572</div>
+          <div class="label">分 · 全球第一</div>
+          <div class="desc">PISA 2025 澳門生「使用運算工具解難」</div>
+        </div>
+        <div class="highlight-chip">
+          <div class="num">1,450</div>
+          <div class="label">名研究生</div>
+          <div class="desc">澳琴國際教育城三校聯合開學典禮</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 二、一週數據看板 ===== -->
+  <div class="section" id="data">
+    <div class="section-num">PART 02</div>
+    <h2 class="section-title">一週數據看板</h2>
+
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="label">青茂口岸累計驗放</div>
+        <div class="value">1.41億</div>
+        <div class="change pos">人次 · 五周年</div>
+        <div class="period">截至 2026年9月 · 治安警</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:94%;background:var(--c8)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">PISA 2025 運算解難</div>
+        <div class="value">572</div>
+        <div class="change pos">全球第一</div>
+        <div class="period">2025評測 · OECD</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:95%;background:var(--c1)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">澳琴人才卡權益</div>
+        <div class="value">A26 / B16</div>
+        <div class="change neu">項 · 雙卡分級</div>
+        <div class="period">2026年9月7日發布</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:70%;background:var(--c5)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">深圳在澳發債</div>
+        <div class="value">10億</div>
+        <div class="change neu">元 · 離岸人民幣</div>
+        <div class="period">2026年9月10日 · GCS</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:60%;background:var(--c2)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">澳琴教育城研究生</div>
+        <div class="value">1,450</div>
+        <div class="change pos">名 · 三校聯合開學</div>
+        <div class="period">2026年9月8日 · GCS</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:65%;background:var(--c6)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">流感樣疾病群集</div>
+        <div class="value">3</div>
+        <div class="change neg">宗 · 需防控</div>
+        <div class="period">2026年9月7日 · 衛生局</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:22%;background:var(--c6)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">退伍軍人症</div>
+        <div class="value">1</div>
+        <div class="change neg">例 · 證實</div>
+        <div class="period">2026年9月10日 · 衛生局</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:10%;background:var(--c6)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">「三五」非博彩目標</div>
+        <div class="value">60%</div>
+        <div class="change neu">佔GDP（2030）</div>
+        <div class="period">經財範疇交流會 · 9/7</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:60%;background:var(--c4)"></div></div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>PISA 2025 澳門學生四科表現 <span class="chart-unit">分數 · 2025評測 · OECD</span></h3>
+      <svg viewBox="0 0 880 300" role="img" aria-label="PISA 2025 澳門學生四科分數條形圖">
+        <line x1="200" y1="20" x2="200" y2="282" stroke="#B8B2A6" stroke-width="1.5"/>
+        <text x="200" y="298" text-anchor="middle" font-size="12" fill="#888">0</text>
+
+        <!-- 使用運算工具解難 572 -->
+        <rect x="200" y="40" width="610" height="36" rx="3" fill="#1A6B52"/>
+        <text x="190" y="63" text-anchor="end" font-size="15" font-weight="600" fill="#1A1A1A">使用運算工具解難</text>
+        <text x="822" y="63" font-size="16" font-weight="700" fill="#1A6B52">572（全球第一）</text>
+
+        <!-- 數學 549 -->
+        <rect x="200" y="100" width="586" height="36" rx="3" fill="#1A6B52"/>
+        <text x="190" y="123" text-anchor="end" font-size="15" font-weight="600" fill="#1A1A1A">數學</text>
+        <text x="798" y="123" font-size="16" font-weight="700" fill="#1A6B52">549（全球第三）</text>
+
+        <!-- 科學 541 -->
+        <rect x="200" y="160" width="577" height="36" rx="3" fill="#1A6B52"/>
+        <text x="190" y="183" text-anchor="end" font-size="15" font-weight="600" fill="#1A1A1A">科學</text>
+        <text x="789" y="183" font-size="16" font-weight="700" fill="#1A6B52">541（全球第三）</text>
+
+        <!-- 閱讀 501 -->
+        <rect x="200" y="220" width="534" height="36" rx="3" fill="#C75B12"/>
+        <text x="190" y="243" text-anchor="end" font-size="15" font-weight="600" fill="#1A1A1A">閱讀</text>
+        <text x="746" y="243" font-size="16" font-weight="700" fill="#C75B12">501（全球第五）</text>
+      </svg>
+    </div>
+
+    <div class="overview" style="margin-top:12px">
+      <h3 style="font-size:17px;font-weight:600;color:var(--brand);margin-bottom:16px">數據解讀 — 「人才與教育週」</h3>
+      <div class="gdp-compare">
+        <div class="gdp-item">
+          <div class="gdp-value" style="color:var(--c1)">572</div>
+          <div class="gdp-bar-wrap">
+            <div class="gdp-bar" style="height:92px;background:var(--c1)"></div>
+          </div>
+          <div class="gdp-label">運算解難（全球第一）</div>
+        </div>
+        <div style="font-size:32px;color:var(--ink-3);align-self:center">vs</div>
+        <div class="gdp-item">
+          <div class="gdp-value" style="color:var(--c6)">501</div>
+          <div class="gdp-bar-wrap">
+            <div class="gdp-bar" style="height:80px;background:var(--c6)"></div>
+          </div>
+          <div class="gdp-label">閱讀（全球第五）</div>
+        </div>
+      </div>
+      <p style="font-size:15px;color:var(--ink-2);margin-top:10px;line-height:1.8">
+        本週數據呈現「硬基建」與「軟實力」雙線並進：青茂口岸五年累計驗放1.41億人次，印證粵澳通關一體化的實際流量；
+        PISA 2025 澳門在「使用運算工具解難」奪得全球第一，但閱讀（501分、全球第五）相對偏弱，顯示 AI 與數位素養已成澳門學生強項，
+        語文閱讀仍是有待補強的短板。配合「澳琴人才卡」與澳琴國際教育城建城開學，澳門正把教育優勢轉化為區域人才樞紐的競爭力。
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== 三、分類新聞 ===== -->
+  <div class="section">
+    <div class="section-num">PART 03</div>
+    <h2 class="section-title">分類新聞彙整</h2>
+
+    <!-- Cat 1: 時政 -->
+    <div class="category" id="cat1">
+      <div class="category-header" style="background:var(--c1)">
+        <span class="cat-num">01</span>
+        <span class="cat-title">時政與政府政策</span>
+        <span class="cat-count">4 條</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item"><div class="bullet" style="background:var(--c1)"></div><div class="content"><div class="title">「三五」規劃經財範疇交流會 吳惠嫻：2030非博彩業增加值佔GDP約60%</div><div class="desc">經濟財政司司長辦公室舉辦交流會，明確經濟適度多元的階段性量化目標與產業佈局方向。</div><div class="source">GCS · 9/7</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c1)"></div><div class="content"><div class="title">特區設立「民航業發展工作組」 運輸工務司司長任組長</div><div class="desc">統籌機場擴容、航權與空域協調，目標建設珠江西岸國際航空樞紐，強化澳門對外連通。</div><div class="source">GCS · 9/8</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c1)"></div><div class="content"><div class="title">特區政府與中行、工行、招行簽約 支持「澳琴人才卡」</div><div class="desc">三家銀行提供跨境金融配套，便利持卡人才在琴澳兩地的結算、融資與生活服務。</div><div class="source">澳門日報 · 9/7</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c1)"></div><div class="content"><div class="title">中葡論壇常設秘書處代表團赴京 推進中葡經貿合作</div><div class="desc">就論壇架構下多邊合作、產能對接與貿易暢通等議題與中央部門溝通。</div><div class="source">GCS · 9/10</div></div></div>
+        <div class="category-summary" style="border-color:var(--c1)">
+          <strong>本週小結：</strong>施政佈局集中於「規劃錨定、航空補短板、人才配金融、中葡再對接」四件事，顯示特區在「三五」開局之年把產業多元與區域通道同時推進。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 2: 經濟與民生 -->
+    <div class="category" id="cat2">
+      <div class="category-header" style="background:var(--c2)">
+        <span class="cat-num">02</span>
+        <span class="cat-title">經濟與民生</span>
+        <span class="cat-count">7 條</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item"><div class="bullet" style="background:var(--c2)"></div><div class="content"><div class="title"><span style="color:#C75B12">★★</span> 「澳琴人才卡」發布 A卡26項、B卡16項權益</div><div class="desc">分級提供安居、醫療、創業等便利，標誌澳琴人才協同政策由概念落地為具體清單。</div><div class="source">澳門日報／GCS · 9/7</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c2)"></div><div class="content"><div class="title">深圳市在澳門發行10億元離岸人民幣地方政府債券</div><div class="desc">鞏固澳門作為離岸人民幣債券發行地的角色，豐富債券市場產品與投資者選擇。</div><div class="source">GCS · 9/10</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c2)"></div><div class="content"><div class="title">交通事務局推「機動車輛商標及型號核准」AI分析＋網上申請平台</div><div class="desc">透過「商社通」實現網辦，運用 AI 輔助審批，縮短車輛型號核准時程。</div><div class="source">GCS · 9/8</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c2)"></div><div class="content"><div class="title">琴澳藥監簽署合作備忘錄 「橫琴研發＋澳門註冊」</div><div class="desc">建立跨境醫藥研發與註冊銜接機制，利好中醫藥大健康產業落地。</div><div class="source">GCS · 9/8</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c2)"></div><div class="content"><div class="title">衛生局接獲3宗流感樣疾病群集 涉及學校及院舍</div><div class="desc">已即時跟進消毒與健康監測，呼籲市民注意呼吸道衛生。</div><div class="source">GCS · 9/7</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c2)"></div><div class="content"><div class="title">衛生局證實1例輸入性退伍軍人症（軍團菌）</div><div class="desc">個案有外遊史，當局追蹤接觸者並加強社區環境排查。</div><div class="source">GCS · 9/10</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c2)"></div><div class="content"><div class="title">學童保健發布會 公佈校園健康促進措施</div><div class="desc">聚焦視力、脊柱與體重管理，推動家校合作早期介入。</div><div class="source">GCS · 9/10</div></div></div>
+        <div class="category-summary" style="border-color:var(--c2)">
+          <strong>本週小結：</strong>民生側「人才卡＋醫藥跨境＋數字政務」同步推進，公共衛生則進入流感與軍團菌的秋冬季防控節奏，政策與防疫並行。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 3: 社會與文化 -->
+    <div class="category" id="cat3">
+      <div class="category-header" style="background:var(--c3)">
+        <span class="cat-num">03</span>
+        <span class="cat-title">社會與文化</span>
+        <span class="cat-count">7 條</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item"><div class="bullet" style="background:var(--c3)"></div><div class="content"><div class="title">全國政協副主席董建華逝世 享壽89歲</div><div class="desc">9月8日21時57分在香港逝世；中共中央港澳辦、特區政府致唁電並深切哀悼，社會各界緬懷其對「一國兩制」的貢獻。</div><div class="source">GCS／中新社 · 9/9</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c3)"></div><div class="content"><div class="title">「天宮課堂·港澳專場」開講 神舟二十三日乘組主講</div><div class="desc">由澳門教育青年發展局局長龔志明帶領60名澳門師生赴港參與，朱楊柱、張志遠及香港載荷專家黎家盈演示太空實驗。</div><div class="source">GCS · 9/9</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c3)"></div><div class="content"><div class="title"><span style="color:#C75B12">★★</span> PISA 2025 澳門生「使用運算工具解難」572分全球第一</div><div class="desc">科學541分、數學549分均列全球第三，閱讀501分列第五；澳門數位素養優勢突出。</div><div class="source">OECD／GCS · 9/9</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c3)"></div><div class="content"><div class="title">澳門中樂團與澳門樂團新樂季揭幕</div><div class="desc">新樂季以中華與世界經典並陳，延續「演藝之都」的年度音樂佈局。</div><div class="source">GCS · 9/9</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c3)"></div><div class="content"><div class="title">「澳門歷史探遊記」系列活動啟動</div><div class="desc">以世遺與街區故事為線索，推動公眾尤其是青少年認識本土歷史。</div><div class="source">GCS · 9/10</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c3)"></div><div class="content"><div class="title">「葉挺將軍攝影展」於本澳展出</div><div class="desc">以歷史影像重現愛國將領的藝術視角，豐富愛國主義教育載體。</div><div class="source">GCS · 9/8</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c3)"></div><div class="content"><div class="title">「舞躍詩篇」舞蹈演出 9月12–13日上演</div><div class="desc">本地藝團呈獻跨界舞蹈作品，豐富週末藝文選擇。</div><div class="source">GCS · 9/12</div></div></div>
+        <div class="category-summary" style="border-color:var(--c3)">
+          <strong>本週小結：</strong>社會文化面向「哀榮與活力並存」——董建華逝世引發各界緬懷，而天宮課堂、PISA 佳績與藝文演出則展現澳門在科普教育與文化軟實力的累積。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 4: 旅遊、大型活動與會展盛事 -->
+    <div class="category" id="cat4">
+      <div class="category-header" style="background:var(--c4)">
+        <span class="cat-num">04</span>
+        <span class="cat-title">旅遊、大型活動與會展盛事</span>
+        <span class="cat-count">5 條</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item"><div class="bullet" style="background:var(--c4)"></div><div class="content"><div class="title"><span style="color:#C75B12">★★</span> WTT澳門冠軍賽 2026 9月8–13日舉行</div><div class="desc">世界頂尖乒球選手齊聚澳門，賽事帶動新口岸社區消費與旅遊曝光。</div><div class="source">AGP · 9/8</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c4)"></div><div class="content"><div class="title">國際汽聯亞太區小型賽車大賽 9月11–13日登場</div><div class="desc">吸引區域車手來澳競技，豐富非博彩體育旅遊內容。</div><div class="source">GCS · 9/11</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c4)"></div><div class="content"><div class="title">旅遊局籌備世界旅遊日系列推廣活動</div><div class="desc">結合社區消費與文化體驗，強化「旅遊＋」連結。</div><div class="source">GCS · 9/10</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c4)"></div><div class="content"><div class="title">澳門旅遊大學舉辦「世遺探索之旅」</div><div class="desc">以世遺建築為教材，推動教育與旅遊融合的親子體驗。</div><div class="source">GCS · 9/10</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c4)"></div><div class="content"><div class="title">中秋藝文旅遊推廣 點亮節慶氛圍</div><div class="desc">多區佈置燈飾與市集，迎接國慶中秋雙節客流。</div><div class="source">GCS · 9/13</div></div></div>
+        <div class="category-summary" style="border-color:var(--c4)">
+          <strong>本週小結：</strong>體育賽事與節慶佈置撐起九月旅遊淡季的內容供給，WTT 與小型賽車大賽延續澳門「盛事之都」定位，但國際客結構性挑戰仍需中長期應對。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 5: 中葡商貿合作平台 -->
+    <div class="category" id="cat5">
+      <div class="category-header" style="background:var(--c5)">
+        <span class="cat-num">05</span>
+        <span class="cat-title">中葡商貿合作平台</span>
+        <span class="cat-count">5 條</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item"><div class="bullet" style="background:var(--c5)"></div><div class="content"><div class="title"><span style="color:#C75B12">★★</span> 中葡論壇常設秘書處代表團赴京 深化多邊合作</div><div class="desc">就論壇框架下經貿、產能與貿易暢通等議題與相關部委對接，鞏固澳門平台功能。</div><div class="source">GCS · 9/10</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c5)"></div><div class="content"><div class="title">澳琴數字樞紐港搭建中葡數據通道</div><div class="desc">數據跨境綜合服務平台上線，為葡語國家企業提供合規數據流通支援。</div><div class="source">GCS · 9/10</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c5)"></div><div class="content"><div class="title">葡語國家食品集散中心常態化運作</div><div class="desc">持續引進葡語系特色食品，強化澳門作為集散與展銷節點。</div><div class="source">GCS · 9/9</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c5)"></div><div class="content"><div class="title">中葡合作發展基金支持企業拓展葡語市場</div><div class="desc">提供融資與對接服務，協助澳門及內地企業走出去。</div><div class="source">AGP · 9/9</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c5)"></div><div class="content"><div class="title">澳門大學葡文教學與雙語人才培養持續推進</div><div class="desc">為平台長期運作儲備語言與法律橋樑人才。</div><div class="source">GCS · 9/8</div></div></div>
+        <div class="category-summary" style="border-color:var(--c5)">
+          <strong>本週小結：</strong>中葡平台本週以「高層對接＋數字通道＋食品集散」三路並進，澳門正把傳統語言優勢轉化為可運作的貿易與數據基礎設施。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 6: 中華文化交流合作基地 -->
+    <div class="category" id="cat6">
+      <div class="category-header" style="background:var(--c6)">
+        <span class="cat-num">06</span>
+        <span class="cat-title">中華文化交流合作基地</span>
+        <span class="cat-count">6 條</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item"><div class="bullet" style="background:var(--c6)"></div><div class="content"><div class="title"><span style="color:#C75B12">★★</span> 「我與中華文化·從文創裡看澳門歷史」文創大賽啟動</div><div class="desc">鼓勵以文創語言重述澳門歷史脈絡，推動文化 IP 孵化。</div><div class="source">GCS · 9/9</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c6)"></div><div class="content"><div class="title">「葉挺將軍攝影展」引進歷史影像資源</div><div class="desc">以愛國將領的藝術視角豐富中華文化展示維度。</div><div class="source">GCS · 9/8</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c6)"></div><div class="content"><div class="title">「澳門歷史探遊記」串聯世遺與中華敘事</div><div class="desc">以在地行走重溫中華文化在澳門的傳承軌跡。</div><div class="source">GCS · 9/10</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c6)"></div><div class="content"><div class="title">開心麻花《新桃花源記》9月11–27日上演</div><div class="desc">以當代喜劇語彙演繹中華經典，拓寬大眾觀演市場。</div><div class="source">GCS · 9/11</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c6)"></div><div class="content"><div class="title">澳門中樂團新樂季 演繹中華經典曲目</div><div class="desc">以民族管絃樂延續中華音樂美學的當代表達。</div><div class="source">GCS · 9/9</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c6)"></div><div class="content"><div class="title">「舞躍詩篇」以舞蹈詮釋詩詞意境</div><div class="desc">跨界作品連結文學與肢體藝術，豐富中華文化當代表演。</div><div class="source">GCS · 9/12</div></div></div>
+        <div class="category-summary" style="border-color:var(--c6)">
+          <strong>本週小結：</strong>中華文化內容從「展覽＋演出」延伸到「文創大賽＋歷史行走」，澳門持續以世遺與中華敘事作為文化輸出的核心載體。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 7: 社團與社區活動 -->
+    <div class="category" id="cat7">
+      <div class="category-header" style="background:var(--c7)">
+        <span class="cat-num">07</span>
+        <span class="cat-title">社團與社區活動</span>
+        <span class="cat-count">6 條</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item"><div class="bullet" style="background:var(--c7)"></div><div class="content"><div class="title"><span style="color:#C75B12">★</span> 各界社團籌備國慶中秋雙節慶祝活動</div><div class="desc">坊會與同鄉會規劃聯歡、探訪與關愛行動，凝聚社區節日氛圍。</div><div class="source">華僑報 · 9/10</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c7)"></div><div class="content"><div class="title">婦聯總會舉辦家庭與兒童關懷活動</div><div class="desc">結合親子教育與健康講座，支援家庭發展。</div><div class="source">華僑報 · 9/9</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c7)"></div><div class="content"><div class="title">工聯會舉辦職工權益與技能提升講座</div><div class="desc">回應就業市場變化，協助會員裝備數位技能。</div><div class="source">力報 · 9/8</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c7)"></div><div class="content"><div class="title">體育局辦「活力社區·大眾康體日」</div><div class="desc">推動全民運動與社區參與，深入民生街區。</div><div class="source">GCS · 9/13</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c7)"></div><div class="content"><div class="title">社區滅蚊行動配合衛生局防控</div><div class="desc">坊會動員清除積水，降低蚊媒傳播風險。</div><div class="source">GCS · 9/9</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c7)"></div><div class="content"><div class="title">長者服務團體加強獨居長者關懷網絡</div><div class="desc">結合義工探訪與健康監測，及早介入高風險個案。</div><div class="source">力報 · 9/12</div></div></div>
+        <div class="category-summary" style="border-color:var(--c7)">
+          <strong>本週小結：</strong>社團與社區活動圍繞「節慶凝聚、家庭關懷、職工培力、公共衛生」展開，民間網絡在雙節前夕發揮穩定器作用。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 8: 大灣區·橫琴 -->
+    <div class="category" id="cat8">
+      <div class="category-header" style="background:var(--c8)">
+        <span class="cat-num">08</span>
+        <span class="cat-title">大灣區·橫琴</span>
+        <span class="cat-count">8 條</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item"><div class="bullet" style="background:var(--c8)"></div><div class="content"><div class="title"><span style="color:#C75B12">★★★</span> 澳琴國際教育（大學）城三校聯合開學典禮</div><div class="desc">澳大、澳理工、澳旅大三校共1,450名研究生入學，岑浩輝與鄭新聰出席，標誌琴澳高教協同進入實質運作。</div><div class="source">GCS／中新社 · 9/8</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c8)"></div><div class="content"><div class="title"><span style="color:#C75B12">★★★</span> 「澳琴人才卡」發布 分級便利琴澳人才</div><div class="desc">A卡26項、B卡16項權益，覆蓋安居、醫療、創業與金融，由三家銀行提供配套。</div><div class="source">澳門日報／GCS · 9/7</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c8)"></div><div class="content"><div class="title"><span style="color:#C75B12">★★★</span> 青茂口岸迎五周年 累計驗放1.41億人次</div><div class="desc">今年首八月日均達10.6萬人次，成為粵澳通關主通道之一。</div><div class="source">GCS · 9/8</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c8)"></div><div class="content"><div class="title">琴澳藥監合作備忘錄 推「橫琴研發＋澳門註冊」</div><div class="desc">建立跨境醫藥研發與註冊銜接，中醫藥大健康產業受惠。</div><div class="source">GCS · 9/8</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c8)"></div><div class="content"><div class="title">澳琴數字樞紐港數據跨境綜合服務平台上線</div><div class="desc">提供合規數據跨境流通服務，支撐數字貿易與中葡數據通道。</div><div class="source">GCS · 9/10</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c8)"></div><div class="content"><div class="title">國家首個地球系統數據國際交換中心（澳門）啟動建設</div><div class="desc">落戶澳門的國家級數據基建，強化澳門在國際科學數據網絡中的節點角色。</div><div class="source">新華社 · 9/10</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c8)"></div><div class="content"><div class="title">民航業發展工作組 謀珠江西岸國際航空樞紐</div><div class="desc">統籌機場擴容與空域協調，琴澳機場資源協同可期。</div><div class="source">GCS · 9/8</div></div></div>
+        <div class="news-item"><div class="bullet" style="background:var(--c8)"></div><div class="content"><div class="title">深圳市在澳發行10億元離岸人民幣債券 金融支持灣區</div><div class="desc">豐富澳門債券市場，為大灣區基建與產業提供融資渠道。</div><div class="source">GCS · 9/10</div></div></div>
+        <div class="category-summary" style="border-color:var(--c8)">
+          <strong>本週小結：</strong>本週可謂「澳琴協同超級週」——教育城開學、人才卡落地、口岸五周年、藥監與數據平台接連出台，澳門與橫琴由單點突破邁向制度與基礎設施共建。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 9: 演唱會 -->
+    <div class="category" id="cat9">
+      <div class="category-header" style="background:var(--c9)">
+        <span class="cat-num">09</span>
+        <span class="cat-title">文化娛樂演唱會</span>
+        <span class="cat-count">8 場</span>
+      </div>
+      <div class="category-body">
+        <table class="concert-table">
+          <thead>
+            <tr><th>明星/演出</th><th>日期</th><th>場地</th><th>票價 (MOP)</th><th>標籤</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>WTT澳門冠軍賽 2026（體育盛事）</td><td>9/8-9/13</td><td>塔石體育館</td><td>門票已開售</td><td><span class="badge event">體育</span></td></tr>
+            <tr><td>國際汽聯亞太區小型賽車大賽</td><td>9/11-9/13</td><td>路環賽車場</td><td>免費觀賽區</td><td><span class="badge event">體育</span></td></tr>
+            <tr><td>開心麻花《新桃花源記》</td><td>9/11-9/27</td><td>威尼斯人劇場</td><td>$380起</td><td><span class="badge cantonese">喜劇</span></td></tr>
+            <tr><td>《舞躍詩篇》舞蹈演出</td><td>9/12-9/13</td><td>澳門文化中心</td><td>$280起</td><td><span class="badge event">舞蹈</span></td></tr>
+            <tr><td>澳門中樂團新樂季開幕音樂會</td><td>9/13</td><td>澳門文化中心</td><td>$200起</td><td><span class="badge event">音樂</span></td></tr>
+            <tr><td>Dear Jane Fly you to the Moon Live</td><td>9/26 19:00</td><td>銀河綜藝館</td><td>$588起</td><td><span class="badge cantonese">粵語</span></td></tr>
+            <tr><td>STAYC FAN CONCERT TOUR [STAY CLOSER]</td><td>9/26 19:00</td><td>百老匯舞台</td><td>$999起</td><td><span class="badge kpop">K-pop</span></td></tr>
+            <tr><td>劉若英 [飛行日] 2026 巡迴演唱會澳門站</td><td>10/3 19:00</td><td>銀河綜藝館</td><td>$580起</td><td><span class="badge mando">華語</span></td></tr>
+          </tbody>
+        </table>
+        <div class="category-summary" style="border-color:var(--c9)">
+          <strong>本週小結：</strong>9月中旬澳門演出由體育盛事（WTT、小型賽車）與舞台喜劇、舞蹈、中樂並陳，9月下旬則由 K-pop 與華語歌手接棒，綜合度假村檔期競爭持續升溫。
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat 10: AI -->
+    <div class="category" id="cat10">
+      <div class="category-header" style="background:var(--c10)">
+        <span class="cat-num">10</span>
+        <span class="cat-title">全球 AI 領域精選</span>
+        <span class="cat-count">5 條</span>
+      </div>
+      <div class="category-body">
+        <div class="ai-grid">
+          <div class="ai-card" style="border-top-color:var(--c10)">
+            <div class="ai-num">01</div>
+            <div class="ai-tag">科研應用</div>
+            <div class="ai-title">澳門 PISA 2025 稱霸「使用運算工具解難」 折射 AI 素養優勢</div>
+            <div class="ai-desc">澳門學生在「使用運算工具解難」取得572分全球第一，反映本地教育對數位與運算工具的早期佈局，與全球 AI 素養競賽趨勢相互呼應。</div>
+          </div>
+          <div class="ai-card" style="border-top-color:var(--c6)">
+            <div class="ai-num">02</div>
+            <div class="ai-tag">政務智能化</div>
+            <div class="ai-title">澳門交通事務局以 AI 輔助車輛型號核准</div>
+            <div class="ai-desc">「機動車輛商標及型號核准」平台引入 AI 分析並接駁「商社通」網辦，是特區將生成式與判別式 AI 用於審批流程的具體案例。</div>
+          </div>
+          <div class="ai-card" style="border-top-color:var(--c8)">
+            <div class="ai-num">03</div>
+            <div class="ai-tag">數據基建</div>
+            <div class="ai-title">澳琴數字樞紐港數據跨境平台 撐跨境 AI 與貿易</div>
+            <div class="ai-desc">合規數據跨境流通是訓練與部署區域 AI 應用的前提；該平台上線為琴澳 AI 與數字貿易提供底層通道。</div>
+          </div>
+          <div class="ai-card" style="border-top-color:var(--c1)">
+            <div class="ai-num">04</div>
+            <div class="ai-tag">產業動向</div>
+            <div class="ai-title">全球科技巨頭加碼「Agent 化」辦公與開發</div>
+            <div class="ai-desc">OpenAI、Microsoft 等持續將 AI Agent 嵌入辦公與開發流程，企業級自動化從概念走向規模落地，對澳門數字政務有參照意義。</div>
+          </div>
+        </div>
+        <div class="ai-card" style="border-top-color:var(--c3);margin-top:16px">
+          <div class="ai-num">05</div>
+          <div class="ai-tag">科研突破</div>
+          <div class="ai-title">AI 加速科學發現 蛋白質與材料設計持續突破</div>
+          <div class="ai-desc">國際研究團隊運用 AI 預測蛋白質結構與新材料特性，醫藥與材料研發週期被大幅壓縮，與澳琴中醫藥跨境研發形成潛在協同。</div>
+        </div>
+        <div class="category-summary" style="border-color:var(--c10)">
+          <strong>本週小結：</strong>本週澳門本地 AI 亮點在「素養（PISA）＋政務（車輛核准）＋基建（數據樞紐港）」三處落地；全球則延續 Agent 工程化與 AI 科研加速的主線。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 四、來源與備註 ===== -->
+  <div class="section" id="sources">
+    <div class="section-num">PART 04</div>
+    <h2 class="section-title">來源與備註</h2>
+
+    <div class="source-grid">
+      <div class="source-list">
+        <h4>✅ 成功來源</h4>
+        <ul>
+          <li><span class="dot" style="background:var(--c8)"></span><span>政府新聞局 gov.mo：本週最完整官方稿源，覆蓋 9月7–13日各部門新聞稿。</span></li>
+          <li><span class="dot" style="background:var(--c8)"></span><span>澳門日報（macaodaily.com）：取得「澳琴人才卡」、簽約等頭條與重點新聞。</span></li>
+          <li><span class="dot" style="background:var(--c8)"></span><span>力報 Exmoo：社團、工聯、長者關懷等民生報導。</span></li>
+          <li><span class="dot" style="background:var(--c8)"></span><span>華僑報 vakiodaily.com：婦聯、社團雙節活動等。</span></li>
+          <li><span class="dot" style="background:var(--c8)"></span><span>新華社／中新社：董建華逝世、地球系統數據中心等通稿。</span></li>
+          <li><span class="dot" style="background:var(--c8)"></span><span>OECD／PISA 官網：2025 評測分數與排名。</span></li>
+          <li><span class="dot" style="background:var(--c8)"></span><span>澳門售票網／場地官網：演出與賽事排期資料。</span></li>
+        </ul>
+      </div>
+      <div class="source-list">
+        <h4>⚠️ 失敗或部分失敗來源</h4>
+        <ul>
+          <li><span class="dot" style="background:var(--c6)"></span><span>濠江日報 houkongdailynews.com：首頁與分類頁均為 JS 動態載入，僅回傳「載入中…」。</span></li>
+          <li><span class="dot" style="background:var(--c6)"></span><span>大眾報 taichungdaily.com：首頁回傳「Not in Listener」，內容由 JS 渲染。</span></li>
+          <li><span class="dot" style="background:var(--c6)"></span><span>正報 chengpou.com.mo：日期路徑回傳「System Error」；電子報為圖片型。</span></li>
+          <li><span class="dot" style="background:var(--c6)"></span><span>環球新聞報 hqxwtoutiao.com：RSS feed 連線失敗。</span></li>
+          <li><span class="dot" style="background:var(--c8)"></span><span>旅遊局 macaotourism.gov.mo：/zh/ 回 404，旅遊數據改由 GCS 取得。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="overview" style="margin-top:16px">
+      <h3 style="font-size:17px;font-weight:600;color:var(--brand);margin-bottom:14px">來源健康摘要</h3>
+      <table class="concert-table">
+        <thead>
+          <tr><th>來源</th><th>本週狀態</th><th>連續失敗週數</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>政府新聞局 GCS</td><td>✅ 成功</td><td>0</td></tr>
+          <tr><td>澳門日報</td><td>✅ 成功</td><td>0</td></tr>
+          <tr><td>力報 Exmoo</td><td>✅ 成功</td><td>0</td></tr>
+          <tr><td>華僑報</td><td>✅ 成功</td><td>0</td></tr>
+          <tr><td>新華社／中新社</td><td>✅ 成功</td><td>0</td></tr>
+          <tr><td>OECD／PISA</td><td>✅ 成功</td><td>0</td></tr>
+          <tr><td>濠江日報</td><td>❌ 失敗</td><td>1</td></tr>
+          <tr><td>大眾報</td><td>❌ 失敗</td><td>1</td></tr>
+          <tr><td>正報</td><td>❌ 失敗</td><td>1</td></tr>
+          <tr><td>環球新聞報</td><td>❌ 失敗</td><td>1</td></tr>
+          <tr><td>旅遊局</td><td>⚠️ 部分成功</td><td>1</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:14.5px;color:var(--ink-2);margin-top:14px;line-height:1.8">
+        <strong>備註：</strong>JS 渲染仍是主要障礙，濠江日報、大眾報、正報電子報均為動態載入或圖片型，純抓取無法取得；後續擬改用瀏覽器自動化繞過。本週尚無來源達 3 週連續失敗。
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  <div class="brand-mark">澳門新聞週報</div>
+  <div>第 38 期 · 統計週 09.07 — 09.13 · 資料來源：澳門日報、政府新聞局 GCS、DSEC、力報等</div>
+</div>
+
+<script>
+  // Tab navigation
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const target = document.querySelector(tab.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Update active tab on scroll
+  const sections = document.querySelectorAll('.section, .category');
+  const tabs = document.querySelectorAll('.nav-tab');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= 120 && rect.bottom >= 120) {
+        const id = sec.id || sec.querySelector('[id]')?.id;
+        if (id) current = id;
+      }
+    });
+    if (current) {
+      tabs.forEach(t => {
+        t.classList.toggle('active', t.getAttribute('href') === '#' + current);
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
