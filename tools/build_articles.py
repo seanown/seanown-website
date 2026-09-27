@@ -770,12 +770,31 @@ QK_CSS = """
 .qk .ring2{fill:none;stroke:#1f1d1a;stroke-width:.9;opacity:.22}
 """
 
+# 文章頁頂部「按專輯逛」chip 列（全部專輯一排，當前文章所屬專輯高亮）
+SJ_CSS = """
+.sj-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 16px}
+.sj-bar .sj-label{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700;margin-right:4px}
+.sj-bar .sj-chip{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;color:var(--blue);transition:all .2s}
+.sj-bar .sj-chip:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+.sj-bar .sj-chip.sj-cur{background:var(--blue);border-color:var(--blue);color:#fff}
+.sj-bar .sj-chip.sj-all{border-color:var(--line);color:var(--gray);font-weight:600}
+@media(max-width:600px){.sj-bar .sj-label{width:100%;margin:0 0 2px}}
+"""
+
 def build(post, allposts):
     num = str(post.get('num', '')).strip()
     slug = SLUGS.get(num) or ('post-' + (num or 'x'))
     title = (post.get('title') or '').strip()
     subtitle = (post.get('subtitle') or '').strip()
     subtitle_html = '<p class="subtitle">%s</p>' % esc(subtitle) if subtitle else ''
+    # 文章頁頂部「按專輯逛」：列出全部專輯，當前文章所屬專輯高亮
+    cur_sid = (post.get('series') or '').strip()
+    sj_chips = ''
+    for s in SERIES['series']:
+        cls = 'sj-chip sj-cur' if s['id'] == cur_sid else 'sj-chip'
+        sj_chips += '<a class="%s" href="%s/series/%s/">%s</a>' % (cls, SITE, esc(s['id']), esc(s['name']))
+    series_jump = ('<div class="sj-bar"><span class="sj-label">按專輯逛</span>' + sj_chips +
+                   '<a class="sj-chip sj-all" href="%s/series/">全部專輯 →</a></div>' % SITE) if sj_chips else ''
     cat = (post.get('category') or '').strip()
     date = (post.get('date') or '').strip()
     loc = (post.get('location') or '').strip()
@@ -845,7 +864,7 @@ def build(post, allposts):
 
     att = ATTACHMENTS.get(slug)
     reader = build_reader(att) if att else ''
-    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '') + (SERIES_NAV_CSS if series_nav.strip() else '')
+    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '') + (SERIES_NAV_CSS if series_nav.strip() else '') + (SJ_CSS if series_jump else '')
 
     ld = {
         "@context": "https://schema.org",
@@ -904,6 +923,7 @@ def build(post, allposts):
 
 <div class="wrap">
 <div class="crumb"><a href="{site}/">首頁</a> › <a href="{site}/articles/">專欄文章</a> › 本文</div>
+{series_jump}
 <article class="article">
 <div class="meta"><span class="tag">{cat}</span><span class="date">{date_fmt}{loc_fmt}</span></div>
 <h1>{title}</h1>
@@ -957,6 +977,7 @@ def build(post, allposts):
         loc_fmt=(' · ' + esc(loc)) if loc else '',
         cover=cover, body=body_html, gallery=gallery, rel=rel_html,
         subtitle_html=subtitle_html,
+        series_jump=series_jump,
         series_nav=series_nav,
     )
 

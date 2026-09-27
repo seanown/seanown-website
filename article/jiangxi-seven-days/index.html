@@ -117,6 +117,14 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 .sn-links .sn-all:hover{background:var(--blue-dark);color:#fff}
 .sn-empty{opacity:.45;pointer-events:none}
 @media(max-width:720px){.series-nav{padding:18px}.sn-title{font-size:19px}.sn-links a{flex:1 1 100%}}
+
+.sj-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 16px}
+.sj-bar .sj-label{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700;margin-right:4px}
+.sj-bar .sj-chip{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;color:var(--blue);transition:all .2s}
+.sj-bar .sj-chip:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+.sj-bar .sj-chip.sj-cur{background:var(--blue);border-color:var(--blue);color:#fff}
+.sj-bar .sj-chip.sj-all{border-color:var(--line);color:var(--gray);font-weight:600}
+@media(max-width:600px){.sj-bar .sj-label{width:100%;margin:0 0 2px}}
 </style>
 </head>
 <body>
@@ -127,6 +135,7 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 
 <div class="wrap">
 <div class="crumb"><a href="https://seanown.org/">首頁</a> › <a href="https://seanown.org/articles/">專欄文章</a> › 本文</div>
+<div class="sj-bar"><span class="sj-label">按專輯逛</span><a class="sj-chip" href="https://seanown.org/series/macau-reader/">澳門解碼</a><a class="sj-chip" href="https://seanown.org/series/cultural-ip-global/">文化出海</a><a class="sj-chip" href="https://seanown.org/series/youth-crossover/">青年實戰</a><a class="sj-chip sj-cur" href="https://seanown.org/series/life-essays/">生活隨筆</a><a class="sj-chip" href="https://seanown.org/series/macau-film/">澳門電影</a><a class="sj-chip sj-all" href="https://seanown.org/series/">全部專輯 →</a></div>
 <article class="article">
 <div class="meta"><span class="tag">行走見聞</span><span class="date">2026 年 07 月 29 日 · 吉安市</span></div>
 <h1>江西七日：從井岡山到滕王閣</h1>
