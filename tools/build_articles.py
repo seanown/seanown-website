@@ -67,6 +67,7 @@ SLUGS = {
     '43': 'ji-zhan',
     '44': 'pian-pian-xi-huan-ni',
     '45': 'exiled',
+    '46': 'look-for-a-star',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
