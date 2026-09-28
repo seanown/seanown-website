@@ -69,6 +69,7 @@ SLUGS = {
     '45': 'exiled',
     '46': 'look-for-a-star',
     '47': 'fulltime-killer',
+    '48': 'man-with-the-golden-gun',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
