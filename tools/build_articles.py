@@ -371,14 +371,14 @@ def build_series_page(s, posts, all_series):
             plead = plead[len(ptitle):].lstrip('。：: ·|｜—-,，')
         items += (
             '<li class="tl-item"><a class="tl-card" href="%s/article/%s/">'
-            '<div class="tl-img"><img src="../../assets/og/%s.jpg" alt="%s 封面" loading="lazy"></div>'
+            '<div class="tl-img"><img src="%s" alt="%s 封面" loading="lazy"></div>'
             '<div class="tl-body"><div class="tl-top">'
             '<span class="tl-no">%02d / %02d</span>'
             '<span class="tl-date">%s</span>'
             '%s'
             '</div><h2>%s</h2><p>%s</p></div>'
             '<div class="tl-arr">›</div></a></li>'
-        ) % (SITE, pslug, pslug, esc(p.get('title')), i + 1, len(members),
+        ) % (SITE, pslug, ov('../../assets/og/%s.jpg' % pslug), esc(p.get('title')), i + 1, len(members),
              (p.get('date') or '').replace('-', '.'),
              ('<span class="tl-loc">· %s</span>' % esc(loc)) if loc else '',
              esc(ptitle), esc(plead))
@@ -898,9 +898,9 @@ def build(post, allposts):
         "url": url,
     }
     if imgs:
-        ld["image"] = SITE + '/' + imgs[0].replace('../../', '')
+        ld["image"] = ov(SITE + '/' + imgs[0].replace('../../', ''))
     else:
-        ld["image"] = '%s/assets/og/%s.jpg' % (SITE, slug)
+        ld["image"] = ov('%s/assets/og/%s.jpg' % (SITE, slug))
 
     kw = '，'.join([x for x in ['翁振軒', 'Sean Own', cat, '澳門', '產業觀察'] if x])
 
