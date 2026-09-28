@@ -308,6 +308,7 @@ def build_macaodaily(items, headlines=None):
                                  (x.get("extra") or {}).get("sec") or ""))
     rows = []
     pending = 0
+    dropped = 0
     for it in md_items:
         ex = it.get("extra") or {}
         sec = ex.get("sec") or "?"
@@ -315,6 +316,10 @@ def build_macaodaily(items, headlines=None):
         img = ex.get("image") or ""
         d = md(date)
         hl = headlines.get(f"{date}|{sec}")
+        if hl and hl.get("drop"):
+            # 經核實後因信心不足捨棄：不渲染、不計待讀
+            dropped += 1
+            continue
         if hl:
             title = esc(hl.get("headline") or "（無標題）")
             sub = hl.get("sub") or ""
@@ -327,6 +332,7 @@ def build_macaodaily(items, headlines=None):
         <div class="news-item"><div class="bullet" style="background:var(--c1)"></div><div class="content"><div class="title">［待 AI 讀圖］澳門日報 {d} {sec}版 頭條</div><div class="desc">版次 {esc(sec)}｜本版約 {ex.get('articles')} 篇。整版圖：{esc(img)}</div><div class="source">澳門日報 · {d} · 圖片型電子報</div></div></div>''')
     n_days = len(set(it.get("date") for it in md_items))
     read_n = len(rows) - pending
+    drop_note = f"／核實捨棄 {dropped} 版" if dropped else ""
     return f'''  <!-- ===== 澳門日報（圖片型電子報） ===== -->
   <div class="section" id="macaodaily">
     <div class="section-num">PART 03</div>
@@ -335,13 +341,13 @@ def build_macaodaily(items, headlines=None):
       <div class="category-header" style="background:var(--c1)">
         <span class="cat-num">MD</span>
         <span class="cat-title">澳門日報（各版頭條）</span>
-        <span class="cat-count">{len(md_items)} 版</span>
+        <span class="cat-count">{len(rows)} 版</span>
       </div>
       <div class="category-body">
 {chr(10).join(rows)}
         <div class="category-summary" style="border-color:var(--c1)">
           <strong>讀圖說明：</strong>澳門日報為圖片型電子報（每版一整張 398×584 圖），
-          頭條由 AI 讀圖抽出（{n_days} 天 · 已讀 {read_n} 版／待讀 {pending} 版）；
+          頭條由 AI 讀圖抽出（{n_days} 天 · 已讀 {read_n} 版／待讀 {pending} 版{drop_note}）；
           原圖解析度低，個別字元可能有辨識誤差，標「待核實」者請人工確認。
           內文因解析度不足不可讀（該站無文字層／無高清圖／無 PDF）；可用 <code>--md-pages N</code> 加大每日版次。
         </div>
