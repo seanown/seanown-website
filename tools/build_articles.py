@@ -73,6 +73,7 @@ SLUGS = {
     '49': 'amor-e-dedinhos-de-pe',
     '50': 'return-of-the-cuckoo',
     '51': 'the-longest-nite',
+    '52': 'last-time-i-saw-macao',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
