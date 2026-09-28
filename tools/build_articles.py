@@ -9,6 +9,17 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POSTS = os.path.join(ROOT, 'data', 'posts.json')
 SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 
+# og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
+OG_VER = '20260928c'
+
+
+def ov(src):
+    """og 目錄下的圖片路徑附上 ?v=OG_VER（破快取）；其他路徑原樣返回。"""
+    s = str(src)
+    if '/og/' in s and re.search(r'\.(jpe?g|png)(\?|$)', s, re.I):
+        return s + ('&v=' + OG_VER if '?' in s else '?v=' + OG_VER)
+    return s
+
 # 輯（Series）定義：由 data/series.json 驅動，posts.json 用 series 欄位掛載
 SERIES = {'collections': [], 'series': []}
 SERIES_BY_ID = {}
@@ -449,7 +460,7 @@ def build_series_page(s, posts, all_series):
 </html>
 """.format(
         name=esc(name), desc=esc(desc), kw=esc('%s,%s,翁振軒,Sean Own,專欄' % (name, coll_name)),
-        url=url, og='%s/assets/og/%s.jpg' % (SITE, cover_slug),
+        url=url, og=ov('%s/assets/og/%s.jpg' % (SITE, cover_slug)),
         ld=json.dumps(ld, ensure_ascii=False), css=SERIES_PAGE_CSS, site=SITE,
         kicker=esc(coll_name or '專輯'),
         sub=esc(s.get('subtitle') or ''), period=esc(s.get('period') or ''),
@@ -861,11 +872,11 @@ def build(post, allposts):
     gallery = ''
     if imgs:
         cover = ('<figure class="cover"><img src="%s" alt="%s — %s 配圖" loading="lazy"></figure>'
-                 % (imgs[0], esc(title), esc(cat)))
+                 % (ov(imgs[0]), esc(title), esc(cat)))
     if len(imgs) > 1:
         gallery = '<div class="gallery">' + ''.join(
             '<img src="%s" alt="%s 實拍圖 %d" loading="lazy" onclick="document.getElementById(\'lbimg\').src=this.src;document.getElementById(\'lb\').style.display=\'flex\'">'
-            % (x, esc(title), n + 1) for n, x in enumerate(imgs[1:])) + '</div>'
+            % (ov(x), esc(title), n + 1) for n, x in enumerate(imgs[1:])) + '</div>'
 
     att = ATTACHMENTS.get(slug)
     reader = build_reader(att) if att else ''
@@ -974,7 +985,7 @@ def build(post, allposts):
 """.format(
         title=esc(title), cat=esc(cat), desc=esc(desc), kw=esc(kw), url=url,
         og_title=esc(title[:30]), og_desc=esc(desc[:80]),
-        og_img='%s/assets/og/%s.jpg' % (SITE, slug),
+        og_img=ov('%s/assets/og/%s.jpg' % (SITE, slug)),
         ld=json.dumps(ld, ensure_ascii=False), css=page_css, site=SITE,
         lead=esc(plain(post.get('body') or title, 110)),
         reader=reader,
@@ -1007,7 +1018,7 @@ def build_list(posts):
         cat = (p.get('category') or '').strip()
         date = (p.get('date') or '').strip()
         lead = plain(p.get('body') or title, 62)
-        cover = '../assets/og/%s.jpg' % slug
+        cover = ov('../assets/og/%s.jpg' % slug)
         cards += (
             '<a class="lc-card" href="%s/article/%s/" data-cat="%s">'
             '<div class="lc-img"><img src="%s" alt="%s — %s 封面" loading="lazy"></div>'
