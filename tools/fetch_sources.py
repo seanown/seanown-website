@@ -9,10 +9,14 @@ fetch_sources.py — 澳門週報多來源新聞抓取器（零依賴，只用�
   3. 旅遊局    : JSON API  — https://www.macaotourism.gov.mo/api/enf/whatson?lang=zh-hant
   4. DSEC 統計局: 靜態 HTML — https://www.dsec.gov.mo/zh-MO/Statistic/News（Playwright 渲染）
   5. 力報 Exmoo: 靜態 HTML — https://www.exmoo.com/ 首頁 article/<id>.html（2026-09-28 驗證可用）
+  6. 澳門日報  : 圖片型電子報 — https://www.macaodaily.com/（每日下載整版圖，AI 讀圖抽標題）
 
 備註：
-  - 澳門日報為「圖片型電子報」（版面用 <area polygon> 熱點圖、詳情頁為圖像版式無 <p> 正文），
-    純 HTML 解析不可行，長期標註為「不可用（圖片型）」，需 OCR 才實用 → 本抓取器不納入。
+  - 澳門日報為「圖片型電子報」：詳情頁無 <p> 正文、版面用 <area> 熱點圖，
+    每版一整張 JPEG（/page/<n>/<YYYY-MM>/<DD>/<SEC>/<id>.jpg），全站統一 398×584，
+    無文字層、無高清版本（_big/_l/_h 皆 404）、無 PDF。→ 純 HTML/OCR 內文不可行；
+    可行的是「下載整版圖 → 由多模態 AI 讀圖抽各版標題」（大標題可讀，內文因解析度不足不可讀）。
+    本抓取器每日下載前 N 版（預設 2：A01 要聞 + A02）整版圖，並記錄當日全部版次數量。
   - 週範圍語意：--week <出報日(週一)> 表示「該週一出報」，統計的是「剛結束的那一週」，
     故抓取視窗 = 出報日-7天 ~ 出報日-1天（上週一至週日），與 SKILL「統計週 = 上週一至週日」一致。
 
@@ -370,6 +374,91 @@ def fetch_exmoo(week_start, week_end):
     return {"status": "ok" if cnt else "error", "count": cnt, "note": note, "items": items}
 
 
+def fetch_bytes(url, timeout=30):
+    """下載二進位（圖片）。回 (bytes, http_code)。"""
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return resp.read(), resp.getcode()
+    except urllib.error.HTTPError as e:
+        return b"", e.code
+    except Exception:
+        return b"", 0
+
+
+def fetch_macaodaily(week_start, week_end, pages_per_day=2, img_root=None):
+    """澳門日報（圖片型電子報）：逐日下載整版圖供 AI 讀圖抽標題。
+
+    結構：/html/YYYY-MM/DD/node_<N>.htm 為各版次索引；每版對應一張整版 JPEG
+          /page/<n>/<YYYY-MM>/<DD>/<SEC>/<id>.jpg（SEC 如 A01），全站統一 398×584。
+    作法：逐日枚舉 node_X → 解析各版次圖片 URL 與文章數（<area> 熱點數）→
+          下載前 pages_per_day 個版次（依版次排序，預設 A01+A02）整版圖到 img_root/<date>/。
+    限制：內文因原圖解析度不足不可讀（該站無文字層／無高清圖／無 PDF），
+          故 item.summary 留空並標 extra.needs_vision=True，交由 AI 讀圖補標題。
+    """
+    base = "https://www.macaodaily.com"
+    items = []
+    days_ok = 0
+    imgs_saved = 0
+    d = week_start
+    while d <= week_end:
+        day = d.isoformat()
+        db = f"{base}/html/{d:%Y-%m}/{d:%d}"
+        n1, code = fetch(db + "/node_1.htm")
+        if not n1:
+            d += datetime.timedelta(days=1)
+            continue
+        node_set = set(int(x) for x in re.findall(r"node_(\d+)\.htm", n1)) | {1}
+        pages = {}  # sec -> (img_url, article_count)
+        for n in sorted(node_set):
+            h = n1 if n == 1 else fetch(db + f"/node_{n}.htm")[0]
+            if not h:
+                continue
+            im = re.search(r"(\.\./\.\./\.\./page/[\d/\-A-Za-z]+/\d+\.jpg)", h)
+            if not im:
+                continue
+            rel = im.group(1)
+            sm = re.search(r"/([A-Z]\d{2})/", rel)
+            sec = sm.group(1) if sm else "?"
+            cnt = len(set(re.findall(r'href=["\'](content_\d+\.htm)["\']', h)))
+            url = base + "/" + rel.replace("../../../", "")
+            if sec not in pages or cnt > pages[sec][1]:
+                pages[sec] = (url, cnt)
+        days_ok += 1
+        secs = sorted(pages.keys())
+        picked = secs[:pages_per_day] if pages_per_day else secs[:3]
+        # 下載整版圖（僅 picked 版次）
+        if img_root and pages_per_day:
+            daydir = os.path.join(img_root, day)
+            os.makedirs(daydir, exist_ok=True)
+            for sec in secs[:pages_per_day]:
+                url, _cnt = pages[sec]
+                raw, c = fetch_bytes(url)
+                if raw:
+                    with open(os.path.join(daydir, f"{sec}.jpg"), "wb") as f:
+                        f.write(raw)
+                    imgs_saved += 1
+        for sec in picked:
+            url, cnt = pages[sec]
+            local = os.path.join(img_root, day, f"{sec}.jpg") if img_root else None
+            items.append({
+                "source": "澳門日報",
+                "title": f"澳門日報 {day} {sec}版",
+                "url": url,
+                "date": day,
+                "summary": None,
+                "category": "澳門日報",
+                "extra": {
+                    "sec": sec, "articles": cnt, "all_secs": len(secs),
+                    "image_url": url, "image": local, "needs_vision": True,
+                },
+            })
+        d += datetime.timedelta(days=1)
+    note = (f"圖片型電子報：{days_ok} 天，每日下載前 {pages_per_day} 版整版圖"
+            f"（共 {imgs_saved} 張）；各版次已列，內文需 AI 讀圖（無文字層/高清/PDF）")
+    return {"status": "ok" if items else "error", "count": len(items), "note": note, "items": items}
+
+
 # ---------- 主流程 ----------
 
 def compute_week(issue_monday=None, days=None):
@@ -401,6 +490,8 @@ def main():
     ap.add_argument("--week", help="出報日(週一) YYYY-MM-DD")
     ap.add_argument("--days", type=int, help="最近 N 天")
     ap.add_argument("--out", help="輸出 JSON 路徑")
+    ap.add_argument("--md-pages", type=int, default=2,
+                    help="澳門日報每日下載前 N 版整版圖（預設 2：A01+A02；0=只記錄版次不下載）")
     args = ap.parse_args()
 
     start, end = compute_week(args.week, args.days)
@@ -408,12 +499,32 @@ def main():
 
     print(f"▶ 抓取保守範圍：{label}")
 
+    here = os.path.dirname(os.path.abspath(__file__))
+    wc = os.path.join(here, "weekly-content")
+
+    # 先決定出報日（檔名以出報日＝週一 命名），以便放置澳門日報圖片
+    if args.out:
+        out_path = args.out
+        issue = os.path.splitext(os.path.basename(args.out))[0]
+    else:
+        if args.week:
+            issue = args.week
+        else:
+            # 出報日 = 抓取視窗週日 + 1 天（即本週一）
+            issue = (end + datetime.timedelta(days=1)).isoformat()
+        os.makedirs(wc, exist_ok=True)
+        out_path = os.path.join(wc, f"{issue}.sources.json")
+
+    # 澳門日報整版圖存放目錄：weekly-content/<出報日>/macaodaily/<日期>/<SEC>.jpg
+    md_img_root = os.path.join(wc, issue, "macaodaily")
+
     sources = {
         "正報": fetch_zhengpao(start, end),
         "濠江日報": fetch_houkong(start, end),
         "旅遊局": fetch_tourism(start, end),
         "DSEC": fetch_dsec(start, end),
         "力報": fetch_exmoo(start, end),
+        "澳門日報": fetch_macaodaily(start, end, pages_per_day=args.md_pages, img_root=md_img_root),
     }
 
     # 扁平化 + 依日期倒序（無日期排後）
@@ -430,20 +541,6 @@ def main():
         "sources": sources,
         "all_items": flat,
     }
-
-    # 輸出路徑（檔名以出報日＝週一 命名，便於與 .body.html 對應）
-    if args.out:
-        out_path = args.out
-    else:
-        if args.week:
-            issue = args.week
-        else:
-            # 出報日 = 抓取視窗週日 + 1 天（即本週一）
-            issue = (end + datetime.timedelta(days=1)).isoformat()
-        here = os.path.dirname(os.path.abspath(__file__))
-        wc = os.path.join(here, "weekly-content")
-        os.makedirs(wc, exist_ok=True)
-        out_path = os.path.join(wc, f"{issue}.sources.json")
 
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)

@@ -11,8 +11,9 @@ build_weekly.py 套版。
 產出內容（全部由 JSON 實際數據驅動，不編造）：
   1. 本週總覽：3 個 highlight-chip（取自最顯著 DSEC/旅遊局數據）＋ 自動摘要段
   2. 一週數據看板：從 DSEC 摘要正則抽取關鍵指標 → data-card（含安全 SVG 長條圖）
-  3. 分類新聞：10 個分類，依關鍵字為每則 item 自動歸類 → news-item
-  4. 來源與備註：由 JSON 的 sources 狀態生成成功/失敗表
+  3. 澳門日報頭條速覽：圖片型電子報，逐版列出整版圖＋AI-READ-IMAGE 標記（頭條由 AI 讀圖補）
+  4. 分類新聞：10 個分類，依關鍵字為每則 item 自動歸類 → news-item（跳過澳門日報圖片項）
+  5. 來源與備註：由 JSON 的 sources 狀態生成成功/失敗表
 
 敘事段落（overview 摘要 / category-summary / 數據解讀）為「數據衍生種子文字」，
 已可用作草稿；檔首標記 `<!-- GEN-DRAFT ... -->` 提示 AI 升級文筆，
@@ -291,10 +292,71 @@ def build_data_board(metrics):
 '''
 
 
+def build_macaodaily(items, headlines=None):
+    """澳門日報（圖片型電子報）：產生「讀圖」區塊。
+
+    澳門日報每版只有一整張 398×584 圖片（無文字層／高清／PDF）。
+    若已有 AI 讀圖產出的 headlines（key = "<date>|<sec>"），直接採用；
+    未讀到的版次則列出 AI-READ-IMAGE 標記待補。此為「務必去澳門日報抓」的落地形式。
+    """
+    headlines = headlines or {}
+    md_items = [it for it in items if (it.get("extra") or {}).get("needs_vision")]
+    if not md_items:
+        return ("  <!-- AI-POLISH: 未抓到澳門日報整版圖"
+                "（請確認 fetch_sources.py 的 --md-pages > 0） -->\n")
+    md_items.sort(key=lambda x: (x.get("date") or "",
+                                 (x.get("extra") or {}).get("sec") or ""))
+    rows = []
+    pending = 0
+    for it in md_items:
+        ex = it.get("extra") or {}
+        sec = ex.get("sec") or "?"
+        date = it.get("date") or ""
+        img = ex.get("image") or ""
+        d = md(date)
+        hl = headlines.get(f"{date}|{sec}")
+        if hl:
+            title = esc(hl.get("headline") or "（無標題）")
+            sub = hl.get("sub") or ""
+            desc_html = f'<div class="desc">{esc(sub)}</div>' if sub else ""
+            flag = "" if hl.get("verified") else ' · 待核實'
+            rows.append(f'''        <div class="news-item"><div class="bullet" style="background:var(--c1)"></div><div class="content"><div class="title">{title}<span style="color:var(--c6);font-size:12px;font-weight:400">{flag}</span></div>{desc_html}<div class="source">澳門日報 · {d} · {esc(sec)}版</div></div></div>''')
+        else:
+            pending += 1
+            rows.append(f'''        <!-- AI-READ-IMAGE: {esc(img)} | 澳門日報 {date} {sec}版 | 本版約 {ex.get('articles')} 篇 -->
+        <div class="news-item"><div class="bullet" style="background:var(--c1)"></div><div class="content"><div class="title">［待 AI 讀圖］澳門日報 {d} {sec}版 頭條</div><div class="desc">版次 {esc(sec)}｜本版約 {ex.get('articles')} 篇。整版圖：{esc(img)}</div><div class="source">澳門日報 · {d} · 圖片型電子報</div></div></div>''')
+    n_days = len(set(it.get("date") for it in md_items))
+    read_n = len(rows) - pending
+    return f'''  <!-- ===== 澳門日報（圖片型電子報） ===== -->
+  <div class="section" id="macaodaily">
+    <div class="section-num">PART 03</div>
+    <h2 class="section-title">澳門日報頭條速覽</h2>
+    <div class="category" id="cat-md">
+      <div class="category-header" style="background:var(--c1)">
+        <span class="cat-num">MD</span>
+        <span class="cat-title">澳門日報（各版頭條）</span>
+        <span class="cat-count">{len(md_items)} 版</span>
+      </div>
+      <div class="category-body">
+{chr(10).join(rows)}
+        <div class="category-summary" style="border-color:var(--c1)">
+          <strong>讀圖說明：</strong>澳門日報為圖片型電子報（每版一整張 398×584 圖），
+          頭條由 AI 讀圖抽出（{n_days} 天 · 已讀 {read_n} 版／待讀 {pending} 版）；
+          原圖解析度低，個別字元可能有辨識誤差，標「待核實」者請人工確認。
+          內文因解析度不足不可讀（該站無文字層／無高清圖／無 PDF）；可用 <code>--md-pages N</code> 加大每日版次。
+        </div>
+      </div>
+    </div>
+  </div>
+'''
+
+
 def build_categories(items):
-    # 歸類
+    # 歸類（跳過澳門日報圖片項：無文字，改由 build_macaodaily 讀圖處理）
     buckets = {cid: [] for cid, _, _ in CATS}
     for it in items:
+        if (it.get("extra") or {}).get("needs_vision"):
+            continue
         cid, _ = classify(it.get("title", ""), it.get("summary"))
         buckets[cid].append(it)
 
@@ -332,9 +394,9 @@ def build_categories(items):
     </div>'''
         blocks.append(block)
 
-    return f'''  <!-- ===== 三、分類新聞 ===== -->
+    return f'''  <!-- ===== 四、分類新聞 ===== -->
   <div class="section">
-    <div class="section-num">PART 03</div>
+    <div class="section-num">PART 04</div>
     <h2 class="section-title">分類新聞彙整</h2>
 
 {chr(10).join(blocks)}
@@ -358,9 +420,9 @@ def build_sources(sources):
         weeks = 0 if s.get("status") == "ok" else 1
         rows.append(f"<tr><td>{esc(name)}</td><td>{st}</td><td>{weeks}</td></tr>")
 
-    return f'''  <!-- ===== 四、來源與備註 ===== -->
+    return f'''  <!-- ===== 五、來源與備註 ===== -->
   <div class="section" id="sources">
-    <div class="section-num">PART 04</div>
+    <div class="section-num">PART 05</div>
     <h2 class="section-title">來源與備註</h2>
 
     <div class="source-grid">
@@ -388,7 +450,8 @@ def build_sources(sources):
       </table>
       <p style="font-size:14.5px;color:var(--ink-2);margin-top:14px;line-height:1.8">
         <strong>備註：</strong>本草稿由 <code>gen_body_from_json.py</code> 自動產生，數據全部來自抓取 JSON，未編造。
-        澳門日報為圖片型電子報（需 OCR）未納入；演唱會與全球 AI 精選兩類請以 WebSearch 補充。
+        澳門日報為圖片型電子報，已下載整版圖並見「澳門日報頭條速覽」區塊，頭條需 AI 讀圖補入（內文不可讀）；
+        演唱會與全球 AI 精選兩類請以 WebSearch 補充。
       </p>
     </div>
   </div>
@@ -414,6 +477,18 @@ def main():
     with open(jpath, encoding="utf-8") as f:
         data = json.load(f)
 
+    issue = args.week or os.path.splitext(os.path.basename(jpath))[0]
+
+    # 澳門日報讀圖頭條（AI 讀圖後寫入 <issue>.macaodaily.json，key 為 "<date>|<sec>"）
+    md_h_path = os.path.join(HERE, "weekly-content", f"{issue}.macaodaily.json")
+    md_headlines = {}
+    if os.path.exists(md_h_path):
+        try:
+            with open(md_h_path, encoding="utf-8") as f:
+                md_headlines = json.load(f).get("headlines", {})
+        except Exception:
+            md_headlines = {}
+
     items = data.get("all_items", [])
     sources = data.get("sources", {})
 
@@ -427,9 +502,11 @@ def main():
 
     body = (
         "<!-- GEN-DRAFT by gen_body_from_json.py · "
-        "AI 請升級 overview/category-summary/數據解讀 三段敘事，並以 WebSearch 補充 演唱會/AI 精選 -->\n"
+        "AI 請升級 overview/category-summary/數據解讀 三段敘事，並以 WebSearch 補充 演唱會/AI 精選；"
+        "澳門日報區塊需逐張讀圖（AI-READ-IMAGE 標記）補入頭條 -->\n"
         + build_overview(items, cat_counts)
         + build_data_board(metrics)
+        + build_macaodaily(items, md_headlines)
         + build_categories(items)
         + build_sources(sources)
     )
@@ -437,7 +514,6 @@ def main():
     if args.out:
         out_path = args.out
     else:
-        issue = args.week or os.path.splitext(os.path.basename(jpath))[0]
         out_path = os.path.join(HERE, "weekly-content", f"{issue}.body.html")
 
     with open(out_path, "w", encoding="utf-8") as f:
