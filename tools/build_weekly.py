@@ -116,6 +116,16 @@ def main() -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html, encoding="utf-8")
 
+    # SVG 圖表溢出檢查（viewBox 寬 880，留 10px 安全邊界 → 上限 870）
+    svg_over = []
+    for m in re.finditer(r'<rect x="([0-9.]+)"[^>]*?width="([0-9.]+)"', html):
+        x, w = float(m.group(1)), float(m.group(2))
+        if x + w > 870:
+            svg_over.append(f"rect x={x}+w={w}={x+w:.0f}")
+    for m in re.finditer(r'<text x="([0-9.]+)"', html):
+        if float(m.group(1)) > 870:
+            svg_over.append(f"text x={m.group(1)}")
+
     # 基本體檢
     checks = {
         "期號": f"第 {a.no} 期" in html,
@@ -123,7 +133,10 @@ def main() -> int:
         "分類數": html.count('class="category"'),
         "新聞條數": html.count('class="news-item"'),
         "未替換佔位": ("TODO" not in html and "XXX" not in html and "{{" not in html),
+        "SVG溢出": "無" if not svg_over else svg_over,
     }
+    if svg_over:
+        print("⚠️  偵測到 SVG 元素超出畫布，請修正後重跑：")
     print(f"✅ 已輸出 {out.relative_to(ROOT)}  ({len(html):,} chars)")
     for k, v in checks.items():
         print(f"   {k}: {v}")
