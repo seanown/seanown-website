@@ -21,6 +21,13 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# og 圖資會不定期「同檔名換內容」（換海報/換照片），不可長快取，
+# 否則瀏覽器一年內都不會拿到新版（2026-09-28 花樣年華換圖踩過此坑）
+[[headers]]
+  for = "/assets/og/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 [[headers]]
   for = "/images/*"
   [headers.values]
