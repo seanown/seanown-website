@@ -378,6 +378,9 @@ def build_series_page(s, posts, all_series):
         plead = plain(p.get('body') or '', 58)
         if ptitle and plead.startswith(ptitle):  # 正文開頭常重複一次標題，去掉
             plead = plead[len(ptitle):].lstrip('。：: ·|｜—-,，')
+        # 編號跟著文章在輯中的寫作序（asc 序位），不跟著顯示位置：
+        # desc（新在前）時，列表第 i 個的寫作序 = len - i，讓 01 永遠是最早那篇。
+        no = (len(members) - i) if desc_order else (i + 1)
         items += (
             '<li class="tl-item"><a class="tl-card" href="%s/article/%s/">'
             '<div class="tl-img"><img src="%s" alt="%s 封面" loading="lazy"></div>'
@@ -387,7 +390,7 @@ def build_series_page(s, posts, all_series):
             '%s'
             '</div><h2>%s</h2><p>%s</p></div>'
             '<div class="tl-arr">›</div></a></li>'
-        ) % (SITE, pslug, ov('../../assets/og/%s.jpg' % pslug), esc(p.get('title')), i + 1, len(members),
+        ) % (SITE, pslug, ov('../../assets/og/%s.jpg' % pslug), esc(p.get('title')), no, len(members),
              (p.get('date') or '').replace('-', '.'),
              ('<span class="tl-loc">· %s</span>' % esc(loc)) if loc else '',
              esc(ptitle), esc(plead))
@@ -851,6 +854,9 @@ def build(post, allposts):
     if sid and sid in SERIES_BY_ID:
         s = SERIES_BY_ID[sid]
         ms = series_members(allposts, sid)
+        # 序位與上一篇/下一篇一律按寫作序（asc）計算，與輯頁顯示方向（order_dir）無關：
+        # 「第 1 篇」永遠是輯裡最早那篇，「上一篇」= 更早、「下一篇」= 更晚。
+        ms = sorted(ms, key=lambda p: (str(p.get('date', '')), str(p.get('num', ''))))
         idx = next((i for i, p in enumerate(ms)
                     if str(p.get('num', '')).strip() == num), -1)
         coll_name = next((c['name'] for c in SERIES.get('collections', [])

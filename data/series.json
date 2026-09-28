@@ -42,7 +42,7 @@
       "id": "macau-film",
       "name": "澳門電影",
       "order": 5,
-      "order_dir": "asc",
+      "order_dir": "desc",
       "subtitle": "用鏡頭與節奏，重新走讀澳門",
       "period": "連載中",
       "intro": "以電影的敘事與鏡頭語言，重新走讀澳門。\n\n一篇一部在澳門取景的電影：影評、澳門連接與生活在澳門，陸續收錄。"
