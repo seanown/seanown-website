@@ -1,6 +1,8 @@
-# 《「騙騙」喜歡你》觀後感：謊言底下，最真實的愛是分享
+# 《騙騙喜歡你》觀後感
 
-> 副標：反渣反詐，澳門全程陪演｜2024　|　status：整理中（草稿，未上線）
+> 副標：謊言底下，最真實的愛是分享｜2024
+
+> status：整理中（草稿，未上線）
 > 場地依軒哥勘景總表 22 澳門點＋補遺7處，共 29 澳門踏查點；廣州4處排除。7 金句均電影原聲核證。
 
 <img src="../../assets/og/pian-pian-xi-huan-ni-poster.jpg?v=20260928f" alt="《「騙騙」喜歡你》電影海報" style="column-span:all;width:min(100%,520px);display:block;margin:8px auto 28px;border-radius:10px">
