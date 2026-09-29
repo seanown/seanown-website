@@ -143,6 +143,7 @@ SLUGS = {
 
     '96': 'tianchangdijiu-1955',
     '97': 'the-blazing-charmer-1959',
+    '98': 'eight-murderers-1965',
 }
 
 
