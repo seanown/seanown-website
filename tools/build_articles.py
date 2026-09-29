@@ -10,7 +10,7 @@ POSTS = os.path.join(ROOT, 'data', 'posts.json')
 SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
-OG_VER = '20260930i'
+OG_VER = '20260930j'
 
 
 def ov(src):
@@ -100,6 +100,7 @@ SLUGS = {
     '82': 'a-night-in-hong-kong-1961',
     '83': 'the-white-storm-2013',
     '86': 'sharp-gun-2001',
+    '88': 'ghost-returns-at-midnight-1964',
     '87': 'flaming-brothers-1987',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
