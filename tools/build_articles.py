@@ -93,6 +93,7 @@ SLUGS = {
     '69': 'everyday-is-valentine',
     '70': 'macau-is-a-city-2019',
     '71': 'pedicab-driver-1989',
+    '72': 'macao-1952',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
