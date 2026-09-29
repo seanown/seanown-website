@@ -94,6 +94,7 @@ SLUGS = {
     '70': 'macau-is-a-city-2019',
     '71': 'pedicab-driver-1989',
     '72': 'macao-1952',
+    '73': 'our-17-2017',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
@@ -117,7 +118,7 @@ SLUGS = {
     '28': 'chinese-cultural-ip-globalization',
     '29': 'young-entrepreneur-cross-boundary-thinking',
     '30': 'choices-over-effort-three-turning-points',
-}
+    '74': 'cleopatra-jones-casino-of-gold-1975',}
 
 SITE = 'https://seanown.org'
 
