@@ -138,6 +138,7 @@ SLUGS = {
     '93': 'the-fatal-raid-2019',
     '92': 'double-relation-1966',
     '91': 'yellow-peril-1984',
+    '94': 'vengeance-2009',
 
 }
 
