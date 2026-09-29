@@ -10,7 +10,7 @@ POSTS = os.path.join(ROOT, 'data', 'posts.json')
 SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
-OG_VER = '20260929d'
+OG_VER = '20260929e'
 
 
 def ov(src):
@@ -78,8 +78,10 @@ SLUGS = {
     '54': 'skyfall',
     '55': 'jin-zhi-yu-ye-1959',
     '56': 'project-a-1983',
-    '57': 'when-i-fall-in-love-with-both',
+    '57': 'crash-2016',
     '58': 'hao-jiang-feng-yun',
+    '59': '2046',
+    '61': 'when-i-fall-in-love-with-both',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
