@@ -95,6 +95,7 @@ SLUGS = {
     '71': 'pedicab-driver-1989',
     '72': 'macao-1952',
     '73': 'our-17-2017',
+    '80': 'love-is-a-many-splendored-thing-1955',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
