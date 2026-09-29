@@ -123,7 +123,7 @@ SLUGS = {
     '76': 'black-falcon-1967',
     '78': 'miracles-1989',
     '77': 'sentenced-to-hang-1989',
-    '78': 'love-in-a-fallen-city-1984',
+    '79': 'love-in-a-fallen-city-1984',
 }
 
 SITE = 'https://seanown.org'
