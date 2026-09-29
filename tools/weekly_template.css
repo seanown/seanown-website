@@ -138,6 +138,43 @@
     line-height: 1.5;
   }
 
+  /* ===== 軒哥視角（總覽分析） ===== */
+  .overview-analysis {
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px dashed var(--line);
+  }
+  .analysis-lead {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+  }
+  .analysis-byline {
+    font-size: 12.5px;
+    color: var(--ink-3);
+    margin-bottom: 18px;
+  }
+  .analysis-item { margin-bottom: 18px; }
+  .analysis-item:last-child { margin-bottom: 0; }
+  .analysis-tag {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    padding: 3px 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .analysis-item p {
+    font-size: 16.5px;
+    line-height: 2;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
   /* ===== DATA DASHBOARD ===== */
   .data-grid {
     display: grid;

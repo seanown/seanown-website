@@ -17,7 +17,7 @@ build_weekly.py 套版。
 
 敘事段落（overview 摘要 / category-summary / 數據解讀）為「數據衍生種子文字」，
 已可用作草稿；檔首標記 `<!-- GEN-DRAFT ... -->` 提示 AI 升級文筆，
-並以 WebSearch 補充「演唱會」「全球 AI 精選」兩類（本抓取器來源不含）。
+並以 WebSearch 補充「演唱會」「全球 AI 精選」兩類（本抓取器來源不含）；演唱會請以「整月月曆」方式彙整（WebSearch 補足全月場次與場地），與逐週新聞互補，而非逐週零散羅列。
 
 用法：
   python tools/gen_body_from_json.py --week 2026-09-28
@@ -173,8 +173,14 @@ def bar_width(value):
 
 # ---------- 各區塊產生 ----------
 
-def build_overview(items, cat_counts):
-    """3 個 highlight-chip + 自動摘要段。"""
+def build_overview(items, cat_counts, metrics=None):
+    """本週總覽：導語 + 軒哥視角三段分析（AI 補寫）+ 3 個 highlight-chip。
+
+    軒哥視角（2026-09-29 新增）：總覽不再只是唸數據，需以翁振軒（軒哥）口吻，
+    分別對「澳門人 / 來澳門做生意的人 / 政府各單位」三類讀者給出價值判斷。
+    本函式只產生骨架 + SEED（可引用數據），三段分析文字由 AI 依 SEED 撰寫
+    （套用「翁振軒-style」寫作分身），不得編造 SEED 以外的數字。
+    """
     # 取最顯著的 3 則（DSEC 有數字 或 旅遊局活動）作 chip
     chips_src = []
     for it in items:
@@ -203,25 +209,48 @@ def build_overview(items, cat_counts):
           <div class="desc">{esc((it.get('title') or '')[:28])}</div>
         </div>''')
 
-    # 自動摘要段
+    # 導語（精簡事實陳述，非分析）
     parts = []
     for cid, ctitle, _ in CATS:
         n = cat_counts.get(cid, 0)
         if n:
             parts.append(f"{ctitle} {n} 則")
-    summary = (f"本週共收錄 {len(items)} 則新聞，來源涵蓋"
-               + "、".join(parts[:6])
-               + "。重點包括統計暨普查局（DSEC）一系列經濟數據發布，"
-                 "以及旅遊局多項盛事與活動訊息；"
-                 "時政、民生、大灣區與中華文化等議題並陳。"
-                 "（此段為數據衍生草稿，請 AI 升級為連貫敘事。）")
+    lead = (f"本週共收錄 {len(items)} 則新聞，來源涵蓋" + "、".join(parts[:6])
+            + "。統計暨普查局（DSEC）集中發布物價、就業、旅客與零售等宏觀數據，"
+              "旅遊局公佈多項會展與節慶活動；時政、大灣區與中華文化等議題並陳。")
+
+    # SEED：供 AI 撰寫軒哥視角三段分析（只能引用此處數字，嚴禁編造）
+    seed_bits = [f"{m['label']} {m['value']}（{m['change']}）" for m in (metrics or [])[:6]]
+    cat_bits = "、".join(f"{ctitle} {cat_counts.get(cid, 0)}"
+                        for cid, ctitle, _ in CATS if cat_counts.get(cid, 0))
+    seed_line = "；".join(seed_bits) if seed_bits else "（本週無可解析 DSEC 指標，請以新聞實事為據）"
+    if cat_bits:
+        seed_line += f"；分類計數：{cat_bits}"
 
     return f'''  <!-- ===== 一、本週總覽 ===== -->
   <div class="section" id="overview">
     <div class="section-num">PART 01</div>
     <h2 class="section-title">本週總覽</h2>
     <div class="overview">
-      <p>{esc(summary)}</p>
+      <p>{esc(lead)}</p>
+      <div class="overview-analysis">
+        <!-- AI-POLISH: 軒哥視角 — 以「翁振軒（軒哥）寫作分身」口吻，寫三段分析
+             （對澳門人／對企業家（傳統產業·科技）／對文化旅遊業者（含澳門遊客）），取代下列三段［軒哥視角待填］。
+             鐵律：零 emoji、零條列論證、平均句長≥40 字、短句（<20 字）不超過 15%、
+             開場給歷史座標、一切判斷落到民生、主詞用「我們」、收尾昇華不喊口號、
+             引用數字後必接價值判斷。數據只可用下方 SEED，嚴禁編造。
+             每段末須另附一則具體可執行、帶數字與責任局級單位的政府建議（意見即可、勿過度解釋）：
+             對澳門人→交通事務局；對企業家→經濟財政司（轄經濟及科技發展局、招商局，現正與消費者委員會、科學技術發展基金合併重組）；
+             對文化旅遊業者→社會文化司（轄旅遊局、文化局，現正合併體育局、文化發展基金，並納教育青年局）。
+             務必先以 WebSearch 核對當前政府組職架構與合併進度（2026 施政報告：相關重組預計 2026 年第四季完成），
+             目標是讓社會文化司、經濟財政司與教育青年局讀後覺得寫得有理、想主動聯繫了解後續發展。 -->
+        <!-- SEED 本週可引用數據：{seed_line} -->
+        <div class="analysis-lead">軒哥視角｜這些數字，三種人怎麼看</div>
+        <div class="analysis-byline">翁振軒（軒哥）· 粵港澳大灣區電子商會會長</div>
+        <div class="analysis-item"><span class="analysis-tag">對澳門人</span><p>［軒哥視角待填：這些數據落到澳門人日常是什麼意思；段末附一則具體可執行、帶數字與責任局級（交通事務局）的政府建議（意見即可）］</p></div>
+        <div class="analysis-item"><span class="analysis-tag">對企業家（傳統產業・科技）</span><p>［軒哥視角待填：對澳門傳統產業與科技業者的機會與警訊；段末附一則具體可執行、帶數字與責任局級（經濟財政司／經濟及科技發展局／招商局）的政府建議（意見即可）］</p></div>
+        <div class="analysis-item"><span class="analysis-tag">對文化旅遊業者（含澳門遊客）</span><p>［軒哥視角待填：對文化旅遊業者與來澳遊客的啟示；段末附一則具體可執行、帶數字與責任局級（社會文化司／旅遊局／文化局／教育青年局）的政府建議（意見即可）］</p></div>
+      </div>
       <div class="overview-highlights">
 {chr(10).join(chips)}
       </div>
@@ -510,7 +539,7 @@ def main():
         "<!-- GEN-DRAFT by gen_body_from_json.py · "
         "AI 請升級 overview/category-summary/數據解讀 三段敘事，並以 WebSearch 補充 演唱會/AI 精選；"
         "澳門日報區塊需逐張讀圖（AI-READ-IMAGE 標記）補入頭條 -->\n"
-        + build_overview(items, cat_counts)
+        + build_overview(items, cat_counts, metrics)
         + build_data_board(metrics)
         + build_macaodaily(items, md_headlines)
         + build_categories(items)
