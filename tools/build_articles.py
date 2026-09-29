@@ -216,13 +216,19 @@ def md_to_html(body, title=''):
             continue
         if s.startswith('<img') and s.endswith('>'):  # 獨立成行的圖：直接輸出為 .abody 直接子元素，方能 column-span:all 跨欄
             flush(); out.append(s); i += 1; continue
+        m = re.match(r'^!\[([^\]]*)\]\(([^)]+)\)$', s)  # 獨立成行的 markdown 圖：轉為 <img> 同上跨欄
+        if m:
+            flush()
+            out.append('<img src="%s" alt="%s">' % (m.group(2).strip(), esc(m.group(1))))
+            i += 1; continue
         buf.append(ln); i += 1
     flush()
     return '\n'.join(out)
 
 
 def plain(t, n=110):
-    t = re.sub(r'<[^>]+>', '', t or '')
+    t = re.sub(r'!\[[^\]]*\]\([^)]*\)', '', t or '')  # 先剝掉圖片語法，避免 lead 混入 markdown 原文
+    t = re.sub(r'<[^>]+>', '', t)
     t = re.sub(r'[#*>\-`|\n]', '', t).strip()
     return (t[:n] + '…') if len(t) > n else t
 
