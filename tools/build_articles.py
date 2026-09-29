@@ -76,6 +76,7 @@ SLUGS = {
     '52': 'last-time-i-saw-macao',
     '53': 'helios',
     '54': 'skyfall',
+    '55': 'jin-zhi-yu-ye-1959',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
