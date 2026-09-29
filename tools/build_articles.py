@@ -10,7 +10,7 @@ POSTS = os.path.join(ROOT, 'data', 'posts.json')
 SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
-OG_VER = '20260930d'
+OG_VER = '20260930e'
 
 
 def ov(src):
@@ -121,7 +121,9 @@ SLUGS = {
     '74': 'cleopatra-jones-casino-of-gold-1975',
     '75': 'fist-of-fury-1972',
     '76': 'black-falcon-1967',
+    '78': 'miracles-1989',
     '77': 'sentenced-to-hang-1989',
+    '78': 'love-in-a-fallen-city-1984',
 }
 
 SITE = 'https://seanown.org'
