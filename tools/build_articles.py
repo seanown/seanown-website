@@ -91,6 +91,7 @@ SLUGS = {
     '67': 'shanghai-surprise-1986',
     '68': 'johnny-english-reborn-2011',
     '69': 'everyday-is-valentine',
+    '70': 'macau-is-a-city-2019',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
