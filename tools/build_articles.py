@@ -10,7 +10,7 @@ POSTS = os.path.join(ROOT, 'data', 'posts.json')
 SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
-OG_VER = '20260929g'
+OG_VER = '20260929h'
 
 
 def ov(src):
@@ -81,6 +81,7 @@ SLUGS = {
     '57': 'crash-2016',
     '58': 'hao-jiang-feng-yun',
     '59': '2046',
+    '60': 'hai-shang-hua-1986',
     '61': 'when-i-fall-in-love-with-both',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
