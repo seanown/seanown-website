@@ -120,7 +120,9 @@ SLUGS = {
     '30': 'choices-over-effort-three-turning-points',
     '74': 'cleopatra-jones-casino-of-gold-1975',
     '75': 'fist-of-fury-1972',
-    '76': 'black-falcon-1967',}
+    '76': 'black-falcon-1967',
+    '77': 'sentenced-to-hang-1989',
+}
 
 SITE = 'https://seanown.org'
 
