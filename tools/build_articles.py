@@ -100,6 +100,7 @@ SLUGS = {
     '82': 'a-night-in-hong-kong-1961',
     '83': 'the-white-storm-2013',
     '86': 'sharp-gun-2001',
+    '87': 'flaming-brothers-1987',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
