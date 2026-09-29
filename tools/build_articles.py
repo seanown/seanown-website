@@ -10,7 +10,7 @@ POSTS = os.path.join(ROOT, 'data', 'posts.json')
 SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
-OG_VER = '20260929c'
+OG_VER = '20260929d'
 
 
 def ov(src):
@@ -75,6 +75,7 @@ SLUGS = {
     '51': 'the-longest-nite',
     '52': 'last-time-i-saw-macao',
     '53': 'helios',
+    '54': 'skyfall',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',

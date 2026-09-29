@@ -386,13 +386,13 @@ def fetch_bytes(url, timeout=30):
         return b"", 0
 
 
-def fetch_macaodaily(week_start, week_end, pages_per_day=2, img_root=None):
+def fetch_macaodaily(week_start, week_end, pages_per_day=3, img_root=None):
     """澳門日報（圖片型電子報）：逐日下載整版圖供 AI 讀圖抽標題。
 
     結構：/html/YYYY-MM/DD/node_<N>.htm 為各版次索引；每版對應一張整版 JPEG
           /page/<n>/<YYYY-MM>/<DD>/<SEC>/<id>.jpg（SEC 如 A01），全站統一 398×584。
     作法：逐日枚舉 node_X → 解析各版次圖片 URL 與文章數（<area> 熱點數）→
-          下載前 pages_per_day 個版次（依版次排序，預設 A01+A02）整版圖到 img_root/<date>/。
+          下載前 pages_per_day 個版次（依版次排序，預設 A01+A02+A03）整版圖到 img_root/<date>/。
     限制：內文因原圖解析度不足不可讀（該站無文字層／無高清圖／無 PDF），
           故 item.summary 留空並標 extra.needs_vision=True，交由 AI 讀圖補標題。
     """
@@ -490,7 +490,7 @@ def main():
     ap.add_argument("--week", help="出報日(週一) YYYY-MM-DD")
     ap.add_argument("--days", type=int, help="最近 N 天")
     ap.add_argument("--out", help="輸出 JSON 路徑")
-    ap.add_argument("--md-pages", type=int, default=2,
+    ap.add_argument("--md-pages", type=int, default=3,
                     help="澳門日報每日下載前 N 版整版圖（預設 2：A01+A02；0=只記錄版次不下載）")
     args = ap.parse_args()
 
