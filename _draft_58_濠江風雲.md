@@ -1,6 +1,6 @@
 # 《濠江風雲》觀後感
 
-<img src="../../assets/og/hao-jiang-feng-yun-poster.jpg?v=20260929d" alt="《濠江風雲》電影海報" style="column-span:all;width:min(100%,520px);display:block;margin:8px auto 28px;border-radius:10px">
+<img src="../../assets/og/hao-jiang-feng-yun-poster.jpg?v=20260929f" alt="《濠江風雲》電影海報" style="column-span:all;width:min(100%,520px);display:block;margin:8px auto 28px;border-radius:10px">
 
 副標：一部自傳片，意外凍結了回歸前夜的澳門｜1998
 
