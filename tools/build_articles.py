@@ -10,7 +10,7 @@ POSTS = os.path.join(ROOT, 'data', 'posts.json')
 SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
-OG_VER = '20260930a'
+OG_VER = '20260930b'
 
 
 def ov(src):
@@ -92,6 +92,7 @@ SLUGS = {
     '68': 'johnny-english-reborn-2011',
     '69': 'everyday-is-valentine',
     '70': 'macau-is-a-city-2019',
+    '71': 'pedicab-driver-1989',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
