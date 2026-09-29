@@ -922,7 +922,7 @@ def build(post, allposts):
         ms = series_members(allposts, sid)
         # 序位與上一篇/下一篇一律按寫作序（asc）計算，與輯頁顯示方向（order_dir）無關：
         # 「第 1 篇」永遠是輯裡最早那篇，「上一篇」= 更早、「下一篇」= 更晚。
-        ms = sorted(ms, key=lambda p: (str(p.get('date', '')), str(p.get('num', ''))))
+        ms = sorted(ms, key=lambda p: (str(p.get('date', '')), _numkey(p)))
         idx = next((i for i, p in enumerate(ms)
                     if str(p.get('num', '')).strip() == num), -1)
         coll_name = next((c['name'] for c in SERIES.get('collections', [])
