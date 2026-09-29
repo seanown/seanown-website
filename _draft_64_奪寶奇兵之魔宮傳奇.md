@@ -1,9 +1,10 @@
 <!--
-全站編號：#62（預計，提交時現算）
+全站編號：#64（現算確認：#62 藍煙火、#63 骨妹已佔；另 _draft_64_澳門街.md 為並行草稿未入庫，先寫入者得號）
 專輯：澳門電影（macau-film）
 slug：indiana-jones-temple-of-doom
-狀態：整理中（Phase 1 草稿，待「出海報」→「上線」）
+狀態：整理中（Phase 1 草稿＋Phase 2 海報八件套完成，待「上線」）
 副標：好萊塢的舊上海，是澳門的快樂街｜1984
+海報：assets/og/indiana-jones-temple-of-doom-{poster,poster-land}.{png,jpg,webp}＋{cover.{jpg,webp},.jpg(OG),.webp}
 預檢：台詞 PASS（IMDb/Wikiquote 可查證原聲對白）、場地 PASS（4 處 GPS 查證）
 -->
 
@@ -65,7 +66,7 @@ slug：indiana-jones-temple-of-doom
 
 財富與榮耀。大片追逐的，從來是這兩樣。而澳門被拍進這部片的榮耀，不是它真的成了上海，是它證明了一座小城的老街，足以騙過全世界的眼睛——這本身，就是一種財富。
 
-### 五、散場之後，街還在
+### 五、我的快樂街
 
 寫到這裡，要說回自己。
 

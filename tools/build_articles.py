@@ -85,6 +85,7 @@ SLUGS = {
     '61': 'when-i-fall-in-love-with-both',
     '62': 'lan-yan-huo-2000',
     '63': 'sisterhood-2016',
+    '64': 'indiana-jones-temple-of-doom',
     '62': 'lan-yan-huo-2000',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
