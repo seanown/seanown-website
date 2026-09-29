@@ -10,7 +10,7 @@ POSTS = os.path.join(ROOT, 'data', 'posts.json')
 SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
-OG_VER = '20260930q'
+OG_VER = '20260930r'
 
 
 def ov(src):
@@ -140,10 +140,13 @@ SLUGS = {
     '91': 'yellow-peril-1984',
     '95': 'poker-king-2009',
     '94': 'vengeance-2009',
+    '99': 'zhuixiongji-1965',
+
 
     '96': 'tianchangdijiu-1955',
     '97': 'the-blazing-charmer-1959',
     '98': 'eight-murderers-1965',
+    '100': 'the-untold-story-1993',
 }
 
 
