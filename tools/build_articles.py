@@ -10,7 +10,7 @@ POSTS = os.path.join(ROOT, 'data', 'posts.json')
 SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
-OG_VER = '20260929i'
+OG_VER = '20260929j'
 
 
 def ov(src):
@@ -86,7 +86,7 @@ SLUGS = {
     '62': 'lan-yan-huo-2000',
     '63': 'sisterhood-2016',
     '64': 'indiana-jones-temple-of-doom',
-    '62': 'lan-yan-huo-2000',
+    '65': 'macau-street-2013',
     '36': 'wealth-leverage-macau',
     '35': 'recent-reflections-twelve-quotes-sketch',
     '34': 'macau-budget-2020-2024-analysis',
