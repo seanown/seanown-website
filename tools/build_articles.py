@@ -133,8 +133,10 @@ SLUGS = {
     '79': 'love-in-a-fallen-city-1984',
     '84': 'macao-enfer-du-jeu-1939',
     '85': 'young-and-dangerous-1996',
+    '89': 'city-of-desire-2001',
 
 }
+
 
 SITE = 'https://seanown.org'
 
