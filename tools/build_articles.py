@@ -37,6 +37,14 @@ def load_series():
     return SERIES
 
 
+def _numkey(p):
+    """篇號排序鍵：一律轉整數，避免 '100' 在字串排序下錯位（本站已跨百號）。"""
+    try:
+        return int(str(p.get('num', '')).strip())
+    except (TypeError, ValueError):
+        return 0
+
+
 def sorted_series():
     """輯的顯示順序：order 小的在前，同值再按輯名。"""
     return sorted(SERIES['series'],
@@ -53,7 +61,7 @@ def series_members(posts, sid):
     ms = [p for p in posts
           if (p.get('series') or '').strip() == sid and p.get('status') != '整理中']
     desc = str(SERIES_BY_ID.get(sid, {}).get('order_dir') or 'asc').lower() == 'desc'
-    return sorted(ms, key=lambda p: (str(p.get('date', '')), str(p.get('num', ''))),
+    return sorted(ms, key=lambda p: (str(p.get('date', '')), _numkey(p)),
                   reverse=desc)
 
 # 文章英文 slug（SEO 友善，關鍵詞命名）
