@@ -460,7 +460,7 @@ a{color:var(--blue);text-decoration:none}
 .poster-card{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:all .22s;color:inherit}
 .poster-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,8,32,.12);border-color:var(--gold)}
 .poster-card .p-img{aspect-ratio:2/3;overflow:hidden;background:var(--bg)}
-.poster-card .p-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.poster-card .p-img img{width:100%;height:100%;object-fit:contain;display:block;transition:transform .3s}
 .poster-card:hover .p-img img{transform:scale(1.04)}
 .poster-card .p-cap{padding:10px 12px 13px}
 .poster-card .p-title{font-size:15px;font-weight:800;color:var(--text);line-height:1.4}
@@ -508,7 +508,7 @@ def build_series_page(s, posts, all_series):
                 '<div class="p-img"><img src="%s" alt="%s" loading="lazy"></div>'
                 '<div class="p-cap"><div class="p-title">%s</div>'
                 '<div class="p-year">%s</div></div></a></li>'
-            ) % (fy, SITE, pslug, ov('../../assets/og/%s.jpg' % pslug), esc(name),
+            ) % (fy, SITE, pslug, ov('../../assets/og/%s-poster.jpg' % pslug), esc(name),
                  esc(name), esc(str(fy)))
         else:
             loc = (p.get('location') or '').strip()
@@ -1206,6 +1206,7 @@ def build_list(posts):
         date = (p.get('date') or '').strip()
         is_film = (p.get('series') or '') == 'macau-film'
         cover = ov('../assets/og/%s.jpg' % slug)
+        poster = ov('../assets/og/%s-poster.jpg' % slug)
         if is_film:
             # 電影卡：直海報（2:3）＋片名＋年份，與專輯頁統一風格
             fy = p.get('filmYear')
@@ -1220,7 +1221,7 @@ def build_list(posts):
                 '<div class="lc-img"><img src="%s" alt="%s" loading="lazy"></div>'
                 '<div class="lc-body"><div class="lc-top"><span class="lc-date">%s</span></div>'
                 '<h2>%s</h2><div class="lc-year">%s</div></div></a>'
-            ) % (SITE, slug, esc(cat), fy, cover, esc(name),
+            ) % (SITE, slug, esc(cat), fy, poster, esc(name),
                  date.replace('-', '.'), esc(name), esc(str(fy)))
         else:
             lead = plain(p.get('body') or title, 62)
@@ -1337,6 +1338,8 @@ html{{scroll-behavior:smooth}}
 .lc-card.poster .lc-img{{aspect-ratio:2/3}}
 .lc-card.poster h2{{font-size:16px;margin-bottom:4px}}
 .lc-card.poster .lc-year{{font-size:12px;color:var(--gray);font-weight:700;letter-spacing:.5px}}
+.lc-card.poster .lc-img{{background:var(--bg)}}
+.lc-card.poster .lc-img img{{object-fit:contain}}
 .foot{{border-top:1px solid var(--line);padding:30px 24px 44px;text-align:center;font-size:13px;color:var(--gray);line-height:1.9}}
 .foot a{{color:var(--blue)}}
 .float-cta{{position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);font-size:14px;transition:transform .2s,box-shadow .2s}}
@@ -1444,7 +1447,7 @@ def build_home_films(published):
             if not slug:
                 continue
             films.append({'slug': slug, 'title': p.get('title') or '', 'fy': fy,
-                          'img': '/assets/og/%s.jpg' % slug})
+                          'img': '/assets/og/%s-poster.jpg' % slug})
     films.sort(key=lambda x: -x['fy'])
     idx = os.path.join(ROOT, 'index.html')
     if not os.path.exists(idx):
