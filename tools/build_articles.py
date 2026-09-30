@@ -173,6 +173,7 @@ SLUGS = {
     '116': 'casino-tycoon-2-1992',
     '117': 'dragon-1993',
     '118': 'bicycle-man-1997',
+    '119': 'aspectos-de-macau-1923',
 }
 
 
