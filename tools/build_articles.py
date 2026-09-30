@@ -512,10 +512,41 @@ a{color:var(--blue);text-decoration:none}
 .mi-k{color:var(--gray)}
 .mi-v{color:var(--text)}
 .mi-scenes{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:20px 24px;font-size:14px;color:#2B2B2B;margin-bottom:30px}
+.mi-sec{font-size:15px;font-weight:800;color:var(--blue);margin:18px 0 12px;padding-left:14px;border-left:4px solid var(--gold)}
+.mi-sec:first-child{margin-top:0}
+.mi-place{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:12px}
+.mi-place:last-child{margin-bottom:0}
+.mi-pname{font-size:15px;font-weight:800;color:var(--text);margin-bottom:5px}
+.mi-gps{display:inline-block;font-size:12.5px;color:var(--blue);font-weight:700;margin-bottom:7px;letter-spacing:.3px}
+.mi-gps:hover{color:var(--gold-dark)}
+.mi-pdesc{font-size:14px;color:#2B2B2B;line-height:1.8;margin:0}
 .foot{margin-top:46px;padding:26px 24px 46px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);text-align:center}
 .foot a{color:var(--blue)}
 @media(max-width:720px){.masthead h1{font-size:26px}.mi-poster{flex:0 0 150px;max-width:150px}.mi-title{font-size:26px}.wrap{padding:26px 18px 0}}
 """
+
+def render_macau_scenes(sc):
+    """將 movieInfo.macauScenes 渲染為場景卡。支援結構化 list 或舊式純文字。"""
+    if not sc:
+        return ''
+    if isinstance(sc, str):
+        return '<div class="mi-scenes">%s</div>' % esc(sc)
+    out = []
+    for sec in sc:
+        out.append('<div class="mi-sec">%s</div>' % esc(sec.get('section', '')))
+        for pl in sec.get('places', []):
+            name = esc(pl.get('name', ''))
+            gps = pl.get('gps', '')
+            mapurl = pl.get('map', '')
+            if gps:
+                gps_html = ('<a class="mi-gps" href="%s" target="_blank" rel="noopener">📍 %s</a>'
+                            % (esc(mapurl), esc(gps))) if mapurl else ('<span class="mi-gps">📍 %s</span>' % esc(gps))
+            else:
+                gps_html = ''
+            out.append('<div class="mi-place"><div class="mi-pname">%s</div>%s<p class="mi-pdesc">%s</p></div>'
+                       % (name, gps_html, esc(pl.get('desc', ''))))
+    return '<div class="mi-scenes">%s</div>' % ''.join(out)
+
 
 def build_movie_info(post, allposts):
     """產生 movie/<slug>/index.html（電影資訊頁），資料來自 post['movieInfo']。"""
@@ -549,8 +580,7 @@ def build_movie_info(post, allposts):
     add('澳門連結', ('專輯 #%s' % num) if num else '')
     add('資料來源', mi.get('source'))
     card = '<div class="mi-card">%s</div>' % ''.join(rows)
-    scenes = mi.get('macauScenes', '')
-    scenes_html = ('<div class="mi-scenes">%s</div>' % esc(scenes)) if scenes else ''
+    scenes_html = render_macau_scenes(mi.get('macauScenes'))
     actor_ld = []
     for a in actors:
         o = {'@type': 'Person', 'name': a.get('name', '')}
