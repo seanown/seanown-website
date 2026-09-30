@@ -245,4 +245,11 @@
     <loc>https://seanown.org/article/bicycle-man-1997/</loc>
     <lastmod>2026-09-30</lastmod>
   </url>
+  <url>
+    <loc>https://seanown.org/article/o-regresso-1989/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>
