@@ -602,6 +602,7 @@ def build_movie_info(post, allposts):
         "description": synopsis,
     }
     url = '%s/movie/%s/' % (SITE, slug)
+    article_url = '%s/article/%s/' % (SITE, slug)
     page = """<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -628,7 +629,7 @@ def build_movie_info(post, allposts):
 <body>
 <div class="topbar"><div class="topbar-in">
 <a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
-<a class="mini-cta" href="{site}/series/macau-film/">澳門電影專輯</a>
+<a class="mini-cta" href="{article}">回到影評</a><a class="mini-cta" href="{site}/series/macau-film/">澳門電影專輯</a>
 </div></div>
 
 <div class="masthead"><div class="masthead-in">
@@ -655,14 +656,14 @@ def build_movie_info(post, allposts):
 <div class="mi-lab">澳門場景</div>
 {scenes}
 
-<div class="foot">© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/series/macau-film/">澳門電影專輯</a></div>
+<div class="foot">© 2026 翁振軒 Sean Own · <a href="{article}">回到影評</a> · <a href="{site}/">返回首頁</a> · <a href="{site}/series/macau-film/">澳門電影專輯</a></div>
 </div>
 </body>
 </html>
 """.format(
         title=esc(title), desc=esc((synopsis or title)[:120]), kw=esc('%s,%s,澳門電影,翁振軒' % (title, eng)),
         url=url, og=ov('%s/assets/og/%s-poster.jpg' % (SITE, slug)),
-        ld=json.dumps(ld, ensure_ascii=False), css=MOVIE_INFO_CSS, site=SITE,
+        ld=json.dumps(ld, ensure_ascii=False), css=MOVIE_INFO_CSS, site=SITE, article=article_url,
         sub=esc(('%s · %s' % (eng, year)) if (eng or year) else ''),
         by=esc(('導演 %s ｜ 原著·編劇 %s' % (mi.get('director', ''), mi.get('writer', ''))).strip(' ｜')),
         poster=poster, synopsis=esc(synopsis), card=card, scenes=scenes_html,
