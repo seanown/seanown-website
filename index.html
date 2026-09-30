@@ -155,6 +155,19 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 .article-card{background:var(--white);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:all .3s}
 .article-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
+/* ===== 首頁 澳門電影 直海報 grid（PC 橫屏 5 張 auto-fit / 直屏 3 張 / 手機 2 張） ===== */
+.film-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:22px;margin-top:8px}
+.film-grid .film-card{display:block;background:#fff;border:1px solid var(--light-gray);border-radius:12px;overflow:hidden;transition:all .22s;color:inherit}
+.film-grid .film-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,8,32,.12);border-color:var(--gold)}
+.film-grid .film-card .f-img{aspect-ratio:2/3;overflow:hidden;background:var(--bg)}
+.film-grid .film-card .f-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.film-grid .film-card:hover .f-img img{transform:scale(1.04)}
+.film-grid .film-card .f-cap{padding:10px 12px 13px}
+.film-grid .film-card .f-title{font-size:15px;font-weight:800;color:var(--text);line-height:1.4}
+.film-grid .film-card .f-year{font-size:12px;color:var(--gray);margin-top:3px;letter-spacing:.5px}
+@media(orientation:portrait){.film-grid{grid-template-columns:repeat(3,1fr);gap:18px}}
+@media(max-width:600px){.film-grid{grid-template-columns:repeat(2,1fr);gap:14px}}
+.film-sort{justify-content:center;margin:6px 0 18px}
 .article-img{height:180px;background:linear-gradient(135deg,var(--blue),var(--gold));display:flex;align-items:center;justify-content:center;color:var(--white);font-size:40px}
 .article-body{padding:24px}
 .article-tag{display:inline-block;padding:4px 12px;border-radius:12px;background:var(--gold-light);color:var(--blue);font-size:12px;font-weight:600;margin-bottom:12px}
@@ -410,6 +423,14 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <section class="section" id="sec-focus" style="background:var(--bg)"><div class="section-inner">
 <h2 class="section-title">本期焦點</h2><p class="section-subtitle">最新發布 · 封面故事</p><div class="title-line"></div>
 <div id="focus-card"></div>
+</div></section>
+
+<!-- 澳門電影專輯 -->
+<section class="section" id="sec-films" style="background:var(--bg)"><div class="section-inner">
+<h2 class="section-title">🎬 澳門電影</h2><p class="section-subtitle">在澳門取景的電影，一篇一部重新走讀</p><div class="title-line"></div>
+<div class="sort-bar film-sort"><button class="sort-btn on" data-dir="desc">Newest Release Dates</button><button class="sort-btn" data-dir="asc">Oldest Release Dates</button></div>
+<ul class="film-grid" id="film-grid"></ul>
+<div style="text-align:center;margin-top:28px"><a href="/series/macau-film/" class="btn btn-primary" style="padding:14px 40px">查看完整電影專輯 →</a></div>
 </div></section>
 
 <!-- ⑤ 最新文章精選 -->
@@ -1237,6 +1258,39 @@ document.addEventListener('DOMContentLoaded',function(){
       }
     }catch(e){console.error('embedded fallback failed',e);}
   },400);
+});
+</script>
+
+<!-- 澳門電影 grid 資料（由 build_articles.py 自 posts.json 重生，勿手動改內容） -->
+<script type="application/json" id="embedded-films">[{"slug": "bufeng-zhuiying", "title": "《捕風追影》觀後感", "fy": 2025, "img": "/assets/og/bufeng-zhuiying.jpg"}, {"slug": "pian-pian-xi-huan-ni", "title": "《騙騙喜歡你》觀後感", "fy": 2024, "img": "/assets/og/pian-pian-xi-huan-ni.jpg"}, {"slug": "macao-2525-2021", "title": "《Macao 2525》觀後感", "fy": 2021, "img": "/assets/og/macao-2525-2021.jpg"}, {"slug": "madalena-2021", "title": "《馬達・蓮娜》觀後感", "fy": 2021, "img": "/assets/og/madalena-2021.jpg"}, {"slug": "shang-chi-2021", "title": "《尚氣與十環幫傳奇》觀後感", "fy": 2021, "img": "/assets/og/shang-chi-2021.jpg"}, {"slug": "lets-sing-2021", "title": "《熱唱吧》觀後感", "fy": 2021, "img": "/assets/og/lets-sing-2021.jpg"}, {"slug": "macau-is-a-city-2019", "title": "《媽閣是座城》觀後感", "fy": 2019, "img": "/assets/og/macau-is-a-city-2019.jpg"}, {"slug": "the-fatal-raid-2019", "title": "《辣警霸王花 2 不義之戰》觀後感", "fy": 2019, "img": "/assets/og/the-fatal-raid-2019.jpg"}, {"slug": "our-17-2017", "title": "《那一年，我17》觀後感", "fy": 2017, "img": "/assets/og/our-17-2017.jpg"}, {"slug": "jingtian-modaotuan-2", "title": "《驚天魔盜團2》觀後感", "fy": 2016, "img": "/assets/og/jingtian-modaotuan-2.jpg"}, {"slug": "crash-2016", "title": "《撞牆》觀後感", "fy": 2016, "img": "/assets/og/crash-2016.jpg"}, {"slug": "sisterhood-2016", "title": "《骨妹》觀後感", "fy": 2016, "img": "/assets/og/sisterhood-2016.jpg"}, {"slug": "return-of-the-cuckoo", "title": "《十月初五的月光》觀後感", "fy": 2015, "img": "/assets/og/return-of-the-cuckoo.jpg"}, {"slug": "helios", "title": "《赤道》觀後感", "fy": 2015, "img": "/assets/og/helios.jpg"}, {"slug": "ji-zhan", "title": "《激戰》觀後感", "fy": 2013, "img": "/assets/og/ji-zhan.jpg"}, {"slug": "macau-street-2013", "title": "《澳門街》觀後感", "fy": 2013, "img": "/assets/og/macau-street-2013.jpg"}, {"slug": "the-white-storm-2013", "title": "《掃毒》觀後感", "fy": 2013, "img": "/assets/og/the-white-storm-2013.jpg"}, {"slug": "last-time-i-saw-macao", "title": "《我最後一次看見澳門》觀後感", "fy": 2012, "img": "/assets/og/last-time-i-saw-macao.jpg"}, {"slug": "skyfall", "title": "《新鐵金剛：智破天凶城》觀後感", "fy": 2012, "img": "/assets/og/skyfall.jpg"}, {"slug": "dan-shen-nan-nv", "title": "《單身男女》觀後感", "fy": 2011, "img": "/assets/og/dan-shen-nan-nv.jpg"}, {"slug": "johnny-english-reborn-2011", "title": "《憨豆先生大戰特務》觀後感", "fy": 2011, "img": "/assets/og/johnny-english-reborn-2011.jpg"}, {"slug": "double-dhamaal-2011", "title": "《Double Dhamaal》觀後感", "fy": 2011, "img": "/assets/og/double-dhamaal-2011.jpg"}, {"slug": "look-for-a-star", "title": "《遊龍戲鳳》觀後感", "fy": 2009, "img": "/assets/og/look-for-a-star.jpg"}, {"slug": "vengeance-2009", "title": "《復仇》觀後感", "fy": 2009, "img": "/assets/og/vengeance-2009.jpg"}, {"slug": "poker-king-2009", "title": "《撲克王》觀後感", "fy": 2009, "img": "/assets/og/poker-king-2009.jpg"}, {"slug": "isabella", "title": "《伊莎貝拉》觀後感", "fy": 2006, "img": "/assets/og/isabella.jpg"}, {"slug": "exiled", "title": "《放逐》觀後感", "fy": 2006, "img": "/assets/og/exiled.jpg"}, {"slug": "shangcheng-2006", "title": "《傷城》觀後感", "fy": 2006, "img": "/assets/og/shangcheng-2006.jpg"}, {"slug": "b420-2005", "title": "《b420》觀後感", "fy": 2005, "img": "/assets/og/b420-2005.jpg"}, {"slug": "2046", "title": "《2046》觀後感", "fy": 2004, "img": "/assets/og/2046.jpg"}, {"slug": "butterfly-2004", "title": "《蝴蝶》觀後感", "fy": 2004, "img": "/assets/og/butterfly-2004.jpg"}, {"slug": "fulltime-killer", "title": "《全職殺手》觀後感", "fy": 2001, "img": "/assets/og/fulltime-killer.jpg"}, {"slug": "amor-e-dedinhos-de-pe", "title": "《愛情與小腳趾》觀後感", "fy": 2001, "img": "/assets/og/amor-e-dedinhos-de-pe.jpg"}, {"slug": "everyday-is-valentine", "title": "《情迷大話王》觀後感", "fy": 2001, "img": "/assets/og/everyday-is-valentine.jpg"}, {"slug": "sharp-gun-2001", "title": "《險角》觀後感", "fy": 2001, "img": "/assets/og/sharp-gun-2001.jpg"}, {"slug": "city-of-desire-2001", "title": "《慾望之城》觀後感", "fy": 2001, "img": "/assets/og/city-of-desire-2001.jpg"}, {"slug": "huayang-nianhua", "title": "《花樣年華》觀後感", "fy": 2000, "img": "/assets/og/huayang-nianhua.jpg"}, {"slug": "when-i-fall-in-love-with-both", "title": "《月亮的秘密》觀後感", "fy": 2000, "img": "/assets/og/when-i-fall-in-love-with-both.jpg"}, {"slug": "lan-yan-huo-2000", "title": "《藍煙火》觀後感", "fy": 2000, "img": "/assets/og/lan-yan-huo-2000.jpg"}, {"slug": "the-longest-nite", "title": "《暗花》觀後感", "fy": 1998, "img": "/assets/og/the-longest-nite.jpg"}, {"slug": "bicycle-man-1997", "title": "《騎自行車的人》觀後感", "fy": 1997, "img": "/assets/og/bicycle-man-1997.jpg"}, {"slug": "young-and-dangerous-1996", "title": "《古惑仔之人在江湖》觀後感", "fy": 1996, "img": "/assets/og/young-and-dangerous-1996.jpg"}, {"slug": "the-bewitching-braid-1996", "title": "《大辮子的誘惑》觀後感", "fy": 1996, "img": "/assets/og/the-bewitching-braid-1996.jpg"}, {"slug": "the-untold-story-1993", "title": "《人肉叉燒包》觀後感", "fy": 1993, "img": "/assets/og/the-untold-story-1993.jpg"}, {"slug": "dragon-1993", "title": "《李小龍傳》觀後感", "fy": 1993, "img": "/assets/og/dragon-1993.jpg"}, {"slug": "hao-jiang-feng-yun", "title": "《濠江風雲》觀後感", "fy": 1992, "img": "/assets/og/hao-jiang-feng-yun.jpg"}, {"slug": "china-dolls-1992", "title": "《特區愛奴》觀後感", "fy": 1992, "img": "/assets/og/china-dolls-1992.jpg"}, {"slug": "casino-tycoon-1992", "title": "《賭城大亨之新哥傳奇》觀後感", "fy": 1992, "img": "/assets/og/casino-tycoon-1992.jpg"}, {"slug": "casino-tycoon-2-1992", "title": "《賭城大亨II之至尊無敵》觀後感", "fy": 1992, "img": "/assets/og/casino-tycoon-2-1992.jpg"}, {"slug": "riki-oh-1991", "title": "《力王》觀後感", "fy": 1991, "img": "/assets/og/riki-oh-1991.jpg"}, {"slug": "pedicab-driver-1989", "title": "《群龍戲鳳》觀後感", "fy": 1989, "img": "/assets/og/pedicab-driver-1989.jpg"}, {"slug": "sentenced-to-hang-1989", "title": "《三狼奇案》觀後感", "fy": 1989, "img": "/assets/og/sentenced-to-hang-1989.jpg"}, {"slug": "miracles-1989", "title": "《奇蹟》觀後感", "fy": 1989, "img": "/assets/og/miracles-1989.jpg"}, {"slug": "ah-long-1989", "title": "《阿郎的故事》觀後感", "fy": 1989, "img": "/assets/og/ah-long-1989.jpg"}, {"slug": "o-regresso-1989", "title": "《O Regresso》觀後感", "fy": 1988, "img": "/assets/og/o-regresso-1989.jpg"}, {"slug": "rouge", "title": "《胭脂扣》觀後感", "fy": 1987, "img": "/assets/og/rouge.jpg"}, {"slug": "flaming-brothers-1987", "title": "《江湖龍虎鬥》觀後感", "fy": 1987, "img": "/assets/og/flaming-brothers-1987.jpg"}, {"slug": "hai-shang-hua-1986", "title": "《海上花》觀後感", "fy": 1986, "img": "/assets/og/hai-shang-hua-1986.jpg"}, {"slug": "shanghai-surprise-1986", "title": "《上海驚情》觀後感", "fy": 1986, "img": "/assets/og/shanghai-surprise-1986.jpg"}, {"slug": "indiana-jones-temple-of-doom", "title": "《奪寶奇兵之魔宮傳奇》觀後感", "fy": 1984, "img": "/assets/og/indiana-jones-temple-of-doom.jpg"}, {"slug": "love-in-a-fallen-city-1984", "title": "《傾城之戀》觀後感", "fy": 1984, "img": "/assets/og/love-in-a-fallen-city-1984.jpg"}, {"slug": "yellow-peril-1984", "title": "《黃禍》觀後感", "fy": 1984, "img": "/assets/og/yellow-peril-1984.jpg"}, {"slug": "project-a-1983", "title": "《A計劃》觀後感", "fy": 1983, "img": "/assets/og/project-a-1983.jpg"}, {"slug": "cleopatra-jones-casino-of-gold-1975", "title": "《女金剛鬥狂龍女》觀後感", "fy": 1975, "img": "/assets/og/cleopatra-jones-casino-of-gold-1975.jpg"}, {"slug": "man-with-the-golden-gun", "title": "《鐵金剛大戰金槍客》觀後感", "fy": 1974, "img": "/assets/og/man-with-the-golden-gun.jpg"}, {"slug": "fist-of-fury-1972", "title": "《精武門》觀後感", "fy": 1972, "img": "/assets/og/fist-of-fury-1972.jpg"}, {"slug": "black-falcon-1967", "title": "《黑鷹》觀後感", "fy": 1967, "img": "/assets/og/black-falcon-1967.jpg"}, {"slug": "via-macau-1966", "title": "《Via Macau》觀後感", "fy": 1966, "img": "/assets/og/via-macau-1966.jpg"}, {"slug": "double-relation-1966", "title": "《親上加親》觀後感", "fy": 1966, "img": "/assets/og/double-relation-1966.jpg"}, {"slug": "the-husband-of-a-lady-1965", "title": "《小姐的丈夫》觀後感", "fy": 1965, "img": "/assets/og/the-husband-of-a-lady-1965.jpg"}, {"slug": "eight-murderers-1965", "title": "《八個兇手》觀後感", "fy": 1965, "img": "/assets/og/eight-murderers-1965.jpg"}, {"slug": "zhuixiongji-1965", "title": "《追兇記》觀後感", "fy": 1965, "img": "/assets/og/zhuixiongji-1965.jpg"}, {"slug": "chase-at-the-canidrome-1965", "title": "《鐵金剛狗場追兇》觀後感", "fy": 1965, "img": "/assets/og/chase-at-the-canidrome-1965.jpg"}, {"slug": "ghost-returns-at-midnight-1964", "title": "《午夜招魂》觀後感", "fy": 1964, "img": "/assets/og/ghost-returns-at-midnight-1964.jpg"}, {"slug": "a-night-in-hong-kong-1961", "title": "《香港之夜》觀後感", "fy": 1961, "img": "/assets/og/a-night-in-hong-kong-1961.jpg"}, {"slug": "jin-zhi-yu-ye-1959", "title": "《金枝玉葉》觀後感", "fy": 1959, "img": "/assets/og/jin-zhi-yu-ye-1959.jpg"}, {"slug": "the-blazing-charmer-1959", "title": "《噴火女郎》觀後感", "fy": 1959, "img": "/assets/og/the-blazing-charmer-1959.jpg"}, {"slug": "love-is-a-many-splendored-thing-1955", "title": "《生死戀》觀後感", "fy": 1955, "img": "/assets/og/love-is-a-many-splendored-thing-1955.jpg"}, {"slug": "tianchangdijiu-1955", "title": "《天長地久》觀後感", "fy": 1955, "img": "/assets/og/tianchangdijiu-1955.jpg"}, {"slug": "forbidden-1953", "title": "《Forbidden》觀後感", "fy": 1953, "img": "/assets/og/forbidden-1953.jpg"}, {"slug": "macao-1952", "title": "《Macao》觀後感", "fy": 1952, "img": "/assets/og/macao-1952.jpg"}, {"slug": "macao-enfer-du-jeu-1939", "title": "《Macao, l'enfer du jeu》觀後感", "fy": 1939, "img": "/assets/og/macao-enfer-du-jeu-1939.jpg"}, {"slug": "aspectos-de-macau-1923", "title": "《Aspectos de Macau》觀後感", "fy": 1923, "img": "/assets/og/aspectos-de-macau-1923.jpg"}]</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  try{
+    var fb=document.getElementById('embedded-films');
+    if(!fb) return;
+    var films=JSON.parse(fb.textContent)||[];
+    var grid=document.getElementById('film-grid');
+    if(!grid) return;
+    function filmName(t){return (t||'').replace(/^《/,'').replace(/》觀後感$/,'');}
+    function render(dir){
+      var sorted=films.slice().sort(function(a,b){return dir==='asc'?a.fy-b.fy:b.fy-a.fy;});
+      grid.innerHTML=sorted.map(function(f){
+        var n=filmName(f.title);
+        return '<li class="film-card"><a href="/article/'+f.slug+'/">'
+          +'<div class="f-img"><img src="'+f.img+'" alt="'+n+'" loading="lazy"></div>'
+          +'<div class="f-cap"><div class="f-title">'+n+'</div>'
+          +'<div class="f-year">'+f.fy+'</div></div></a></li>';
+      }).join('');
+    }
+    render('desc');
+    var sbar=document.querySelector('.film-sort');
+    if(sbar){sbar.addEventListener('click',function(e){
+      var b=e.target.closest('.sort-btn');if(!b)return;
+      var d=b.getAttribute('data-dir');
+      sbar.querySelectorAll('.sort-btn').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');render(d);
+    });}
+  }catch(e){console.error('film grid failed',e);}
 });
 </script>
 </body>

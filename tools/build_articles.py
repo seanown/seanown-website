@@ -451,6 +451,22 @@ a{color:var(--blue);text-decoration:none}
 .tl-card:hover h2 a{color:var(--blue)}
 .tl-body p{font-size:14px;color:var(--gray)}
 .tl-arr{flex:0 0 auto;font-size:20px;color:var(--gold)}
+/* ===== 澳門電影專輯：直海報 grid（PC 橫屏 5 張 auto-fit / 直屏 3 張 / 手機 2 張） ===== */
+.sort-bar{display:flex;justify-content:flex-end;gap:8px;margin-bottom:18px}
+.sort-btn{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;color:var(--text);transition:all .2s}
+.sort-btn:hover{border-color:var(--gold)}
+.sort-btn.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.poster-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:22px}
+.poster-card{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:all .22s;color:inherit}
+.poster-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,8,32,.12);border-color:var(--gold)}
+.poster-card .p-img{aspect-ratio:2/3;overflow:hidden;background:var(--bg)}
+.poster-card .p-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.poster-card:hover .p-img img{transform:scale(1.04)}
+.poster-card .p-cap{padding:10px 12px 13px}
+.poster-card .p-title{font-size:15px;font-weight:800;color:var(--text);line-height:1.4}
+.poster-card .p-year{font-size:12px;color:var(--gray);margin-top:3px;letter-spacing:.5px}
+@media(orientation:portrait){.poster-grid{grid-template-columns:repeat(3,1fr);gap:18px}}
+@media(max-width:600px){.poster-grid{grid-template-columns:repeat(2,1fr);gap:14px}.sort-bar{justify-content:center}}
 .other-ser{max-width:1080px;margin:0 auto;padding:8px 24px 0;display:flex;gap:12px;flex-wrap:wrap}
 .os-card{flex:1 1 240px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px 18px;transition:all .2s}
 .os-card:hover{border-color:var(--gold);transform:translateY(-2px)}
@@ -470,6 +486,7 @@ def build_series_page(s, posts, all_series):
     if not members:
         return None
     desc_order = str(s.get('order_dir') or 'asc').lower() == 'desc'
+    is_film = (SERIES_BY_ID.get(sid, {}) or {}).get('sort_by') == 'filmYear'
     cover_num = str(s.get('cover_num') or members[0].get('num', '')).strip()
     cover_slug = SLUGS.get(cover_num) or ('post-' + cover_num)
 
@@ -477,27 +494,44 @@ def build_series_page(s, posts, all_series):
     for i, p in enumerate(members):
         pn = str(p.get('num', '')).strip()
         pslug = SLUGS.get(pn) or ('post-' + pn)
-        loc = (p.get('location') or '').strip()
-        ptitle = (p.get('title') or '').strip()
-        plead = plain(p.get('body') or '', 58)
-        if ptitle and plead.startswith(ptitle):  # 正文開頭常重複一次標題，去掉
-            plead = plead[len(ptitle):].lstrip('。：: ·|｜—-,，')
-        # 編號跟著文章在輯中的寫作序（asc 序位），不跟著顯示位置：
-        # desc（新在前）時，列表第 i 個的寫作序 = len - i，讓 01 永遠是最早那篇。
-        no = (len(members) - i) if desc_order else (i + 1)
-        items += (
-            '<li class="tl-item"><a class="tl-card" href="%s/article/%s/">'
-            '<div class="tl-img"><img src="%s" alt="%s 封面" loading="lazy"></div>'
-            '<div class="tl-body"><div class="tl-top">'
-            '<span class="tl-no">%02d / %02d</span>'
-            '<span class="tl-date">%s</span>'
-            '%s'
-            '</div><h2>%s</h2><p>%s</p></div>'
-            '<div class="tl-arr">›</div></a></li>'
-        ) % (SITE, pslug, ov('../../assets/og/%s.jpg' % pslug), esc(p.get('title')), no, len(members),
-             (p.get('date') or '').replace('-', '.'),
-             ('<span class="tl-loc">· %s</span>' % esc(loc)) if loc else '',
-             esc(ptitle), esc(plead))
+        if is_film:
+            # 直海報卡片：圖（Mondo 2:3）＋片名（去《》觀後感）＋年份；data-fy 供 JS 排序
+            fy = p.get('filmYear')
+            try:
+                fy = int(fy)
+            except (TypeError, ValueError):
+                fy = 0
+            name = re.sub(r'^《', '', (p.get('title') or '').strip())
+            name = re.sub(r'》觀後感$', '', name) or (p.get('title') or '')
+            items += (
+                '<li class="poster-card" data-fy="%d"><a href="%s/article/%s/">'
+                '<div class="p-img"><img src="%s" alt="%s" loading="lazy"></div>'
+                '<div class="p-cap"><div class="p-title">%s</div>'
+                '<div class="p-year">%s</div></div></a></li>'
+            ) % (fy, SITE, pslug, ov('../../assets/og/%s.jpg' % pslug), esc(name),
+                 esc(name), esc(str(fy)))
+        else:
+            loc = (p.get('location') or '').strip()
+            ptitle = (p.get('title') or '').strip()
+            plead = plain(p.get('body') or '', 58)
+            if ptitle and plead.startswith(ptitle):  # 正文開頭常重複一次標題，去掉
+                plead = plead[len(ptitle):].lstrip('。：: ·|｜—-,，')
+            # 編號跟著文章在輯中的寫作序（asc 序位），不跟著顯示位置：
+            # desc（新在前）時，列表第 i 個的寫作序 = len - i，讓 01 永遠是最早那篇。
+            no = (len(members) - i) if desc_order else (i + 1)
+            items += (
+                '<li class="tl-item"><a class="tl-card" href="%s/article/%s/">'
+                '<div class="tl-img"><img src="%s" alt="%s 封面" loading="lazy"></div>'
+                '<div class="tl-body"><div class="tl-top">'
+                '<span class="tl-no">%02d / %02d</span>'
+                '<span class="tl-date">%s</span>'
+                '%s'
+                '</div><h2>%s</h2><p>%s</p></div>'
+                '<div class="tl-arr">›</div></a></li>'
+            ) % (SITE, pslug, ov('../../assets/og/%s.jpg' % pslug), esc(p.get('title')), no, len(members),
+                 (p.get('date') or '').replace('-', '.'),
+                 ('<span class="tl-loc">· %s</span>' % esc(loc)) if loc else '',
+                 esc(ptitle), esc(plead))
 
     others = ''
     for o in sorted_series():
@@ -523,11 +557,35 @@ def build_series_page(s, posts, all_series):
     url = '%s/series/%s/' % (SITE, sid)
     desc = plain(s.get('intro') or s.get('subtitle') or name, 100)
     ld = {
-        "@context": "https://schema.org", "@type": "CollectionPage",
+        "@context": "https://schema.org",         "@type": "CollectionPage",
         "name": "%s｜翁振軒 Sean Own" % name, "url": url, "description": desc,
         "inLanguage": "zh-Hant",
         "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
     }
+    if is_film:
+        sort_bar = ('<div class="sort-bar">'
+                    '<button class="sort-btn on" data-dir="desc">Newest Release Dates</button>'
+                    '<button class="sort-btn" data-dir="asc">Oldest Release Dates</button>'
+                    '</div>')
+        grid_tag = 'poster-grid'
+        film_js = (
+            '<script>(function(){'
+            'var bar=document.querySelector(".sort-bar");if(!bar)return;'
+            'var grid=document.querySelector(".poster-grid");if(!grid)return;'
+            'var cards=[].slice.call(grid.children);'
+            'bar.addEventListener("click",function(e){'
+            'var b=e.target.closest(".sort-btn");if(!b)return;'
+            'var dir=b.getAttribute("data-dir");'
+            'bar.querySelectorAll(".sort-btn").forEach(function(x){x.classList.remove("on")});'
+            'b.classList.add("on");'
+            'cards.sort(function(a,c){var fa=+a.getAttribute("data-fy"),fc=+c.getAttribute("data-fy");'
+            'return dir==="asc"?fa-fc:fc-fa;});'
+            'cards.forEach(function(c){grid.appendChild(c)});'
+            '});})();</script>')
+    else:
+        sort_bar = ''
+        grid_tag = 'timeline'
+        film_js = ''
     page = """<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -566,13 +624,15 @@ def build_series_page(s, posts, all_series):
 
 <div class="wrap">
 <div class="intro"><div class="i-lab">專輯 序</div>{intro}</div>
+{sort_bar}
 <div class="sec-lab">{sec_lab}</div>
-<ul class="timeline">{items}</ul>
+<ul class="{grid_tag}">{items}</ul>
 </div>
 
 {others}
 
 <div class="foot">© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/articles/">全部文章</a></div>
+{film_js}
 </body>
 </html>
 """.format(
@@ -582,6 +642,7 @@ def build_series_page(s, posts, all_series):
         kicker=esc(coll_name or '專輯'),
         sub=esc(s.get('subtitle') or ''), period=esc(s.get('period') or ''),
         n=len(members), items=items, others=others,
+        sort_bar=sort_bar, grid_tag=grid_tag, film_js=film_js,
         sec_lab=('按電影年份倒序 · 最新電影在前' if desc_order else '按電影年份順序')
                  if (SERIES_BY_ID.get(sid, {}) or {}).get('sort_by') == 'filmYear'
                  else ('按時間倒序 · 最新在前' if desc_order else '按時間順序'),
@@ -1143,15 +1204,33 @@ def build_list(posts):
         title = (p.get('title') or '').strip()
         cat = (p.get('category') or '').strip()
         date = (p.get('date') or '').strip()
-        lead = plain(p.get('body') or title, 62)
+        is_film = (p.get('series') or '') == 'macau-film'
         cover = ov('../assets/og/%s.jpg' % slug)
-        cards += (
-            '<a class="lc-card" href="%s/article/%s/" data-cat="%s">'
-            '<div class="lc-img"><img src="%s" alt="%s — %s 封面" loading="lazy"></div>'
-            '<div class="lc-body"><div class="lc-top"><span class="lc-date">%s</span></div>'
-            '<h2>%s</h2><p>%s</p></div></a>'
-        ) % (SITE, slug, esc(cat), cover, esc(title), esc(cat),
-             date.replace('-', '.'), esc(title), esc(lead))
+        if is_film:
+            # 電影卡：直海報（2:3）＋片名＋年份，與專輯頁統一風格
+            fy = p.get('filmYear')
+            try:
+                fy = int(fy)
+            except (TypeError, ValueError):
+                fy = 0
+            name = re.sub(r'^《', '', title)
+            name = re.sub(r'》觀後感$', '', name) or title
+            cards += (
+                '<a class="lc-card poster" href="%s/article/%s/" data-cat="%s" data-fy="%d">'
+                '<div class="lc-img"><img src="%s" alt="%s" loading="lazy"></div>'
+                '<div class="lc-body"><div class="lc-top"><span class="lc-date">%s</span></div>'
+                '<h2>%s</h2><div class="lc-year">%s</div></div></a>'
+            ) % (SITE, slug, esc(cat), fy, cover, esc(name),
+                 date.replace('-', '.'), esc(name), esc(str(fy)))
+        else:
+            lead = plain(p.get('body') or title, 62)
+            cards += (
+                '<a class="lc-card" href="%s/article/%s/" data-cat="%s">'
+                '<div class="lc-img"><img src="%s" alt="%s — %s 封面" loading="lazy"></div>'
+                '<div class="lc-body"><div class="lc-top"><span class="lc-date">%s</span></div>'
+                '<h2>%s</h2><p>%s</p></div></a>'
+            ) % (SITE, slug, esc(cat), cover, esc(title), esc(cat),
+                 date.replace('-', '.'), esc(title), esc(lead))
 
     # 輯資料：全部輯清單 + 欄目 → 輯（以該輯成員最多的分類歸屬）
     all_ser = []
@@ -1255,6 +1334,9 @@ html{{scroll-behavior:smooth}}
 .lc-date{{font-size:12px;color:var(--gray)}}
 .lc-card h2{{font-size:17.5px;line-height:1.5;color:var(--blue);margin-bottom:8px;font-weight:800}}
 .lc-card p{{font-size:13.5px;color:var(--gray);line-height:1.7;flex:1}}
+.lc-card.poster .lc-img{{aspect-ratio:2/3}}
+.lc-card.poster h2{{font-size:16px;margin-bottom:4px}}
+.lc-card.poster .lc-year{{font-size:12px;color:var(--gray);font-weight:700;letter-spacing:.5px}}
 .foot{{border-top:1px solid var(--line);padding:30px 24px 44px;text-align:center;font-size:13px;color:var(--gray);line-height:1.9}}
 .foot a{{color:var(--blue)}}
 .float-cta{{position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);font-size:14px;transition:transform .2s,box-shadow .2s}}
@@ -1348,6 +1430,35 @@ def sanitize_outputs():
     return total
 
 
+def build_home_films(published):
+    """把 macau-film 文章重生進首頁 index.html 的 embedded-films JSON，供首頁電影 grid 渲染。"""
+    films = []
+    for p in published:
+        if (p.get('series') or '') == 'macau-film':
+            fy = p.get('filmYear')
+            try:
+                fy = int(fy)
+            except (TypeError, ValueError):
+                fy = 0
+            slug = p.get('slug') or SLUGS.get(str(p.get('num', '')).strip(), '')
+            if not slug:
+                continue
+            films.append({'slug': slug, 'title': p.get('title') or '', 'fy': fy,
+                          'img': '/assets/og/%s.jpg' % slug})
+    films.sort(key=lambda x: -x['fy'])
+    idx = os.path.join(ROOT, 'index.html')
+    if not os.path.exists(idx):
+        return 0
+    html = io.open(idx, encoding='utf-8').read()
+    blob = json.dumps(films, ensure_ascii=False)
+    new_html, n = re.subn(r'<script type="application/json" id="embedded-films">.*?</script>',
+                          '<script type="application/json" id="embedded-films">%s</script>' % blob,
+                          html, count=1, flags=re.S)
+    if n:
+        io.open(idx, 'w', encoding='utf-8', newline='\n').write(new_html)
+    return len(films)
+
+
 def main():
     data = json.load(io.open(POSTS, encoding='utf-8'))
     posts = data['posts']
@@ -1366,6 +1477,8 @@ def main():
             nser += 1
             print('  /series/%s/  %s（%d 篇）' % r)
     build_series_index(published)
+    nf = build_home_films(published)
+    print('  / 首頁電影 grid：%d 部' % nf)
     sanitize_outputs()
     io.open(POSTS, 'w', encoding='utf-8', newline='\n').write(
         json.dumps(data, ensure_ascii=False, indent=2) + '\n')
