@@ -1285,6 +1285,10 @@ def build(post, allposts):
             poster_html = ''
             if imgs:
                 poster_html = '<div class="mn-poster"><img src="%s" alt="%s 電影海報" loading="lazy"></div>' % (ov(imgs[0]), esc(title))
+            # 只有 macauScenes 非空才掛「跟著電影遊澳門打卡點」雙按鈕；否則只掛單按鈕，避免錨點跳空
+            checkin_html = ''
+            if mi.get('macauScenes'):
+                checkin_html = '<a class="sn-checkin" href="%s/movie/%s/#macau-scenes">跟著電影遊澳門打卡點 →</a>' % (SITE, mslug)
             movie_nav = ('\n\n<div class="series-nav movie-nav">'
                 '<div class="mn-main">'
                 '<span class="sn-kicker">電影資訊</span>'
@@ -1292,10 +1296,10 @@ def build(post, allposts):
                 '<div class="sn-meta">客觀資料卡 ＋ 澳門場景 ＋ 結構化資料（Movie schema）</div>'
                 '<div class="sn-links">'
                 '<a class="sn-all" href="%s/movie/%s/">前往電影資訊頁 →</a>'
-                '<a class="sn-checkin" href="%s/movie/%s/#macau-scenes">跟著電影遊澳門打卡點 →</a>'
+                '%s'
                 '</div>'
                 '</div>%s'
-                '</div>') % (SITE, mslug, esc(mi.get('title') or title), SITE, mslug, SITE, mslug, poster_html)
+                '</div>') % (SITE, mslug, esc(mi.get('title') or title), SITE, mslug, checkin_html, poster_html)
 
     att = ATTACHMENTS.get(slug)
     reader = build_reader(att) if att else ''
