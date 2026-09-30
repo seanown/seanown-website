@@ -118,6 +118,13 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 .sn-empty{opacity:.45;pointer-events:none}
 @media(max-width:720px){.series-nav{padding:18px}.sn-title{font-size:19px}.sn-links a{flex:1 1 100%}}
 
+/* 電影資訊 CTA：左文右海報 */
+.movie-nav{display:flex;gap:22px;align-items:stretch}
+.mn-main{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.mn-poster{flex:0 0 280px;max-width:280px;border-radius:10px;overflow:hidden;background:var(--bg);border:1px solid var(--line)}
+.mn-poster img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:720px){.movie-nav{flex-direction:column}.mn-poster{flex:0 0 auto;width:100%;max-width:100%;aspect-ratio:1200/630}}
+
 .sj-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 16px}
 .sj-bar .sj-label{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700;margin-right:4px}
 .sj-bar .sj-chip{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;color:var(--blue);transition:all .2s}
@@ -160,9 +167,9 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 
 </article>
 
-<div class="series-nav"><span class="sn-kicker">專輯</span><a class="sn-title" href="https://seanown.org/series/macau-film/">《澳門電影》</a><div class="sn-meta">第 76 / 83 篇 · 連載中</div><div class="sn-links"><a href="https://seanown.org/article/our-17-2017/"><span class="sn-lab">上一篇</span>《那一年，我17》觀後感</a><a class="sn-all" href="https://seanown.org/series/macau-film/">查看全部專輯</a><a href="https://seanown.org/article/the-fatal-raid-2019/"><span class="sn-lab">下一篇</span>《辣警霸王花 2 不義之戰》觀後感</a></div></div>
+<div class="series-nav movie-nav"><div class="mn-main"><span class="sn-kicker">電影資訊</span><a class="sn-title" href="https://seanown.org/movie/macau-is-a-city-2019/">《媽閣是座城》電影資訊頁</a><div class="sn-meta">客觀資料卡 ＋ 澳門場景 ＋ 結構化資料（Movie schema）</div><div class="sn-links"><a class="sn-all" href="https://seanown.org/movie/macau-is-a-city-2019/">前往電影資訊頁 →</a></div></div><div class="mn-poster"><img src="../../assets/og/macau-is-a-city-2019.jpg?v=20261001k" alt="《媽閣是座城》觀後感 電影海報" loading="lazy"></div></div>
 
-<div class="series-nav"><span class="sn-kicker">電影資訊</span><a class="sn-title" href="https://seanown.org/movie/macau-is-a-city-2019/">《媽閣是座城》電影資訊頁</a><div class="sn-meta">客觀資料卡 ＋ 澳門場景 ＋ 結構化資料（Movie schema）</div><div class="sn-links"><a class="sn-all" href="https://seanown.org/movie/macau-is-a-city-2019/">前往電影資訊頁 →</a></div></div>
+<div class="series-nav"><span class="sn-kicker">專輯</span><a class="sn-title" href="https://seanown.org/series/macau-film/">《澳門電影》</a><div class="sn-meta">第 76 / 83 篇 · 連載中</div><div class="sn-links"><a href="https://seanown.org/article/our-17-2017/"><span class="sn-lab">上一篇</span>《那一年，我17》觀後感</a><a class="sn-all" href="https://seanown.org/series/macau-film/">查看全部專輯</a><a href="https://seanown.org/article/the-fatal-raid-2019/"><span class="sn-lab">下一篇</span>《辣警霸王花 2 不義之戰》觀後感</a></div></div>
 
 <div class="author">
 <img class="a-img" src="../../assets/images/avatar-1x1.jpg" alt="翁振軒 Sean Own 大頭照" loading="lazy">

@@ -407,6 +407,13 @@ SERIES_NAV_CSS = """
 .sn-links .sn-all:hover{background:var(--blue-dark);color:#fff}
 .sn-empty{opacity:.45;pointer-events:none}
 @media(max-width:720px){.series-nav{padding:18px}.sn-title{font-size:19px}.sn-links a{flex:1 1 100%}}
+
+/* 電影資訊 CTA：左文右海報 */
+.movie-nav{display:flex;gap:22px;align-items:stretch}
+.mn-main{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.mn-poster{flex:0 0 280px;max-width:280px;border-radius:10px;overflow:hidden;background:var(--bg);border:1px solid var(--line)}
+.mn-poster img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:720px){.movie-nav{flex-direction:column}.mn-poster{flex:0 0 auto;width:100%;max-width:100%;aspect-ratio:1200/630}}
 """
 
 # ---------- 輯頁（series/<id>/index.html）獨立版型 ----------
@@ -1254,18 +1261,8 @@ def build(post, allposts):
              idx + 1, len(ms), esc(s.get('period') or ''),
              prev_a, SITE, sid, next_a)
 
-    # ---- 電影資訊頁 CTA（post.movieInfo 存在時才掛） ----
+    # ---- 電影資訊頁 CTA（post.movieInfo 存在時才掛，放海報在右） ----
     movie_nav = ''
-    mi = post.get('movieInfo')
-    if mi:
-        mslug = SLUGS.get(num) or (post.get('slug') or '')
-        if mslug:
-            movie_nav = ('\n\n<div class="series-nav">'
-                '<span class="sn-kicker">電影資訊</span>'
-                '<a class="sn-title" href="%s/movie/%s/">《%s》電影資訊頁</a>'
-                '<div class="sn-meta">客觀資料卡 ＋ 澳門場景 ＋ 結構化資料（Movie schema）</div>'
-                '<div class="sn-links"><a class="sn-all" href="%s/movie/%s/">前往電影資訊頁 →</a></div>'
-                '</div>') % (SITE, mslug, esc(mi.get('title') or title), SITE, mslug)
 
     cover = ''
     gallery = ''
@@ -1276,6 +1273,23 @@ def build(post, allposts):
         gallery = '<div class="gallery">' + ''.join(
             '<img src="%s" alt="%s 實拍圖 %d" loading="lazy" onclick="document.getElementById(\'lbimg\').src=this.src;document.getElementById(\'lb\').style.display=\'flex\'">'
             % (ov(x), esc(title), n + 1) for n, x in enumerate(imgs[1:])) + '</div>'
+
+    # ---- 電影資訊頁 CTA：橫海報放右邊 ----
+    mi = post.get('movieInfo')
+    if mi:
+        mslug = SLUGS.get(num) or (post.get('slug') or '')
+        if mslug:
+            poster_html = ''
+            if imgs:
+                poster_html = '<div class="mn-poster"><img src="%s" alt="%s 電影海報" loading="lazy"></div>' % (ov(imgs[0]), esc(title))
+            movie_nav = ('\n\n<div class="series-nav movie-nav">'
+                '<div class="mn-main">'
+                '<span class="sn-kicker">電影資訊</span>'
+                '<a class="sn-title" href="%s/movie/%s/">《%s》電影資訊頁</a>'
+                '<div class="sn-meta">客觀資料卡 ＋ 澳門場景 ＋ 結構化資料（Movie schema）</div>'
+                '<div class="sn-links"><a class="sn-all" href="%s/movie/%s/">前往電影資訊頁 →</a></div>'
+                '</div>%s'
+                '</div>') % (SITE, mslug, esc(mi.get('title') or title), SITE, mslug, poster_html)
 
     att = ATTACHMENTS.get(slug)
     reader = build_reader(att) if att else ''
@@ -1349,7 +1363,7 @@ def build(post, allposts):
 {cover}
 <div class="abody">{body}</div>
 {gallery}
-</article>{series_nav}{movie_nav}
+</article>{movie_nav}{series_nav}
 
 <div class="author">
 <img class="a-img" src="../../assets/images/avatar-1x1.jpg" alt="翁振軒 Sean Own 大頭照" loading="lazy">
