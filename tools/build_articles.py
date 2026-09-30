@@ -405,6 +405,8 @@ SERIES_NAV_CSS = """
 .sn-links .sn-lab{display:block;font-size:11px;letter-spacing:1.5px;color:var(--gray);font-weight:700;margin-bottom:3px}
 .sn-links .sn-all{flex:0 0 auto;text-align:center;color:var(--blue);font-weight:700;background:var(--blue);color:#fff;border-color:var(--blue)}
 .sn-links .sn-all:hover{background:var(--blue-dark);color:#fff}
+.sn-links .sn-checkin{flex:0 0 auto;text-align:center;color:var(--blue);font-weight:700;background:#fff;border:1.5px solid var(--blue)}
+.sn-links .sn-checkin:hover{background:var(--blue);color:#fff}
 .sn-empty{opacity:.45;pointer-events:none}
 @media(max-width:720px){.series-nav{padding:18px}.sn-title{font-size:19px}.sn-links a{flex:1 1 100%}}
 
@@ -1287,9 +1289,12 @@ def build(post, allposts):
                 '<span class="sn-kicker">電影資訊</span>'
                 '<a class="sn-title" href="%s/movie/%s/">《%s》電影資訊頁</a>'
                 '<div class="sn-meta">客觀資料卡 ＋ 澳門場景 ＋ 結構化資料（Movie schema）</div>'
-                '<div class="sn-links"><a class="sn-all" href="%s/movie/%s/">前往電影資訊頁 →</a></div>'
+                '<div class="sn-links">'
+                '<a class="sn-all" href="%s/movie/%s/">前往電影資訊頁 →</a>'
+                '<a class="sn-checkin" href="%s/movie/%s/">跟著電影遊澳門打卡點 →</a>'
+                '</div>'
                 '</div>%s'
-                '</div>') % (SITE, mslug, esc(mi.get('title') or title), SITE, mslug, poster_html)
+                '</div>') % (SITE, mslug, esc(mi.get('title') or title), SITE, mslug, SITE, mslug, poster_html)
 
     att = ATTACHMENTS.get(slug)
     reader = build_reader(att) if att else ''
