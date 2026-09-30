@@ -71,6 +71,14 @@
   status = 301
   force = true
 
+# 舊文章詳情網址（複數 /articles/<slug>/）301 → 現行單數 /article/<slug>/（SEO 保護，不產生 404）
+# 一條規則涵蓋全部 slug（含未來新文）；/articles/ 列表頁（無 slug）不受影響
+[[redirects]]
+  from = "/articles/:slug/"
+  to = "/article/:slug/"
+  status = 301
+  force = true
+
 # 新網址架構：/about /column /works /contact → SPA 路由（200 rewrite，URL 保持不變）
 [[redirects]]
   from = "/about"
