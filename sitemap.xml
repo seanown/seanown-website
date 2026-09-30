@@ -241,4 +241,8 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://seanown.org/article/bicycle-man-1997/</loc>
+    <lastmod>2026-09-30</lastmod>
+  </url>
 </urlset>

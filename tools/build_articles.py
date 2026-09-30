@@ -10,7 +10,7 @@ POSTS = os.path.join(ROOT, 'data', 'posts.json')
 SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
-OG_VER = '20261001h'
+OG_VER = '20261001i'
 
 
 def ov(src):
@@ -172,6 +172,7 @@ SLUGS = {
     '115': 'forbidden-1953',
     '116': 'casino-tycoon-2-1992',
     '117': 'dragon-1993',
+    '118': 'bicycle-man-1997',
 }
 
 
