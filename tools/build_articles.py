@@ -164,6 +164,7 @@ SLUGS = {
     '107': 'double-dhamaal-2011',
     '108': 'lets-sing-2021',
     '109': 'the-bewitching-braid-1996',
+    '110': 'shangcheng-2006',
 }
 
 
