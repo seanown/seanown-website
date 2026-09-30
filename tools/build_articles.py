@@ -521,6 +521,7 @@ a{color:var(--blue);text-decoration:none}
 .mi-k{color:var(--gray)}
 .mi-v{color:var(--text)}
 .mi-scenes{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:20px 24px;font-size:14px;color:#2B2B2B;margin-bottom:30px}
+#macau-scenes{scroll-margin-top:80px}
 .mi-sec{font-size:15px;font-weight:800;color:var(--blue);margin:18px 0 12px;padding-left:14px;border-left:4px solid var(--gold)}
 .mi-sec:first-child{margin-top:0}
 .mi-place{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:12px}
@@ -539,7 +540,7 @@ def render_macau_scenes(sc):
     if not sc:
         return ''
     if isinstance(sc, str):
-        return '<div class="mi-scenes">%s</div>' % esc(sc)
+        return '<div class="mi-scenes" id="macau-scenes">%s</div>' % esc(sc)
     out = []
     for sec in sc:
         out.append('<div class="mi-sec">%s</div>' % esc(sec.get('section', '')))
@@ -554,7 +555,7 @@ def render_macau_scenes(sc):
                 gps_html = ''
             out.append('<div class="mi-place"><div class="mi-pname">%s</div>%s<p class="mi-pdesc">%s</p></div>'
                        % (name, gps_html, esc(pl.get('desc', ''))))
-    return '<div class="mi-scenes">%s</div>' % ''.join(out)
+    return '<div class="mi-scenes" id="macau-scenes">%s</div>' % ''.join(out)
 
 
 def build_movie_info(post, allposts):
@@ -1291,7 +1292,7 @@ def build(post, allposts):
                 '<div class="sn-meta">客觀資料卡 ＋ 澳門場景 ＋ 結構化資料（Movie schema）</div>'
                 '<div class="sn-links">'
                 '<a class="sn-all" href="%s/movie/%s/">前往電影資訊頁 →</a>'
-                '<a class="sn-checkin" href="%s/movie/%s/">跟著電影遊澳門打卡點 →</a>'
+                '<a class="sn-checkin" href="%s/movie/%s/#macau-scenes">跟著電影遊澳門打卡點 →</a>'
                 '</div>'
                 '</div>%s'
                 '</div>') % (SITE, mslug, esc(mi.get('title') or title), SITE, mslug, SITE, mslug, poster_html)
