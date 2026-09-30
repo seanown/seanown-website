@@ -465,6 +465,8 @@ a{color:var(--blue);text-decoration:none}
 .poster-card .p-cap{padding:10px 12px 13px}
 .poster-card .p-title{font-size:15px;font-weight:800;color:var(--text);line-height:1.4}
 .poster-card .p-year{font-size:12px;color:var(--gray);margin-top:3px;letter-spacing:.5px}
+.poster-card .p-info{display:block;text-align:center;font-size:12px;font-weight:700;color:var(--blue);padding:8px 0 2px;letter-spacing:1px}
+.poster-card:hover .p-info{color:var(--gold-dark)}
 @media(orientation:portrait){.poster-grid{grid-template-columns:repeat(3,1fr);gap:18px}}
 @media(max-width:600px){.poster-grid{grid-template-columns:repeat(2,1fr);gap:14px}.sort-bar{justify-content:center}}
 .other-ser{max-width:1080px;margin:0 auto;padding:8px 24px 0;display:flex;gap:12px;flex-wrap:wrap}
@@ -477,6 +479,169 @@ a{color:var(--blue);text-decoration:none}
 .foot a{color:var(--blue)}
 @media(max-width:720px){.masthead h1{font-size:28px}.tl-card{flex-direction:column;align-items:flex-start}.tl-img{flex:0 0 auto;width:100%;height:170px}.wrap{padding:26px 18px 0}}
 """
+
+
+# ---------- 電影資訊頁（movie/<slug>/index.html，資料驅動自 posts.json movieInfo） ----------
+MOVIE_INFO_CSS = """
+:root{--blue:#002676;--blue-dark:#010133;--gold:#FDB515;--gold-dark:#FC9313;--bg:#F8F9FB;--white:#fff;--text:#1A1A1A;--gray:#667085;--line:#E4E8EF}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--text);background:var(--bg);line-height:1.8;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1080px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:800;color:var(--blue);font-size:17px;letter-spacing:.5px}
+.brand span{color:var(--gold)}
+.mini-cta{background:var(--blue);color:#fff;font-size:14px;font-weight:700;padding:9px 20px;border-radius:999px}
+.mini-cta:hover{background:var(--blue-dark)}
+.masthead{background:linear-gradient(135deg,#002676 0%,#010133 100%);color:#fff;padding:54px 24px 48px}
+.masthead-in{max-width:1080px;margin:0 auto}
+.kicker{font-size:13px;letter-spacing:5px;color:var(--gold);font-weight:700;margin-bottom:12px}
+.masthead h1{font-size:38px;font-weight:800;letter-spacing:2px;margin-bottom:10px}
+.masthead .sub{color:rgba(255,255,255,.8);font-size:15px}
+.wrap{max-width:1080px;margin:0 auto;padding:36px 24px 0}
+.mi-top{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;margin-bottom:30px}
+.mi-poster{flex:0 0 220px;max-width:220px;aspect-ratio:2/3;border-radius:12px;overflow:hidden;background:var(--bg);border:1px solid var(--line)}
+.mi-poster img{width:100%;height:100%;object-fit:contain;display:block}
+.mi-head{flex:1 1 280px;min-width:260px}
+.mi-title{font-size:34px;font-weight:800;color:var(--blue);letter-spacing:.5px;margin:0 0 6px}
+.mi-sub{font-size:14px;color:var(--gray);letter-spacing:.14em;margin-bottom:14px}
+.mi-by{font-size:14px;color:var(--blue);font-weight:700}
+.mi-syn{font-size:16px;line-height:1.85;color:#2B2B2B;margin:0 0 30px;max-width:780px}
+.mi-lab{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700;margin:0 0 12px}
+.mi-card{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:20px 24px;display:grid;grid-template-columns:92px 1fr;row-gap:9px;column-gap:14px;font-size:14px;margin-bottom:28px}
+.mi-k{color:var(--gray)}
+.mi-v{color:var(--text)}
+.mi-scenes{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:20px 24px;font-size:14px;color:#2B2B2B;margin-bottom:30px}
+.foot{margin-top:46px;padding:26px 24px 46px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);text-align:center}
+.foot a{color:var(--blue)}
+@media(max-width:720px){.masthead h1{font-size:26px}.mi-poster{flex:0 0 150px;max-width:150px}.mi-title{font-size:26px}.wrap{padding:26px 18px 0}}
+"""
+
+def build_movie_info(post, allposts):
+    """產生 movie/<slug>/index.html（電影資訊頁），資料來自 post['movieInfo']。"""
+    mi = post.get('movieInfo')
+    if not mi:
+        return None
+    num = str(post.get('num', '')).strip()
+    slug = SLUGS.get(num) or (post.get('slug') or ('post-' + num))
+    if not slug:
+        return None
+    title = (mi.get('title') or (post.get('title') or '').replace('《', '').replace('》觀後感', '')).strip()
+    eng = mi.get('englishName', '')
+    year = mi.get('year', '')
+    poster = ov('../../assets/og/%s-poster.jpg' % slug)
+    synopsis = mi.get('synopsis', '')
+    rows = []
+    def add(k, v):
+        if v not in (None, ''):
+            rows.append('<div class="mi-k">%s</div><div class="mi-v">%s</div>' % (esc(k), esc(str(v))))
+    add('中文片名', title)
+    add('英文片名', eng)
+    add('年份', year)
+    add('導演', mi.get('director'))
+    add('原著·編劇', mi.get('writer'))
+    actors = mi.get('actors') or []
+    if actors:
+        astr = '、'.join((a.get('name', '') + (('／' + a['role']) if a.get('role') else '')) for a in actors)
+        add('主演', astr)
+    add('類型', mi.get('genre'))
+    add('上映', mi.get('releaseDate'))
+    add('澳門連結', ('專輯 #%s' % num) if num else '')
+    add('資料來源', mi.get('source'))
+    card = '<div class="mi-card">%s</div>' % ''.join(rows)
+    scenes = mi.get('macauScenes', '')
+    scenes_html = ('<div class="mi-scenes">%s</div>' % esc(scenes)) if scenes else ''
+    actor_ld = []
+    for a in actors:
+        o = {'@type': 'Person', 'name': a.get('name', '')}
+        if a.get('role'):
+            o['characterName'] = a['role']
+        actor_ld.append(o)
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "Movie",
+        "name": title,
+        "alternateName": eng,
+        "datePublished": mi.get('releaseDate'),
+        "genre": mi.get('genre'),
+        "inLanguage": "zh-Hant",
+        "director": {"@type": "Person", "name": mi.get('director')},
+        "author": {"@type": "Person", "name": mi.get('writer'), "jobTitle": "原著·編劇"},
+        "actor": actor_ld,
+        "contentLocation": {"@type": "Place", "name": "澳門"},
+        "description": synopsis,
+    }
+    url = '%s/movie/%s/' % (SITE, slug)
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}｜電影資訊｜翁振軒 Sean Own</title>
+<meta name="description" content="{desc}">
+<meta name="keywords" content="{kw}">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="{title}｜電影資訊｜翁振軒 Sean Own">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="{og}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{ld}</script>
+<style>{css}</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="mini-cta" href="{site}/series/macau-film/">澳門電影專輯</a>
+</div></div>
+
+<div class="masthead"><div class="masthead-in">
+<div class="kicker">澳門電影專輯 · 電影資訊</div>
+<h1>{title}</h1>
+<div class="sub">{sub}</div>
+</div></div>
+
+<div class="wrap">
+<div class="mi-top">
+<div class="mi-poster"><img src="{poster}" alt="{title} 電影海報" loading="lazy"></div>
+<div class="mi-head">
+<div class="mi-title">{title}</div>
+<div class="mi-sub">{sub}</div>
+<div class="mi-by">{by}</div>
+</div>
+</div>
+
+<p class="mi-syn">{synopsis}</p>
+
+<div class="mi-lab">影片資料</div>
+{card}
+
+<div class="mi-lab">澳門場景</div>
+{scenes}
+
+<div class="foot">© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/series/macau-film/">澳門電影專輯</a></div>
+</div>
+</body>
+</html>
+""".format(
+        title=esc(title), desc=esc((synopsis or title)[:120]), kw=esc('%s,%s,澳門電影,翁振軒' % (title, eng)),
+        url=url, og=ov('%s/assets/og/%s-poster.jpg' % (SITE, slug)),
+        ld=json.dumps(ld, ensure_ascii=False), css=MOVIE_INFO_CSS, site=SITE,
+        sub=esc(('%s · %s' % (eng, year)) if (eng or year) else ''),
+        by=esc(('導演 %s ｜ 原著·編劇 %s' % (mi.get('director', ''), mi.get('writer', ''))).strip(' ｜')),
+        poster=poster, synopsis=esc(synopsis), card=card, scenes=scenes_html,
+    )
+    d = os.path.join(ROOT, 'movie', slug)
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+    return slug, title
 
 
 def build_series_page(s, posts, all_series):
@@ -503,13 +668,16 @@ def build_series_page(s, posts, all_series):
                 fy = 0
             name = re.sub(r'^《', '', (p.get('title') or '').strip())
             name = re.sub(r'》觀後感$', '', name) or (p.get('title') or '')
+            info_link = ''
+            if p.get('movieInfo'):
+                info_link = '<a class="p-info" href="%s/movie/%s/">電影資訊</a>' % (SITE, pslug)
             items += (
                 '<li class="poster-card" data-fy="%d"><a href="%s/article/%s/">'
                 '<div class="p-img"><img src="%s" alt="%s" loading="lazy"></div>'
                 '<div class="p-cap"><div class="p-title">%s</div>'
-                '<div class="p-year">%s</div></div></a></li>'
+                '<div class="p-year">%s</div></div></a>%s</li>'
             ) % (fy, SITE, pslug, ov('../../assets/og/%s-poster.jpg' % pslug), esc(name),
-                 esc(name), esc(str(fy)))
+                 esc(name), esc(str(fy)), info_link)
         else:
             loc = (p.get('location') or '').strip()
             ptitle = (p.get('title') or '').strip()
@@ -1055,6 +1223,19 @@ def build(post, allposts):
              idx + 1, len(ms), esc(s.get('period') or ''),
              prev_a, SITE, sid, next_a)
 
+    # ---- 電影資訊頁 CTA（post.movieInfo 存在時才掛） ----
+    movie_nav = ''
+    mi = post.get('movieInfo')
+    if mi:
+        mslug = SLUGS.get(num) or (post.get('slug') or '')
+        if mslug:
+            movie_nav = ('\n\n<div class="series-nav">'
+                '<span class="sn-kicker">電影資訊</span>'
+                '<a class="sn-title" href="%s/movie/%s/">《%s》電影資訊頁</a>'
+                '<div class="sn-meta">客觀資料卡 ＋ 澳門場景 ＋ 結構化資料（Movie schema）</div>'
+                '<div class="sn-links"><a class="sn-all" href="%s/movie/%s/">前往電影資訊頁 →</a></div>'
+                '</div>') % (SITE, mslug, esc(mi.get('title') or title), SITE, mslug)
+
     cover = ''
     gallery = ''
     if imgs:
@@ -1067,7 +1248,7 @@ def build(post, allposts):
 
     att = ATTACHMENTS.get(slug)
     reader = build_reader(att) if att else ''
-    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '') + (SERIES_NAV_CSS if series_nav.strip() else '') + (SJ_CSS if series_jump else '')
+    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '') + (SERIES_NAV_CSS if (series_nav or movie_nav).strip() else '') + (SJ_CSS if series_jump else '')
 
     ld = {
         "@context": "https://schema.org",
@@ -1137,7 +1318,7 @@ def build(post, allposts):
 {cover}
 <div class="abody">{body}</div>
 {gallery}
-</article>{series_nav}
+</article>{series_nav}{movie_nav}
 
 <div class="author">
 <img class="a-img" src="../../assets/images/avatar-1x1.jpg" alt="翁振軒 Sean Own 大頭照" loading="lazy">
@@ -1182,6 +1363,7 @@ def build(post, allposts):
         subtitle_html=subtitle_html,
         series_jump=series_jump,
         series_nav=series_nav,
+        movie_nav=movie_nav,
     )
 
     d = os.path.join(ROOT, 'article', slug)
@@ -1482,6 +1664,15 @@ def main():
     build_series_index(published)
     nf = build_home_films(published)
     print('  / 首頁電影 grid：%d 部' % nf)
+    nmovie = 0
+    for p in published:
+        if p.get('movieInfo'):
+            r = build_movie_info(p, published)
+            if r:
+                nmovie += 1
+                print('  /movie/%s/  %s' % r)
+    if nmovie:
+        print('  電影資訊頁：%d 頁' % nmovie)
     sanitize_outputs()
     io.open(POSTS, 'w', encoding='utf-8', newline='\n').write(
         json.dumps(data, ensure_ascii=False, indent=2) + '\n')
