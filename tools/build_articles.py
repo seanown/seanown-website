@@ -45,6 +45,25 @@ def _numkey(p):
         return 0
 
 
+def _series_key(sid, p):
+    """專輯內「升序」排序鍵：依輯定義的 sort_by（預設 date）排序，同序位以 num 決勝。
+
+    - 一般輯：依文章 date 升序（最早發布＝序位 1）。
+    - macau-film（sort_by='filmYear'）：依電影上映年份升序（最早影片＝序位 1），
+      年份缺失視為 0 排最前，讓同年的多篇以篇號遞增接續。
+    series_members() 會依 order_dir 決定是否反轉為降序（新在前）。
+    """
+    by = (SERIES_BY_ID.get(sid, {}) or {}).get('sort_by') or 'date'
+    if by == 'filmYear':
+        fy = p.get('filmYear')
+        try:
+            fy = int(fy)
+        except (TypeError, ValueError):
+            fy = 0
+        return (fy, _numkey(p))
+    return (str(p.get('date', '')), _numkey(p))
+
+
 def sorted_series():
     """輯的顯示順序：order 小的在前，同值再按輯名。"""
     return sorted(SERIES['series'],
@@ -54,15 +73,14 @@ def sorted_series():
 def series_members(posts, sid):
     """取回某輯的成員文章。
 
-    order_dir='desc' → 新的在前（主線／隨筆類，讓最新觀點當門面）
+    order_dir='desc' → 新的在前（主線／隨筆類，讓最新觀點當門面；macau-film 則為最新電影在最上）
     order_dir='asc'（預設）→ 日期升序（行記類，按實際行程順序讀）
-    同日再按篇號。
+    排序鍵由 _series_key() 決定：依輯 sort_by（預設 date，macau-film 為 filmYear），同序位再按篇號。
     """
     ms = [p for p in posts
           if (p.get('series') or '').strip() == sid and p.get('status') != '整理中']
     desc = str(SERIES_BY_ID.get(sid, {}).get('order_dir') or 'asc').lower() == 'desc'
-    return sorted(ms, key=lambda p: (str(p.get('date', '')), _numkey(p)),
-                  reverse=desc)
+    return sorted(ms, key=lambda p: _series_key(sid, p), reverse=desc)
 
 # 文章英文 slug（SEO 友善，關鍵詞命名）
 SLUGS = {
@@ -564,7 +582,9 @@ def build_series_page(s, posts, all_series):
         kicker=esc(coll_name or '專輯'),
         sub=esc(s.get('subtitle') or ''), period=esc(s.get('period') or ''),
         n=len(members), items=items, others=others,
-        sec_lab='按時間倒序 · 最新在前' if desc_order else '按時間順序',
+        sec_lab=('按電影年份倒序 · 最新電影在前' if desc_order else '按電影年份順序')
+                 if (SERIES_BY_ID.get(sid, {}) or {}).get('sort_by') == 'filmYear'
+                 else ('按時間倒序 · 最新在前' if desc_order else '按時間順序'),
         intro=''.join('<p>%s</p>' % esc(x.strip())
                       for x in (s.get('intro') or '（輯序待補）').split('\n\n') if x.strip()),
     )
@@ -940,9 +960,13 @@ def build(post, allposts):
     if sid and sid in SERIES_BY_ID:
         s = SERIES_BY_ID[sid]
         ms = series_members(allposts, sid)
-        # 序位與上一篇/下一篇一律按寫作序（asc）計算，與輯頁顯示方向（order_dir）無關：
-        # 「第 1 篇」永遠是輯裡最早那篇，「上一篇」= 更早、「下一篇」= 更晚。
-        ms = sorted(ms, key=lambda p: (str(p.get('date', '')), _numkey(p)))
+        # 序位與上一篇/下一篇一律按「升序」計算，與輯頁顯示方向（order_dir）無關：
+        # 「第 1 篇」永遠是輯裡最早那篇（電影輯＝最早上映的影片），
+        # 「上一篇」= 更早、「下一篇」= 更晚。電影輯改吃 filmYear 升序，與專輯頁一致。
+        if (SERIES_BY_ID.get(sid, {}) or {}).get('sort_by') == 'filmYear':
+            ms = sorted(ms, key=lambda p: _series_key(sid, p))
+        else:
+            ms = sorted(ms, key=lambda p: (str(p.get('date', '')), _numkey(p)))
         idx = next((i for i, p in enumerate(ms)
                     if str(p.get('num', '')).strip() == num), -1)
         coll_name = next((c['name'] for c in SERIES.get('collections', [])
