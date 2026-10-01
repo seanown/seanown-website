@@ -389,7 +389,7 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 .foot a{color:var(--blue)}
 .lb{position:fixed;inset:0;background:rgba(1,1,51,.92);display:none;align-items:center;justify-content:center;z-index:999;cursor:zoom-out;padding:24px}
 .lb img{max-width:100%;max-height:100%;border-radius:8px}
-.float-cta{position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);text-decoration:none;font-size:14px;transition:transform .2s,box-shadow .2s}
+.float-cta{display:none;position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);text-decoration:none;font-size:14px;transition:transform .2s,box-shadow .2s}
 .float-cta:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(2,8,32,.4)}
 @media(max-width:720px){h1{font-size:25px}.article h2{font-size:20px}.article p,.article li{font-size:16px}.rel-grid{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}.wrap{padding:26px 18px 0}.author{flex-direction:column;gap:14px}.lead{font-size:15.5px}}
 """
@@ -1604,7 +1604,7 @@ html{{scroll-behavior:smooth}}
 .lc-card.poster .lc-img img{{object-fit:contain}}
 .foot{{border-top:1px solid var(--line);padding:30px 24px 44px;text-align:center;font-size:13px;color:var(--gray);line-height:1.9}}
 .foot a{{color:var(--blue)}}
-.float-cta{{position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);font-size:14px;transition:transform .2s,box-shadow .2s}}
+.float-cta{{display:none;position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);font-size:14px;transition:transform .2s,box-shadow .2s}}
 .float-cta:hover{{transform:translateY(-3px);box-shadow:0 16px 34px rgba(2,8,32,.4)}}
 @media(max-width:960px){{.grid{{grid-template-columns:repeat(2,1fr)}}.masthead h1{{font-size:34px}}}}
 @media(max-width:620px){{.grid{{grid-template-columns:1fr;padding:30px 16px 50px}}.filter-bar{{top:62px;padding:12px 14px}}.masthead{{padding:46px 18px 40px}}.masthead h1{{font-size:28px}}}}
@@ -1619,7 +1619,7 @@ html{{scroll-behavior:smooth}}
 <body>
 <div class="topbar"><div class="topbar-in">
 <a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
-<a class="mini-cta" href="{site}/#sec-contact">洽談合作</a>
+<a class="mini-cta" style="display:none" href="{site}/#sec-contact">洽談合作</a>
 </div></div>
 
 <header class="masthead">
