@@ -1,0 +1,89 @@
+[
+  {
+    "slug": "city-of-desire-2001",
+    "movieInfo": {
+      "title": "慾望之城",
+      "englishName": "City of Desire",
+      "year": 2001,
+      "director": "葉偉民",
+      "writer": "文隽、張偉雄",
+      "genre": "劇情",
+      "releaseDate": "2001-05-05（香港）",
+      "actors": [
+        {"name": "吳君如", "role": "十三妹（暱稱「十三妹」，接管家族生意的女主角）"},
+        {"name": "方中信", "role": "Johnny 哥（十三妹男友，夜總會大班）"},
+        {"name": "何超儀", "role": "指天椒（十三妹舊友，涉足家族色情生意）"},
+        {"name": "黃秋生", "role": "甘修士／甘神父（常去嫖的教職人員）"},
+        {"name": "柯受良", "role": "火貓叔／貓叔"},
+        {"name": "羅家英", "role": "摩打叔"}
+      ],
+      "synopsis": "離開澳門十七年的十三妹（吳君如 飾）因父親患柏金遜症返澳，臨危受命接掌家族生意，才發現所謂生意是當地興盛的色情行業。她對這一行一竅不通，寄望舊友相助，卻見證 Johnny（方中信 飾）、指天椒（何超儀 飾）、甘修士（黃秋生 飾）等人面目大變。電影以回歸後澳門的繁華與灰色產業為背景，寫十三妹面對人心變遷的感慨。",
+      "source": "百度百科《慾望之城》(https://baike.baidu.com/item/欲望之城/1590092) ; 猫眼电影《慾望之城》(https://www.maoyan.com/films/223948) ; 1905 電影網"
+    }
+  },
+  {
+    "slug": "the-husband-of-a-lady-1965",
+    "movieInfo": {
+      "title": "小姐的丈夫",
+      "englishName": "The Husband of a Lady",
+      "year": 1965,
+      "director": "莫康時",
+      "writer": "譚嬣",
+      "genre": "喜劇／愛情",
+      "releaseDate": "1965-01-15（香港）",
+      "actors": [
+        {"name": "江雪", "role": "方翠瑩（Fong Tsui-ying，隱瞞身分的富家小姐）"},
+        {"name": "謝賢", "role": "陸又民（Luk Yao-man，不喜結交富人的男主角）"},
+        {"name": "羅蘭", "role": "盧麗蓮（Lina）"},
+        {"name": "譚蘭卿", "role": "冇姐（Housekeeper）"},
+        {"name": "李亨", "role": "（角色未詳）"}
+      ],
+      "synopsis": "富家小姐方翠瑩（江雪 飾）與陸又民（謝賢 飾）邂逅，因對方不喜結交富人而隱瞞身分交往，二人終成眷屬。故事以「身分」而非誤會推進，喜劇張力來自女主角真實身分被揭穿的過程。光藝製片出品的粵語黑白長片，片長一百一十九分鐘。",
+      "source": "百度百科《小姐的丈夫》(https://baike.baidu.com/item/小姐的丈夫/55579675) ; 1905 電影網演職員表(https://www.1905.com/mdb/film/2017320/performer) ; HKCinema"
+    }
+  },
+  {
+    "slug": "forbidden-1953",
+    "movieInfo": {
+      "title": "Forbidden",
+      "englishName": "Forbidden",
+      "year": 1953,
+      "director": "Rudolph Maté",
+      "writer": "William Sackheim、Gil Doud",
+      "genre": "犯罪／劇情／黑色電影（Film Noir）",
+      "releaseDate": "1953-12-02（美國）",
+      "actors": [
+        {"name": "Tony Curtis", "role": "Eddie Darrow（被黑幫派往澳門的小混混）"},
+        {"name": "Joanne Dru", "role": "Christine Lawrence（掌握不利證據的黑幫遺孀）"},
+        {"name": "Lyle Bettger", "role": "Justin Keit（澳門賭場老闆）"},
+        {"name": "Victor Sen Yung", "role": "Allan（賭場鋼琴師，實為臥底執法者）"},
+        {"name": "Peter Mamakos", "role": "Sam"},
+        {"name": "Mae Tai Sing", "role": "Soo Lee"}
+      ],
+      "synopsis": "費城黑幫頭子派小混混 Eddie Darrow（Tony Curtis 飾）前往澳門，找回掌握不利證據的同夥遺孀 Christine Lawrence（Joanne Dru 飾）。Eddie 在澳門救下賭場老闆 Justin Keit（Lyle Bettger 飾），受僱打理賭場，卻發現 Christine 竟是 Keit 的未婚妻。全片在好萊塢片廠與聖地牙哥搭景拍攝，沒有任何澳門實地鏡頭。",
+      "source": "IMDb (https://www.imdb.com/title/tt0045780/) ; AFI Catalog of Feature Films (https://catalog.afi.com/Film/50836-FORBIDDEN)"
+    }
+  },
+  {
+    "slug": "cleopatra-jones-casino-of-gold-1975",
+    "movieInfo": {
+      "title": "女金剛鬥狂龍女",
+      "englishName": "Cleopatra Jones and the Casino of Gold",
+      "year": 1975,
+      "director": "Charles Bail",
+      "writer": "William Tennant",
+      "genre": "動作／冒險／黑人剝削片（Blaxploitation）",
+      "releaseDate": "1975-07-11（美國）",
+      "actors": [
+        {"name": "Tamara Dobson", "role": "Cleopatra Jones（美國緝毒局女特工）"},
+        {"name": "Stella Stevens", "role": "Bianca Javin／Dragon Lady（狂龍女，澳門賭場老闆）"},
+        {"name": "恬妮（Tien Ni）", "role": "Mi Ling Fong（方美玲，香港女私家偵探）"},
+        {"name": "Norman Fell", "role": "Stanley Nagel"},
+        {"name": "Albert Popwell", "role": "Matthew Johnson（失蹤臥底探員）"},
+        {"name": "Kenyatta", "role": "Melvin Johnson（失蹤臥底探員）"}
+      ],
+      "synopsis": "美國緝毒特工 Cleopatra Jones（Tamara Dobson 飾）赴香港追查失蹤的臥底探員兄弟，結識本地女偵探 Mi Ling（恬妮 飾），揭發狂龍女 Bianca Javin（Stella Stevens 飾）以澳門黃金賭場為掩護的毒品帝國。二人闖九龍城寨、直搗賭場地牢，救出人質並搗毀販毒網絡。華納與邵氏兄弟合拍的黑人剝削動作片。",
+      "source": "IMDb 拍攝地(https://www.imdb.com/title/tt0072791/locations) ; Macau Closer《Cleopatra Jones and the Casino of Gold (1975)》(https://macaucloser.com?p=50122/) ; 維基百科"
+    }
+  }
+]
