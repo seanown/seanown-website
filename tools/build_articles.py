@@ -345,6 +345,8 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 .rule{width:56px;height:4px;background:var(--gold);border-radius:2px;margin:0 0 26px}
 .cover{margin:0 0 26px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10)}
 .cover img{width:100%;display:block}
+.vposter{margin:0 auto 28px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10);max-width:380px}
+.vposter img{width:100%;display:block}
 .article p{margin:0 0 20px;font-size:17px;text-align:justify}
 .article h2{font-size:23px;line-height:1.5;color:var(--blue);font-weight:800;margin:40px 0 16px;padding-left:14px;border-left:5px solid var(--gold)}
 .article h3{font-size:19px;color:var(--blue);font-weight:700;margin:28px 0 12px}
@@ -530,31 +532,51 @@ a{color:var(--blue);text-decoration:none}
 .mi-gps{display:inline-block;font-size:12.5px;color:var(--blue);font-weight:700;margin-bottom:7px;letter-spacing:.3px}
 .mi-gps:hover{color:var(--gold-dark)}
 .mi-pdesc{font-size:14px;color:#2B2B2B;line-height:1.8;margin:0}
+.mi-pcamera{font-size:13.5px;color:var(--blue);background:#F4F8FF;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:8px 12px;margin:9px 0 0;line-height:1.75}
+.mi-intro{font-size:13px;color:var(--gray);background:#FBF7EE;border:1px dashed var(--gold);border-radius:8px;padding:12px 16px;margin-bottom:16px;line-height:1.85}
+.mi-foot{font-size:13.5px;color:#2B2B2B;background:#F4F8FF;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:16px;line-height:1.85;white-space:pre-line}
 .foot{margin-top:46px;padding:26px 24px 46px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);text-align:center}
 .foot a{color:var(--blue)}
 @media(max-width:720px){.masthead h1{font-size:26px}.mi-poster{flex:0 0 150px;max-width:150px}.mi-title{font-size:26px}.wrap{padding:26px 18px 0}}
 """
 
+def _render_place(pl):
+    name = esc(pl.get('name', ''))
+    gps = pl.get('gps', '')
+    mapurl = pl.get('map', '')
+    if gps:
+        gps_html = ('<a class="mi-gps" href="%s" target="_blank" rel="noopener">📍 %s</a>'
+                    % (esc(mapurl), esc(gps))) if mapurl else ('<span class="mi-gps">📍 %s</span>' % esc(gps))
+    else:
+        gps_html = ''
+    camera = pl.get('camera', '')
+    cam_html = ('<p class="mi-pcamera">📷 機位建議：%s</p>' % esc(camera)) if camera else ''
+    return '<div class="mi-place"><div class="mi-pname">%s</div>%s<p class="mi-pdesc">%s</p>%s</div>' % (
+        name, gps_html, esc(pl.get('desc', '')), cam_html)
+
 def render_macau_scenes(sc):
-    """將 movieInfo.macauScenes 渲染為場景卡。支援結構化 list 或舊式純文字。"""
+    """將 movieInfo.macauScenes 渲染為場景卡。
+    支援 dict 模型 {intro, scenes:[{section,places}], foot} 或 舊式 list / str。"""
     if not sc:
         return ''
     if isinstance(sc, str):
         return '<div class="mi-scenes" id="macau-scenes">%s</div>' % esc(sc)
+    if isinstance(sc, dict):
+        intro = sc.get('intro', '')
+        foot = sc.get('foot', '')
+        scenes = sc.get('scenes', [])
+    else:
+        intro = foot = ''
+        scenes = sc
     out = []
-    for sec in sc:
+    if intro:
+        out.append('<div class="mi-intro">%s</div>' % esc(intro))
+    for sec in scenes:
         out.append('<div class="mi-sec">%s</div>' % esc(sec.get('section', '')))
         for pl in sec.get('places', []):
-            name = esc(pl.get('name', ''))
-            gps = pl.get('gps', '')
-            mapurl = pl.get('map', '')
-            if gps:
-                gps_html = ('<a class="mi-gps" href="%s" target="_blank" rel="noopener">📍 %s</a>'
-                            % (esc(mapurl), esc(gps))) if mapurl else ('<span class="mi-gps">📍 %s</span>' % esc(gps))
-            else:
-                gps_html = ''
-            out.append('<div class="mi-place"><div class="mi-pname">%s</div>%s<p class="mi-pdesc">%s</p></div>'
-                       % (name, gps_html, esc(pl.get('desc', ''))))
+            out.append(_render_place(pl))
+    if foot:
+        out.append('<div class="mi-foot">%s</div>' % esc(foot))
     return '<div class="mi-scenes" id="macau-scenes">%s</div>' % ''.join(out)
 
 
@@ -663,7 +685,7 @@ def build_movie_info(post, allposts):
 <div class="mi-lab">影片資料</div>
 {card}
 
-<div class="mi-lab">澳門場景</div>
+<div class="mi-lab">{scenes_label}</div>
 {scenes}
 
 <div class="foot">© 2026 翁振軒 Sean Own · <a href="{article}">回到影評</a> · <a href="{site}/">返回首頁</a> · <a href="{site}/series/macau-film/">澳門電影專輯</a></div>
@@ -677,6 +699,7 @@ def build_movie_info(post, allposts):
         sub=esc(('%s · %s' % (eng, year)) if (eng or year) else ''),
         by=esc(('導演 %s ｜ 原著·編劇 %s' % (mi.get('director', ''), mi.get('writer', ''))).strip(' ｜')),
         poster=poster, synopsis=esc(synopsis), card=card, scenes=scenes_html,
+        scenes_label=esc(mi.get('scenesLabel') or '澳門場景'),
     )
     d = os.path.join(ROOT, 'movie', slug)
     os.makedirs(d, exist_ok=True)
@@ -1282,9 +1305,10 @@ def build(post, allposts):
     if mi:
         mslug = SLUGS.get(num) or (post.get('slug') or '')
         if mslug:
-            poster_html = ''
-            if imgs:
-                poster_html = '<div class="mn-poster"><img src="%s" alt="%s 電影海報" loading="lazy"></div>' % (ov(imgs[0]), esc(title))
+            # 電影文章：頂部改用直式海報，底部資訊卡用橫式海報（上直下橫）
+            cover = ('<figure class="vposter"><img src="%s" alt="%s 電影海報" loading="lazy"></figure>'
+                     % (ov('../../assets/og/%s-poster.png' % mslug), esc(mi.get('title') or title)))
+            poster_html = '<div class="mn-poster"><img src="%s" alt="%s 電影海報" loading="lazy"></div>' % (ov('../../assets/og/%s-poster-land.png' % mslug), esc(title))
             # 只有 macauScenes 非空才掛「跟著電影遊澳門打卡點」雙按鈕；否則只掛單按鈕，避免錨點跳空
             checkin_html = ''
             if mi.get('macauScenes'):
