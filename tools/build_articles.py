@@ -613,6 +613,8 @@ def build_movie_info(post, allposts):
     add('資料來源', mi.get('source'))
     card = '<div class="mi-card">%s</div>' % ''.join(rows)
     scenes_html = render_macau_scenes(mi.get('macauScenes'))
+    # 純資料卡（無 macauScenes）不渲染「澳門場景」標題與空場景塊，避免空白標題
+    scenes_block = ('<div class="mi-lab">%s</div>\n%s' % (esc(mi.get('scenesLabel') or '澳門場景'), scenes_html)) if scenes_html else ''
     actor_ld = []
     for a in actors:
         o = {'@type': 'Person', 'name': a.get('name', '')}
@@ -685,8 +687,7 @@ def build_movie_info(post, allposts):
 <div class="mi-lab">影片資料</div>
 {card}
 
-<div class="mi-lab">{scenes_label}</div>
-{scenes}
+{scenes_block}
 
 <div class="foot">© 2026 翁振軒 Sean Own · <a href="{article}">回到影評</a> · <a href="{site}/">返回首頁</a> · <a href="{site}/series/macau-film/">澳門電影專輯</a></div>
 </div>
@@ -698,8 +699,7 @@ def build_movie_info(post, allposts):
         ld=json.dumps(ld, ensure_ascii=False), css=MOVIE_INFO_CSS, site=SITE, article=article_url,
         sub=esc(('%s · %s' % (eng, year)) if (eng or year) else ''),
         by=esc(('導演 %s ｜ 原著·編劇 %s' % (mi.get('director', ''), mi.get('writer', ''))).strip(' ｜')),
-        poster=poster, synopsis=esc(synopsis), card=card, scenes=scenes_html,
-        scenes_label=esc(mi.get('scenesLabel') or '澳門場景'),
+        poster=poster, synopsis=esc(synopsis), card=card, scenes_block=scenes_block,
     )
     d = os.path.join(ROOT, 'movie', slug)
     os.makedirs(d, exist_ok=True)
@@ -1313,17 +1313,18 @@ def build(post, allposts):
             checkin_html = ''
             if mi.get('macauScenes'):
                 checkin_html = '<a class="sn-checkin" href="%s/movie/%s/#macau-scenes">跟著電影遊澳門打卡點 →</a>' % (SITE, mslug)
+            sn_meta = '客觀資料卡 ＋ 澳門場景 ＋ 結構化資料（Movie schema）' if mi.get('macauScenes') else '客觀資料卡 ＋ 結構化資料（Movie schema）'
             movie_nav = ('\n\n<div class="series-nav movie-nav">'
                 '<div class="mn-main">'
                 '<span class="sn-kicker">電影資訊</span>'
                 '<a class="sn-title" href="%s/movie/%s/">《%s》電影資訊頁</a>'
-                '<div class="sn-meta">客觀資料卡 ＋ 澳門場景 ＋ 結構化資料（Movie schema）</div>'
+                '<div class="sn-meta">%s</div>'
                 '<div class="sn-links">'
                 '<a class="sn-all" href="%s/movie/%s/">前往電影資訊頁 →</a>'
                 '%s'
                 '</div>'
                 '</div>%s'
-                '</div>') % (SITE, mslug, esc(mi.get('title') or title), SITE, mslug, checkin_html, poster_html)
+                '</div>') % (SITE, mslug, esc(mi.get('title') or title), sn_meta, SITE, mslug, checkin_html, poster_html)
 
     att = ATTACHMENTS.get(slug)
     reader = build_reader(att) if att else ''
