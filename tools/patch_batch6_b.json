@@ -1,0 +1,140 @@
+{
+  "macao-1952": {
+    "movieInfo": {
+      "title": "Macao",
+      "englishName": "Macao",
+      "year": 1952,
+      "director": "Josef von Sternberg、Nicholas Ray（補拍）",
+      "writer": "Stanley Rubin、Bernard C. Schoenfeld（編劇）；Robert Creighton Williams（故事）",
+      "genre": "黑色電影／冒險",
+      "releaseDate": "1952-04-30",
+      "actors": [
+        {"name": "Robert Mitchum", "role": "Nick Cochran"},
+        {"name": "Jane Russell", "role": "Julie Benton"},
+        {"name": "William Bendix", "role": "Lawrence C. Trumble"},
+        {"name": "Gloria Grahame", "role": "Margie"},
+        {"name": "Brad Dexter", "role": "Vincent Halloran"},
+        {"name": "Thomas Gomez", "role": "Lt. Sebastian"}
+      ],
+      "synopsis": "《Macao》是一九五二年美國黑白犯罪冒險片，故事設定於澳門這座「東方蒙地卡羅」。三名互不相識的旅客——憤世嫉俗的遊客 Nick、夜總會歌手 Julie、走私推銷員 Trumble——同船抵達澳門，捲入珠寶走私賭場老闆 Halloran 與國際刑警的追捕角力。全片主體在好萊塢 RKO 片廠拍攝，僅有第二組在香港、澳門補拍城市背景空鏡，但澳門的港口與賭場意象自此成為好萊塢對這座城市的經典想像。",
+      "source": "AFI Catalog（引 UCLA 藏 RKO 製作檔案）、Wikipedia、IMDb",
+      "scenesLabel": "跟著電影重走《Macao》",
+      "macauScenes": {
+        "intro": "《Macao》故事全程設定在澳門，但有人物的戲份皆在好萊塢 RKO 片廠及加州外景完成；依 AFI 影片目錄所引 UCLA 藏 RKO 製作檔案，僅第二組在香港、澳門拍攝城市背景空鏡（B-roll）。下列地點分兩類標註：『實拍層』為當年第二組在澳門捕捉到的城市質地（無法精確到門牌）；『設定對照』為劇情發生地之今日對應位置，用來還原登岸與賭場動線。",
+        "scenes": [
+          {
+            "section": "一、主場景（核心打卡）",
+            "places": [
+              {
+                "name": "十六浦度假村／內港第十六號碼頭舊址（Ponte 16）",
+                "gps": "22.1969, 113.5359",
+                "map": "https://www.google.com/maps/search/?api=1&query=22.1969, 113.5359",
+                "desc": "（設定對照／實拍層）第十六號碼頭一九五一年啟用，是當年港澳客輪專用泊位，亦為無數旅客登陸澳門的第一站，對應片中三人抵澳下船處。今日活化為十六浦度假村，鐘樓仍見「1948」字樣與葡文「16」，向海一面保留中葡文「拾陸號德記碼頭」字樣。遊客可沿火船頭街走到靠海側尋找這些舊跡，現場為私人度假村，請遵守場所拍攝規定。",
+                "camera": "從火船頭街走向十六浦靠海側，抬頭拍鐘樓年份與葡文字號，再沿建築物往海邊找「拾陸號德記碼頭」字樣；廣角帶出堤岸與海面，呼應片中下船登岸的開場。"
+              },
+              {
+                "name": "內港客運碼頭（Terminal Marítimo de Passageiros do Porto Interior）",
+                "gps": "22.1948, 113.5353",
+                "map": "https://www.google.com/maps/search/?api=1&query=22.1948, 113.5353",
+                "desc": "（實拍層／設定對照）位於十六浦旁，是今日同一段內港堤岸上唯一仍能真實「搭船」之處，對應片中角色抵澳後望向水面的視野。現營運往珠三角內地港口班次。旅客可買票進閘，於候船室與甲板觀看對岸水面；上午光線最似黑白片的刺亮質感。",
+                "camera": "買一張上午班次船票，在候船室與登船廊橋以低角度拍水面與對岸堤岸；避免拍攝他人臉孔，尊重其他旅客隱私。"
+              },
+              {
+                "name": "新中央酒店（Hotel Central）",
+                "gps": "22.1943, 113.5391",
+                "map": "https://www.google.com/maps/search/?api=1&query=22.1943, 113.5391",
+                "desc": "（設定對照）片中 Halloran 賭場的現實原型。一九二八年以總統酒店開業，一九三七年成為澳門首個領專營權的博彩場所，賭場設於五樓與七樓；現已活化重開，頂層設三百六十度觀景台。遊客可入內參觀並登頂層觀景台向西望內港堤岸，外牆蘋果綠色，對面馬路拍攝角度最佳。",
+                "camera": "由大堂搭電梯上頂層觀景台，西向拍內港整條堤岸；下樓後站新馬路對面以中長焦帶蘋果綠外牆與街景。"
+              }
+            ]
+          },
+          {
+            "section": "二、延伸場景",
+            "places": [
+              {
+                "name": "港澳航道「三海里界線」登船重現（外港客運碼頭）",
+                "gps": "22.1969, 113.5589",
+                "map": "https://www.google.com/maps/search/?api=1&query=22.1969, 113.5589",
+                "desc": "（實拍層：航道空鏡；今日以登船重現）全片核心場景其實是一條畫在海面上的管轄界線，今日已無原件可尋。可搭外港往香港的船，出港約二十分鐘後所經水域，即片中 Nick 拖著 Halloran 游向「另一邊」的範圍。請把此處當成體驗而非打卡點，船上請遵守航運與安全規定。",
+                "camera": "選靠窗座位，出港後拍海面由渾濁轉深的色帶；以手機或輕便相機即可，避免干擾其他乘客與船員作業。"
+              }
+            ]
+          }
+        ],
+        "foot": "拿著這份清單去現場，請記住：你重走的不是明星的腳步，而是一九五二年鏡頭下那座「地球上的微粒」。"
+      }
+    }
+  },
+  "via-macau-1966": {
+    "movieInfo": {
+      "title": "Via Macau",
+      "englishName": "Via Macau",
+      "year": 1966,
+      "director": "Jean Leduc",
+      "writer": "Jean Leduc、Jacques Tournier",
+      "genre": "冒險／驚悚（間諜）",
+      "releaseDate": "1966-07-22",
+      "actors": [
+        {"name": "Anna Gaël", "role": "Véronique"},
+        {"name": "Françoise Prévost", "role": "Colette"},
+        {"name": "Roger Hanin", "role": "Michel／Varela Silva"},
+        {"name": "Alberto Varela Silva", "role": "Inspector Paiva Raposo"},
+        {"name": "Amália Rodrigues", "role": "本人（法朵歌手客串）"}
+      ],
+      "synopsis": "《Via Macau》（《澳門之路》）是一九六六年法葡合拍的冒險驚悚片，由 Jean Leduc 執導。故事講述一個軍火走私組織利用海盜電視台，在葡萄牙的國際會議上煽動分裂；一名法國外交官遠赴澳門，試圖尋找曾停留里斯本的神秘女間諜。影片在里斯本、澳門與香港取景，是少數以澳門為真實外景地的歐洲電影之一。",
+      "source": "IMDb、Unifrance、Macau Antigo（若昂．博塔斯）、澳門電影業簡史",
+      "scenesLabel": "跟著電影重走《Via Macau》",
+      "macauScenes": {
+        "intro": "《Via Macau》雖在澳門與香港取景，但現存所有來源（Macau Antigo 部落格、《澳門電影業簡史》、IMDb、法葡電影資料庫）均僅記載到城市層級，無任何具體場景、街道或機位記錄。下列五處均為開放街圖（OSM）實測的一九六六年澳門既有地標，當年極可能進入空鏡，但並無記載能證明攝影機確實對著它們。請將其視為「時代對照／代表性場景」，而非可還原的拍攝機位。",
+        "scenes": [
+          {
+            "section": "一、主場景（核心打卡）",
+            "places": [
+              {
+                "name": "大三巴牌坊",
+                "gps": "22.1975, 113.5409",
+                "map": "https://www.google.com/maps/search/?api=1&query=22.1975, 113.5409",
+                "desc": "（代表性場景／時代對照）聖保祿教堂遺址，一九六六年即為澳門最具標誌性的地標，最易被攝入城市空鏡。今日為世界遺產景點，廣場開放且免費。遊客請避開人潮尖峰，尊重遺址與其他旅客。",
+                "camera": "於牌坊前廣場中軸以廣角仰拍石階與立面；清晨或傍晚光線柔和，避免正午強背光。"
+              },
+              {
+                "name": "議事亭前地",
+                "gps": "22.1938, 113.5400",
+                "map": "https://www.google.com/maps/search/?api=1&query=22.1938, 113.5400",
+                "desc": "（代表性場景／時代對照）位於澳門半島心臟的葡式石仔廣場，連接新馬路商業核心，一九六六年為城市生活中心。今日仍為步行區與旅遊熱點。建議由廣場起步展開本路線，注意週末人潮擁擠。",
+                "camera": "以廣角平拍波浪形石仔地坪與周邊葡式建築立面；黃昏亮燈後氣氛佳，宜用三腳架長曝。"
+              },
+              {
+                "name": "南灣（今南灣湖）",
+                "gps": "22.1909, 113.5420",
+                "map": "https://www.google.com/maps/search/?api=1&query=22.1909, 113.5420",
+                "desc": "（代表性場景／時代對照）昔日為澳門最優美海灣與官紳住宅區，填海後成為今日南灣湖，一九六六年仍是城市門面。現為開闊湖景公園，適合散步。請勿翻越護欄或進入水域。",
+                "camera": "於湖畔步道以中焦拍水面與對岸高樓天際線；黃昏倒影最佳，注意風大時穩定持機。"
+              }
+            ]
+          },
+          {
+            "section": "二、延伸場景",
+            "places": [
+              {
+                "name": "內港",
+                "gps": "22.1954, 113.5328",
+                "map": "https://www.google.com/maps/search/?api=1&query=22.1954, 113.5328",
+                "desc": "（代表性場景／時代對照）澳門傳統貨運與漁業腹地，碼頭、舢舨與倉棧構成最具「澳門質地」的畫面，極可能進入本片空鏡。今日仍為作業港區，部分路段有貨運與異味。請勿進入作業區域，注意安全與卡車動線。",
+                "camera": "於堤岸步道以中長焦拍泊船、吊車與對岸珠海天際線；清晨漁船作業時最具生活感，避免干擾作業人員。"
+              },
+              {
+                "name": "白鴿巢公園（賈梅士洞）",
+                "gps": "22.2008, 113.5392",
+                "map": "https://www.google.com/maps/search/?api=1&query=22.2008, 113.5392",
+                "desc": "（代表性場景／時代對照）位於城北的古老園林，園內賈梅士洞相傳為葡國詩人賈梅士謫居處，一九六六年即為名勝。今日免費開放、綠蔭宜人。請愛護古樹與石刻，勿刻劃塗寫。",
+                "camera": "入園後沿石階至賈梅士洞，以中焦拍洞口石刻與周圍榕樹氣根；午後光影斑駁，適合慢拍。"
+              }
+            ]
+          }
+        ],
+        "foot": "這五個座標還原的是一九六六年的澳門，而非攝影機的視線；站在其上，你看見的是當年澳門人每天看見的城市。"
+      }
+    }
+  }
+}
