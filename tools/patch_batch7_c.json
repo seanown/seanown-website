@@ -1,0 +1,146 @@
+{
+  "aspectos-de-macau-1923": {
+    "title": "《Aspectos de Macau》",
+    "englishName": "Aspectos de Macau",
+    "year": 1923,
+    "director": "Manuel A. Amor（Castello Lopes 製片）",
+    "writer": "",
+    "genre": "紀錄片",
+    "releaseDate": "1923-XX-XX",
+    "actors": [],
+    "synopsis": "葡萄牙 Castello Lopes 公司拍攝的六分鐘默片，以《Macau, Cidade Progressiva e Monumental》（進步與紀念碑之城）為題記錄一九二三年的澳門城市實景，是現存最早確證在澳門拍攝的紀錄片之一。",
+    "source": "WebSearch 出處：The Movie Database / movie-tracker.app 條目《Macao - Progress and Monuments (1923)》；澳門文化局期刊《Cinematic Narratives of Macau》(ICM 2024)；維基百科 List of films set in Macau",
+    "scenesLabel": "跟著電影重走《Aspectos de Macau》",
+    "macauScenes": {
+      "intro": "《Aspectos de Macau》（1923）是葡萄牙 Castello Lopes 製作的六分鐘默片，原名《Macau, Cidade Progressiva e Monumental》（進步與紀念碑之城）。本片原始素材保存狀況極差，且曾在 1930 年代被剪入其他短紀錄片重用，因此今日無法逐鏡頭還原拍攝地。以下依據片名與當時文獻（TMDB 簡介提及片中含賈梅士半身像），對照一九二三年已存在、今日仍可參觀的澳門現存地標，供旅客按圖索驥。證據等級以「實拍確認」與「歷史實景對照」標註，未經文獻證實者不臆測具體鏡位。",
+      "scenes": [
+        {
+          "section": "歷史城區實景（紀念碑之城）",
+          "places": [
+            {
+              "name": "大三巴牌坊（Ruins of St. Paul's）",
+              "gps": "22.1975, 113.5406",
+              "map": "https://www.google.com/maps?q=22.1975, 113.5406",
+              "desc": "前耶穌會聖保祿教堂的石砌立面，1835 年大火後留存至今，一九二三年已是澳門最顯眼的紀念碑式遺跡。片名《進步與紀念碑之城》以「紀念碑」為題，此類地標極可能入鏡，但無單一鏡位文獻佐證。證據等級：歷史實景對照（1923 年現存地標）。",
+              "camera": "歷史實景對照——今日可由 68 級石階登上立面廣場取景。"
+            },
+            {
+              "name": "東望洋燈塔（Guia Lighthouse）",
+              "gps": "22.1965, 113.5498",
+              "map": "https://www.google.com/maps?q=22.1965, 113.5498",
+              "desc": "建於 1865 年的遠東第一座西式燈塔，聳立於松山（東望洋山）頂為船隻導航。1923 年已存在，是「進步」意象的代表。證據等級：歷史實景對照（1923 年現存地標）。",
+              "camera": "歷史實景對照——可由松山健康步道登頂，燈塔與炮台、小教堂同為世遺。"
+            },
+            {
+              "name": "議事亭前地（Senado Square）",
+              "gps": "22.1938, 113.5400",
+              "map": "https://www.google.com/maps?q=22.1938, 113.5400",
+              "desc": "葡式波浪碎石地面的中央廣場，周圍為新古典主義殖民建築，是葡治時期澳門的行政與生活核心。1923 年已成形。證據等級：歷史實景對照（1923 年現存地標）。",
+              "camera": "歷史實景對照——由民政總署大樓前廣場向大三巴方向延伸取景。"
+            }
+          ]
+        },
+        {
+          "section": "宗教與市井（華洋共處的實景）",
+          "places": [
+            {
+              "name": "媽閣廟（A-Ma Temple）",
+              "gps": "22.1861, 113.5313",
+              "map": "https://www.google.com/maps?q=22.1861, 113.5313",
+              "desc": "相傳創於 1488 年的海神媽祖廟，是澳門最古老廟宇；『Macau』一詞即源於其粵語名「媽閣」。1923 年早已是城市象徵。證據等級：歷史實景對照（1923 年現存地標）。",
+              "camera": "歷史實景對照——廟前「利涉大川」洋船石為明代遺蹟。"
+            },
+            {
+              "name": "澳門主教座堂（Sé Cathedral）",
+              "gps": "22.1936, 113.5417",
+              "map": "https://www.google.com/maps?q=22.1936, 113.5417",
+              "desc": "澳門教區的主教座堂，1623 年升格為主教座堂，1844–1850 年石建、1937 年混凝土重建；1923 年所見為石建本體（今日混凝土外觀為 1937 年重建）。證據等級：歷史實景對照（同址地標，外觀已變）。",
+              "camera": "歷史實景對照——位於大堂前地，由議事亭前地步行約 5 分鐘。"
+            },
+            {
+              "name": "白鴿巢公園賈梅士洞（Camões Grotto）",
+              "gps": "22.2005, 113.5393",
+              "map": "https://www.google.com/maps?q=22.2005, 113.5393",
+              "desc": "白鴿巢公園內三巨石疊成的石洞，洞中石礅刻有賈梅士《葡國魂》開篇，並立有詩人半身銅像。TMDB 片簡明確記載本片出現「偉大詩人賈梅士的半身像」（The bust of the great poet Luis de Camões），即指此處。證據等級：實拍確認（片方簡介指名賈梅士半身像）。",
+              "camera": "歷史實景對照——由公園正門入，沿主徑往山行約五分鐘抵石洞。"
+            }
+          ]
+        }
+      ],
+      "foot": ""
+    }
+  },
+  "o-regresso-1989": {
+    "title": "《O Regresso》",
+    "englishName": "O Regresso",
+    "year": 1989,
+    "director": "Faria de Almeida（RTP 製作）",
+    "writer": "",
+    "genre": "紀錄片",
+    "releaseDate": "1989-04-23",
+    "actors": [
+      "Ruy de Carvalho"
+    ],
+    "synopsis": "葡萄牙國營電視台 RTP 製作的 53 分鐘電視紀錄片，記錄國寶級演員 Ruy de Carvalho 在澳門移交前夕重返這座城市、沿記憶重走街巷的過程。",
+    "source": "WebSearch 出處：filmdb.co.uk / mdblist.com / wewatch.pw / forseenit.com 條目《O Regresso (1989)》；導演 Faria de Almeida，RTP 製作，1989-04-23 首播，片長 53 分鐘",
+    "scenesLabel": "跟著電影重走《O Regresso》",
+    "macauScenes": {
+      "intro": "《O Regresso》（1989）由葡萄牙 RTP 製作、Faria de Almeida 執導，53 分鐘，1989 年 4 月 23 日葡萄牙電視首播。影片記錄葡萄牙國寶演員 Ruy de Carvalho 在澳門即將移交前夕重返故地、沿個人記憶重走城市。公開資料僅有片長與首播日期，劇本與字幕幾無流傳，無文獻逐一指認片中具體拍攝點。以下列出 1989 年已存在、今日仍可參觀的澳門歷史地標，作為「跟著電影重走」的誠實對照；所有地點標註為「歷史實景對照」，不臆測片中各鏡位。",
+      "scenes": [
+        {
+          "section": "回歸前夜的歷史城區",
+          "places": [
+            {
+              "name": "大三巴牌坊（Ruins of St. Paul's）",
+              "gps": "22.1975, 113.5406",
+              "map": "https://www.google.com/maps?q=22.1975, 113.5406",
+              "desc": "澳門最具標誌性的世遺地標，任何以城市為主角的紀錄片都難繞過。1989 年所見立面與今日一致。證據等級：歷史實景對照（1989 年現存地標，無單一鏡位文獻）。",
+              "camera": "歷史實景對照——由大三巴街上行取景，旁有天主教藝術博物館。"
+            },
+            {
+              "name": "議事亭前地（Senado Square）",
+              "gps": "22.1938, 113.5400",
+              "map": "https://www.google.com/maps?q=22.1938, 113.5400",
+              "desc": "葡式碎石廣場與殖民建築群，城市傳統核心。證據等級：歷史實景對照（1989 年現存地標）。",
+              "camera": "歷史實景對照——廣場連接玫瑰堂與大三巴，適合步行跟拍。"
+            },
+            {
+              "name": "東望洋燈塔（Guia Lighthouse）",
+              "gps": "22.1965, 113.5498",
+              "map": "https://www.google.com/maps?q=22.1965, 113.5498",
+              "desc": "松山頂的遠東第一西式燈塔，城市地標與制高點。證據等級：歷史實景對照（1989 年現存地標）。",
+              "camera": "歷史實景對照——可俯瞰半島與珠海，是回望城市的天然機位。"
+            }
+          ]
+        },
+        {
+          "section": "葡人生活與離別的實景",
+          "places": [
+            {
+              "name": "崗頂前地與伯多祿五世劇院（St. Augustine's Square / Dom Pedro V Theatre）",
+              "gps": "22.1921, 113.5383",
+              "map": "https://www.google.com/maps?q=22.1921, 113.5383",
+              "desc": "葡人社交與文化中心，1860 年建成的伯多祿五世劇院（崗頂劇院）坐落於此。一名葡萄牙老演員重返澳門，此類葡人社群地標極具象徵意義。證據等級：歷史實景對照（1989 年現存地標，無具體鏡位文獻）。",
+              "camera": "歷史實景對照——崗頂劇院、聖奥斯定教堂、何東圖書館環列廣場。"
+            },
+            {
+              "name": "媽閣廟（A-Ma Temple）",
+              "gps": "22.1861, 113.5313",
+              "map": "https://www.google.com/maps?q=22.1861, 113.5313",
+              "desc": "澳門最古老廟宇與城市得名源頭，華人信仰核心。證據等級：歷史實景對照（1989 年現存地標）。",
+              "camera": "歷史實景對照——廟前洋船石與「利涉大川」題刻為明代遺存。"
+            },
+            {
+              "name": "內港（澳門內港 / Porto Interior）",
+              "gps": "22.1981, 113.5336",
+              "map": "https://www.google.com/maps?q=22.1981, 113.5336",
+              "desc": "澳門半島西側的舊港口與市井碼頭區，是城市與珠海相望的水岸。1989 年仍是繁忙的作業港，正處在城市變貌的前夜。證據等級：歷史實景對照（1989 年現存地標）。",
+              "camera": "歷史實景對照——沿沙梨頭、十六浦一帶海岸步道可見舊碼頭風貌。"
+            }
+          ]
+        }
+      ],
+      "foot": ""
+    }
+  }
+}
