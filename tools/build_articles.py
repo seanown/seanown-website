@@ -238,7 +238,11 @@ def md_to_html(body, title=''):
         if buf:
             para = '<br>'.join(x.strip() for x in buf if x.strip())
             if para:
-                out.append('<p>%s</p>' % inline(para))
+                # 散場之後：源碼用純文字，渲染仍保持 H2 標題樣式
+                if para == '散場之後':
+                    out.append('<h2>散場之後</h2>')
+                else:
+                    out.append('<p>%s</p>' % inline(para))
             buf.clear()
 
     while i < len(lines):
