@@ -1944,22 +1944,22 @@
         "title": "暗花",
         "englishName": "The Longest Nite",
         "year": 1998,
-        "director": "杜琪峰、韋家輝（Johnnie To / Wai Ka-fai）",
+        "director": "游達志（Tat-Chi Yau）",
         "writer": "韋家輝、司徒錦源、游乃海（編劇）",
         "genre": "犯罪／懸疑",
-        "releaseDate": "1998-05-28（香港）",
+        "releaseDate": "1998-01-01（香港）",
         "actors": [
           {
+            "name": "梁朝偉",
+            "role": "阿琛（腐敗警察）"
+          },
+          {
             "name": "劉青雲",
-            "role": "阿琛（督察）"
+            "role": "耀東（殺手）"
           },
           {
-            "name": "劉德華",
-            "role": "耀東（幫會話事人）"
-          },
-          {
-            "name": "吳廷燁",
-            "role": "榮少"
+            "name": "邵美琪",
+            "role": "阿鳳"
           }
         ],
         "synopsis": "一個無頭屍體、一筆暗花，把澳門的夜拉成一條沒有盡頭的線；阿琛與耀東在舊城、碼頭與夜場之間互相試探，整座城市都是佈局的棋盤。",
