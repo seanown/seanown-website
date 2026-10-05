@@ -147,9 +147,83 @@
     .wk-archive-label { display: none; }
     .wk-chip { padding: 5px 11px; font-size: 12px; }
   }
+
+  /* ===== 微信分享 ===== */
+  .wk-share-fab {
+    position: fixed;
+    top: 14px; right: 14px;
+    z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 15px;
+    background: #07C160;
+    color: #fff;
+    border: none;
+    border-radius: 22px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(7,193,96,0.35);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .wk-share-fab:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(7,193,96,0.45); }
+  .wk-share-fab svg { width: 18px; height: 18px; fill: #fff; }
+  .wk-share-mask {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 200; padding: 20px;
+  }
+  .wk-share-mask.open { display: flex; }
+  .wk-share-card {
+    background: #fff; border-radius: 16px;
+    max-width: 340px; width: 100%;
+    padding: 26px 24px 22px; text-align: center;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+  }
+  .wk-share-card .wk-close {
+    position: absolute; top: 12px; right: 14px;
+    border: none; background: none;
+    font-size: 22px; line-height: 1; color: #999; cursor: pointer;
+  }
+  .wk-share-card h3 { font-size: 18px; color: #0B3D2E; margin-bottom: 4px; font-weight: 700; }
+  .wk-share-card .wk-sub { font-size: 13px; color: #888; margin-bottom: 16px; }
+  .wk-qr {
+    width: 220px; height: 220px; margin: 0 auto 14px;
+    border: 1px solid #E0DDD5; border-radius: 10px;
+    display: block; background: #fff;
+  }
+  .wk-share-tip { font-size: 13.5px; color: #4A4A4A; line-height: 1.7; margin-bottom: 14px; }
+  .wk-share-tip b { color: #07C160; }
+  .wk-copy-btn {
+    display: inline-block; padding: 9px 18px;
+    background: #0B3D2E; color: #fff;
+    border: none; border-radius: 8px;
+    font-family: inherit; font-size: 14px; cursor: pointer;
+  }
+  .wk-copy-btn.done { background: #1A6B52; }
 </style>
 </head>
 <body>
+
+<button class="wk-share-fab" id="wkShareFab" type="button" aria-label="分享給微信朋友">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.7 3C4.9 3 1.8 5.7 1.8 9c0 1.9 1.1 3.6 2.8 4.7L3.7 15.8l2.3-1.2c.9.3 1.9.4 2.7.4h.6c-.2-.6-.3-1.2-.3-1.9 0-3 2.7-5.3 6.1-5.3h.5C14.7 5.3 12 3 8.7 3zM6.2 8.1c.6 0 1 .5 1 1s-.4 1-1 1-1-.5-1-1.1.4-1 1-1zm5 0c.6 0 1 .5 1 1s-.4 1-1 1-1-.5-1-1.1.4-1 1z"/><path d="M22.2 13.9c0-2.7-2.5-4.9-5.5-4.9s-5.5 2.2-5.5 4.9 2.5 4.9 5.5 4.9c.7 0 1.3-.1 1.9-.3l1.9 1-.5-1.7c1.4-.9 2.2-2.2 2.2-3.9zm-7.3-.9c.5 0 .8.4.8.8s-.3.8-.8.8-.8-.4-.8-.8.3-.8.8-.8zm3.8 0c.5 0 .8.4.8.8s-.3.8-.8.8-.8-.4-.8-.8.3-.8.8-.8z"/></svg>
+  微信分享
+</button>
+<div class="wk-share-mask" id="wkShareMask">
+  <div class="wk-share-card">
+    <button class="wk-close" id="wkShareClose" type="button" aria-label="關閉">×</button>
+    <h3>分享給微信朋友</h3>
+    <div class="wk-sub">澳門新聞週報 · 掃碼分享</div>
+    <img class="wk-qr" id="wkQr" alt="微信掃碼分享二維碼">
+    <div class="wk-share-tip">用手機微信「掃一掃」上方二維碼，<br>在微信中打開本文，點右上角 <b>···</b> 即可「發送給朋友」。</div>
+    <button class="wk-copy-btn" id="wkCopyBtn" type="button">複製連結</button>
+  </div>
+</div>
 
 <div class="wk-header">
   <div class="wk-header-inner">
@@ -231,6 +305,57 @@ load(initial || WEEKS[0].d, false);
 window.addEventListener('message', function (e) {
   if (e.data && e.data.type === 'weekly-load' && e.data.date) { load(e.data.date); }
 });
+</script>
+
+<script>
+(function () {
+  var fab = document.getElementById('wkShareFab');
+  var mask = document.getElementById('wkShareMask');
+  var closeBtn = document.getElementById('wkShareClose');
+  var qr = document.getElementById('wkQr');
+  var copyBtn = document.getElementById('wkCopyBtn');
+
+  function shareUrl() {
+    if (window.location.pathname.indexOf('macau-weekly.html') > -1) {
+      try {
+        var p = new URLSearchParams(window.location.search).get('p');
+        if (p) return 'https://seanown.org/macau-weekly/' + p + '.html';
+      } catch (e) {}
+      return 'https://seanown.org/macau-weekly.html';
+    }
+    return window.location.href;
+  }
+  function openShare() {
+    var u = shareUrl();
+    qr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&data=' + encodeURIComponent(u);
+    mask.classList.add('open');
+  }
+  function closeShare() { mask.classList.remove('open'); }
+
+  if (fab) fab.addEventListener('click', openShare);
+  if (closeBtn) closeBtn.addEventListener('click', closeShare);
+  if (mask) mask.addEventListener('click', function (e) { if (e.target === mask) closeShare(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeShare(); });
+
+  if (copyBtn) copyBtn.addEventListener('click', function () {
+    var u = shareUrl();
+    var done = function () {
+      copyBtn.textContent = '已複製連結';
+      copyBtn.classList.add('done');
+      setTimeout(function () { copyBtn.textContent = '複製連結'; copyBtn.classList.remove('done'); }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(u).then(done, function () { fallbackCopy(u, done); });
+    } else { fallbackCopy(u, done); }
+  });
+  function fallbackCopy(u, done) {
+    var t = document.createElement('textarea');
+    t.value = u; t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.focus(); t.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(t);
+  }
+})();
 </script>
 
 </body>
