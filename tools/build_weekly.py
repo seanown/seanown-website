@@ -83,6 +83,11 @@ def main() -> int:
 
     pre = (HERE / "weekly_shell_pre.txt").read_text(encoding="utf-8")
     post = (HERE / "weekly_shell_post.txt").read_text(encoding="utf-8")
+
+    # 內嵌 QR 庫（零外部依賴：分享按鈕的二維碼改由本機生成，不再呼叫 api.qrserver.com）
+    qr_lib = (HERE / "qrcode.min.js").read_text(encoding="utf-8")
+    pre = pre.replace("<body>", "<body>\n<script>\n" + qr_lib + "\n</script>\n", 1)
+
     content_path = pathlib.Path(a.content)
     if not content_path.is_absolute():
         content_path = ROOT / content_path

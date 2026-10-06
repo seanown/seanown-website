@@ -611,7 +611,10 @@
   }
   function openShare() {
     var u = shareUrl();
-    qr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&data=' + encodeURIComponent(u);
+    var qrObj = qrcode(0, 'M');
+    qrObj.addData(u);
+    qrObj.make();
+    qr.src = qrObj.createDataURL(6, 4);
     mask.classList.add('open');
   }
   function closeShare() { mask.classList.remove('open'); }
