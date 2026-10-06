@@ -1,3 +1,8 @@
+<!-- ===== 其他期數導覽 ===== -->
+<div class="other-issues-bar">
+  <a class="other-issues-btn" href="index.html">查看其他期數</a>
+</div>
+
 <!-- ===== FOOTER ===== -->
 <div class="footer">
   <div class="brand-mark">澳門新聞週報</div>

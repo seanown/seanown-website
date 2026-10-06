@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>澳門新聞週報 · 期數總覽</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #F5F2EC; --surface: #FFFFFF; --ink: #1A1A1A; --ink-2: #4A4A4A;
+    --ink-3: #888; --line: #E0DDD5; --brand: #0B3D2E; --accent: #C75B12;
+  }
+  body {
+    font-family: 'Noto Serif TC','Source Han Serif','PingFang TC','Microsoft JhengHei',serif;
+    background: var(--bg); color: var(--ink); line-height: 1.7;
+  }
+  .header { background: var(--brand); color: #fff; padding: 44px 0 32px; text-align: center; }
+  .header .tag {
+    display: inline-block; font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+    color: #F0A050; border: 1px solid #F0A050; padding: 4px 12px; border-radius: 2px; margin-bottom: 14px;
+  }
+  .header h1 { font-size: 30px; font-weight: 700; letter-spacing: 2px; }
+  .header .sub { font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 8px; letter-spacing: 1px; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .intro { text-align: center; color: var(--ink-3); font-size: 15px; margin: 28px 0 8px; }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 14px; padding: 18px 0 48px; }
+  .issue-card {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 4px 16px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 22px; text-decoration: none; color: var(--ink);
+    transition: box-shadow .18s ease, transform .18s ease;
+  }
+  .issue-card:hover { box-shadow: 0 3px 14px rgba(0,0,0,0.07); transform: translateY(-1px); }
+  .issue-no { grid-column: 1; grid-row: 1 / span 2; font-size: 20px; font-weight: 700; color: var(--brand); white-space: nowrap; }
+  .issue-date { grid-column: 2; grid-row: 1; font-size: 16px; font-weight: 600; }
+  .issue-range { grid-column: 2; grid-row: 2; font-size: 14px; color: var(--ink-3); }
+  .issue-go { grid-column: 3; grid-row: 1 / span 2; color: var(--accent); font-weight: 600; font-size: 15px; white-space: nowrap; }
+  .latest-chip {
+    display: inline-block; font-size: 11px; font-weight: 600; color: #fff;
+    background: var(--accent); padding: 2px 8px; border-radius: 3px; margin-left: 8px; vertical-align: middle;
+  }
+  .footer { text-align: center; color: var(--ink-3); font-size: 13px; padding: 0 0 36px; }
+  @media (max-width: 560px) {
+    .issue-card { grid-template-columns: 1fr; }
+    .issue-no, .issue-date, .issue-range, .issue-go { grid-column: 1; grid-row: auto; }
+    .issue-go { margin-top: 6px; }
+  }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="container">
+      <span class="tag">Macau Weekly Digest</span>
+      <h1>澳門新聞週報 · 期數總覽</h1>
+      <div class="sub">每週一出刊 · 共 5 期</div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="intro">點擊任一期，查閱當週澳門新聞與數據看板。</div>
+    <div class="grid">
+      <a class="issue-card" href="2026-10-05.html">
+        <span class="issue-no">第 41 期</span>
+        <span class="issue-date">2026年10月5日 出報 <span class="latest-chip">最新</span></span>
+        <span class="issue-range">統計週 09.28 — 10.04</span>
+        <span class="issue-go">查閱 →</span>
+      </a>
+      <a class="issue-card" href="2026-09-28.html">
+        <span class="issue-no">第 40 期</span>
+        <span class="issue-date">2026年9月28日 出報</span>
+        <span class="issue-range">統計週 09.21 — 09.27</span>
+        <span class="issue-go">查閱 →</span>
+      </a>
+      <a class="issue-card" href="2026-09-21.html">
+        <span class="issue-no">第 39 期</span>
+        <span class="issue-date">2026年9月21日 出報</span>
+        <span class="issue-range">統計週 09.14 — 09.20</span>
+        <span class="issue-go">查閱 →</span>
+      </a>
+      <a class="issue-card" href="2026-09-14.html">
+        <span class="issue-no">第 38 期</span>
+        <span class="issue-date">2026年9月14日 出報</span>
+        <span class="issue-range">統計週 09.07 — 09.13</span>
+        <span class="issue-go">查閱 →</span>
+      </a>
+      <a class="issue-card" href="2026-09-07.html">
+        <span class="issue-no">第 37 期</span>
+        <span class="issue-date">2026年9月7日 出報</span>
+        <span class="issue-range">統計週 08.31 — 09.06</span>
+        <span class="issue-go">查閱 →</span>
+      </a>
+    </div>
+    <div class="footer">WorkBuddy 自動化任務 · 期數總覽頁（自動生成）</div>
+  </div>
+</body>
+</html>

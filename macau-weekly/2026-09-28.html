@@ -482,6 +482,30 @@
     margin-bottom: 6px;
   }
 
+  /* ===== 其他期數導覽 ===== */
+  .other-issues-bar {
+    text-align: center;
+    padding: 30px 0 10px;
+  }
+  .other-issues-btn {
+    display: inline-block;
+    padding: 13px 32px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 26px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    box-shadow: 0 2px 12px rgba(199,91,18,0.25);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .other-issues-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(199,91,18,0.35);
+  }
+  .other-issues-btn::after { content: " →"; opacity: .85; }
+
   /* ===== NAV TABS ===== */
   .nav-tabs {
     display: flex;
@@ -3412,6 +3436,11 @@ var qrcode = function() {
       </p>
     </div>
   </div>
+</div>
+
+<!-- ===== 其他期數導覽 ===== -->
+<div class="other-issues-bar">
+  <a class="other-issues-btn" href="index.html">查看其他期數</a>
 </div>
 
 <!-- ===== FOOTER ===== -->
