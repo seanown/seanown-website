@@ -2574,6 +2574,7 @@ function load(d, pushState) {
   if (!w) { w = WEEKS[0]; }
 
   frame.src = 'macau-weekly/' + w.d + '.html';
+  window.__wkCurrent = w.d;
   metaEl.textContent = '第 ' + w.no + ' 期 · ' + fmtDate(w.d) + '（週一）出報';
   rangeEl.textContent = w.range;
 
@@ -2617,14 +2618,10 @@ window.addEventListener('message', function (e) {
   var copyBtn = document.getElementById('wkCopyBtn');
 
   function shareUrl() {
-    if (window.location.pathname.indexOf('macau-weekly.html') > -1) {
-      try {
-        var p = new URLSearchParams(window.location.search).get('p');
-        if (p) return 'https://seanown.org/macau-weekly/' + p + '.html';
-      } catch (e) {}
-      return 'https://seanown.org/macau-weekly.html';
-    }
-    return window.location.href;
+    var d = window.__wkCurrent;
+    if (!d) { try { d = new URLSearchParams(window.location.search).get('p'); } catch (e) {} }
+    if (d) return 'https://seanown.org/macau-weekly/' + d + '.html';
+    return 'https://seanown.org/macau-weekly.html';
   }
   function openShare() {
     var u = shareUrl();

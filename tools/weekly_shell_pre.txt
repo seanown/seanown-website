@@ -573,6 +573,10 @@
     font-family: inherit; font-size: 14px; cursor: pointer;
   }
   .wk-copy-btn.done { background: #1A6B52; }
+
+  /* 內嵌於索引頁 iframe 時：隱藏與外層重複的版頭與分享鈕（外層已有） */
+  html.embedded .header { display: none !important; }
+  html.embedded .wk-share-fab, html.embedded .wk-share-mask { display: none !important; }
 </style>
 </head>
 <body>
@@ -592,6 +596,8 @@
   </div>
 </div>
 <script>
+  /* 內嵌偵測：在 iframe 內時加上 .embedded，隱藏重複版頭與分享鈕 */
+  try { if (window.self !== window.top) { document.documentElement.classList.add('embedded'); } } catch (e) { document.documentElement.classList.add('embedded'); }
 (function () {
   var fab = document.getElementById('wkShareFab');
   var mask = document.getElementById('wkShareMask');
