@@ -2573,7 +2573,8 @@ function load(d, pushState) {
   for (var i = 0; i < WEEKS.length; i++) { if (WEEKS[i].d === d) { w = WEEKS[i]; break; } }
   if (!w) { w = WEEKS[0]; }
 
-  frame.src = 'macau-weekly/' + w.d + '.html';
+  /* ?v= 時戳：強制每次載入都抓最新期數頁，避免瀏覽器快取舊版 */
+  frame.src = 'macau-weekly/' + w.d + '.html?v=' + Date.now();
   window.__wkCurrent = w.d;
   metaEl.textContent = '第 ' + w.no + ' 期 · ' + fmtDate(w.d) + '（週一）出報';
   rangeEl.textContent = w.range;
