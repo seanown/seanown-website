@@ -100,6 +100,8 @@ h1{font-size:44px;line-height:1.24;font-weight:800;color:var(--blue);letter-spac
 .spec-item .w{font-size:19px;font-weight:800;color:var(--blue);line-height:1.2}
 .spec-item .w small{font-size:12px;font-weight:400;color:var(--gray)}
 .spec-item .l{font-size:12.5px;color:var(--gray);margin-top:4px}
+.spec-item .l .d{font-size:11px;color:#9aa3af;margin-top:3px;line-height:1.5}
+.spec-item.hl .l .d{color:#8a6a2f}
 .spec-item.hl{background:var(--gold-light)}
 .spec-item.hl .w{color:#8a5a00}
 .spec-note{font-size:13px;color:var(--gray);margin-top:14px;line-height:1.8}
@@ -175,6 +177,8 @@ h1{font-size:44px;line-height:1.24;font-weight:800;color:var(--blue);letter-spac
 .author-name{font-size:21px;font-weight:800;color:var(--blue);letter-spacing:1px}
 .author-en{font-size:13px;color:var(--gray);letter-spacing:1.5px;margin-bottom:14px}
 .author-bio{font-size:15.5px;line-height:1.95;color:#3a3a3a}
+.author-bio + .author-bio{margin-top:13px;text-indent:2em}
+.author-box .bookline{margin-top:16px}
 @media(max-width:640px){.author-bio{text-align:left}}
 .bookline{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);font-size:14px;color:var(--gray)}
 .bookline b{color:var(--text)}
@@ -284,13 +288,16 @@ function renderHero(){
 
 function renderSpread(){
   var c = D.book.cover;
-  var SEGS = [[100,"封面內頁"],[148,"封面"],[15,"書脊"],[148,"封底"],[100,"封底內頁"]];
+  var SEGS = c.spreadSegments || [[100,"封面內頁"],[148,"封面"],[15,"書脊"],[148,"封底"],[100,"封底內頁"]];
   var cells = SEGS.map(function(s){
-    var hl = (s[0] === 15) ? " hl" : "";
-    return '<div class="spec-item' + hl + '"><div class="w">' + s[0] +
-           '<small>mm</small></div><div class="l">' + s[1] + '</div></div>';
+    var mm = s.mm !== undefined ? s.mm : s[0];
+    var nm = s.name || s[1];
+    var ds = s.desc ? '<div class="d">' + esc(s.desc) + '</div>' : "";
+    var hl = (mm === 15) ? " hl" : "";
+    return '<div class="spec-item' + hl + '"><div class="w">' + mm +
+           '<small>mm</small></div><div class="l">' + esc(nm) + ds + '</div></div>';
   }).join("");
-  var total = SEGS.reduce(function(a,b){ return a + b[0]; }, 0);
+  var total = SEGS.reduce(function(a,s){ return a + (s.mm !== undefined ? s.mm : s[0]); }, 0);
   return '<section class="sec">' +
     '<div class="sec-head"><h2>📐 書殼展開圖</h2>' +
       '<p>' + esc(c.spreadSpec) + '</p></div>' +
@@ -300,7 +307,7 @@ function renderSpread(){
       '<div class="spec-grid">' + cells + '</div>' +
       '<p class="spec-note"><b>合計 ' + total + 'mm</b> ＝ 100＋148＋15＋148＋100，與設計稿展開尺寸完全相符。' +
         '書脊 15mm 處於常見 12–18mm 區間；裝訂方式為<b>右翻書</b>（鎖線膠裝），書脊在右、翻頁方向由右至左。' +
-        '本圖為四邊齊邊裁切，<b>付印前需向出版社確認是否要求 3mm 出血</b>（出血版應為 517 × 216mm）。</p>' +
+        '<b>付印前需向出版社確認是否要求 3mm 出血</b>（出血版應為 517 × 216mm）；封底右下角白框為 ISBN 條碼預留位，取得書號後始排入。</p>' +
     '</div></section>';
 }
 
@@ -395,7 +402,9 @@ function renderAuthor(){
       '<div class="author-name">' + esc(a.name) + '</div>' +
       '<div class="author-en">' + esc(a.region) + '</div>' +
       '<div class="author-bio">' + esc(a.bio) + '</div>' +
-      '<div class="bookline">' + esc(a.bookline) + '</div>' +
+      (a.bio2 ? '<div class="author-bio">' + esc(a.bio2) + '</div>' : "") +
+      (a.bio3 ? '<div class="author-bio">' + esc(a.bio3) + '</div>' : "") +
+      (a.bookline ? '<div class="bookline">' + esc(a.bookline) + '</div>' : "") +
     '</div></div></div></section>';
 }
 
