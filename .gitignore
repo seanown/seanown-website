@@ -1,1 +1,37 @@
 .workbuddy/
+
+# ===== 臨時檔／中間產物（不進版控）=====
+# 判斷原則：只寫「確定不該被追蹤」的路徑，且用精準規則，
+# 絕不用 temp/、data/、tools/ 這類寬泛目錄 ——
+# 因為 temp/、_poster_raw/、data/、tools/ 內都有「已追蹤且線上正在使用」的檔案。
+
+# 資料備份（posts.json 動工前的快照）
+# ⚠️ 勿加 data/posts.json（正式資料檔）——那是 107 篇文章的來源，不可忽略
+data/posts.json.bak_*
+data/posts.json.bak*
+data/*.bak
+data/*.bak_*
+
+# 一次性改名腳本（做過一次就沒用了）
+tools/_rename_*.py
+
+# 頁面備份
+tools/_articles_bak.html
+*_bak.html
+
+# 文章草稿底稿：只排除「已進版控、但想保留本地副本」以外的語境。
+# ⚠️ 不可用 _draft_*.md 這種寬泛規則 —— 根目錄已有 13 個 _draft_*.md 在版控中且線上使用，
+#    規則命中它們會造成「已追蹤卻被忽略」的矛盾狀態。
+#    真正要避免的是把新的草稿誤 commit，所以不靠 draft 名稱，改用 git 已追蹤為準。
+
+# AI 海報原始素材與檢查圖（已確認零頁面引用，保留本地檔案、不再納入新提交）
+# ⚠️ 不可用 _ck_*.png：根目錄 12 個 _ck_*.png 已在版控中（線上雖無引用，但屬既有歷史）。
+#    規則只針對「尚未追蹤」的新增檢查圖。
+_poster_raw/*_2026-10-*
+_poster_raw/_old_*/
+_poster_raw/_bf_*
+_poster_raw/_cuckoo_*
+
+# Python 執行期產物
+__pycache__/
+*.py[cod]
