@@ -208,38 +208,6 @@
         "org": "「贏在廣州」大學生創業大賽"
       }
     ],
-    "cooperations": [
-      {
-        "icon": "🌐",
-        "title": "龍遊AI數字服務出海",
-        "desc": "澳台雙算力架構，Facebook API 授權，80 語種全球推廣",
-        "link": "/macau-35-plan-report.html",
-        "linkText": "查看商會產業報告 ↗"
-      },
-      {
-        "icon": "🏙️",
-        "title": "文化旅遊",
-        "desc": "澳門文化旅遊與體驗規劃，INBOUND + OUTBOUND 文旅設計",
-        "link": "http://www.yatatravelagency.com/",
-        "linkText": "YATA 旅行社 ↗"
-      },
-      {
-        "icon": "📚",
-        "title": "AI 科普教育",
-        "desc": "全民 AI 科普生態，ECI 國際認證培訓體系",
-        "link": "https://www.macaodaily.com/html/2026-01/23/content_1885103.htm",
-        "linkText": "澳門日報報導 ↗",
-        "link2": "https://www.eciawards.org.cn/",
-        "link2Text": "ECI 官網 ↗"
-      },
-      {
-        "icon": "🎬",
-        "title": "融媒體與 IP 運營",
-        "desc": "融媒體中心搭建，文娛 IP 落地運營",
-        "link": "https://www.macaodaily.com/html/2026-06/03/content_1912209.htm",
-        "linkText": "澳門日報報導 ↗"
-      }
-    ],
     "contact": {
       "heroTitle": "合作與聯絡",
       "heroSub": "合作諮詢 · 聯絡 · 隨時歡迎",

@@ -232,6 +232,31 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .coop-item:hover{transform:translateY(-4px)}
 .coop-icon{font-size:36px;margin-bottom:14px}.coop-item h3{font-size:16px;color:var(--blue);margin-bottom:8px}.coop-item p{font-size:13px;color:var(--gray)}.coop-links{margin-top:10px;display:flex;flex-direction:column;gap:6px;align-items:center}.coop-link{display:inline-block;color:var(--blue);font-size:13px;font-weight:600;text-decoration:none;border-bottom:2px solid var(--gold);padding-bottom:1px;line-height:1.4}.coop-link:hover{color:#010133;border-bottom-color:var(--blue)}
 .coop-cta{text-align:center;margin-top:50px;padding:50px;background:var(--gold-light);border-radius:20px}
+
+/* ===== 合作方向：單一服務入口（內容在 /services/，首頁不重複列四個方向）===== */
+.svc-gateway{display:grid;grid-template-columns:1.5fr 1fr;gap:0;background:var(--white);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.svc-gateway:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(2,8,32,.14)}
+.svc-gate-main{padding:32px 34px 34px}
+.svc-gate-main h4{font-size:22px;font-weight:800;color:var(--blue);line-height:1.5;margin-bottom:12px}
+.svc-gate-main p{font-size:14.5px;color:var(--gray);line-height:1.85;margin-bottom:22px}
+.svc-gate-btns{display:flex;gap:12px;flex-wrap:wrap}
+.svc-gate-btns a{padding:13px 28px;border-radius:999px;font-size:14.5px;font-weight:700;transition:all .2s}
+.svc-gate-b1{background:var(--blue);color:#fff}
+.svc-gate-b1:hover{background:var(--blue-dark);transform:translateY(-2px)}
+.svc-gate-b2{border:1.5px solid var(--line);color:var(--gray)}
+.svc-gate-b2:hover{border-color:var(--blue);color:var(--blue)}
+.svc-gate-side{background:linear-gradient(160deg,#0B3D2E 0%,#072A20 100%);padding:28px 28px 26px;display:flex;flex-direction:column;justify-content:center}
+.svc-gate-stat{display:flex;align-items:baseline;gap:10px;padding:11px 0;border-bottom:1px dashed rgba(255,255,255,.16)}
+.svc-gate-stat:last-of-type{border-bottom:none}
+.svc-gate-stat .n{font-size:28px;font-weight:800;color:#F0A050;font-family:Georgia,serif;line-height:1.1;flex:0 0 auto;min-width:42px}
+.svc-gate-stat .l{font-size:13.5px;color:rgba(255,255,255,.78);line-height:1.6}
+@media(max-width:860px){
+  .svc-gateway{grid-template-columns:1fr}
+  .svc-gate-main{padding:24px 22px 26px}
+  .svc-gate-main h4{font-size:19px}
+  .svc-gate-stat .n{font-size:23px;min-width:38px}
+  .svc-gate-btns a{width:100%;text-align:center}
+}
 .coop-cta h3{font-size:28px;color:var(--blue);margin-bottom:12px}.coop-cta p{color:var(--gray);margin-bottom:24px}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;max-width:1100px;margin:0 auto}
 .contact-info h2{font-size:32px;color:var(--blue);margin-bottom:20px}.contact-info p{color:var(--gray);margin-bottom:30px}
@@ -679,8 +704,33 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="philosophy-card"><div class="philosophy-card-num">03</div><div class="philosophy-card-title">龍遊商幫精神</div><p class="philosophy-card-desc">誠信經商、回饋故里、扶攜後進。</p></div>
 </div>
 </div></section>
+
+<!-- ② 核心業務（合作方向）｜置於「關於作者」與「保持聯繫」之間 -->
+<!-- 位置理由：讀者先確認「這個人是誰」，緊接著看「他具體做什麼、能怎麼合作」，
+     最後才到聯絡表單。原先放在「媒體報導」之後，離作者太遠。
+     內容刻意只留單一入口：首屏後的 sec-quick 已列四個方向（轉換用），
+     此處再列一次會是重複陳列，改為導向 /services/ 服務頁看完整內容、流程與計價。 -->
+<section class="section" id="sec-services" style="background:var(--bg)"><div class="section-inner">
+<h3 class="section-title" style="font-size:26px">合作方向</h3><p class="section-subtitle">四項服務的內容、合作流程與計價方式，完整說明見服務頁</p><div class="title-line"></div>
+<div class="svc-gateway">
+<div class="svc-gate-main">
+<h4>需要我具體做什麼、怎麼合作、怎麼計價？</h4>
+<p>上面四個方向在服務頁都拆成可確認的內容清單：交付項目、合作流程、計價方式，以及可查證的佐證連結（商會產業報告、旅行社资质、澳門日報報導、ECI 官網）。看完若仍有疑問，直接從表單敘述你的需求。</p>
+<div class="svc-gate-btns">
+<a class="svc-gate-b1" href="/services/">前往服務與合作 →</a>
+<a class="svc-gate-b2" href="/contact/">直接寫下你的需求 →</a>
+</div>
+</div>
+<div class="svc-gate-side">
+<div class="svc-gate-stat"><span class="n">4</span><span class="l">項服務｜AI 出海・文化旅遊・AI 科普・融媒體 IP</span></div>
+<div class="svc-gate-stat"><span class="n">1</span><span class="l">頁總覽｜服務內容、流程、計價原則一次看完</span></div>
+<div class="svc-gate-stat"><span class="n">0</span><span class="l">個無佐證數字｜沒有可查證的成效數字就不寫</span></div>
+</div>
+</div>
+</div></section>
+
 <!-- ④ 產業實踐與代表項目 -->
-<section class="section" id="sec-projects" style="background:var(--bg)"><div class="section-inner">
+<section class="section" id="sec-projects" style="background:var(--white)"><div class="section-inner">
 <h3 class="section-title" style="font-size:26px">代表項目</h3><p class="section-subtitle">重要演講與項目落地</p><div class="title-line"></div>
 <div class="insights-cats" id="works-cats">
 <button class="insights-cat active" data-wcat="全部">全部</button>
@@ -718,18 +768,6 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="media-featured" id="media-featured"></div><div id="media-categories"></div>
 </div></section>
 
-
-<!-- ② 核心業務（合作方向） -->
-<section class="section" id="sec-services" style="background:var(--white)"><div class="section-inner">
-<h3 class="section-title" style="font-size:26px">合作方向</h3><p class="section-subtitle">推動中國數位服務出海，建設中華文化國際傳播基地</p><div class="title-line"></div>
-<div class="coop-services" id="coop-grid">
-<div class="coop-item"><div class="coop-icon">🌐</div><h3>龍遊AI數字服務出海</h3><p>澳台雙算力架構，Facebook API 授權，80 語種全球推廣</p><div class="coop-links"><a class="coop-link" href="/macau-35-plan-report.html" target="_blank" rel="noopener">查看商會產業報告 ↗</a></div></div>
-<div class="coop-item"><div class="coop-icon">🏙️</div><h3>文化旅遊</h3><p>澳門文化旅遊與體驗規劃，INBOUND + OUTBOUND 文旅設計</p><div class="coop-links"><a class="coop-link" href="http://www.yatatravelagency.com/" target="_blank" rel="noopener">YATA 旅行社 ↗</a></div></div>
-<div class="coop-item"><div class="coop-icon">📚</div><h3>AI 科普教育</h3><p>全民 AI 科普生態，ECI 國際認證培訓體系</p><div class="coop-links"><a class="coop-link" href="https://www.macaodaily.com/html/2026-01/23/content_1885103.htm" target="_blank" rel="noopener">澳門日報報導 ↗</a><a class="coop-link" href="https://www.eciawards.org.cn/" target="_blank" rel="noopener">ECI 官網 ↗</a></div></div>
-<div class="coop-item"><div class="coop-icon">🎬</div><h3>融媒體與 IP 運營</h3><p>融媒體中心搭建，文娛 IP 落地運營</p><div class="coop-links"><a class="coop-link" href="https://www.macaodaily.com/html/2026-06/03/content_1912209.htm" target="_blank" rel="noopener">澳門日報報導 ↗</a></div></div>
-</div>
-<p style="text-align:center;margin-top:22px;opacity:.75;font-size:14px">以上為主要洽談方向，若有其他跨界合作提案，歡迎透過下方表單敘述您的需求。</p>
-</div></section>
 
 <!-- ⑪ 訂閱我的寫作 -->
 <section class="section" id="sec-subscribe" style="background:var(--bg)"><div class="section-inner">
@@ -1019,7 +1057,6 @@ async function loadSiteText(){
     if(Array.isArray(st.timeline)){const g=document.getElementById('timeline-list');if(g)g.innerHTML=st.timeline.map(t=>`<div class="ht-node"><span class="ht-dot"></span><div class="ht-year">${t.year||''}</div><div class="ht-desc">${t.desc||''}</div></div>`).join('')}
     if(st.education){const b=document.getElementById('education-box');if(b)setText(b.querySelector('h3'),st.education.title);const l=document.getElementById('education-list');if(l&&Array.isArray(st.education.items))l.innerHTML=st.education.items.map(i=>`<li>${i}</li>`).join('')}
     if(st.honors){const b=document.getElementById('honors-box');if(b)setText(b.querySelector('h3'),st.honors.title);const l=document.getElementById('honors-list');if(l&&Array.isArray(st.honors.items))l.innerHTML=st.honors.items.map(i=>`<li>${i}</li>`).join('')}
-    if(Array.isArray(st.cooperations)){const g=document.getElementById('coop-grid');if(g)g.innerHTML=st.cooperations.map(c=>{let l='';if(c.link)l+=`<a class="coop-link" href="${c.link}" target="_blank" rel="noopener">${c.linkText||'查看詳情'} </a>`;if(c.link2)l+=`<a class="coop-link" href="${c.link2}" target="_blank" rel="noopener">${c.link2Text||'官方網站'} </a>`;return `<div class="coop-item"><div class="coop-icon">${c.icon||''}</div><h3>${c.title||''}</h3><p>${c.desc||''}</p>${l?`<div class="coop-links">${l}</div>`:''}</div>`}).join('')}
     if(st.contact){setText('contact-hero-title',st.contact.heroTitle);setText('contact-hero-sub',st.contact.heroSub);setText('contact-section-title',st.contact.sectionTitle);setText('contact-section-desc',st.contact.sectionDesc);setText('contact-email',st.contact.email);setText('contact-location',st.contact.location);setText('contact-website',st.contact.website);}
     if(st.footer){setText('footer-brand',st.footer.brandDesc);setText('footer-copyright',st.footer.copyright);setText('footer-slogan',st.footer.slogan);}
   }catch(e){console.error('Load site text failed:',e)}
