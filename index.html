@@ -58,6 +58,9 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .nav-right{display:flex;gap:22px;align-items:center}
 .nav-col-link{font-size:14px;font-weight:600;color:var(--text);text-decoration:none;transition:color .2s}
 .nav-col-link:hover{color:var(--blue)}
+/* 澳門週訊是首頁獨有的彈窗功能，用分隔線標示，避免被誤認為六層導覽的一部分 */
+.nav-weekly{margin-left:10px;padding-left:18px;border-left:1px solid var(--line);color:var(--gray)}
+.nav-weekly:hover{color:var(--blue)}
 .nav-cta{padding:8px 18px;border-radius:999px;background:linear-gradient(135deg,var(--blue),var(--gold));color:#fff;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 2px 10px rgba(2,8,32,.18);transition:transform .2s,box-shadow .2s}
 .nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(2,8,32,.28)}
 
@@ -245,6 +248,11 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;max-width:1100px;margin:0 auto}
 .contact-info h2{font-size:32px;color:var(--blue);margin-bottom:20px}.contact-info p{color:var(--gray);margin-bottom:30px}
 .contact-item{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+/* 聯絡區的次 CTA：引導還在猶豫的訪客先看服務頁，而不是直接填表 */
+.contact-pre{margin:-4px 0 22px;padding:14px 16px;background:var(--gold-light);border:1px solid #F5DFA0;border-radius:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.contact-pre span{font-size:13.5px;color:var(--text);flex:1;min-width:220px;line-height:1.65}
+.contact-pre a{font-size:13.5px;font-weight:800;color:var(--blue);border:1.5px solid var(--blue);border-radius:999px;padding:7px 16px;white-space:nowrap;transition:all .2s}
+.contact-pre a:hover{background:var(--blue);color:#fff}
 .contact-icon{width:48px;height:48px;border-radius:12px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;font-size:22px}
 .contact-item .label{font-size:13px;color:var(--gray)}.contact-item .value{font-size:16px;font-weight:600;color:var(--blue)}
 .social-links{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
@@ -344,13 +352,13 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="nav-inner">
 <a href="#" class="logo" onclick="goto('home');return false">翁振軒 <span>Sean Own</span></a>
 <div class="nav-right">
-<a href="/articles/" class="nav-col-link">專欄文章</a>
-<a href="/series/" class="nav-col-link">專輯</a>
-<a href="/media/" class="nav-col-link">媒體</a>
 <a href="/about/" class="nav-col-link">關於我</a>
-<a href="/book/shou-deng-ren-ying-ji/" class="nav-col-link">📕 著作</a>
-<a href="#" class="nav-col-link" onclick="openWeekly();return false">澳門週訊</a>
-<a href="/contact/" class="nav-cta">洽談合作</a>
+<a href="/services/" class="nav-col-link">服務與合作</a>
+<a href="/series/" class="nav-col-link">作品</a>
+<a href="/articles/" class="nav-col-link">專欄</a>
+<a href="/media/" class="nav-col-link">媒體</a>
+<a href="#" class="nav-col-link nav-weekly" onclick="openWeekly();return false">澳門週訊</a>
+<a href="/contact/" class="nav-cta">聯絡</a>
 </div>
 </div>
 </nav>
@@ -565,11 +573,11 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 </div>
 <p class="help-label">我可以為你做什麼</p>
 <div class="help-grid">
-<a class="help-card" href="#sec-contact" onclick="goto('contact');return false">
+<a class="help-card" href="/contact/" onclick="goto('contact');return false">
 <span class="hc-icon">🤝</span><h4>產業顧問 · 資源對接</h4><p>企業數位轉型、政企與協會資源整合，幫你在澳門與大灣區少走彎路。</p><span class="hc-more">聊聊你的需求 ›</span></a>
-<a class="help-card" href="#sec-contact" onclick="goto('contact');return false">
+<a class="help-card" href="/contact/" onclick="goto('contact');return false">
 <span class="hc-icon">🎤</span><h4>演講 · 論壇邀約</h4><p>產業趨勢、AI 數位化、青年創新等主題演講與論壇對談。</p><span class="hc-more">邀約洽談 ›</span></a>
-<a class="help-card" href="#sec-contact" onclick="goto('contact');return false">
+<a class="help-card" href="/contact/" onclick="goto('contact');return false">
 <span class="hc-icon">✍️</span><h4>專欄 · 研究合作</h4><p>產業觀察撰文、研究報告協作與媒體受訪合作。</p><span class="hc-more">合作洽談 ›</span></a>
 </div>
 <button class="btn btn-primary" id="about-expand-btn" onclick="toggleAboutDetail()" aria-expanded="false">展開完整經歷 ▾</button>
@@ -712,6 +720,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="contact-info">
 <h2 id="contact-section-title">保持聯繫</h2>
 <p id="contact-section-desc">無論是產業合作、資源對接還是交流探討，歡迎隨時聯繫。公務洽談、商務合作優先回覆；私人訊息恕難一一回覆。</p>
+<div class="contact-pre"><span>還不確定要不要談？先看四項服務的內容、流程與計價方式 →</span><a href="/services/">前往服務與合作</a></div>
 <div class="contact-item"><div class="contact-icon">📧</div><div><div class="label">電子郵箱</div><div class="value" id="contact-email">seanown@gmail.com</div></div></div>
 <div class="contact-item"><div class="contact-icon">📍</div><div><div class="label">所在地</div><div class="value" id="contact-location">澳門</div></div></div>
 <div class="contact-item"><div class="contact-icon">🌐</div><div><div class="label">網站</div><div class="value" id="contact-website">seanown.org</div></div></div>
@@ -746,7 +755,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <iframe src="macau-weekly.html" title="澳門週訊"></iframe>
 </div></div>
 
-<a href="#sec-contact" class="float-cta" style="display:none" onclick="goto('contact');return false">洽談合作</a>
+<a href="/contact/" class="float-cta" style="display:none" onclick="goto('contact');return false">洽談合作</a>
 
 <script>
 const SECMAP={about:'sec-author',column:'sec-articles',works:'sec-projects',coop:'sec-services',contact:'sec-contact',media:'sec-media',subscribe:'sec-subscribe'};

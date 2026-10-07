@@ -136,12 +136,27 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 .sj-bar .sj-chip.sj-cur{background:var(--blue);border-color:var(--blue);color:#fff}
 .sj-bar .sj-chip.sj-all{border-color:var(--line);color:var(--gray);font-weight:600}
 @media(max-width:600px){.sj-bar .sj-label{width:100%;margin:0 0 2px}}
+
+/* 六層導覽（與全站獨立頁一致）*/
+.tnav{display:flex;gap:17px;align-items:center}
+.tnav a{font-size:14px;font-weight:600;color:var(--text);text-decoration:none}
+.tnav a:hover,.tnav a[aria-current]{color:var(--blue)}
+.tnav .cta{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}
+.tnav .cta:hover{background:var(--blue-dark)}
+@media(max-width:860px){.tnav a:not(.cta){display:none}}
 </style>
 </head>
 <body>
 <div class="topbar"><div class="topbar-in">
 <a class="brand" href="https://seanown.org/">翁振軒 <span>SEAN OWN</span></a>
-<a class="minimal-hint" href="https://seanown.org/articles/">專欄文章</a>
+<nav class="tnav" aria-label="網站導覽">
+  <a href="/about/">關於我</a>
+  <a href="/services/">服務與合作</a>
+  <a href="/series/">作品</a>
+  <a href="/articles/">專欄</a>
+  <a href="/media/">媒體</a>
+  <a href="/contact/" class="cta">聯絡</a>
+</nav>
 </div></div>
 
 <div class="wrap">
@@ -170,7 +185,7 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 <div class="a-body">
 <div class="who">翁振軒 Sean Own</div>
 <p>粵港澳大灣區電子商會會長、龍遊集團創辦人。以澳門為基地，深耕文化產業，推動中國數位服務出海與中華文創 IP 落地。</p>
-<a class="a-btn" href="https://seanown.org/#sec-author">瞭解更多關於作者</a>
+<a class="a-btn" href="https://seanown.org/about/">瞭解更多關於作者</a>
 </div>
 </div>
 
@@ -181,9 +196,9 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 
 <div class="cta">
 <h2>想進一步交流？</h2>
-<p>無論是數位出海、文化 IP 合作，或青年跨界連結，都歡迎與我聊聊。</p>
-<a class="btn" href="https://seanown.org/#sec-contact">洽談合作</a>
-<a class="btn ghost" href="https://seanown.org/articles/">更多文章</a>
+<p>這裡是我的觀點與判斷，不是服務說明書。要合作請到服務頁看具體能做什麼、怎麼合作、怎麼計價。</p>
+<a class="btn" href="https://seanown.org/contact/">前往聯絡表單 →</a>
+<a class="btn ghost" href="https://seanown.org/services/">前往服務與合作 →</a>
 </div>
 
 <div class="foot">
@@ -191,7 +206,7 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 本文為作者個人觀點，轉載請註明出處。
 </div>
 </div>
-<a class="float-cta" href="https://seanown.org/#sec-contact">洽談合作</a>
+<a class="float-cta" href="https://seanown.org/contact/">洽談合作</a>
 <div class="lb" id="lb" onclick="this.style.display='none'"><img id="lbimg" src="" alt=""></div>
 </body>
 </html>

@@ -36,6 +36,10 @@ blockquote p{ margin:3px 0; }
 a{ color:var(--link); text-decoration:underline; word-break:break-word; }
 ol.refs{ padding-left:1.4em; }
 ol.refs li{ margin:7px 0; }
+ol.refs .ref-link{ display:inline-block; font-size:.92em; font-weight:600; color:#0A4B8C; border-bottom:1px solid rgba(10,75,140,.3); padding-bottom:1px; white-space:nowrap; }
+ol.refs .ref-link:hover{ color:#FDB515; border-bottom-color:#FDB515; }
+ol.refs .ref-kind{ font-weight:400; font-size:.88em; color:#667085; margin-left:3px; white-space:nowrap; }
+ol.refs .ref-link:hover .ref-kind{ color:#8A6100; }
 hr{ border:none; border-top:1px solid #d0d0d0; margin:26px 0; }
 .disclaimer{ font-size:.86rem; color:#777; border-top:1px dashed #ccc;
     margin-top:30px; padding-top:14px; }
@@ -47,6 +51,18 @@ hr{ border:none; border-top:1px solid #d0d0d0; margin:26px 0; }
 .top-link{ margin:0 0 16px; }
 .top-link a{ color:var(--link); text-decoration:none; font-size:.95rem; }
 .top-link a:hover{ text-decoration:underline; }
+
+/* ===== 頁尾統一行動區 ===== */
+.end-cta{max-width:1080px;margin:52px auto 0;background:linear-gradient(135deg,#002676 0%,#010133 100%);color:#fff;border-radius:22px;padding:42px 40px;text-align:center}
+.end-cta h2{font-size:25px;font-weight:800;margin-bottom:10px;line-height:1.45}
+.end-cta p{color:rgba(255,255,255,.82);margin-bottom:22px;font-size:15px;max-width:660px;margin-left:auto;margin-right:auto;line-height:1.8}
+.end-cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.end-cta-btns a{padding:13px 30px;border-radius:999px;font-size:15px;font-weight:700;transition:all .2s;display:inline-block}
+.end-cta-btns .b1{background:#FDB515;color:#010133}
+.end-cta-btns .b1:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(253,181,21,.28)}
+.end-cta-btns .b2{border:2px solid rgba(255,255,255,.7);color:#fff}
+.end-cta-btns .b2:hover{background:#fff;color:#002676}
+@media(max-width:760px){.end-cta{padding:32px 20px}.end-cta h2{font-size:21px}.end-cta-btns a{width:100%;text-align:center}}
 </style>
 </head>
 <body>
@@ -113,27 +129,27 @@ Greater Bay Area E-Commerce Association<br />
 <hr />
 <h2>參考文獻（來源連結）</h2>
 <ol class="refs">
-<li>澳門日報（2026）。〈澳門「三五」規劃繪就美好藍圖（社論）〉。<a href="https://www.macaodaily.com/html/2026-08/19/content_1927955.htm">連結</a></li>
-<li>中央人民政府駐澳門特別行政區聯絡辦公室（2026）。〈聚焦兩會「十五五」規劃綱要草案〉。<a href="https://big5.zlb.gov.cn/gate/big5/www.zlb.gov.cn/20260306/185421a4b45448cc8aad5ab3e1da20a8/c.html">連結</a></li>
-<li>澳門特別行政區政府（2026）。〈開創「三五」高質量發展新局面〉。<a href="https://www.gov.mo/zh-hant/news/1258555">連結</a></li>
-<li>澳門特別行政區政府（2026）。〈政府引導基金注資安排〉。<a href="https://www.gov.mo/zh-hant/news/1218695/">連結</a></li>
-<li>澳門特別行政區政府（2025）。〈二〇二五年財政年度施政報告——以澳琴一體化為目標，加力推進橫琴粵澳深度合作區建設〉。<a href="https://www.gov.mo/zh-hans/news/818275/">連結</a></li>
-<li>澳門特別行政區政府（2023）。〈澳門特別行政區經濟適度多元發展規劃（2024—2028）〉。<a href="https://www.dsepdr.gov.mo/uploads/attachment/2023-10/e-book_C.pdf">連結</a></li>
-<li>劉本立（2025）。〈錨定方向 深耕融合——「十五五」規劃建議下澳門的發展路徑與擔當（紫荊論壇）〉。<a href="https://www.macaueconomy.org/media_interviews_body.php?newsid=2026010602">連結</a></li>
-<li>澳門投資發展貿易促進局（n.d.）。〈發展定位（投資E道）〉。<a href="https://investhere.ipim.gov.mo/macau/business/strengthsandorientation/developmentorientation/">連結</a></li>
-<li>澳門投資發展貿易促進局（2026）。〈粵澳合作中醫藥科技產業園註冊企業〉。<a href="https://investhere.ipim.gov.mo?p=9116/">連結</a></li>
-<li>珠海網（2026）。〈醫療轉運、口岸免稅店……橫琴合作區第二階段一攬子政策惠及琴澳民生〉。<a href="https://pub-zhtb.hizh.cn/a/202607/09/AP6a4f78aae4b082bf214ab4a4.html">連結</a></li>
-<li>橫琴粵澳深度合作區管理委員會（2026）。〈橫琴粵澳深度合作區管理委員會第十次會議在橫琴舉行〉。<a href="https://www.hengqin.gov.cn/macao_zh_hans/hzqgl/dtyw/dtxx/content/post_3920062.html">連結</a></li>
-<li>橫琴粵澳深度合作區執行委員會（2026）。〈執委會主任戴建業：提升琴澳一體化水平，跑好第二階段關鍵一程〉。<a href="https://www.hengqin.gov.cn/macao_zh_hans/hzqgl/dtyw/dtxx/content/post_3879947.html">連結</a></li>
-<li>南方日報（2026）。〈融合協同：澳珠極點做大做強〉。<a href="https://www.toutiao.com/article/7605022330980549146">連結</a></li>
-<li>中國新聞社（2026）。〈澳門投資管理有限公司成立〉。<a href="https://m.chinanews.com/wap/detail/cht/zw/10681302.shtml">連結</a></li>
-<li>騰訊新聞（2026）。〈博彩稅佔八成財政，澳門五年內想把非博彩GDP提到60%〉。<a href="https://new.qq.com/rain/a/20260819A0BL1000">連結</a></li>
-<li>吳娩娩等（2025）。〈橫琴助力澳門經濟適度多元路徑研究〉。<a href="https://libdigital.um.edu.mo/macau-periodical/show/p156-1206-27">連結</a></li>
-<li>Macau Business（2020）。〈No land, no manpower, no infrastructure（李略）〉。<a href="https://macaubusiness.com/no-land-no-manpower-no-infrastructure">連結</a></li>
-<li>Business Intelligence Macau（2025）。〈多元化——非只是時間問題（特刊）〉。<a href="https://businessintelligence.mo?p=72830/">連結</a></li>
-<li>澳門日報（2026）。〈馬志毅倡突破琴澳三大瓶頸〉。<a href="https://www.modaily.cn/app/szb/pc/content/202603/01/content_465454.html">連結</a></li>
-<li>濠江日報（2026）。〈直面問題精準破題方能走深走實〉。<a href="https://www.houkongdailynews.com/sectionNews/146923">連結</a></li>
-<li>新華澳報（2026）。〈夏寶龍琴珠調研指明方向——為澳門對接「十五五」規劃指明方向〉。<a href="https://www.waou.com.mo/2026/06/10/%e5%a4%8f%e5%af%b6%e9%be%8d%e7%90%B4%e7%8f%a0%e8%aa%bf%e7%a0%94%e7%82%ba%e6%be%b3%e9%96%80%e5%b0%8d%e6%8e%a5%e3%80%8c%e5%8d%81%e4%ba%94%e4%ba%94%e3%80%8d%e8%a6%8f%e5%8a%83%e6%8c%87%e6%98%8e%e6%96%b9">連結</a></li>
+<li>澳門日報（2026）。〈澳門「三五」規劃繪就美好藍圖（社論）〉。<a class="ref-link" href="https://www.macaodaily.com/html/2026-08/19/content_1927955.htm" target="_blank" rel="noopener nofollow">澳門日報 ↗<span class="ref-kind">（媒體報導）</span></a></li>
+<li>中央人民政府駐澳門特別行政區聯絡辦公室（2026）。〈聚焦兩會「十五五」規劃綱要草案〉。<a class="ref-link" href="https://big5.zlb.gov.cn/gate/big5/www.zlb.gov.cn/20260306/185421a4b45448cc8aad5ab3e1da20a8/c.html" target="_blank" rel="noopener nofollow">中央駐澳辦公室 ↗<span class="ref-kind">（官方來源）</span></a></li>
+<li>澳門特別行政區政府（2026）。〈開創「三五」高質量發展新局面〉。<a class="ref-link" href="https://www.gov.mo/zh-hant/news/1258555" target="_blank" rel="noopener nofollow">澳門特區政府網站 ↗<span class="ref-kind">（官方來源）</span></a></li>
+<li>澳門特別行政區政府（2026）。〈政府引導基金注資安排〉。<a class="ref-link" href="https://www.gov.mo/zh-hant/news/1218695/" target="_blank" rel="noopener nofollow">澳門特區政府網站 ↗<span class="ref-kind">（官方來源）</span></a></li>
+<li>澳門特別行政區政府（2025）。〈二〇二五年財政年度施政報告——以澳琴一體化為目標，加力推進橫琴粵澳深度合作區建設〉。<a class="ref-link" href="https://www.gov.mo/zh-hans/news/818275/" target="_blank" rel="noopener nofollow">澳門特區政府網站 ↗<span class="ref-kind">（官方來源）</span></a></li>
+<li>澳門特別行政區政府（2023）。〈澳門特別行政區經濟適度多元發展規劃（2024—2028）〉。<a class="ref-link" href="https://www.dsepdr.gov.mo/uploads/attachment/2023-10/e-book_C.pdf" target="_blank" rel="noopener nofollow">澳門經濟財政局 ↗<span class="ref-kind">（官方來源）</span></a></li>
+<li>劉本立（2025）。〈錨定方向 深耕融合——「十五五」規劃建議下澳門的發展路徑與擔當（紫荊論壇）〉。<a class="ref-link" href="https://www.macaueconomy.org/media_interviews_body.php?newsid=2026010602" target="_blank" rel="noopener nofollow">澳門經濟學會 ↗<span class="ref-kind">（媒體報導）</span></a></li>
+<li>澳門投資發展貿易促進局（n.d.）。〈發展定位（投資E道）〉。<a class="ref-link" href="https://investhere.ipim.gov.mo/macau/business/strengthsandorientation/developmentorientation/" target="_blank" rel="noopener nofollow">澳門投資促進局 ↗<span class="ref-kind">（官方來源）</span></a></li>
+<li>澳門投資發展貿易促進局（2026）。〈粵澳合作中醫藥科技產業園註冊企業〉。<a class="ref-link" href="https://investhere.ipim.gov.mo?p=9116/" target="_blank" rel="noopener nofollow">investhere.ipim.gov.mo?p=9116 ↗<span class="ref-kind">（外部來源）</span></a></li>
+<li>珠海網（2026）。〈醫療轉運、口岸免稅店……橫琴合作區第二階段一攬子政策惠及琴澳民生〉。<a class="ref-link" href="https://pub-zhtb.hizh.cn/a/202607/09/AP6a4f78aae4b082bf214ab4a4.html" target="_blank" rel="noopener nofollow">珠海網 ↗<span class="ref-kind">（媒體報導）</span></a></li>
+<li>橫琴粵澳深度合作區管理委員會（2026）。〈橫琴粵澳深度合作區管理委員會第十次會議在橫琴舉行〉。<a class="ref-link" href="https://www.hengqin.gov.cn/macao_zh_hans/hzqgl/dtyw/dtxx/content/post_3920062.html" target="_blank" rel="noopener nofollow">橫琴合作區官網 ↗<span class="ref-kind">（官方來源）</span></a></li>
+<li>橫琴粵澳深度合作區執行委員會（2026）。〈執委會主任戴建業：提升琴澳一體化水平，跑好第二階段關鍵一程〉。<a class="ref-link" href="https://www.hengqin.gov.cn/macao_zh_hans/hzqgl/dtyw/dtxx/content/post_3879947.html" target="_blank" rel="noopener nofollow">橫琴合作區官網 ↗<span class="ref-kind">（官方來源）</span></a></li>
+<li>南方日報（2026）。〈融合協同：澳珠極點做大做強〉。<a class="ref-link" href="https://www.toutiao.com/article/7605022330980549146" target="_blank" rel="noopener nofollow">今日頭條 ↗<span class="ref-kind">（媒體報導）</span></a></li>
+<li>中國新聞社（2026）。〈澳門投資管理有限公司成立〉。<a class="ref-link" href="https://m.chinanews.com/wap/detail/cht/zw/10681302.shtml" target="_blank" rel="noopener nofollow">中國新聞社 ↗<span class="ref-kind">（媒體報導）</span></a></li>
+<li>騰訊新聞（2026）。〈博彩稅佔八成財政，澳門五年內想把非博彩GDP提到60%〉。<a class="ref-link" href="https://new.qq.com/rain/a/20260819A0BL1000" target="_blank" rel="noopener nofollow">騰訊新聞 ↗<span class="ref-kind">（媒體報導）</span></a></li>
+<li>吳娩娩等（2025）。〈橫琴助力澳門經濟適度多元路徑研究〉。<a class="ref-link" href="https://libdigital.um.edu.mo/macau-periodical/show/p156-1206-27" target="_blank" rel="noopener nofollow">澳門大學圖書館數位館藏 ↗<span class="ref-kind">（媒體報導）</span></a></li>
+<li>Macau Business（2020）。〈No land, no manpower, no infrastructure（李略）〉。<a class="ref-link" href="https://macaubusiness.com/no-land-no-manpower-no-infrastructure" target="_blank" rel="noopener nofollow">Macau Business ↗<span class="ref-kind">（媒體報導）</span></a></li>
+<li>Business Intelligence Macau（2025）。〈多元化——非只是時間問題（特刊）〉。<a class="ref-link" href="https://businessintelligence.mo?p=72830/" target="_blank" rel="noopener nofollow">businessintelligence.mo?p=72830 ↗<span class="ref-kind">（外部來源）</span></a></li>
+<li>澳門日報（2026）。〈馬志毅倡突破琴澳三大瓶頸〉。<a class="ref-link" href="https://www.modaily.cn/app/szb/pc/content/202603/01/content_465454.html" target="_blank" rel="noopener nofollow">www.modaily.cn ↗<span class="ref-kind">（外部來源）</span></a></li>
+<li>濠江日報（2026）。〈直面問題精準破題方能走深走實〉。<a class="ref-link" href="https://www.houkongdailynews.com/sectionNews/146923" target="_blank" rel="noopener nofollow">www.houkongdailynews.com ↗<span class="ref-kind">（外部來源）</span></a></li>
+<li>新華澳報（2026）。〈夏寶龍琴珠調研指明方向——為澳門對接「十五五」規劃指明方向〉。<a class="ref-link" href="https://www.waou.com.mo/2026/06/10/%e5%a4%8f%e5%af%b6%e9%be%8d%e7%90%B4%e7%8f%a0%e8%aa%bf%e7%a0%94%e7%82%ba%e6%be%b3%e9%96%80%e5%b0%8d%e6%8e%a5%e3%80%8c%e5%8d%81%e4%ba%94%e4%ba%94%e3%80%8d%e8%a6%8f%e5%8a%83%e6%8c%87%e6%98%8e%e6%96%b9" target="_blank" rel="noopener nofollow">www.waou.com.mo ↗<span class="ref-kind">（外部來源）</span></a></li>
 </ol>
 <hr />
 <blockquote>
@@ -142,6 +158,14 @@ Greater Bay Area E-Commerce Association<br />
 <div class="report-actions">
   <a class="dl-btn" href="assets/reports/macau-35-plan-report.pdf" download>下載完整 PDF 報告（5 頁 / 420 KB）</a>
   <a class="back-btn" href="/">← 返回 seanown.org 首頁</a>
+</div>
+<div class="end-cta" id="report-cta">
+<h2>想針對報告內容深入討論？</h2>
+<p>報告是公開的完整論述；若有要合作推動的項目，可以直接談。</p>
+<div class="end-cta-btns">
+<a class="b1" href="/contact/">前往聯絡表單 →</a>
+<a class="b2" href="/services/">先看服務與合作範圍 →</a>
+</div>
 </div>
 </body>
 </html>

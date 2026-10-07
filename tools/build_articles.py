@@ -326,6 +326,13 @@ a{color:var(--blue);text-decoration:none}
 .brand span{color:var(--gold)}
 .topbar .minimal-hint{font-size:13px;color:var(--gray);text-decoration:none}
 .topbar .minimal-hint:hover{color:var(--blue)}
+/* 六層導覽（與全站獨立頁一致）*/
+.tnav{{display:flex;gap:17px;align-items:center}}
+.tnav a{{font-size:14px;font-weight:600;color:var(--text);text-decoration:none}}
+.tnav a:hover,.tnav a[aria-current]{{color:var(--blue)}}
+.tnav .cta{{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}}
+.tnav .cta:hover{{background:#010133}}
+@media(max-width:860px){{.tnav a:not(.cta){{display:none}}}}
 .wrap{max-width:1120px;margin:0 auto;padding:36px 24px 0}
 /* PC：雜誌跨頁雙欄——左右兩頁並排、圖文交織；手機自動回單欄 */
 @media(min-width:900px){
@@ -1386,7 +1393,14 @@ def build(post, allposts):
 <body>
 <div class="topbar"><div class="topbar-in">
 <a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
-<a class="minimal-hint" href="{site}/articles/">專欄文章</a>
+<nav class="tnav" aria-label="網站導覽">
+<a href="{site}/about/">關於我</a>
+<a href="{site}/services/">服務與合作</a>
+<a href="{site}/series/">作品</a>
+<a href="{site}/articles/">專欄</a>
+<a href="{site}/media/">媒體</a>
+<a href="{site}/contact/" class="cta">聯絡</a>
+</nav>
 </div></div>
 
 <div class="wrap">
@@ -1409,7 +1423,7 @@ def build(post, allposts):
 <div class="a-body">
 <div class="who">翁振軒 Sean Own</div>
 <p>粵港澳大灣區電子商會會長、龍遊集團創辦人。以澳門為基地，深耕文化產業，推動中國數位服務出海與中華文創 IP 落地。</p>
-<a class="a-btn" href="{site}/#sec-author">瞭解更多關於作者</a>
+<a class="a-btn" href="{site}/about/">瞭解更多關於作者</a>
 </div>
 </div>
 
@@ -1420,9 +1434,9 @@ def build(post, allposts):
 
 <div class="cta">
 <h2>想進一步交流？</h2>
-<p>無論是數位出海、文化 IP 合作，或青年跨界連結，都歡迎與我聊聊。</p>
-<a class="btn" href="{site}/#sec-contact">洽談合作</a>
-<a class="btn ghost" href="{site}/articles/">更多文章</a>
+<p>這裡是我的觀點與判斷，不是服務說明書。要合作請到服務頁看具體能做什麼、怎麼合作、怎麼計價。</p>
+<a class="btn" href="{site}/contact/">前往聯絡表單 →</a>
+<a class="btn ghost" href="{site}/services/">前往服務與合作 →</a>
 </div>
 
 <div class="foot">
@@ -1430,7 +1444,7 @@ def build(post, allposts):
 本文為作者個人觀點，轉載請註明出處。
 </div>
 </div>
-<a class="float-cta" href="{site}/#sec-contact">洽談合作</a>
+<a class="float-cta" href="{site}/contact/">洽談合作</a>
 <div class="lb" id="lb" onclick="this.style.display='none'"><img id="lbimg" src="" alt=""></div>
 </body>
 </html>
@@ -1457,7 +1471,7 @@ def build(post, allposts):
     return slug, title
 
 
-CATS = ['澳門觀察', '行走見聞', '閱讀筆記', '文化隨筆', '生活隨筆']
+CATS = ['澳門電影', '影評', '澳門觀察', '生活隨筆', '文化隨筆', '行走見聞', '閱讀筆記']
 
 
 def build_list(posts):
@@ -1523,11 +1537,18 @@ def build_list(posts):
         ser_chips = ('<span class="sj-label">按專輯逛</span>' + ser_chips +
                      '<a class="sj-chip sj-all" href="%s/series/">全部專輯 →</a>' % SITE)
 
-    cat_btns = '<button class="lc-cat on" data-c="全部">全部<span>%d</span></button>' % len(items)
+    cat_btns = '<button class="lc-cat on" data-c="全部" type="button">全部<span>%d</span></button>' % len(items)
     for c in CATS:
         n = sum(1 for p in items if p.get('category') == c)
         if n:
-            cat_btns += '<button class="lc-cat" data-c="%s">%s<span>%d</span></button>' % (esc(c), esc(c), n)
+            cat_btns += '<button class="lc-cat" data-c="%s" type="button">%s<span>%d</span></button>' % (esc(c), esc(c), n)
+    # 若有 CATS 之外的新分類，補在後面（避免新文章因分類未列舉而無法篩選）
+    known = set(CATS)
+    for c in sorted({(p.get('category') or '').strip() for p in items} - known):
+        if not c:
+            continue
+        n = sum(1 for p in items if (p.get('category') or '').strip() == c)
+        cat_btns += '<button class="lc-cat" data-c="%s" type="button">%s<span>%d</span></button>' % (esc(c), esc(c), n)
 
     url = SITE + '/articles/'
     desc = '翁振軒專欄，聚焦澳門產業觀察、數位經濟趨勢、商業戰略思考。'
@@ -1623,7 +1644,7 @@ html{{scroll-behavior:smooth}}
 <body>
 <div class="topbar"><div class="topbar-in">
 <a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
-<a class="mini-cta" style="display:none" href="{site}/#sec-contact">洽談合作</a>
+<a class="mini-cta" style="display:none" href="{site}/contact/">洽談合作</a>
 </div></div>
 
 <header class="masthead">
@@ -1635,14 +1656,16 @@ html{{scroll-behavior:smooth}}
 
 <div class="ser-jump" id="serjump">{ser_chips}</div>
 
+<div class="filter-bar" id="filter-bar">{cats}</div>
+
 <main class="grid" id="grid">{cards}</main>
 
 <footer class="foot">
-© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/#sec-contact">洽談合作</a><br>
+© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/contact/">洽談合作</a><br>
 觀點僅代表作者個人立場，轉載請註明出處。
 </footer>
 
-<a class="float-cta" href="{site}/#sec-contact">洽談合作</a>
+<a class="float-cta" href="{site}/contact/">洽談合作</a>
 <script>
 (function(){{
 var SITE='{site}';

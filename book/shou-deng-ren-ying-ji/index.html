@@ -238,6 +238,26 @@ footer a{color:var(--blue);font-weight:600}
 .backtop.show{opacity:1;pointer-events:auto}
 .backtop:hover{background:#001C57}
 @media print{.topbar,.reader-bar,.backtop,.cta-row{display:none}}
+
+/* 六層導覽（與全站獨立頁一致）*/
+.tnav{display:flex;gap:17px;align-items:center}
+.tnav a{font-size:14px;font-weight:600;color:var(--text);text-decoration:none}
+.tnav a:hover,.tnav a[aria-current]{color:var(--blue)}
+.tnav .cta{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}
+.tnav .cta:hover{background:var(--blue-dark)}
+@media(max-width:860px){.tnav a:not(.cta){display:none}}
+
+/* ===== 頁尾統一行動區 ===== */
+.end-cta{max-width:1080px;margin:52px auto 0;background:linear-gradient(135deg,#002676 0%,#010133 100%);color:#fff;border-radius:22px;padding:42px 40px;text-align:center}
+.end-cta h2{font-size:25px;font-weight:800;margin-bottom:10px;line-height:1.45}
+.end-cta p{color:rgba(255,255,255,.82);margin-bottom:22px;font-size:15px;max-width:660px;margin-left:auto;margin-right:auto;line-height:1.8}
+.end-cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.end-cta-btns a{padding:13px 30px;border-radius:999px;font-size:15px;font-weight:700;transition:all .2s;display:inline-block}
+.end-cta-btns .b1{background:#FDB515;color:#010133}
+.end-cta-btns .b1:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(253,181,21,.28)}
+.end-cta-btns .b2{border:2px solid rgba(255,255,255,.7);color:#fff}
+.end-cta-btns .b2:hover{background:#fff;color:#002676}
+@media(max-width:760px){.end-cta{padding:32px 20px}.end-cta h2{font-size:21px}.end-cta-btns a{width:100%;text-align:center}}
 </style>
 </head>
 <body>
@@ -245,10 +265,13 @@ footer a{color:var(--blue);font-weight:600}
 <div class="topbar">
   <div class="topbar-in">
     <a href="/" class="brand">翁振軒 <span>Sean Own</span></a>
-    <nav>
-      <a href="/#sec-book">著作</a>
-      <a href="/series/macau-film/">澳門電影專輯</a>
-      <a href="/articles/">專欄文章</a>
+    <nav class="tnav" aria-label="網站導覽">
+      <a href="/about/">關於我</a>
+      <a href="/services/">服務與合作</a>
+      <a href="/series/">作品</a>
+      <a href="/articles/">專欄</a>
+      <a href="/media/">媒體</a>
+      <a href="/contact/" class="cta">聯絡</a>
     </nav>
   </div>
 </div>
@@ -465,7 +488,7 @@ function renderPub(){
            (price.note && price.note !== pMain ? "<small>" + esc(price.note) + "</small>" : "") + '</div>';
   var buy = D.book.buy || {};
   var cta = '<div class="cta-row" style="margin-top:22px">' +
-    '<a class="btn btn-primary" href="' + esc(buy.contactHref || "/#sec-contact") + '">' +
+    '<a class="btn btn-primary" href="' + esc(buy.contactHref || "/contact/") + '">' +
     '📮 ' + esc(buy.contactLabel || "洽詢購書與合作") + '</a>' +
     (buy.enabled ? "" : '<span style="font-size:13.5px;color:var(--gray);align-self:center">' +
       esc(buy.note || "") + '</span>') + '</div>';
@@ -485,6 +508,18 @@ function renderRelated(){
   return '<section class="sec"><div class="sec-head"><h2>🎬 相關電影專輯</h2>' +
     '<p>書中提到的電影，網站上都有單篇觀後感與取景地打卡點。</p></div>' +
     '<div class="rel-grid">' + cards + '</div></section>';
+}
+
+/* 頁尾統一行動區：與全站其他頁一致（主 CTA 說明點下去會到哪裡） */
+function renderEndCta(){
+  return '<div class="end-cta">' +
+    '<h2>想針對書中觀點討論，或談合作？</h2>' +
+    '<p>書裡的觀點是我的判斷，不是服務說明書。要合作請到服務頁看具體能做什麼；' +
+    '想先看免費內容，可從專欄或電影專輯開始。</p>' +
+    '<div class="end-cta-btns">' +
+      '<a class="b1" href="/contact/">前往聯絡表單 →</a>' +
+      '<a class="b2" href="/services/">前往服務與合作 →</a>' +
+    '</div></div>';
 }
 
 /* ── 翻閱器邏輯 ──
@@ -627,7 +662,7 @@ function boot(data){
   document.getElementById("app").innerHTML =
     renderStatus() + renderHero() + renderSpread() + renderPreface() +
     renderEndorsements() + renderReader() + renderToc() +
-    renderAuthor() + renderPub() + renderRelated() +
+    renderAuthor() + renderPub() + renderRelated() + renderEndCta() +
     '<footer><p>《' + esc(D.book.title) + '——' + esc(D.book.subtitle) + '》© ' +
       esc(D.book.author) + ' ' + esc(D.book.authorEn) + ' ｜ ' +
       esc(D.book.publisher) + ' 出版</p>' +
