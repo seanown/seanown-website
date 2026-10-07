@@ -169,17 +169,18 @@ h1{font-size:44px;line-height:1.24;font-weight:800;color:var(--blue);letter-spac
 .leaf{position:relative;background:#fff;overflow:hidden;border-radius:1px 1px 3px 3px;
   flex:1 1 0;min-width:0;aspect-ratio:148/210;
   box-shadow:0 12px 28px rgba(20,26,38,.32)}
-.leaf.left{transform-origin:100% 50%;transform:perspective(1900px) rotateY(2.4deg)}
-.leaf.right{transform-origin:0 50%;transform:perspective(1900px) rotateY(-2.4deg)}
+/* 右翻書：書脊在右，兩頁由中縫往左、右兩側下墜 */
+.leaf.left{transform-origin:100% 50%;transform:perspective(1900px) rotateY(-2.4deg)}
+.leaf.right{transform-origin:0 50%;transform:perspective(1900px) rotateY(2.4deg)}
 .leaf.empty{background:#E7EAEF;box-shadow:none}
 .leaf img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff}
 .gutter{flex:0 0 auto;width:22px;align-self:stretch;
   background:linear-gradient(90deg,rgba(255,255,255,.55) 0%,rgba(126,134,148,.32) 32%,rgba(38,44,54,.55) 50%,rgba(126,134,148,.32) 68%,rgba(255,255,255,.55) 100%)}
 .page-skel{position:absolute;inset:0;background:linear-gradient(100deg,#EFF1F5 30%,#F8F9FB 50%,#EFF1F5 70%);background-size:220% 100%;animation:sk 1.3s infinite;display:flex;align-items:center;justify-content:center;color:#9AA4B2;font-size:13px}
 @keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
-/* 單頁模式 */
+/* 單頁模式：右葉才有圖，藏掉左葉與中縫 */
 .reader-stage.single .spread{max-width:calc(78vh * 148 / 210)}
-.reader-stage.single .leaf.right,.reader-stage.single .gutter{display:none}
+.reader-stage.single .leaf.left,.reader-stage.single .gutter{display:none}
 .reader-stage.single .leaf{flex:0 1 auto;transform:none;box-shadow:0 10px 30px rgba(20,26,38,.34)}
 /* 適合寬度：放棄視窗高度限制 */
 .reader-stage.wide .spread{max-width:min(100%,1120px)}
@@ -268,7 +269,7 @@ footer a{color:var(--blue);font-weight:600}
    新增推薦序：編輯 JSON 的 endorsements.blocks 陣列即可，
    頁面自動插入，無需改動任何 HTML。
    ══════════════════════════════════════════════════════════════ */
-var DATA_URL = "/data/book-sy-deng-ren.json?v=20261007c";
+var DATA_URL = "/data/book-sy-deng-ren.json?v=20261007d";
 var D = null;          // 資料
 var cur = 1, loaded = -1, single = false, fit = false;
 
@@ -408,12 +409,13 @@ function renderToc(){
 function renderReader(){
   var R = D.reader;
   return '<section class="sec" id="sec-reader"><div class="sec-head">' +
-    '<h2>📖 在線翻閱</h2><p>全書 ' + R.total + ' 頁，<b>左右對開</b>如實體書攤開：<b>右邊是偶數頁、左邊是奇數頁</b>' +
-    '（本書為右翻書，書脊在右）。翻頁由右至左：鍵盤 ← 或手機向左滑＝下一組，→ ＝上一組。' +
+    '<h2>📖 在線翻閱</h2><p>全書 ' + R.total + ' 頁，<b>左右對開</b>如實體書攤開。本書為<b>右翻書</b>：' +
+    '<b>書脊在右，頁碼由右往左遞增，所以每一組是「右邊偶數頁、左邊奇數頁，左邊比右邊大 1」</b>。' +
+    '翻頁由右至左：鍵盤 ← 或手機向左滑＝下一組，→ ＝上一組。' +
     '輸入頁碼可直接跳至該頁。</p></div>' +
     '<div class="reader"><div class="reader-bar">' +
       '<button class="rbtn" id="next" onclick="go(1)" title="下一組（←）" aria-label="下一組">‹</button>' +
-      '<div class="rinfo" id="rinfo">第 <b>1</b> – <span>2</span> / ' +
+      '<div class="rinfo" id="rinfo">右 <b>2</b> ｜ 左 <b>3</b> / ' +
         '<span id="total">' + R.total + '</span> 頁</div>' +
       '<button class="rbtn" id="prev" onclick="go(-1)" title="上一組（→）" aria-label="上一組">›</button>' +
       '<div class="jump"><input type="number" id="jinput" placeholder="頁碼" min="1" max="' + R.total +
@@ -485,20 +487,24 @@ function renderRelated(){
     '<div class="rel-grid">' + cards + '</div></section>';
 }
 
-/* ── 翻閱器邏輯（左右對開：左＝奇數頁、右＝偶數頁） ── */
+/* ── 翻閱器邏輯 ──
+   ⚠️ 右翻書物理規則（不可再弄反，軒哥已三次定調）：
+   書脊在右，頁碼由右往左遞增 → 讀者先讀右頁再讀左頁 → 攤開時「右邊頁碼小、左邊頁碼大」。
+   所以每一組對開是：**右＝偶數頁、左＝奇數頁，左邊比右邊大 1**。
+   例：右 p28（辣警霸王花2 海報）／左 p29 → 右 p30／左 p31 → …… */
 function pageSrc(n){
   var v = D.reader.version || "";
   if (v && v.charAt(0) !== "?") v = "?" + v;   // 避免缺少 ? 導致檔名被污染
   return D.reader.pageBase + pad3(n) + ".webp" + v;
 }
 
-/* 單頁模式關閉時：把任意頁 n 收斂成「左邊那頁」（奇數頁）
-   1 → 左1右2 ；2 → 左1右2 ；3 → 左3右4 …… */
+/* 把任意頁 n 收斂成「右邊那頁」（偶數檔號）
+   1 → 右1（封面單獨一頁）；2 → 右2左3 ；3 → 右2左3 ；4 → 右4左5 …… */
 function spreadAnchor(n){
   var T = D.reader.total;
   n = Math.max(1, Math.min(T, n));
   if (n === 1) return 1;
-  return (n % 2 === 0) ? n - 1 : n;
+  return (n % 2 === 0) ? n : n - 1;
 }
 
 function pageLabel(n){
@@ -509,32 +515,37 @@ function pageLabel(n){
 function show(n){
   var T = D.reader.total;
   n = Math.max(1, Math.min(T, n));
-  var a, b;
-  if (single){ a = n; b = 0; }                     // 單頁模式：精確顯示該頁
-  else { a = spreadAnchor(n); b = (a >= T) ? 0 : a + 1; }   // 對開：左奇數、右偶數
-  cur = a; loaded = a;
+  var r, l;                                    // r＝右邊那頁、l＝左邊那頁
+  if (single){ r = n; l = 0; }                  // 單頁模式：精確顯示該頁
+  else {                                        // 對開：右＝偶數、左＝奇數，左比右大 1
+    r = spreadAnchor(n);
+    l = (r === 1 || r + 1 > T) ? 0 : r + 1;    // 封面與末頁各自單獨一頁
+  }
+  cur = r; loaded = r;
 
   var info = document.getElementById("rinfo");
   if (single){
-    info.innerHTML = "第 <b>" + a + "</b> / " + T + " 頁";
+    info.innerHTML = "第 <b>" + r + "</b> / " + T + " 頁";
+  } else if (l){
+    info.innerHTML = "右 <b>" + r + "</b> ｜ 左 <b>" + l + "</b> / " + T + " 頁";
   } else {
-    info.innerHTML = "第 <b>" + a + "</b> – <span>" + (b || a) + "</span> / " + T + " 頁";
+    info.innerHTML = "右 <b>" + r + "</b> / " + T + " 頁";
   }
   document.getElementById("jinput").value = n;
-  document.getElementById("prog").style.width = ((b || a) / T * 100) + "%";
+  document.getElementById("prog").style.width = ((l || r) / T * 100) + "%";
 
-  var lastPg = b || a;
-  document.getElementById("prev").disabled = (a <= 1);
+  var lastPg = l || r;
+  document.getElementById("prev").disabled = (r <= 1);
   document.getElementById("next").disabled = (lastPg >= T);
 
-  var foot = (single ? "" : "左 ") + "P" + (a - D.reader.pageOffset);
-  if (b) foot += "　｜　右 P" + (b - D.reader.pageOffset) + "　·　" + pageLabel(a) + "／" + pageLabel(b);
-  else foot += "　·　" + pageLabel(a);
+  var foot = "右 P" + (r - D.reader.pageOffset);
+  if (l) foot += "　｜　左 P" + (l - D.reader.pageOffset) + "　·　" + pageLabel(r) + "／" + pageLabel(l);
+  else foot += "　·　" + pageLabel(r);
   document.getElementById("foot-left").textContent = foot;
 
-  setLeaf("L", a);
-  setLeaf("R", b);
-  preload(a - 2); preload(lastPg + 1); preload(lastPg + 2);
+  setLeaf("R", r);
+  setLeaf("L", l);
+  preload(r - 2); preload(r - 1); preload(lastPg + 1); preload(lastPg + 2);
 }
 
 /* 載入單一書頁到指定葉（slot: "L" / "R"），n=0 表示清空 */
