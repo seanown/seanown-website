@@ -79,12 +79,9 @@
   status = 301
   force = true
 
-# 新網址架構：/about /column /works /contact → SPA 路由（200 rewrite，URL 保持不變）
-[[redirects]]
-  from = "/about"
-  to = "/"
-  status = 200
-
+# /about 與 /contact 已有實體獨立頁（about/index.html、contact/index.html），
+# 不再 rewrite 到首頁，否則會蓋掉獨立頁造成內容重複。
+# /column、/works 目前仍是首頁 SPA 錨點，保留 200 rewrite。
 [[redirects]]
   from = "/column"
   to = "/"
@@ -92,10 +89,5 @@
 
 [[redirects]]
   from = "/works"
-  to = "/"
-  status = 200
-
-[[redirects]]
-  from = "/contact"
   to = "/"
   status = 200

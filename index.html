@@ -75,9 +75,24 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .hero-text h1 .gold{color:var(--gold)}
 .hero-subtitle{font-size:20px;color:rgba(255,255,255,.88);margin-bottom:28px;font-weight:400}
 .hero-slogan{font-size:28px;font-weight:700;color:#fff;margin-bottom:36px;font-style:italic;border-left:4px solid var(--gold);padding-left:16px;text-shadow:0 2px 16px rgba(0,0,0,.5)}
-.hero-buttons{display:flex;gap:16px;flex-wrap:wrap}
-.hero .btn-outline{color:#fff;border-color:rgba(255,255,255,.9)}
+.hero-buttons{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.hero .btn-outline{color:#fff;border-color:rgba(255,255,255,.9);background:rgba(255,255,255,.08)}
 .hero .btn-outline:hover{background:#fff;color:var(--blue)}
+
+/* 首屏後：合作方向快取 */
+.quick-strip{background:var(--white);border-bottom:1px solid var(--light-gray);padding:56px 24px}
+.qs-title{font-size:26px;font-weight:800;color:var(--blue);margin-bottom:6px}
+.qs-sub{color:var(--gray);font-size:14.5px;margin-bottom:26px}
+.qs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.qs-item{display:flex;flex-direction:column;gap:5px;background:var(--bg);border:1px solid var(--light-gray);border-left:4px solid var(--gold);border-radius:14px;padding:20px 22px;transition:all .25s}
+.qs-item:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-left-color:var(--blue)}
+.qs-ic{font-size:24px;line-height:1}
+.qs-t{font-size:16.5px;font-weight:800;color:var(--blue)}
+.qs-d{font-size:13.5px;color:var(--gray);line-height:1.6}
+.qs-note{margin-top:20px;font-size:14px;color:var(--gray);text-align:center}
+.qs-note a{color:var(--blue);font-weight:700;text-decoration:underline}
+@media(max-width:860px){.qs-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.quick-strip{padding:40px 16px}.qs-grid{grid-template-columns:1fr}.qs-title{font-size:21px}}
 .hero-trust{display:flex;gap:22px;flex-wrap:wrap;margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.18)}
 .trust-item{display:flex;align-items:center;gap:10px}
 .trust-ico{font-size:22px;line-height:1;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
@@ -101,6 +116,8 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .card-icon{width:52px;height:52px;border-radius:12px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px}
 .card-title{font-size:18px;font-weight:700;color:var(--blue);margin-bottom:6px}.card-org{font-size:14px;color:var(--gray)}
 .stats-section{background:var(--blue);color:var(--white)}
+.stats-note{font-size:13.5px;line-height:1.85;opacity:.9;margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,255,.22);max-width:900px}
+.stats-note a{color:var(--gold);font-weight:700;text-decoration:underline}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center}
 .stat-number{font-size:60px;font-weight:800;color:var(--gold);margin-bottom:10px;line-height:1.1}.stat-label{font-size:14px;opacity:.85}
 .mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
@@ -256,7 +273,9 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .hero{background-image:url('assets/images/hero-red-horse-mobile.jpg');background-position:center 20%;align-items:flex-end}
 .hero-inner{justify-content:center;text-align:center;padding:70px 20px 64px}
 .hero-text{max-width:640px;background:rgba(12,5,10,.55);backdrop-filter:blur(6px);border-radius:18px;padding:32px 26px}
-.hero-text h1{font-size:36px}
+.hero-eyebrow{font-size:14px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,.78);margin-bottom:12px;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.hero-main{font-size:34px;font-weight:800;color:#fff;line-height:1.28;margin-bottom:14px;letter-spacing:.5px;text-shadow:0 2px 20px rgba(0,0,0,.55)}
+.hero-main .gold{color:var(--gold)}
 .cards-grid,.stats-grid,.mission-grid,.info-grid,.assoc-list,.articles-grid,.media-featured,.coop-services,.practice-grid{grid-template-columns:1fr}
 .about-intro{grid-template-columns:1fr}.about-avatar{margin:0 auto}
 .htimeline{grid-template-columns:1fr;gap:26px;max-width:640px}
@@ -274,8 +293,12 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 }
 /* 小手機 ≤480px：字體/padding 再縮小 */
 @media(max-width:480px){
-.hero-text h1{font-size:28px}.hero-subtitle{font-size:16px}.hero-slogan{font-size:22px;padding-left:12px}
+.hero-main{font-size:24px}.hero-eyebrow{font-size:13px}.hero-subtitle{font-size:15px}.hero-slogan{font-size:19px;padding-left:12px}
 .hero-text{padding:24px 18px}
+.hero-buttons{gap:10px}.hero-buttons .btn{flex:1 1 100%;text-align:center;padding:13px 20px}
+.quick-strip{padding:44px 16px}
+.qs-title{font-size:21px}
+.qs-grid{grid-template-columns:1fr;gap:11px}
 .section{padding:60px 16px}.section-title{font-size:26px}.section-subtitle{font-size:14px;margin-bottom:30px}
 #about-detail .section{padding:40px 16px}
 .card,.philosophy-card,.info-box,.contact-form{padding:20px}
@@ -322,9 +345,12 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <a href="#" class="logo" onclick="goto('home');return false">翁振軒 <span>Sean Own</span></a>
 <div class="nav-right">
 <a href="/articles/" class="nav-col-link">專欄文章</a>
+<a href="/series/" class="nav-col-link">專輯</a>
+<a href="/media/" class="nav-col-link">媒體</a>
+<a href="/about/" class="nav-col-link">關於我</a>
 <a href="/book/shou-deng-ren-ying-ji/" class="nav-col-link">📕 著作</a>
 <a href="#" class="nav-col-link" onclick="openWeekly();return false">澳門週訊</a>
-<a href="#sec-contact" class="nav-cta" style="display:none" onclick="goto('contact');return false">洽談合作</a>
+<a href="/contact/" class="nav-cta">洽談合作</a>
 </div>
 </div>
 </nav>
@@ -442,15 +468,32 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <!-- ① Hero 首屏 -->
 <section class="hero" id="sec-hero"><img src="assets/images/hero-red-horse.jpg" alt="翁振軒 Sean Own 商務形象照——黑色西裝與黑馬" class="sr-only" width="1600" height="900"><div class="hero-inner">
 <div class="hero-text">
-<h1 id="hero-name">翁振軒 <span class="gold">SEAN OWN</span></h1>
-<p class="hero-subtitle" id="hero-subtitle">澳門視角｜大灣區產業｜文化觀察</p>
+<p class="hero-eyebrow" id="hero-name">翁振軒 <span class="gold">SEAN OWN</span>｜澳門</p>
+<h1 class="hero-main" id="hero-main-msg">協助中國數位服務與中華文化 IP<br><span class="gold">從澳門走向海外</span></h1>
+<p class="hero-subtitle" id="hero-subtitle">服務對象：需要出海的中國企業與文化 IP 方、想引進外部資源的澳門與大灣區機構，以及需要舞台與資源的青年創業者。</p>
+<div class="hero-buttons">
+<a class="btn btn-primary" id="hero-btn1" href="/contact/">洽談合作</a>
+<a class="btn btn-outline" id="hero-btn2" href="/articles/">閱讀產業觀察</a>
+</div>
 <p class="hero-slogan" id="hero-slogan">財自道生，利緣義取</p>
 <div class="hero-trust">
-  <div class="trust-item"><span class="trust-ico">📰</span><span class="trust-txt"><span class="trust-main">33 則媒體報導</span><span class="trust-sub">新華澳報・華夏網・濠江日報…</span></span></div>
-  <div class="trust-item"><span class="trust-ico">🏛️</span><span class="trust-txt"><span class="trust-main">粵港澳大灣區電子商會</span><span class="trust-sub">創會理事長</span></span></div>
+  <div class="trust-item"><span class="trust-ico">📰</span><span class="trust-txt"><span class="trust-main">33 則媒體報導</span><span class="trust-sub">附原文連結· 新華澳報・澳門日報・濠江日報</span></span></div>
+  <div class="trust-item"><span class="trust-ico">🏛️</span><span class="trust-txt"><span class="trust-main">粵港澳大灣區電子商會</span><span class="trust-sub">會長</span></span></div>
   <div class="trust-item"><span class="trust-ico">⭐</span><span class="trust-txt"><span class="trust-main">ECI 年度影響力人物</span><span class="trust-sub">數位創新</span></span></div>
 </div>
 </div>
+</div></section>
+
+<!-- ① 首屏後：合作方向快取（讓商務合作成為第一個決策分支） -->
+<section class="quick-strip" id="sec-quick"><div class="section-inner">
+<h2 class="qs-title">主要合作方向</h2>
+<div class="qs-grid">
+<a class="qs-item" href="/contact/"><span class="qs-ic" aria-hidden="true">🌐</span><span class="qs-t">AI 數位服務出海</span><span class="qs-d">多語種、多平台海外推廣</span></a>
+<a class="qs-item" href="/contact/"><span class="qs-ic" aria-hidden="true">🏙️</span><span class="qs-t">文化旅遊規劃</span><span class="qs-d">澳門與大灣區文旅落地</span></a>
+<a class="qs-item" href="/contact/"><span class="qs-ic" aria-hidden="true">📚</span><span class="qs-t">AI 科普教育</span><span class="qs-d">全民素養與 ECI 認證體系</span></a>
+<a class="qs-item" href="/contact/"><span class="qs-ic" aria-hidden="true">🎬</span><span class="qs-t">融媒體與 IP</span><span class="qs-d">媒體中心與文娛 IP 運營</span></a>
+</div>
+<p class="qs-note">以上為主要洽談方向，其他跨界提案也歡迎來信敘述。完整說明請見 <a href="/about/">關於我</a>。</p>
 </div></section>
 
 
@@ -599,7 +642,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <button class="insights-cat" data-wcat="文旅教育">文旅教育</button>
 </div>
 <div class="practice-grid" id="works-grid">
-<div class="practice-card" data-wcat="AI數位"><span class="year">2018-至今</span><h3>龍遊 AI 數字服務出海平台</h3><p>8 年運營，助力近百家企業海外曝光提升 330%、轉化提升 42%，Facebook API 授權（台灣僅 3 家）。</p></div>
+<div class="practice-card" data-wcat="AI數位"><span class="year">2018-至今</span><h3>龍遊 AI 數字服務出海平台</h3><p>營運 8 年，架構為澳門與台灣雙伺服器、雙算力中心；支援 80 語種內容生成，Facebook API 授權（台灣僅 3 家）。客戶端的海外曝光與轉化成效屬商業機密，需於合作洽談時提供統計口徑說明。</p></div>
 <div class="practice-card" data-wcat="AI數位"><span class="year">2026</span><h3>灣青 AI 融媒體中心</h3><p>2026 年揭牌成立，聯動全球青年 AI 傳播網絡，落地五大戰略合作。</p></div>
 <div class="practice-card" data-wcat="文旅教育"><span class="year">2026</span><h3>ECI 澳門站 AI 科普論壇</h3><p>提出「先教帶後教」AI 科普策略，構建 ECI + 教青局雙認證體系。</p></div>
 <div class="practice-card" data-wcat="文旅教育"><span class="year">2026</span><h3>大灣區中華青年文化研學基地</h3><p>2026 重磅簽約，打造港澳青少年文化交流與研學樞紐。</p></div>
@@ -610,14 +653,15 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 </div>
 </div></section>
 
-<!-- ③ 數據成績 -->
+<!-- ③ 數據成績（只放可公開核實的數字；每項的佐證來源見 /about/ 頁） -->
 <section class="stats-bar" id="sec-stats"><div class="section-inner">
 <div class="stats-grid" id="stats-grid">
-<div><div class="stat-number">8+</div><div class="stat-label">年數字服務經驗</div></div>
-<div><div class="stat-number">100+</div><div class="stat-label">服務企業</div></div>
-<div><div class="stat-number">+330%</div><div class="stat-label">海外曝光提升</div></div>
-<div><div class="stat-number">80+</div><div class="stat-label">語種內容生成</div></div>
+<div><div class="stat-number">33 則</div><div class="stat-label">公開媒體報導（2019–2026）</div></div>
+<div><div class="stat-number">107 篇</div><div class="stat-label">已發布專欄文章</div></div>
+<div><div class="stat-number">13 項</div><div class="stat-label">現任企業與協會職務</div></div>
+<div><div class="stat-number">80+ 語種</div><div class="stat-label">多語種內容生成能力</div></div>
 </div>
+<p class="stats-note">以上數字均可在本站公開頁面或具名機構頁面查證，佐證說明見 <a href="/about/">關於我 · 可以核實的數字</a>。早期版本曾展示「服務企業 100+」「海外曝光 +330%」等無公開方法與樣本的統計，因無法獨立核實，已自本站移除；如需正式提案的專案成效數據，請於洽談時提出。</p>
 </div></section>
 
 <!-- ⑨ 媒體報導 -->
@@ -724,8 +768,8 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
 document.documentElement.setAttribute('data-theme','light');
 window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50)});
 window.addEventListener('message',function(e){if(e.data&&e.data.type==='hdi-height'){var f=document.getElementById('hdi-frame');if(f&&e.data.height>400&&e.data.height<12000){f.style.height=Math.round(e.data.height+8)+'px'}}if(e.data&&e.data.type==='ledger-height'){var lf=document.getElementById('ledger-frame');if(lf&&e.data.height>400){var cap=window.innerHeight?Math.round(window.innerHeight*0.82):880;var nh=Math.min(Math.round(e.data.height+8),Math.max(cap,560));lf.style.height=nh+'px'}}});
-(function(){function route(){var M={'/about':'about','/column':'column','/works':'works','/contact':'contact'};var p=location.pathname.replace(/\/+$/,'')||'/';var h=decodeURIComponent(location.hash||'');
-if(M[p]){setTimeout(function(){goto(M[p],(p==='/about'&&/^#assoc/.test(h))?'about-social':undefined)},400)}
+(function(){function route(){var M={'/column':'column','/works':'works'};var p=location.pathname.replace(/\/+$/,'')||'/';var h=decodeURIComponent(location.hash||'');
+if(M[p]){setTimeout(function(){goto(M[p])},400)}
 else if(/^#assoc/.test(h)){setTimeout(function(){goto('about','about-social')},400)}
 else if(/^#contact$/i.test(h)){setTimeout(function(){goto('contact')},400)}
 else if(/^#sec-[a-z0-9-]+$/i.test(h)){setTimeout(function(){var t=document.getElementById(h.slice(1));if(t){if(document.getElementById('about-detail'))openAboutDetail();t.scrollIntoView({behavior:'smooth'})}},400)}}
@@ -736,9 +780,9 @@ route()})();
 <footer class="footer"><div class="footer-inner">
 <div class="footer-brand"><div class="logo">SEAN <span style="color:var(--gold)">OWN</span></div><p id="footer-brand">澳門台商 · 產業顧問 · 協會資源整合者。以澳門為樞紐，推動中國數字服務出海與中華文化國際傳播。</p></div>
 <div class="footer-col"><h3>網站導覽</h3>
-<a href="#" onclick="goto('home');return false">首頁</a><a href="#" onclick="goto('about');return false">關於我</a><a href="#" onclick="goto('column');return false">專欄文章</a><a href="#" onclick="goto('works');return false">項目案例</a></div>
+<a href="#sec-hero">首頁</a><a href="/about/">關於我</a><a href="/articles/">專欄文章</a><a href="/series/">專輯</a><a href="/book/shou-deng-ren-ying-ji/">著作</a></div>
 <div class="footer-col"><h3>更多</h3>
-<a href="#" onclick="goto('coop');return false">合作方向</a><a href="#" onclick="openWeekly();return false">澳門週訊</a><a href="#" onclick="goto('contact');return false">聯絡我</a></div>
+<a href="#sec-services">合作方向</a><a href="/media/">媒體報導</a><a href="#" onclick="openWeekly();return false">澳門週訊</a><a href="/contact/">聯絡我</a></div>
 <div class="footer-col"><h3>聯絡</h3><a href="mailto:seanown@gmail.com">seanown@gmail.com</a><a href="https://seanown.org">seanown.org</a><a>澳門</a></div>
 </div>
 <div class="footer-bottom"><span id="footer-copyright">© 2026 Sean Own. 版權所有。</span><span id="footer-slogan">財自道生 利緣義取</span></div>
@@ -909,9 +953,10 @@ async function loadSiteText(){
     const st=data.siteText||data;
     if(st.hero){
       const hn=document.getElementById('hero-name');
-      if(hn&&st.hero.name) hn.innerHTML=st.hero.name+(st.hero.nameEn?` <span class="gold">${st.hero.nameEn}</span>`:'');
-      setText('hero-subtitle',st.hero.subtitle);
-      setText('hero-slogan',st.hero.slogan);
+      if(hn&&st.hero.name) hn.innerHTML=st.hero.name+(st.hero.nameEn?` <span class="gold">${st.hero.nameEn}</span>`:'')+'｜澳門';
+      // 首屏主訊息以 HTML 內的 #hero-main-msg 為準（site-text 不覆寫，避免被舊文案洗掉）
+      if(st.hero.subtitle) setText('hero-subtitle',st.hero.subtitle);
+      if(st.hero.slogan) setText('hero-slogan',st.hero.slogan);
       setText('hero-btn1',st.hero.btn1);
       setText('hero-btn2',st.hero.btn2);
     }
@@ -1230,7 +1275,9 @@ loadPosts();loadMedia();loadSiteText();
       "images": [
         "assets/images/posts/25-1.jpg"
       ],
-      "body": "## 核心挑戰\n\n中國企業出海面臨的最大痛點不是技術，而是數據跨境合規。各國數據主權法規日益嚴格，傳統單一伺服器架構無法滿足合規要求。\n\n## 澳門的獨特優勢\n\n澳門作為「一國兩制」下的自由港，兼具中國主權與國際化制度優勢。龍遊集團打造的「澳台雙伺服器與雙算力中心」架構，正是基於這一優勢設計。\n\n## 解決方案\n\n- 數據分區存儲：敏感數據境內，運營數據境外\n- 雙向API網關：合規前提下實現數據流動\n- 80語種內容生成：本地化運營基礎設施\n\n## 成效\n\n運營8年來，助力近百家企業海外曝光提升330%，轉化率增長42%。",
+      "body": "## 核心挑戰\n\n中國企業出海面臨的最大痛點不是技術，而是數據跨境合規。各國數據主權法規日益嚴格，傳統單一伺服器架構無法滿足合規要求。\n\n## 澳門的獨特優勢\n\n澳門作為「一國兩制」下的自由港，兼具中國主權與國際化制度優勢。龍遊集團打造的「澳台雙伺服器與雙算力中心」架構，正是基於這一優勢設計。\n\n## 解決方案\n\n- 數據分區存儲：敏感數據境內，運營數據境外\n- 雙向API網關：合規前提下實現數據流動\n- 80語種內容生成：本地化運營基礎設施\n\n## 成效\n\n平台營運 8 年，採澳門與台灣雙伺服器、雙算力中心架構，支援 80 語種內容生成。
+
+客戶端的海外曝光與轉化成效屬商業機密，本報告不列未經公開佐證的數字；如需正式統計口徑與匿名化案例，請於合作洽談時提出。",
       "slug": "macau-ai-cross-border-services"
     },
     {
