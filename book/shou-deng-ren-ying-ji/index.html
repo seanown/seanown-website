@@ -161,12 +161,42 @@ h1{font-size:44px;line-height:1.24;font-weight:800;color:var(--blue);letter-spac
 .zbtn{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);color:#fff;padding:9px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit}
 .zbtn:hover{background:rgba(255,255,255,.28)}
 .zbtn.on{background:var(--gold);color:#0A1F5C;border-color:var(--gold)}
-.reader-stage{position:relative;background:#E9ECF1;min-height:420px;display:flex;align-items:center;justify-content:center;padding:22px}
-.reader-stage.narrow{display:block;padding:0;background:#52585F;min-height:0}
-.page-img{max-width:100%;max-height:78vh;width:auto;height:auto;box-shadow:0 8px 30px rgba(0,0,0,.28);background:#fff}
-.reader-stage.narrow .page-img{max-width:100%;max-height:none;box-shadow:none;margin:0 auto}
-.page-skel{width:min(560px,80%);aspect-ratio:148/210;background:linear-gradient(100deg,#EFF1F5 30%,#F8F9FB 50%,#EFF1F5 70%);background-size:220% 100%;animation:sk 1.3s infinite;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#9AA4B2;font-size:14px}
+.reader-stage{position:relative;background:#E9ECF1;min-height:420px;display:flex;align-items:center;justify-content:center;padding:22px;overflow:hidden}
+.reader-stage.narrow{background:#4E545C}
+.reader-stage.single{background:#4E545C}
+.spread{display:flex;align-items:center;justify-content:center;perspective:1900px;
+  width:100%;max-width:calc(74vh * 296 / 210 + 22px)}
+.leaf{position:relative;background:#fff;overflow:hidden;border-radius:1px 1px 3px 3px;
+  flex:1 1 0;min-width:0;aspect-ratio:148/210;
+  box-shadow:0 12px 28px rgba(20,26,38,.32)}
+.leaf.left{transform-origin:100% 50%;transform:perspective(1900px) rotateY(2.4deg)}
+.leaf.right{transform-origin:0 50%;transform:perspective(1900px) rotateY(-2.4deg)}
+.leaf.empty{background:#E7EAEF;box-shadow:none}
+.leaf img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff}
+.gutter{flex:0 0 auto;width:22px;align-self:stretch;
+  background:linear-gradient(90deg,rgba(255,255,255,.55) 0%,rgba(126,134,148,.32) 32%,rgba(38,44,54,.55) 50%,rgba(126,134,148,.32) 68%,rgba(255,255,255,.55) 100%)}
+.page-skel{position:absolute;inset:0;background:linear-gradient(100deg,#EFF1F5 30%,#F8F9FB 50%,#EFF1F5 70%);background-size:220% 100%;animation:sk 1.3s infinite;display:flex;align-items:center;justify-content:center;color:#9AA4B2;font-size:13px}
 @keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* 單頁模式 */
+.reader-stage.single .spread{max-width:calc(78vh * 148 / 210)}
+.reader-stage.single .leaf.right,.reader-stage.single .gutter{display:none}
+.reader-stage.single .leaf{flex:0 1 auto;transform:none;box-shadow:0 10px 30px rgba(20,26,38,.34)}
+/* 適合寬度：放棄視窗高度限制 */
+.reader-stage.wide .spread{max-width:min(100%,1120px)}
+@media(max-width:760px){
+  .reader-bar{gap:9px;padding:12px 14px}
+  .rbtn{width:44px;height:44px}
+  .rinfo{flex:1 0 100%;order:-1}
+  .jump{flex:1 1 auto;min-width:0}
+  .jump input{flex:1;width:auto;min-width:0}
+  .zbtn{flex:0 0 auto;padding:11px 12px}
+  .reader-stage{padding:10px}
+  .spread{max-width:calc(58vh * 296 / 210 + 10px)}
+  .gutter{width:10px}
+  .leaf{transform:none!important}
+  .reader-stage.single .spread{max-width:calc(72vh * 148 / 210)}
+  .reader-foot{font-size:12px}
+}
 .progress-outer{height:4px;background:#DFE4EB}
 .progress-in{height:100%;background:linear-gradient(90deg,var(--gold),#FC9313);width:0;transition:width .2s}
 .reader-foot{padding:13px 18px;font-size:12.5px;color:var(--gray);border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -238,9 +268,9 @@ footer a{color:var(--blue);font-weight:600}
    新增推薦序：編輯 JSON 的 endorsements.blocks 陣列即可，
    頁面自動插入，無需改動任何 HTML。
    ══════════════════════════════════════════════════════════════ */
-var DATA_URL = "/data/book-sy-deng-ren.json?v=20261007b";
+var DATA_URL = "/data/book-sy-deng-ren.json?v=20261007c";
 var D = null;          // 資料
-var cur = 1, loaded = -1, wide = true, fit = false;
+var cur = 1, loaded = -1, single = false, fit = false;
 
 function esc(s){
   return String(s == null ? "" : s)
@@ -378,19 +408,26 @@ function renderToc(){
 function renderReader(){
   var R = D.reader;
   return '<section class="sec" id="sec-reader"><div class="sec-head">' +
-    '<h2>📖 在線翻閱</h2><p>全書 ' + R.total + ' 頁，逐頁閱讀。輸入頁碼可直接跳至指定頁面。' +
-    '本書為<b>右翻書</b>（書脊在右），翻頁由右至左：鍵盤 ← 或手機向左滑＝下一頁，→ ＝上一頁。</p></div>' +
+    '<h2>📖 在線翻閱</h2><p>全書 ' + R.total + ' 頁，<b>左右對開</b>如實體書攤開：<b>右邊是偶數頁、左邊是奇數頁</b>' +
+    '（本書為右翻書，書脊在右）。翻頁由右至左：鍵盤 ← 或手機向左滑＝下一組，→ ＝上一組。' +
+    '輸入頁碼可直接跳至該頁。</p></div>' +
     '<div class="reader"><div class="reader-bar">' +
-      '<button class="rbtn" id="next" onclick="go(1)" title="下一頁（←）" aria-label="下一頁">‹</button>' +
-      '<div class="rinfo">第 <b id="cur">1</b> / <span id="total">' + R.total + '</span> 頁</div>' +
-      '<button class="rbtn" id="prev" onclick="go(-1)" title="上一頁（→）" aria-label="上一頁">›</button>' +
+      '<button class="rbtn" id="next" onclick="go(1)" title="下一組（←）" aria-label="下一組">‹</button>' +
+      '<div class="rinfo" id="rinfo">第 <b>1</b> – <span>2</span> / ' +
+        '<span id="total">' + R.total + '</span> 頁</div>' +
+      '<button class="rbtn" id="prev" onclick="go(-1)" title="上一組（→）" aria-label="上一組">›</button>' +
       '<div class="jump"><input type="number" id="jinput" placeholder="頁碼" min="1" max="' + R.total +
         '" aria-label="跳至頁碼"><button onclick="jumpTo()">前往</button></div>' +
-      '<button class="zbtn" id="zwide" onclick="toggleZoom()" title="單頁／雙頁切換">雙頁</button>' +
-      '<button class="zbtn" id="zfit" onclick="toggleFit()" title="適合寬度／適合整頁">適合整頁</button>' +
+      '<button class="zbtn" id="zwide" onclick="toggleZoom()" title="對開／單頁切換">單頁</button>' +
+      '<button class="zbtn" id="zfit" onclick="toggleFit()" title="適合整頁／適合寬度">適合寬度</button>' +
     '</div><div class="progress-outer"><div class="progress-in" id="prog"></div></div>' +
-    '<div class="reader-stage" id="stage"><div class="page-skel" id="skel">載入中…</div>' +
-    '<img class="page-img" id="page" alt="" style="display:none"></div>' +
+    '<div class="reader-stage" id="stage"><div class="spread">' +
+      '<div class="leaf left" id="leafL"><div class="page-skel" id="skelL">載入中…</div>' +
+        '<img id="pageL" alt="" style="display:none"></div>' +
+      '<div class="gutter"></div>' +
+      '<div class="leaf right" id="leafR"><div class="page-skel" id="skelR">載入中…</div>' +
+        '<img id="pageR" alt="" style="display:none"></div>' +
+    '</div></div>' +
     '<div class="reader-foot"><span id="foot-left"></span>' +
     '<span>內頁版權所有 · 歡迎引用與教學使用</span></div></div></section>';
 }
@@ -448,41 +485,84 @@ function renderRelated(){
     '<div class="rel-grid">' + cards + '</div></section>';
 }
 
-/* ── 翻閱器邏輯 ── */
+/* ── 翻閱器邏輯（左右對開：左＝奇數頁、右＝偶數頁） ── */
 function pageSrc(n){
   var v = D.reader.version || "";
   if (v && v.charAt(0) !== "?") v = "?" + v;   // 避免缺少 ? 導致檔名被污染
   return D.reader.pageBase + pad3(n) + ".webp" + v;
 }
 
+/* 單頁模式關閉時：把任意頁 n 收斂成「左邊那頁」（奇數頁）
+   1 → 左1右2 ；2 → 左1右2 ；3 → 左3右4 …… */
+function spreadAnchor(n){
+  var T = D.reader.total;
+  n = Math.max(1, Math.min(T, n));
+  if (n === 1) return 1;
+  return (n % 2 === 0) ? n - 1 : n;
+}
+
+function pageLabel(n){
+  var L = D.reader.pageLabels;
+  return L[String(n)] || ("書內頁碼 P" + (n - D.reader.pageOffset));
+}
+
 function show(n){
   var T = D.reader.total;
   n = Math.max(1, Math.min(T, n));
-  cur = n;
-  document.getElementById("cur").textContent = n;
-  document.getElementById("jinput").value = n;
-  document.getElementById("prog").style.width = (n / T * 100) + "%";
-  document.getElementById("prev").disabled = (n <= 1);
-  document.getElementById("next").disabled = (n >= T);
-  var L = D.reader.pageLabels;
-  document.getElementById("foot-left").textContent =
-    L[String(n)] || ("第 " + n + " 頁 · 書內頁碼 P" + (n - D.reader.pageOffset));
+  var a, b;
+  if (single){ a = n; b = 0; }                     // 單頁模式：精確顯示該頁
+  else { a = spreadAnchor(n); b = (a >= T) ? 0 : a + 1; }   // 對開：左奇數、右偶數
+  cur = a; loaded = a;
 
-  var img = document.getElementById("page"), skel = document.getElementById("skel");
-  var src = pageSrc(n);
-  if (loaded === n && img.style.display !== "none") return;
-  loaded = n;
+  var info = document.getElementById("rinfo");
+  if (single){
+    info.innerHTML = "第 <b>" + a + "</b> / " + T + " 頁";
+  } else {
+    info.innerHTML = "第 <b>" + a + "</b> – <span>" + (b || a) + "</span> / " + T + " 頁";
+  }
+  document.getElementById("jinput").value = n;
+  document.getElementById("prog").style.width = ((b || a) / T * 100) + "%";
+
+  var lastPg = b || a;
+  document.getElementById("prev").disabled = (a <= 1);
+  document.getElementById("next").disabled = (lastPg >= T);
+
+  var foot = (single ? "" : "左 ") + "P" + (a - D.reader.pageOffset);
+  if (b) foot += "　｜　右 P" + (b - D.reader.pageOffset) + "　·　" + pageLabel(a) + "／" + pageLabel(b);
+  else foot += "　·　" + pageLabel(a);
+  document.getElementById("foot-left").textContent = foot;
+
+  setLeaf("L", a);
+  setLeaf("R", b);
+  preload(a - 2); preload(lastPg + 1); preload(lastPg + 2);
+}
+
+/* 載入單一書頁到指定葉（slot: "L" / "R"），n=0 表示清空 */
+function setLeaf(slot, n){
+  var leaf = document.getElementById("leaf" + slot);
+  var img  = document.getElementById("page" + slot);
+  var skel = document.getElementById("skel" + slot);
+  if (!n){
+    leaf.classList.add("empty");
+    img.style.display = "none"; skel.style.display = "none";
+    return;
+  }
+  leaf.classList.remove("empty");
+  var token = slot + ":" + n;
+  if (leaf.dataset.token === token && img.style.display !== "none") return;
+  leaf.dataset.token = token;
   img.style.display = "none"; skel.style.display = "flex";
   skel.textContent = "載入中…";
+  var src = pageSrc(n);
   var probe = new Image();
   probe.onload = function(){
-    if (loaded !== n) return;
-    img.src = src; img.alt = "《" + D.book.title + "》第 " + n + " 頁";
+    if (leaf.dataset.token !== token) return;
+    img.src = src;
+    img.alt = "《" + D.book.title + "》第 " + n + " 頁";
     skel.style.display = "none"; img.style.display = "block";
-    preload(n + 1); preload(n + 2);
   };
   probe.onerror = function(){
-    if (loaded !== n) return;
+    if (leaf.dataset.token !== token) return;
     skel.textContent = "第 " + n + " 頁暫時無法載入，請稍後再試。";
   };
   probe.src = src;
@@ -493,7 +573,11 @@ function preload(n){
   var p = new Image(); p.src = pageSrc(n);
 }
 
-function go(d){ show(cur + d); }
+/* d=1 下一組（右翻書：由右至左）；d=-1 上一組。單頁模式則逐頁 */
+function go(d){
+  if (single) show(cur + d);
+  else show(cur + d * 2);
+}
 function jumpTo(){
   var v = parseInt(document.getElementById("jinput").value, 10);
   if (!isNaN(v)) show(v);
@@ -507,18 +591,18 @@ function goToReader(pdfPage){
   document.getElementById("sec-reader").scrollIntoView({behavior:"smooth"});
 }
 function toggleZoom(){
-  wide = !wide;
-  document.getElementById("stage").classList.toggle("narrow", !wide);
+  single = !single;
+  document.getElementById("stage").classList.toggle("single", single);
   var z = document.getElementById("zwide");
-  z.textContent = wide ? "雙頁" : "單頁";
-  z.classList.toggle("on", !wide);
+  z.textContent = single ? "對開" : "單頁";
+  z.classList.toggle("on", single);
   show(cur);
 }
 function toggleFit(){
   fit = !fit;
-  document.getElementById("page").style.maxHeight = fit ? "none" : "";
+  document.getElementById("stage").classList.toggle("wide", fit);
   var z = document.getElementById("zfit");
-  z.textContent = fit ? "適合寬度" : "適合整頁";
+  z.textContent = fit ? "適合整頁" : "適合寬度";
   z.classList.toggle("on", fit);
 }
 
@@ -538,7 +622,7 @@ function boot(data){
 
   document.addEventListener("keydown", function(e){
     if (/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
-    if (e.key === "ArrowLeft"){ go(1); e.preventDefault(); }   // 右翻書：由右至左
+    if (e.key === "ArrowLeft"){ go(1); e.preventDefault(); }   // 右翻書：由右至左（下一組）
     if (e.key === "ArrowRight"){ go(-1); e.preventDefault(); }
     if (e.key === "Home"){ show(1); e.preventDefault(); }
     if (e.key === "End"){ show(D.reader.total); e.preventDefault(); }
@@ -551,7 +635,7 @@ function boot(data){
   }, {passive:true});
   st.addEventListener("touchend", function(e){
     var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
-    // 右翻書：向左滑＝翻下一頁
+    // 右翻書：向左滑＝下一組
     if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.6) go(dx < 0 ? 1 : -1);
   }, {passive:true});
 
