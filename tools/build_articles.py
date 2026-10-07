@@ -1723,7 +1723,13 @@ def sanitize_outputs():
 
 
 def build_home_films(published):
-    """把 macau-film 文章重生進首頁 index.html 的 embedded-films JSON，供首頁電影 grid 渲染。"""
+    """把 macau-film 文章重生進首頁 index.html 的 embedded-films JSON。
+
+    ⚠️ 已停用（2026-10-08）：首頁電影專輯區塊已移除，電影內容統一由
+    /series/macau-film/ 承載。main() 不再呼叫本函式，保留僅作歷史參考。
+    若日後要在首頁恢復電影區塊，先把區塊 DOM 與 .film-grid 樣式加回 index.html，
+    再把 main() 的呼叫改回來 —— 否則只會把 JSON 塞進一個沒人讀的區塊。
+    """
     films = []
     for p in published:
         if (p.get('series') or '') == 'macau-film':
@@ -1769,8 +1775,9 @@ def main():
             nser += 1
             print('  /series/%s/  %s（%d 篇）' % r)
     build_series_index(published)
-    nf = build_home_films(published)
-    print('  / 首頁電影 grid：%d 部' % nf)
+    # 首頁電影專輯區已於 2026-10-08 移除（軒哥決定：電影內容統一到 /series/macau-film/，
+    # 首頁不重複陳列）。因此不再重生 embedded-films JSON，否則會把已刪的資料塞回來。
+    print('  / 首頁電影 grid：已移除，略過')
     nmovie = 0
     for p in published:
         if p.get('movieInfo'):

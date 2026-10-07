@@ -20,6 +20,7 @@
 import argparse
 import pathlib
 import re
+import subprocess
 import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -151,6 +152,38 @@ def build_index() -> None:
     print(f"✅ 已更新期數總覽 {idx.relative_to(ROOT)}  （共 {len(rows)} 期）")
 
 
+def sync_home() -> None:
+    """把最新一期同步到首頁的週訊卡片。
+
+    為什麼要掛在這裡：首頁卡片若靠人手改，每週出新一期必然會忘記，
+    首頁就會一直顯示舊期數、舊數據（等於假資訊）。build_index() 寫完總覽頁後，
+    首頁的「最新一期」來源才確定，所以緊接在後面跑最合理。
+
+    用 subprocess 而非 import：sync_weekly_home.py 會自行讀 sys.argv 判斷 --apply，
+    直接 import 會與 build_weekly.py 的 argparse 參數打架。
+
+    失敗不中止：週報本體已產出，首頁卡片同步屬於附加價值，
+    掛掉時印警告即可（此時可手動跑 python tools/sync_weekly_home.py --apply 補）。
+    """
+    script = HERE / "sync_weekly_home.py"
+    if not script.exists():
+        print("⚠️  找不到 sync_weekly_home.py，跳過首頁週訊同步")
+        return
+    r = subprocess.run(
+        [sys.executable, str(script), "--apply"],
+        capture_output=True, text=True, encoding="utf-8",
+    )
+    if r.returncode == 0:
+        # 只印首頁同步那幾行，避免整段重複輸出
+        tail = [l for l in (r.stdout or "").splitlines() if l.strip()]
+        for l in tail[:6]:
+            print("   " + l.strip())
+    else:
+        print("⚠️  首頁週訊同步失敗（不影響週報本體輸出）：")
+        print("   " + ((r.stderr or r.stdout or "").strip().replace("\n", "\n   ")))
+        print("   可手動補跑：python tools/sync_weekly_home.py --apply")
+
+
 def build_header(no: str, date_cn: str, rng: str) -> str:
     return (
         "<!-- ===== HEADER ===== -->\n"
@@ -231,6 +264,7 @@ def main() -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html, encoding="utf-8")
     build_index()
+    sync_home()
 
     # SVG 圖表溢出檢查（viewBox 寬 880，留 10px 安全邊界 → 上限 870）
     svg_over = []
