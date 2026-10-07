@@ -322,6 +322,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <a href="#" class="logo" onclick="goto('home');return false">翁振軒 <span>Sean Own</span></a>
 <div class="nav-right">
 <a href="/articles/" class="nav-col-link">專欄文章</a>
+<a href="/book/shou-deng-ren-ying-ji/" class="nav-col-link">📕 著作</a>
 <a href="#" class="nav-col-link" onclick="openWeekly();return false">澳門週訊</a>
 <a href="#sec-contact" class="nav-cta" style="display:none" onclick="goto('contact');return false">洽談合作</a>
 </div>
@@ -387,6 +388,40 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .home-post-card h3{font-size:17px;line-height:1.45;margin-bottom:8px;color:var(--blue)}
 .home-post-card p{font-size:14px;line-height:1.7;opacity:.75;margin:0}
 .post-footer-mod{margin-top:36px;padding-top:24px;border-top:1px dashed var(--gold)}
+
+/* ── 新書《守燈人影記》專區 ── */
+#sec-book{background:linear-gradient(160deg,#0A1F5C 0%,#010133 62%,#0b1330 100%);position:relative;overflow:hidden}
+#sec-book::before{content:"";position:absolute;right:-140px;top:-140px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(253,181,21,.16),transparent 68%);pointer-events:none}
+#sec-book::after{content:"";position:absolute;left:-100px;bottom:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(90,140,255,.18),transparent 68%);pointer-events:none}
+#sec-book .section-inner{position:relative;z-index:1}
+.book-hero{display:grid;grid-template-columns:236px minmax(0,1fr);gap:48px;align-items:center}
+@media(max-width:860px){.book-hero{grid-template-columns:1fr;justify-items:center;text-align:center}}
+/* display:block 必需——<a> 預設是 inline，會忽略 width/max-width */
+.book-cover{display:block;border-radius:8px;overflow:hidden;box-shadow:0 22px 56px rgba(0,0,0,.5);position:relative;transition:transform .35s;width:100%;max-width:236px}
+.book-cover:hover{transform:translateY(-6px) scale(1.01)}
+.book-cover img{width:100%;max-width:236px;display:block;height:auto}
+.book-hero>.book-cover{flex:0 0 236px;width:236px}
+.book-cover::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(253,181,21,.28);border-radius:8px}
+.book-badge{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#010133;font-size:12.5px;font-weight:800;letter-spacing:1.6px;padding:7px 16px;border-radius:3px;margin-bottom:18px}
+.book-title{font-size:clamp(32px,5vw,46px);font-weight:900;color:#fff;letter-spacing:3px;line-height:1.2}
+.book-sub{font-size:clamp(15px,2.4vw,20px);color:var(--gold);font-weight:700;letter-spacing:4px;margin-top:8px}
+.book-by{font-size:14.5px;color:rgba(255,255,255,.7);margin-top:14px;letter-spacing:.5px}
+.book-by b{color:#fff;font-weight:700}
+.book-lede{font-size:16.5px;line-height:1.94;color:rgba(255,255,255,.84);margin-top:18px;max-width:640px}
+@media(max-width:860px){.book-lede{margin-left:auto;margin-right:auto}}
+.book-facts{display:flex;gap:34px;flex-wrap:wrap;margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.16)}
+@media(max-width:860px){.book-facts{justify-content:center}}
+.book-facts b{display:block;font-size:25px;font-weight:900;color:var(--gold);line-height:1.2}
+.book-facts span{font-size:12.5px;color:rgba(255,255,255,.62)}
+.book-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+@media(max-width:860px){.book-cta{justify-content:center}}
+.book-note{margin:18px 0 0;font-size:12.5px;line-height:1.75;color:rgba(240,228,205,.72)}
+.btn-book{padding:14px 32px;border-radius:8px;font-size:15px;font-weight:700;letter-spacing:.5px;transition:all .2s;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;text-decoration:none}
+.btn-book-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#010133;box-shadow:0 6px 20px rgba(253,181,21,.32)}
+.btn-book-gold:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(253,181,21,.44)}
+.btn-book-line{background:rgba(255,255,255,.08);color:#fff;border:1.5px solid rgba(255,255,255,.36)}
+.btn-book-line:hover{background:rgba(255,255,255,.18);border-color:var(--gold);color:var(--gold)}
+[data-theme="dark"] #sec-book{background:linear-gradient(160deg,#071026 0%,#04091c 62%,#080f24 100%)}
 .post-footer-mod .post-author{font-size:14px;line-height:1.75;opacity:.85;margin-bottom:16px}
 .post-rel{font-size:14px;line-height:1.75;margin-bottom:16px}
 .post-rel strong{display:block;margin-bottom:6px}
@@ -423,6 +458,34 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <section class="section" id="sec-focus" style="background:var(--bg)"><div class="section-inner">
 <h2 class="section-title">本期焦點</h2><p class="section-subtitle">最新發布 · 封面故事</p><div class="title-line"></div>
 <div id="focus-card"></div>
+</div></section>
+
+<!-- ② 新書《守燈人影記》專區（置於澳門電影專輯上方） -->
+<section class="section" id="sec-book"><div class="section-inner">
+<div class="book-hero">
+  <a class="book-cover" href="/book/shou-deng-ren-ying-ji/" aria-label="《守燈人影記》—— 銀幕上的百年澳門，在線翻閱">
+    <img src="/assets/book/sy-deng-ren/cover.jpg" width="1344" height="1888" loading="lazy"
+         alt="《守燈人影記——銀幕上的百年澳門》封面：夜色中的東望洋燈塔，光束照亮騎樓屋頂與膠片帶，穿制服的守燈人坐在石牆上">
+  </a>
+  <div>
+    <div class="book-badge">📕 全新出版 · <b>定稿中</b> · 可在線試閱</div>
+    <h2 class="book-title">守燈人影記</h2>
+    <p class="book-sub">銀幕上的百年澳門</p>
+    <p class="book-by"><b>翁振軒 Sean Own</b> 著 ｜ 中華書局（澳門）有限公司 出版 ｜ 預計 2026 年 11 月上市</p>
+    <p class="book-lede">站在東望洋山頂，澳門在腳下攤開。燈塔不高，卻已亮了一百多年的光。<br>這本書收錄三十三部在澳門取景的電影，從最新的《捕風追影》往回走，一直走到 1923 年——我想做的是，藉著電影，把澳門的光照得再遠一點。</p>
+    <div class="book-facts">
+      <div><b>33</b><span>部電影</span></div>
+      <div><b>4</b><span>個篇章</span></div>
+      <div><b>274</b><span>頁全文</span></div>
+      <div><b>1923</b><span>年至今</span></div>
+    </div>
+    <div class="book-cta">
+      <a class="btn-book btn-book-gold" href="/book/shou-deng-ren-ying-ji/">📖 進入在線試閱 →</a>
+      <a class="btn-book btn-book-line" href="/book/shou-deng-ren-ying-ji/#sec-toc">查看完整目錄</a>
+    </div>
+    <p class="book-note">＊ 本書仍在編輯中，推薦序與書號（ISBN）待補；取得書號後始受理購買，屆時於本站公告。</p>
+  </div>
+</div>
 </div></section>
 
 <!-- 澳門電影專輯 -->

@@ -327,4 +327,10 @@
     <loc>https://seanown.org/movie/macao-2525-2021/</loc>
     <lastmod>2026-10-01</lastmod>
   </url>
+  <url>
+    <loc>https://seanown.org/book/shou-deng-ren-ying-ji/</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
 </urlset>

@@ -1,0 +1,403 @@
+{
+  "book": {
+    "slug": "shou-deng-ren-ying-ji",
+    "title": "守燈人影記",
+    "subtitle": "銀幕上的百年澳門",
+    "titleEn": "Aspectos de Macau",
+    "author": "翁振軒",
+    "authorEn": "Sean Own",
+    "status": {
+      "label": "全新出版",
+      "note": "定稿中・推薦序與書號待補",
+      "isDraft": true
+    },
+    "publisher": "中華書局（澳門）有限公司",
+    "pubPlace": "澳門",
+    "pubYear": "2026",
+    "pubMonth": 11,
+    "edition": "初版",
+    "format": "A5（148 × 210mm）",
+    "extent": 274,
+    "binding": "右翻書（鎖線膠裝）",
+    "isbn": {
+      "value": "",
+      "note": "書號申請中，尚未取得"
+    },
+    "price": {
+      "list": "",
+      "currency": "MOP",
+      "note": "定價待出版社核定"
+    },
+    "cover": {
+      "src": "/assets/book/sy-deng-ren/cover.jpg",
+      "webp": "/assets/book/sy-deng-ren/cover.webp",
+      "og": "/assets/book/sy-deng-ren/og.jpg",
+      "back": "/assets/book/sy-deng-ren/back.jpg",
+      "spread": "/assets/book/sy-deng-ren/spread.jpg",
+      "spreadSpec": "展開 511 × 210mm＝封面內頁 100 ＋ 封面 148 ＋ 書脊 15 ＋ 封底 148 ＋ 封底內頁 100",
+      "width": 1344,
+      "height": 1888
+    },
+    "stats": [
+      {
+        "num": 33,
+        "unit": "部電影",
+        "label": "在澳門取景"
+      },
+      {
+        "num": 4,
+        "unit": "個篇章",
+        "label": "第一部至第四部"
+      },
+      {
+        "num": 274,
+        "unit": "頁",
+        "label": "全書篇幅"
+      },
+      {
+        "num": 1923,
+        "unit": "年至今",
+        "label": "銀幕時間跨度"
+      }
+    ],
+    "lede": "站在東望洋山頂，澳門在腳下攤開。燈塔不高，卻已亮了一百多年的光。這本書收錄三十三部在澳門取景的電影，從最新的《捕風追影》往回走，一直走到 1923 年——我想做的是，藉著電影，把澳門的光照得再遠一點。",
+    "buy": {
+      "enabled": false,
+      "note": "尚未開放購買，上市後於本站公告",
+      "contactLabel": "洽詢購書與合作",
+      "contactHref": "/#sec-contact"
+    }
+  },
+  "endorsements": {
+    "note": "推薦序尚在撰寫中（預計 2026 年 11 月中提供）。取得後依 endorsementBlocks 順序自動插入頁面；空陣列時整區自動隱藏。",
+    "blocks": []
+  },
+  "authorProfile": {
+    "name": "翁振軒",
+    "nameEn": "Sean Own",
+    "region": "MACAU · HONG KONG · TAIWAN",
+    "avatar": "/assets/images/about-avatar.jpg",
+    "bio": "一九七八年生，生於臺北，長於美國加州，畢業於加州大學柏克萊分校交叉學系。曾於加州就業，後旅居臺灣與深圳；婚後定居澳門。長年觀察澳門的城市變遷與影像文化，熱衷透過電影解讀一座城市的歷史脈絡，在光影與現實之間追索澳門的文化敘事。",
+    "bookline": "本書為他歷年澳門主題影評的個人精選。他也是《澳門光影志》與《跟著電影遊澳門》的作者。"
+  },
+  "preface": {
+    "label": "自序節錄",
+    "source": "摘自《守燈人影記》自序（P2）",
+    "signature": "翁振軒，於東望洋山頂",
+    "paragraphs": [
+      "我常工作的地方，就在燈塔旁邊。忙完一天，上去坐一坐，風一吹，世界好像就靜了。我常常想：守燈人是什麼人呢？是那個夜裡不睡、燈塔上看著光的人。我不是真的守燈人，但我常在這座山上，藉著光影，回顧著這些電影裡的澳門記憶——這本書，我把它叫作《守燈人影記》。",
+      "取名「守燈人」，也是因為我想做這樣的事：守著這座燈塔，看它照亮海外來澳的路；也藉著這本書，把澳門的光，照得再遠一點。",
+      "為什麼是電影？因為時常有朋友從外地來澳門，我最快的介紹方式，就是講電影。有哪一部片在哪裡拍攝，演員當時擺的姿勢及故事裡的場景——講完一部片，也順便帶他走了一趟澳門。"
+    ]
+  },
+  "toc": {
+    "note": "頁碼以 PDF 頁腳印刷頁碼為準（書稿目錄有 25 處頁碼誤差，此處已校正）。書內頁碼 Pn ＝ PDF 第 n+2 頁。",
+    "parts": [
+      {
+        "label": "第一部",
+        "title": "放映 ── 澳門的光影",
+        "years": "2013–2025",
+        "count": "10 篇",
+        "items": [
+          {
+            "title": "捕風追影",
+            "year": 2025,
+            "page": 9
+          },
+          {
+            "title": "騙騙喜歡你",
+            "year": 2024,
+            "page": 13
+          },
+          {
+            "title": "熱唱吧",
+            "year": 2021,
+            "page": 19
+          },
+          {
+            "title": "辣警霸王花2 無義之戰",
+            "year": 2019,
+            "page": 28
+          },
+          {
+            "title": "媽閣是座城",
+            "year": 2019,
+            "page": 36
+          },
+          {
+            "title": "那一年，我17",
+            "year": 2017,
+            "page": 40
+          },
+          {
+            "title": "骨妹",
+            "year": 2016,
+            "page": 47
+          },
+          {
+            "title": "驚天魔盜團2",
+            "year": 2016,
+            "page": 58
+          },
+          {
+            "title": "十月初五的月光",
+            "year": 2015,
+            "page": 65
+          },
+          {
+            "title": "激戰",
+            "year": 2013,
+            "page": 72
+          }
+        ]
+      },
+      {
+        "label": "第二部",
+        "title": "倒帶 ── 異域的凝視",
+        "years": "2000–2012",
+        "count": "10 篇",
+        "items": [
+          {
+            "title": "我最後一次看見澳門",
+            "year": 2012,
+            "page": 80
+          },
+          {
+            "title": "單身男女",
+            "year": 2011,
+            "page": 90
+          },
+          {
+            "title": "撲克王",
+            "year": 2009,
+            "page": 96
+          },
+          {
+            "title": "放逐",
+            "year": 2006,
+            "page": 104
+          },
+          {
+            "title": "伊莎貝拉",
+            "year": 2006,
+            "page": 110
+          },
+          {
+            "title": "B420",
+            "year": 2005,
+            "page": 116
+          },
+          {
+            "title": "2046",
+            "year": 2004,
+            "page": 128
+          },
+          {
+            "title": "情迷大話王",
+            "year": 2001,
+            "page": 134
+          },
+          {
+            "title": "全職殺手",
+            "year": 2001,
+            "page": 140
+          },
+          {
+            "title": "花樣年華",
+            "year": 2000,
+            "page": 146
+          }
+        ]
+      },
+      {
+        "label": "第三部",
+        "title": "剪接 ── 借來的布景",
+        "years": "1960–1999",
+        "count": "11 篇",
+        "items": [
+          {
+            "title": "濠江風雲",
+            "year": 1998,
+            "page": 152
+          },
+          {
+            "title": "暗花",
+            "year": 1998,
+            "page": 156
+          },
+          {
+            "title": "大辮子的誘惑",
+            "year": 1996,
+            "page": 166
+          },
+          {
+            "title": "李小龍傳",
+            "year": 1993,
+            "page": 174
+          },
+          {
+            "title": "愛情與小腳趾",
+            "year": 1992,
+            "page": 184
+          },
+          {
+            "title": "阿郎的故事",
+            "year": 1989,
+            "page": 192
+          },
+          {
+            "title": "胭脂扣",
+            "year": 1987,
+            "page": 202
+          },
+          {
+            "title": "A計劃",
+            "year": 1983,
+            "page": 208
+          },
+          {
+            "title": "鐵金剛大戰金槍客",
+            "year": 1974,
+            "page": 220
+          },
+          {
+            "title": "精武門",
+            "year": 1972,
+            "page": 230
+          },
+          {
+            "title": "親上加親",
+            "year": 1966,
+            "page": 232
+          }
+        ]
+      },
+      {
+        "label": "第四部",
+        "title": "底片 ── 最初的目光",
+        "years": "1923–1959",
+        "count": "2 篇",
+        "items": [
+          {
+            "title": "Macao",
+            "year": 1952,
+            "page": 242
+          },
+          {
+            "title": "Aspectos de Macau",
+            "year": 1923,
+            "page": 250
+          }
+        ]
+      }
+    ],
+    "appendices": [
+      {
+        "label": "自序 ── 站在東望洋山頂",
+        "page": 2
+      },
+      {
+        "label": "後記",
+        "page": 255
+      },
+      {
+        "label": "附錄｜電影金句牆",
+        "page": 256
+      },
+      {
+        "label": "附錄｜澳門電影百年年表",
+        "page": 261
+      },
+      {
+        "label": "附錄｜33 片完整片單",
+        "page": 267
+      }
+    ]
+  },
+  "pubInfo": {
+    "items": [
+      {
+        "dt": "書名",
+        "dd": "守燈人影記",
+        "sub": "銀幕上的百年澳門"
+      },
+      {
+        "dt": "作者",
+        "dd": "翁振軒 Sean Own"
+      },
+      {
+        "dt": "出版社",
+        "dd": "中華書局（澳門）有限公司"
+      },
+      {
+        "dt": "規格",
+        "dd": "A5 148 × 210mm",
+        "sub": "右翻書・鎖線膠裝・274 頁"
+      },
+      {
+        "dt": "收錄",
+        "dd": "33 部電影",
+        "sub": "四部九篇＋三份附錄"
+      },
+      {
+        "dt": "時間跨度",
+        "dd": "1923–2025",
+        "sub": "百年澳門銀幕足跡"
+      }
+    ]
+  },
+  "reader": {
+    "total": 274,
+    "pageBase": "/assets/book/sy-deng-ren/pages/p",
+    "version": "?v=20261007a",
+    "pageOffset": 2,
+    "pageLabels": {
+      "1": "封面 · 東望洋燈塔與膠片帶",
+      "2": "扉頁 · 書名頁",
+      "4": "自序 · 站在東望洋山頂",
+      "6": "目錄"
+    }
+  },
+  "relatedFilms": [
+    {
+      "slug": "bufeng-zhuiying",
+      "title": "捕風追影",
+      "year": 2025
+    },
+    {
+      "slug": "return-of-the-cuckoo",
+      "title": "十月初五的月光",
+      "year": 2015
+    },
+    {
+      "slug": "ji-zhan",
+      "title": "激戰",
+      "year": 2013
+    },
+    {
+      "slug": "last-time-i-saw-macao",
+      "title": "我最後一次看見澳門",
+      "year": 2012
+    },
+    {
+      "slug": "2046",
+      "title": "2046",
+      "year": 2004
+    },
+    {
+      "slug": "rouge",
+      "title": "胭脂扣",
+      "year": 1987
+    },
+    {
+      "slug": "fist-of-fury-1972",
+      "title": "精武門",
+      "year": 1972
+    },
+    {
+      "slug": "the-longest-nite",
+      "title": "暗花",
+      "year": 1998
+    }
+  ]
+}
