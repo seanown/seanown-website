@@ -102,6 +102,7 @@ h1{font-size:44px;line-height:1.24;font-weight:800;color:var(--blue);letter-spac
 .spec-item .l{font-size:12.5px;color:var(--gray);margin-top:4px}
 .spec-item .l .d{font-size:11px;color:#9aa3af;margin-top:3px;line-height:1.5}
 .spec-item.hl .l .d{color:#8a6a2f}
+.spec-item .l .m{margin-top:3px;font-size:10.5px;color:#b0894a;letter-spacing:.3px}
 .spec-item.hl{background:var(--gold-light)}
 .spec-item.hl .w{color:#8a5a00}
 .spec-note{font-size:13px;color:var(--gray);margin-top:14px;line-height:1.8}
@@ -293,9 +294,10 @@ function renderSpread(){
     var mm = s.mm !== undefined ? s.mm : s[0];
     var nm = s.name || s[1];
     var ds = s.desc ? '<div class="d">' + esc(s.desc) + '</div>' : "";
+    var ms = s.measured ? '<div class="m">' + esc(s.measured) + '</div>' : "";
     var hl = (mm === 15) ? " hl" : "";
     return '<div class="spec-item' + hl + '"><div class="w">' + mm +
-           '<small>mm</small></div><div class="l">' + esc(nm) + ds + '</div></div>';
+           '<small>mm</small></div><div class="l">' + esc(nm) + ds + ms + '</div></div>';
   }).join("");
   var total = SEGS.reduce(function(a,s){ return a + (s.mm !== undefined ? s.mm : s[0]); }, 0);
   return '<section class="sec">' +
