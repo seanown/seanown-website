@@ -653,6 +653,17 @@ fetch(DATA_URL, {cache:"no-cache"})
   })
   .then(boot)
   .catch(function(err){
+    // 以 file:// 直接開啟本機檔案時，絕對路徑會被解析成 C:/data/… 必然抓不到。
+    // 此時直接引導到線上版本，避免誤判為「書稿未上傳」。
+    if (location.protocol === "file:"){
+      document.getElementById("app").innerHTML =
+        '<div class="nojs" style="margin-top:30px"><b>請改用線上網址開啟</b><br>' +
+        '本頁是以 <code>file://</code> 直接開啟本機檔案，瀏覽器無法讀取網站路徑的資料檔。<br><br>' +
+        '<a class="btn btn-primary" href="https://seanown.org/book/shou-deng-ren-ying-ji/" ' +
+        'style="display:inline-block;margin-top:8px">前往線上版 →</a></div>';
+      console.warn("[book] file:// protocol — use the online URL instead.");
+      return;
+    }
     document.getElementById("app").innerHTML =
       '<div class="nojs" style="margin-top:30px"><b>書籍資料載入失敗</b><br>' +
       esc(err.message) + '<br><br>請確認 <code>/data/book-sy-deng-ren.json</code> 已上傳，' +
