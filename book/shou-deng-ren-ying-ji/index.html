@@ -493,7 +493,11 @@ function renderRelated(){
    所以每一組對開是：**右＝偶數頁、左＝奇數頁，左邊比右邊大 1**。
    例：右 p28（辣警霸王花2 海報）／左 p29 → 右 p30／左 p31 → …… */
 function pageSrc(n){
-  var v = D.reader.version || "";
+  /* 單頁版本覆寫（pageVersions）：改版某頁時只重抓那一頁，
+     不必 bump 全書 version 讓讀者重抓 274 頁（约 29MB）。
+     例：{"273":"?v=20261007e"} → 版權頁換新版，其餘頁沿用舊快取 */
+  var v = (D.reader.pageVersions && D.reader.pageVersions[String(n)])
+          || D.reader.version || "";
   if (v && v.charAt(0) !== "?") v = "?" + v;   // 避免缺少 ? 導致檔名被污染
   return D.reader.pageBase + pad3(n) + ".webp" + v;
 }
