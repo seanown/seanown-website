@@ -406,13 +406,13 @@ function renderPub(){
   }).join("");
   // 書號：未取得時顯示待補欄位
   var isbn = D.book.isbn || {};
-  items += '<div class="pub-item tbd"><dt>ISBN</dt><dd>' +
-           (isbn.value ? esc(isbn.value) : "書號申請中") +
-           (isbn.note ? "<small>" + esc(isbn.note) + "</small>" : "") + '</div>';
+  var iMain = isbn.value ? esc(isbn.value) : "書號待補";
+  items += '<div class="pub-item tbd"><dt>ISBN</dt><dd>' + iMain +
+           (isbn.note && isbn.note !== iMain ? "<small>" + esc(isbn.note) + "</small>" : "") + '</div>';
   var price = D.book.price || {};
-  items += '<div class="pub-item tbd"><dt>定價</dt><dd>' +
-           (price.list ? esc(price.list) + " " + esc(price.currency || "") : "待出版社核定") +
-           (price.note ? "<small>" + esc(price.note) + "</small>" : "") + '</div>';
+  var pMain = price.list ? esc(price.list) + " " + esc(price.currency || "") : "待出版社核定";
+  items += '<div class="pub-item tbd"><dt>定價</dt><dd>' + pMain +
+           (price.note && price.note !== pMain ? "<small>" + esc(price.note) + "</small>" : "") + '</div>';
   var buy = D.book.buy || {};
   var cta = '<div class="cta-row" style="margin-top:22px">' +
     '<a class="btn btn-primary" href="' + esc(buy.contactHref || "/#sec-contact") + '">' +

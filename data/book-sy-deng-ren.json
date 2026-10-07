@@ -21,12 +21,12 @@
     "binding": "右翻書（鎖線膠裝）",
     "isbn": {
       "value": "",
-      "note": "書號申請中，尚未取得"
+      "note": "ISBN 申請中，尚未取得"
     },
     "price": {
       "list": "",
       "currency": "MOP",
-      "note": "定價待出版社核定"
+      "note": "上市前由出版社公告"
     },
     "cover": {
       "src": "/assets/book/sy-deng-ren/cover.jpg",
