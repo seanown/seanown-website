@@ -61,8 +61,10 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 /* 澳門週訊是首頁獨有的彈窗功能，用分隔線標示，避免被誤認為六層導覽的一部分 */
 .nav-weekly{margin-left:10px;padding-left:18px;border-left:1px solid var(--line);color:var(--gray)}
 .nav-weekly:hover{color:var(--blue)}
-.nav-cta{padding:8px 18px;border-radius:999px;background:linear-gradient(135deg,var(--blue),var(--gold));color:#fff;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 2px 10px rgba(2,8,32,.18);transition:transform .2s,box-shadow .2s}
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(2,8,32,.28)}
+/* 導覽列「聯絡」原本用藍金漸層 + 陰影，是全站唯一會「變色」的按鈕。
+   軒哥要求與其他導覽項一致（2026-10-08）：改為純文字，僅 hover 變藍。 */
+.nav-cta{color:var(--text);font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap;transition:color .2s}
+.nav-cta:hover{color:var(--blue)}
 
 .read-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),#FDB515);z-index:2000;width:0;transition:width .1s ease;border-radius:0 3px 3px 0}
 .back-top{position:fixed;right:26px;bottom:76px;width:48px;height:48px;border-radius:50%;background:var(--blue);color:#fff;border:none;cursor:pointer;box-shadow:0 8px 30px rgba(0,38,118,.3);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;opacity:0;visibility:hidden;transform:translateY(12px);transition:all .3s;z-index:1500}
@@ -79,23 +81,12 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .hero-subtitle{font-size:20px;color:rgba(255,255,255,.88);margin-bottom:28px;font-weight:400}
 .hero-slogan{font-size:28px;font-weight:700;color:#fff;margin-bottom:36px;font-style:italic;border-left:4px solid var(--gold);padding-left:16px;text-shadow:0 2px 16px rgba(0,0,0,.5)}
 .hero-buttons{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+/* Hero 靜態樣式（hover 不變色，見第 103–104 行） */
 .hero .btn-outline{color:#fff;border-color:rgba(255,255,255,.9);background:rgba(255,255,255,.08)}
-.hero .btn-outline:hover{background:#fff;color:var(--blue)}
 
-/* 首屏後：合作方向快取 */
-.quick-strip{background:var(--white);border-bottom:1px solid var(--light-gray);padding:56px 24px}
-.qs-title{font-size:26px;font-weight:800;color:var(--blue);margin-bottom:6px}
-.qs-sub{color:var(--gray);font-size:14.5px;margin-bottom:26px}
-.qs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.qs-item{display:flex;flex-direction:column;gap:5px;background:var(--bg);border:1px solid var(--light-gray);border-left:4px solid var(--gold);border-radius:14px;padding:20px 22px;transition:all .25s}
-.qs-item:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-left-color:var(--blue)}
-.qs-ic{font-size:24px;line-height:1}
-.qs-t{font-size:16.5px;font-weight:800;color:var(--blue)}
-.qs-d{font-size:13.5px;color:var(--gray);line-height:1.6}
-.qs-note{margin-top:20px;font-size:14px;color:var(--gray);text-align:center}
-.qs-note a{color:var(--blue);font-weight:700;text-decoration:underline}
-@media(max-width:860px){.qs-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.quick-strip{padding:40px 16px}.qs-grid{grid-template-columns:1fr}.qs-title{font-size:21px}}
+/* 首屏後「主要合作方向」快取已於 2026-10-08 連同區塊一併移除
+   （軒哥決定：首屏下方不為轉換率再陳列一次四個方向）。
+   四項服務內容統一由下方 #sec-services 與 /services/ 頁承載。 */
 .hero-trust{display:flex;gap:22px;flex-wrap:wrap;margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.18)}
 .trust-item{display:flex;align-items:center;gap:10px}
 .trust-ico{font-size:22px;line-height:1;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
@@ -106,6 +97,11 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .btn{padding:14px 32px;border-radius:30px;font-size:15px;font-weight:600;cursor:pointer;transition:all .3s;border:none;display:inline-block}
 .btn-primary{background:var(--blue);color:var(--white)}.btn-primary:hover{background:#010133;transform:translateY(-2px);box-shadow:var(--shadow-hover)}
 .btn-outline{background:transparent;color:var(--blue);border:2px solid var(--blue)}.btn-outline:hover{background:var(--blue);color:var(--white)}
+/* Hero 內兩個按鈕：軒哥要求 hover 不變色（2026-10-08）。
+   只收窄 .hero 範圍，不動 .btn-primary 全域行為 ——
+   「查看全部文章」「展開完整經歷」「發送訊息」仍保留原本的 hover 回饋。 */
+.hero .btn-primary:hover{background:var(--blue);transform:none;box-shadow:none}
+.hero .btn-outline:hover{background:rgba(255,255,255,.08);color:#fff}
 .section{padding:80px 24px}.section-inner{max-width:1280px;margin:0 auto}
 #about-detail .section{padding:52px 24px}
 #about-detail .section-subtitle{margin-bottom:24px}
@@ -290,7 +286,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .footer-col a:hover{opacity:1;color:var(--gold)}
 .footer-bottom{max-width:1280px;margin:30px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;font-size:13px;opacity:.7}
 @media(max-width:968px){
-.nav-right{gap:12px}.nav-col-link{font-size:13px}.nav-cta{padding:7px 14px;font-size:12px}
+.nav-right{gap:12px}.nav-col-link{font-size:13px}
 .hero{background-image:url('assets/images/hero-red-horse-mobile.jpg');background-position:center 20%;align-items:flex-end}
 .hero-inner{justify-content:center;text-align:center;padding:70px 20px 64px}
 .hero-text{max-width:640px;background:rgba(12,5,10,.55);backdrop-filter:blur(6px);border-radius:18px;padding:32px 26px}
@@ -317,9 +313,6 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .hero-main{font-size:24px}.hero-eyebrow{font-size:13px}.hero-subtitle{font-size:15px}.hero-slogan{font-size:19px;padding-left:12px}
 .hero-text{padding:24px 18px}
 .hero-buttons{gap:10px}.hero-buttons .btn{flex:1 1 100%;text-align:center;padding:13px 20px}
-.quick-strip{padding:44px 16px}
-.qs-title{font-size:21px}
-.qs-grid{grid-template-columns:1fr;gap:11px}
 .section{padding:60px 16px}.section-title{font-size:26px}.section-subtitle{font-size:14px;margin-bottom:30px}
 #about-detail .section{padding:40px 16px}
 .card,.philosophy-card,.info-box,.contact-form{padding:20px}
@@ -538,17 +531,8 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 </div>
 </div></section>
 
-<!-- ① 首屏後：合作方向快取（讓商務合作成為第一個決策分支） -->
-<section class="quick-strip" id="sec-quick"><div class="section-inner">
-<h2 class="qs-title">主要合作方向</h2>
-<div class="qs-grid">
-<a class="qs-item" href="/contact/"><span class="qs-ic" aria-hidden="true">🌐</span><span class="qs-t">AI 數位服務出海</span><span class="qs-d">多語種、多平台海外推廣</span></a>
-<a class="qs-item" href="/contact/"><span class="qs-ic" aria-hidden="true">🏙️</span><span class="qs-t">文化旅遊規劃</span><span class="qs-d">澳門與大灣區文旅落地</span></a>
-<a class="qs-item" href="/contact/"><span class="qs-ic" aria-hidden="true">📚</span><span class="qs-t">AI 科普教育</span><span class="qs-d">全民素養與 ECI 認證體系</span></a>
-<a class="qs-item" href="/contact/"><span class="qs-ic" aria-hidden="true">🎬</span><span class="qs-t">融媒體與 IP</span><span class="qs-d">媒體中心與文娛 IP 運營</span></a>
-</div>
-<p class="qs-note">以上為主要洽談方向，其他跨界提案也歡迎來信敘述。完整說明請見 <a href="/about/">關於我</a>。</p>
-</div></section>
+<!-- ①首屏後的合作方向快取已於 2026-10-08 移除（軒哥決定：不需要為轉換率在首屏下方
+     再陳列一次四個方向）。四項服務的完整內容統一由下方 #sec-services 與 /services/ 承載。 -->
 
 
 <!-- ② 本期焦點 -->
@@ -708,8 +692,8 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <!-- ② 核心業務（合作方向）｜置於「關於作者」與「保持聯繫」之間 -->
 <!-- 位置理由：讀者先確認「這個人是誰」，緊接著看「他具體做什麼、能怎麼合作」，
      最後才到聯絡表單。原先放在「媒體報導」之後，離作者太遠。
-     內容刻意只留單一入口：首屏後的 sec-quick 已列四個方向（轉換用），
-     此處再列一次會是重複陳列，改為導向 /services/ 服務頁看完整內容、流程與計價。 -->
+     內容刻意只留單一入口：四個方向不在首頁重複陳列（首屏後那份快取已於
+     2026-10-08 移除），完整內容、流程與計價統一導向 /services/ 服務頁。 -->
 <section class="section" id="sec-services" style="background:var(--bg)"><div class="section-inner">
 <h3 class="section-title" style="font-size:26px">合作方向</h3><p class="section-subtitle">四項服務的內容、合作流程與計價方式，完整說明見服務頁</p><div class="title-line"></div>
 <div class="svc-gateway">
