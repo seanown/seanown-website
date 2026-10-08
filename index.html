@@ -447,6 +447,53 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .author-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
 .author-chips span{font-size:13px;font-weight:600;color:var(--blue);background:var(--gold-light);padding:6px 14px;border-radius:999px}
 @media(max-width:860px){.author-flex{flex-direction:column;align-items:center;text-align:center}.author-photo{width:140px;height:140px}.author-chips{justify-content:center}}
+
+/* 精簡版「關於作者」（2026-10-09，軒哥決定）
+   首頁 focus 在作品／分類／專輯，關於我的部分縮成一行：
+   頭像＋姓名＋一句身分＋關於我連結。服務卡與履歷全部收進 /about/。
+
+   🔴 為什麼必須覆寫 padding 與標題尺寸（實測才發現）：
+   內容本身只有 106px，但 .section 上下 padding 80px×2＝160px、
+   .section-title 38px 字級約 65px、.section-subtitle 約 34px、
+   .title-line 含 margin-bottom 40px——固定成本合計 303px。
+   所以內容再少，整塊仍撐到 434px，視覺上跟改之前沒兩樣，等於沒改。
+   實測結果：PC 434→286px、手機 500→270px。 */
+#sec-author{padding:38px 24px}
+#sec-author .section-title{font-size:22px;margin-bottom:4px;padding-left:12px}
+#sec-author .section-subtitle{font-size:13.5px;margin-bottom:14px}
+#sec-author .title-line{margin-bottom:22px}
+.author-flex-slim{gap:24px;align-items:center}
+.author-flex-slim .author-photo{width:96px;height:96px;border-width:3px}
+.author-flex-slim .author-main h3{font-size:20px;margin-bottom:6px}
+.author-flex-slim .author-bio{font-size:15px;line-height:1.7;margin-bottom:10px;color:var(--gray)}
+.author-more{display:inline-block;font-size:14px;font-weight:700;color:var(--blue);text-decoration:none;border-bottom:2px solid var(--gold);padding-bottom:2px;transition:all .2s}
+.author-more:hover{color:var(--gold);border-bottom-color:var(--blue)}
+
+/* 展開鈕（2026-10-09 補回）。
+   原本是一顆搶視線的深藍大按鈕，現在降級成跟「關於我」同級的小字鈕，
+   兩者並排在 .author-actions 裡——預設收起，視覺重量接近一個文字連結。
+   .ae-shut 預設隱藏，展開後才顯示（與 about 頁職務折疊同一套做法）。 */
+.author-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.author-expand{font-family:inherit;font-size:13px;font-weight:600;color:var(--gray);background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.author-expand:hover{border-color:var(--blue);color:var(--blue);background:#F4F7FB}
+.author-expand .ae-shut{display:none}
+.author-expand[aria-expanded="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.author-expand[aria-expanded="true"] .ae-open{display:none}
+.author-expand[aria-expanded="true"] .ae-shut{display:inline}
+#sec-author #about-detail{margin-top:30px}
+
+/* 手機版：基礎 .author-flex 在 860px 以下會變 flex-direction:column
+   （原本為長段自介＋chips 在窄螢幕好讀）。精簡版只有一行，不需要疊直，
+   否則 author-flex 會從 106px 撐到 202px。
+   ⚠️ 必須用 !important：那條基礎規則位於 stylesheet 第 481 行、與本段
+   同為 max-width:860px、無更高權重，後者勝出（實測 dir 仍是 column）。 */
+@media(max-width:860px){
+  #sec-author{padding:30px 16px}
+  .author-flex-slim{flex-direction:row !important;align-items:center !important;text-align:left !important}
+  .author-flex-slim .author-photo{width:72px;height:72px}
+}
+/* 頁尾極簡可合作領域（2026-10-09） */
+.footer-focus{margin-top:14px;font-size:13px;font-weight:600;color:var(--gold);letter-spacing:.3px}
 .help-label{font-size:13px;font-weight:700;letter-spacing:3px;color:var(--gray);margin:26px 0 12px}
 .help-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:26px;max-width:860px}
 .help-card{display:block;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;transition:all .2s}
@@ -674,29 +721,21 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <!-- ⑤ 關於作者 -->
 <section class="section" id="sec-author" style="background:var(--white)"><div class="section-inner">
 <h2 class="section-title">關於作者</h2><p class="section-subtitle">內容背後的人：澳門視角｜大灣區產業｜文化觀察</p><div class="title-line"></div>
-<div class="author-flex">
+<div class="author-flex author-flex-slim">
 <img src="assets/images/about-avatar.jpg" alt="翁振軒 Sean Own 大頭照" class="author-photo">
 <div class="author-main">
 <h3>翁振軒 Sean Own</h3>
-<p class="author-bio">長期往返台灣、大陸、美國與澳門，專注企業經營、產業顧問與協會資源整合。近年以澳門為基地，推動中國數位服務出海、中華文創 IP 落地與青年跨界連結。ECI 2025 年度數位創新影響力人物，UC Berkeley 學士。</p>
-<div class="author-chips">
-<span>🏢 創辦人暨董事總經理｜澳門龍遊集團</span>
-<span>🚀 聯合創始人｜龍遊數字服務出海平台</span>
-<span>🏛️ 董事｜東望洋集團</span>
-<span>🤝 會長｜粵港澳大灣區電子商會</span>
-<span>🧧 監事長｜澳門台商聯誼會</span>
-<span>🎨 館長｜澳門龍遊絲綢文化藝術中心</span>
+<p class="author-bio">澳門台商、投資人、作家。</p>
+<div class="author-actions">
+<a class="author-more" href="/about/">關於我 ▸</a>
+<!-- 2026-10-09 修正：我第一版把「展開完整經歷」按鈕整個刪掉，結果
+     #about-detail 裡的 9 個 section 變成「永久隱藏」，其中代表項目
+     （8 張 practice-card）與數據 stats-bar 在 /about/ 頁並不存在，
+     等於首頁從此看不到。軒哥說的是「全部折疊起來」——折疊暗示能展開，
+     所以這裡把展開鈕加回來，但降級成一顆低調小鈕（.author-expand），
+     與旁邊的「關於我」並列，不再是原本那顆搶視線的大按鈕。 -->
+<button class="author-expand" id="about-expand-btn" type="button" onclick="toggleAboutDetail()" aria-expanded="false" aria-controls="about-detail"><span class="ae-open">＋更多經歷</span><span class="ae-shut">－收合</span></button>
 </div>
-<p class="help-label">我可以為你做什麼</p>
-<div class="help-grid">
-<a class="help-card" href="/contact/" onclick="goto('contact');return false">
-<span class="hc-icon">🤝</span><h4>產業顧問 · 資源對接</h4><p>企業數位轉型、政企與協會資源整合，幫你在澳門與大灣區少走彎路。</p><span class="hc-more">聊聊你的需求 ›</span></a>
-<a class="help-card" href="/contact/" onclick="goto('contact');return false">
-<span class="hc-icon">🎤</span><h4>演講 · 論壇邀約</h4><p>產業趨勢、AI 數位化、青年創新等主題演講與論壇對談。</p><span class="hc-more">邀約洽談 ›</span></a>
-<a class="help-card" href="/contact/" onclick="goto('contact');return false">
-<span class="hc-icon">✍️</span><h4>專欄 · 研究合作</h4><p>產業觀察撰文、研究報告協作與媒體受訪合作。</p><span class="hc-more">合作洽談 ›</span></a>
-</div>
-<button class="btn btn-primary" id="about-expand-btn" onclick="toggleAboutDetail()" aria-expanded="false">展開完整經歷 ▾</button>
 </div></div>
 <div id="about-detail" hidden style="margin-top:52px">
 <section class="section" style="background:var(--white)"><div class="section-inner">
@@ -817,6 +856,10 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <section class="section" id="sec-media" style="background:var(--white)"><div class="section-inner">
 <h2 class="section-title">媒體報導</h2><p class="section-subtitle">媒體採訪與活動報導</p><div class="title-line"></div>
 <div class="media-featured" id="media-featured"></div><div id="media-categories"></div>
+<!-- about-detail 自己的結尾：原本缺這個 </div>，瀏覽器的 div 糾錯
+     讓它一路「借用」訂閱區的 </div>，導致合作與聯絡、訂閱區被巢狀
+     吸進「關於作者」區塊內（實測 sec-author 內多出 coop-hero 280px）。 -->
+</div>
 </div></section>
 
 
@@ -888,7 +931,11 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 
 <script>
 const SECMAP={about:'sec-author',column:'sec-articles',works:'sec-projects',coop:'sec-services',contact:'sec-contact',media:'sec-media',subscribe:'sec-subscribe'};
-function openAboutDetail(){var det=document.getElementById('about-detail');if(!det)return false;if(det.hidden){det.hidden=false;var eb=document.getElementById('about-expand-btn');if(eb){eb.textContent='收起完整經歷 ▴';eb.setAttribute('aria-expanded','true')}return true}return false}
+/* 🔴 2026-10-09：按鈕內含 .ae-open／.ae-shut 兩個 span 由 CSS 依
+   aria-expanded 切換顯示，所以這裡「只」改 aria-expanded，
+   絕對不要用 eb.textContent=... —— 那會把兩個 span 洗掉，
+   之後 CSS 就再也切不出收合文案。 */
+function openAboutDetail(){var det=document.getElementById('about-detail');if(!det)return false;if(det.hidden){det.hidden=false;var eb=document.getElementById('about-expand-btn');if(eb){eb.setAttribute('aria-expanded','true')}return true}return false}
 function goto(sec,anchor){
 if(sec==='home'){window.scrollTo({top:0,behavior:'smooth'});return}
 var det=document.getElementById('about-detail');
@@ -898,7 +945,7 @@ var justOpened=(el&&det&&det.contains(el))||sec==='about'||sec==='works'||sec===
 if(!el)return;
 if(justOpened)setTimeout(function(){el.scrollIntoView({behavior:'smooth'})},80);else el.scrollIntoView({behavior:'smooth'});
 }
-function toggleAboutDetail(){var det=document.getElementById('about-detail');if(!det)return;det.hidden=!det.hidden;var eb=document.getElementById('about-expand-btn');if(eb){eb.textContent=det.hidden?'展開完整經歷 ▾':'收起完整經歷 ▴';eb.setAttribute('aria-expanded',det.hidden?'false':'true');if(!det.hidden)det.scrollIntoView({behavior:'smooth',block:'nearest'})}}
+function toggleAboutDetail(){var det=document.getElementById('about-detail');if(!det)return;det.hidden=!det.hidden;var eb=document.getElementById('about-expand-btn');if(eb){eb.setAttribute('aria-expanded',det.hidden?'false':'true');if(!det.hidden)det.scrollIntoView({behavior:'smooth',block:'nearest'})}}
 function openWeekly(){document.getElementById('weekly-overlay').classList.add('open');document.body.style.overflow='hidden'}
 function closeWeekly(){document.getElementById('weekly-overlay').classList.remove('open');document.body.style.overflow=''}
 function filterWorks(cat){document.querySelectorAll('#works-cats .insights-cat').forEach(b=>b.classList.toggle('active',b.dataset.wcat===cat));document.querySelectorAll('#works-grid .practice-card').forEach(c=>{c.style.display=(cat==='全部'||c.dataset.wcat===cat)?'':'none'})}
@@ -916,7 +963,11 @@ route()})();
 
 <!-- FOOTER -->
 <footer class="footer"><div class="footer-inner">
-<div class="footer-brand"><div class="logo">SEAN <span style="color:var(--gold)">OWN</span></div><p id="footer-brand">澳門台商 · 產業顧問 · 協會資源整合者。以澳門為樞紐，推動中國數字服務出海與中華文化國際傳播。</p></div>
+<div class="footer-brand"><div class="logo">SEAN <span style="color:var(--gold)">OWN</span></div><p id="footer-brand">澳門台商、投資人、作家。立足澳門這座中西交匯的平台，串聯澳門與內地與國際資源。</p>
+<!-- 極簡可合作領域（2026-10-09）：首頁「關於作者」縮成一行後，
+     全站唯一主動說明「你能做什麼」的位置只剩這裡。用一行字而非三張卡，
+     保留最低成本的轉換提示。要拿掉：刪掉這個 p 即可。 -->
+<p class="footer-focus">可合作領域：AI+產業 ｜ 中華文創 ｜ 青年創業</p></div>
 <div class="footer-col"><h3>網站導覽</h3>
 <a href="#sec-hero">首頁</a><a href="/about/">關於我</a><a href="/articles/">專欄文章</a><a href="/series/">專輯</a><a href="/book/shou-deng-ren-ying-ji/">著作</a></div>
 <div class="footer-col"><h3>更多</h3>
