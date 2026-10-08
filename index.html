@@ -73,8 +73,11 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .page{display:none;min-height:100vh;padding-top:68px}.page.active{display:block;animation:fadeIn .4s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .hero{min-height:calc(100vh - 68px);display:flex;align-items:center;background:#14060a url('assets/images/hero-red-horse.jpg') center 30%/cover no-repeat;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(270deg,rgba(9,4,8,.88) 0%,rgba(9,4,8,.62) 24%,rgba(9,4,8,.26) 46%,rgba(9,4,8,0) 64%),linear-gradient(0deg,rgba(9,4,8,.5) 0%,rgba(9,4,8,0) 22%)}
-.hero-inner{max-width:1280px;margin:0 auto;padding:60px 48px;width:100%;display:flex;justify-content:flex-end;align-items:center;position:relative;z-index:1}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,4,8,.88) 0%,rgba(9,4,8,.62) 24%,rgba(9,4,8,.26) 46%,rgba(9,4,8,0) 64%),linear-gradient(0deg,rgba(9,4,8,.5) 0%,rgba(9,4,8,0) 22%)}
+/* 2026-10-08 文字移回左側：原為 flex-end（右置），配合滿版文字的舊排版。
+   精簡後主標題只佔兩行，右置會壓在人像臉上、左側留大片空白。
+   遮罩方向同步由 270deg 改為 90deg（見上一行），否則左側文字失去對比保護。 */
+.hero-inner{max-width:1280px;margin:0 auto;padding:60px 48px;width:100%;display:flex;justify-content:flex-start;align-items:center;position:relative;z-index:1}
 .hero-text{max-width:520px}
 .hero-text h1{font-size:52px;font-weight:800;color:#fff;line-height:1.1;margin-bottom:16px;text-shadow:0 2px 20px rgba(0,0,0,.55)}
 .hero-text h1 .gold{color:var(--gold)}
@@ -291,7 +294,10 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .hero-inner{justify-content:center;text-align:center;padding:70px 20px 64px}
 .hero-text{max-width:640px;background:rgba(12,5,10,.55);backdrop-filter:blur(6px);border-radius:18px;padding:32px 26px}
 .hero-eyebrow{font-size:14px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,.78);margin-bottom:12px;text-shadow:0 1px 8px rgba(0,0,0,.5)}
-.hero-main{font-size:34px;font-weight:800;color:#fff;line-height:1.28;margin-bottom:14px;letter-spacing:.5px;text-shadow:0 2px 20px rgba(0,0,0,.55)}
+/* 選擇器補 h1 提高權重，理由同 max-width:480px 那層：
+   .hero-main（0,1,0）輸給基礎的 .hero-text h1（0,1,1），
+   968px 以下沒人真正降到 34px。 */
+.hero-text h1,.hero-main{font-size:34px;font-weight:800;color:#fff;line-height:1.28;margin-bottom:14px;letter-spacing:.5px;text-shadow:0 2px 20px rgba(0,0,0,.55)}
 .hero-main .gold{color:var(--gold)}
 .cards-grid,.stats-grid,.mission-grid,.info-grid,.assoc-list,.articles-grid,.media-featured,.coop-services,.practice-grid{grid-template-columns:1fr}
 .about-intro{grid-template-columns:1fr}.about-avatar{margin:0 auto}
@@ -310,7 +316,12 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 }
 /* 小手機 ≤480px：字體/padding 再縮小 */
 @media(max-width:480px){
-.hero-main{font-size:24px}.hero-eyebrow{font-size:13px}.hero-subtitle{font-size:15px}.hero-slogan{font-size:19px;padding-left:12px}
+/* 選擇器補 h1 提高權重：原 .hero-main（0,1,0）輸給基礎樣式的
+   .hero-text h1（0,1,1），導致 480px 以下仍在用 52px 大標題、
+   主標題被擠成 5 行並蓋住人像。這是既有 bug，2026-10-08 首屏精簡時才暴露。 */
+.hero-text h1,.hero-main{font-size:26px;line-height:1.25;margin-bottom:14px}
+@media(min-width:481px) and (max-width:768px){.hero-text h1,.hero-main{font-size:32px;line-height:1.25}}
+.hero-eyebrow{font-size:13px}.hero-subtitle{font-size:15px}.hero-slogan{font-size:19px;padding-left:12px}
 .hero-text{padding:24px 18px}
 .hero-buttons{gap:10px}.hero-buttons .btn{flex:1 1 100%;text-align:center;padding:13px 20px}
 .section{padding:60px 16px}.section-title{font-size:26px}.section-subtitle{font-size:14px;margin-bottom:30px}
@@ -520,6 +531,23 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .ledger-embed iframe{width:100%;height:min(880px,82vh);border:0;display:block;background:#F7F1E3}
 .ledger-embed-link{padding:10px 16px;font-size:13px;color:#744210;background:#FFF3D0;border-top:1px solid #B8912E;line-height:1.6}
 .ledger-embed-link a{color:#002676;font-weight:700}
+
+/* ==========================================================================
+   首屏精簡（2026-10-08，軒哥決定）
+   原本首屏有 5 塊文字（姓名列、副標、標語、三個信任數字）疊在照片上，
+   遮住人像且資訊密度過高。現只保留「主標題 ＋ 兩個按鈕」，讓照片本身說話。
+
+   ⚠️ 用 CSS 隱藏而非刪除 HTML，原因有二：
+      1. #hero-subtitle 與 #hero-slogan 會被 loadSiteText() 從 site-text.json
+         覆寫（見 index.html 下方 setText 那兩行），刪 HTML 會被 JS 重新填回。
+      2. 保留 DOM 可隨時回復，改刪這段 CSS 即可，零風險。
+   恢復方式：刪掉下面這段 CSS。 */
+.hero-eyebrow,
+.hero-subtitle,
+.hero-slogan,
+.hero-trust{display:none !important}
+/* 文字隱藏後補間距，避免主標題直接貼住按鈕 */
+.hero-buttons{margin-top:28px}
 </style>
 
 <!-- ① Hero 首屏 -->
