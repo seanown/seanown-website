@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>第三堂 · 商會幹部領導力與危機管理</title>
+<style>
+:root{
+  --green:#0B3D2E; --green-2:#12513D; --cream:#F7F3EA; --amber:#C75B12; --amber-2:#F0A050;
+  --ink:#1A1A1A; --grey:#5C5850; --foot:#8A8578;
+  --serif: Georgia, "Songti SC", "STSong", "SimSun", serif;
+  --sans: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#2A2A28;font-family:var(--sans);overflow:hidden}
+
+#bar{position:fixed;left:0;bottom:0;height:3px;background:var(--amber);z-index:20;transition:width .25s}
+#ctrl{position:fixed;right:18px;bottom:14px;display:flex;align-items:center;gap:12px;
+  font-size:13px;color:#B8B3A6;letter-spacing:1px;z-index:20}
+#ctrl button{background:none;border:1px solid #55554F;color:#D8D3C6;width:30px;height:26px;
+  border-radius:3px;cursor:pointer;font-size:12px;line-height:1}
+#ctrl button:hover{border-color:var(--amber);color:var(--amber-2)}
+#ctrl .ind{font-variant-numeric:tabular-nums;min-width:56px;text-align:center}
+#ctrl .sep{width:1px;height:16px;background:#55554F}
+
+#stage{position:relative;width:100%;height:100vh;overflow:hidden}
+/* 🔴 每頁必須是不透明實心底＋未啟用的頁完全隱藏，
+   否則會疊出上一頁的殘影（第二堂踩過，已修）。 */
+.slide{position:absolute;top:70px;left:50%;width:1280px;height:720px;margin-left:-640px;
+  opacity:0;pointer-events:none;transform-origin:top center;transition:opacity .32s;
+  background:var(--green);overflow:hidden}
+.slide.on{opacity:1;pointer-events:auto}
+.slide:not(.on){visibility:hidden}
+
+.hd{display:flex;align-items:center;gap:14px}
+.hd .bar{width:4px;height:34px;background:var(--amber);flex-shrink:0}
+.hd h2{font-family:var(--serif);font-size:34px;font-weight:700;color:var(--green);letter-spacing:1px;line-height:1.3}
+.kicker{display:flex;align-items:center;gap:12px}
+.kicker .ln{width:46px;height:3px;background:var(--amber);flex-shrink:0}
+.kicker span{font-size:17px;color:var(--amber-2);letter-spacing:3px;font-weight:600}
+
+/* ===== P1 封面 ===== */
+.p1{background:var(--green)}
+.p1 .bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.85}
+.p1 .veil{position:absolute;inset:0;background:linear-gradient(105deg,rgba(11,61,46,.96) 0%,rgba(11,61,46,.88) 38%,rgba(11,61,46,.42) 72%,rgba(11,61,46,.30) 100%)}
+.p1 .inner{position:absolute;inset:0;padding:74px 72px 56px;display:flex;flex-direction:column;justify-content:space-between;z-index:3}
+.p1 h1{font-family:var(--serif);font-size:62px;font-weight:700;color:var(--cream);line-height:1.2;letter-spacing:2px}
+.p1 h1.two{color:var(--amber-2)}
+.p1 .who{display:flex;align-items:center;gap:16px}
+.p1 .who .bar{width:5px;height:42px;background:var(--amber)}
+.p1 .who .nm{font-size:19px;color:var(--cream);font-weight:600;letter-spacing:1px}
+.p1 .who .sub{font-size:14px;color:rgba(247,243,234,.55);letter-spacing:1px;margin-top:5px}
+
+/* ===== P2 目錄 ===== */
+.p2{background:var(--cream);display:flex}
+.p2 .left{width:392px;background:var(--green);padding:72px 44px 60px;display:flex;flex-direction:column;justify-content:space-between}
+.p2 .left .ln{width:46px;height:3px;background:var(--amber);margin-bottom:18px}
+.p2 .left h3{font-family:var(--serif);font-size:42px;font-weight:700;color:var(--cream);line-height:1.3;letter-spacing:3px}
+.p2 .left p{font-size:15px;color:rgba(247,243,234,.60);line-height:1.72}
+.p2 .right{flex:1;padding:72px 64px 60px 52px;display:flex;flex-direction:column;justify-content:center;gap:20px}
+.p2 .it{display:flex;align-items:baseline;gap:20px;padding-bottom:16px;border-bottom:1px solid #DED8CA}
+.p2 .it .no{font-family:var(--serif);font-size:24px;color:var(--amber);font-weight:700;width:42px;flex-shrink:0}
+.p2 .it .tt{font-family:var(--serif);font-size:24px;color:var(--green);font-weight:700;letter-spacing:1px}
+.p2 .it .dd{font-size:14px;color:var(--grey);margin-left:auto;letter-spacing:.5px}
+
+/* ===== P3 開場金句（Hero） ===== */
+.p3{background:var(--green)}
+.p3 .bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.72}
+.p3 .veil{position:absolute;inset:0;background:linear-gradient(100deg,rgba(11,61,46,.96) 0%,rgba(11,61,46,.88) 48%,rgba(11,61,46,.55) 100%)}
+.p3 .inner{position:absolute;inset:0;padding:70px 72px 56px;display:flex;flex-direction:column;justify-content:center;z-index:3}
+.p3 .quote{font-family:var(--serif);font-size:46px;font-weight:700;color:var(--cream);line-height:1.42;letter-spacing:2px;max-width:900px}
+.p3 .quote em{font-style:normal;color:var(--amber-2)}
+.p3 .note{margin-top:32px;font-size:17px;color:rgba(247,243,234,.68);line-height:1.8;max-width:740px;
+  border-left:3px solid var(--amber);padding-left:20px}
+
+/* ===== P4 商會的真正功能 ===== */
+.p4{background:var(--cream);display:flex}
+.p4 .left{position:absolute;top:0;left:0;width:620px;height:720px;padding:60px 52px 52px 72px;display:flex;flex-direction:column}
+.p4 .lead{font-size:16.5px;color:var(--grey);line-height:1.8;margin-top:20px}
+.p4 .cmp{flex:1;display:flex;flex-direction:column;gap:14px;padding-top:22px}
+.p4 .box{flex:1;border-radius:9px;padding:20px 26px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.p4 .box.no{background:#fff;border:1px solid #E2DCCF}
+.p4 .box.yes{background:var(--green)}
+.p4 .box .t{font-family:var(--serif);font-size:23px;font-weight:700}
+.p4 .box .d{font-size:15px;line-height:1.7}
+.p4 .box.no .t{color:var(--green)} .p4 .box.no .d{color:var(--grey)}
+.p4 .box.yes .t{color:var(--amber-2)} .p4 .box.yes .d{color:rgba(247,243,234,.80)}
+.p4 .right{position:absolute;top:0;right:0;width:660px;height:720px;background:var(--green);
+  padding:60px 52px;display:flex;flex-direction:column;justify-content:center;gap:20px}
+.p4 .right .q{font-family:var(--serif);font-size:26px;color:var(--cream);line-height:1.5;letter-spacing:1px}
+.p4 .right .q em{font-style:normal;color:var(--amber-2)}
+.p4 .right .sm{font-size:14.5px;color:rgba(247,243,234,.60);line-height:1.72;
+  border-top:1px solid rgba(247,243,234,.16);padding-top:16px}
+
+/* ===== P5 巨型數字（Hero） ===== */
+.p5{background:var(--green)}
+.p5 .inner{position:absolute;inset:0;padding:70px 72px 52px;display:flex;flex-direction:column;justify-content:space-between;z-index:3}
+.p5 .mid{flex:1;display:flex;flex-direction:column;justify-content:center;padding-bottom:8px}
+.p5 .big{font-family:var(--serif);font-size:150px;font-weight:700;color:var(--amber-2);line-height:.94;letter-spacing:4px;margin-left:-8px}
+.p5 .big .u{font-size:42px;color:var(--cream);letter-spacing:4px;margin-left:14px}
+.p5 .cap{margin-top:20px;font-size:21px;color:var(--cream);line-height:1.7;letter-spacing:1px;max-width:860px}
+.p5 .cap b{color:var(--amber-2);font-weight:700}
+.p5 .foot{display:flex;gap:40px;padding-top:20px;border-top:1px solid rgba(247,243,234,.18)}
+.p5 .foot div{display:flex;flex-direction:column;gap:6px}
+.p5 .foot .k{font-family:var(--serif);font-size:27px;color:var(--cream);font-weight:700}
+.p5 .foot .v{font-size:14px;color:rgba(247,243,234,.62)}
+
+/* ===== P6 章節封 ===== */
+.p6{background:var(--green);display:flex;align-items:center;justify-content:center}
+.p6 .mid{text-align:center;z-index:3}
+.p6 .no{font-family:var(--serif);font-size:146px;color:rgba(240,160,80,.30);font-weight:700;line-height:1}
+.p6 h2{font-family:var(--serif);font-size:54px;color:var(--cream);font-weight:700;letter-spacing:8px;margin-top:14px}
+.p6 .rule{width:70px;height:3px;background:var(--amber);margin:26px auto 0}
+.p6 .sb{font-size:17px;color:rgba(247,243,234,.60);letter-spacing:2px;margin-top:20px}
+
+/* ===== P7 領導 vs 管理 ===== */
+.p7{background:var(--cream);display:flex}
+.p7 .left{width:328px;background:var(--green);padding:70px 40px 56px 72px;display:flex;flex-direction:column;justify-content:space-between}
+.p7 .left .ln{width:40px;height:3px;background:var(--amber);margin-bottom:16px}
+.p7 .left h3{font-family:var(--serif);font-size:42px;font-weight:700;color:var(--cream);line-height:1.32;letter-spacing:2px}
+.p7 .left p{font-size:15px;color:rgba(247,243,234,.60);line-height:1.72}
+.p7 .right{flex:1;padding:56px 58px 50px 46px;display:flex;flex-direction:column;gap:12px}
+.p7 .row{display:flex;align-items:stretch;background:#fff;border-radius:8px;overflow:hidden;
+  box-shadow:0 3px 14px rgba(11,61,46,.06)}
+.p7 .row .kk{width:118px;background:var(--green-2);color:var(--cream);display:flex;align-items:center;
+  justify-content:center;font-family:var(--serif);font-size:19px;font-weight:700;letter-spacing:2px;flex-shrink:0}
+.p7 .row.key .kk{background:var(--amber);color:var(--green)}
+.p7 .row .vv{flex:1;padding:11px 20px;display:flex;align-items:center;font-size:15px;color:var(--grey);line-height:1.55}
+.p7 .row .vv b{color:var(--green);font-weight:700}
+.p7 .warn{margin-top:4px;font-size:14.5px;color:#8A4A12;background:#FFF3D0;border-radius:6px;padding:12px 18px;line-height:1.68}
+
+/* ===== P8 衝突處理 ===== */
+.p8{background:var(--cream);display:flex}
+.p8 .left{position:absolute;top:0;left:0;width:560px;height:720px;padding:62px 48px 54px 72px;display:flex;flex-direction:column}
+.p8 .left .lead{font-size:16.5px;color:var(--grey);line-height:1.8;margin-top:18px}
+.p8 .left .tip{margin-top:auto;background:var(--green);border-radius:8px;padding:20px 24px}
+.p8 .left .tip .t{font-family:var(--serif);font-size:20px;color:var(--amber-2);font-weight:700;margin-bottom:8px}
+.p8 .left .tip .d{font-size:14.5px;color:rgba(247,243,234,.74);line-height:1.7}
+.p8 .right{position:absolute;top:0;right:0;width:720px;height:720px;padding:62px 60px 54px 40px;display:flex;flex-direction:column;gap:14px}
+.p8 .st{flex:1;background:#fff;border-radius:9px;padding:18px 26px;display:flex;align-items:center;gap:20px;
+  box-shadow:0 4px 16px rgba(11,61,46,.06);border-left:4px solid var(--green)}
+.p8 .st .no{width:42px;height:42px;border-radius:21px;background:var(--green);color:var(--cream);
+  display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+.p8 .st .tx .t{font-family:var(--serif);font-size:21px;color:var(--green);font-weight:700;margin-bottom:5px}
+.p8 .st .tx .d{font-size:14.5px;color:var(--grey);line-height:1.6}
+.p8 .st.half{border-left-color:var(--amber)}
+.p8 .st.half .no{background:var(--amber);color:var(--green)}
+
+/* ===== P9 SBI + 雁隊 ===== */
+.p9{background:var(--cream)}
+.p9 .left{position:absolute;top:0;left:0;width:628px;height:720px;padding:58px 50px 52px 72px;display:flex;flex-direction:column}
+.p9 .cards{flex:1;display:flex;flex-direction:column;gap:12px;padding-top:18px}
+.p9 .c{flex:1;background:#fff;border-left:4px solid var(--amber);border-radius:6px;padding:15px 24px;
+  display:flex;flex-direction:column;justify-content:center;gap:5px;box-shadow:0 4px 16px rgba(11,61,46,.06)}
+.p9 .c .t{font-family:var(--serif);font-size:20px;color:var(--green);font-weight:700}
+.p9 .c .d{font-size:14.5px;color:var(--grey);line-height:1.6}
+.p9 .c .d b{color:#8A4A12}
+.p9 .right{position:absolute;top:0;right:0;width:652px;height:720px;background:var(--green);
+  padding:58px 52px;display:flex;flex-direction:column;justify-content:center;gap:18px}
+.p9 .right .q{font-family:var(--serif);font-size:26px;color:var(--cream);line-height:1.48;letter-spacing:1px}
+.p9 .right .q em{font-style:normal;color:var(--amber-2)}
+.p9 .right .sm{font-size:14.5px;color:rgba(247,243,234,.62);line-height:1.72;
+  border-top:1px solid rgba(247,243,234,.16);padding-top:16px}
+
+/* ===== P10 六種商數 ===== */
+.p10{background:var(--cream);display:flex}
+.p10 .left{position:absolute;top:0;left:0;width:556px;height:720px;padding:60px 48px 54px 72px;display:flex;flex-direction:column}
+.p10 .left .lead{font-size:16.5px;color:var(--grey);line-height:1.8;margin-top:18px}
+.p10 .left .key{margin-top:auto;background:var(--green);border-radius:9px;padding:22px 26px;text-align:center}
+.p10 .left .key .t{font-family:var(--serif);font-size:26px;color:var(--amber-2);font-weight:700;letter-spacing:2px}
+.p10 .right{position:absolute;top:0;right:0;width:724px;height:720px;padding:56px 58px 50px 40px;display:flex;flex-direction:column;gap:10px}
+.p10 .r{flex:1;display:flex;align-items:center;gap:18px;background:#fff;border-radius:7px;padding:11px 24px;
+  box-shadow:0 3px 12px rgba(11,61,46,.06)}
+.p10 .r .ab{width:62px;font-family:var(--serif);font-size:24px;color:var(--amber);font-weight:700;flex-shrink:0}
+.p10 .r .vv{flex:1;font-size:15px;color:var(--grey)}
+.p10 .r .vv b{color:var(--green);font-weight:700}
+.p10 .r .wh{width:150px;font-size:13.5px;color:var(--foot);text-align:right}
+
+/* ===== P11 危機五心 === */
+.p11{background:var(--cream);display:flex}
+.p11 .left{position:absolute;top:0;left:0;width:470px;height:720px;padding:62px 40px 56px 72px;
+  display:flex;flex-direction:column}
+.p11 .left h3{font-family:var(--serif);font-size:38px;color:var(--green);font-weight:700;line-height:1.32;letter-spacing:2px}
+.p11 .left .q{background:var(--green);border-radius:8px;padding:20px 24px;margin-top:22px}
+.p11 .left .q .t{font-family:var(--serif);font-size:20px;color:var(--amber-2);font-weight:700;margin-bottom:8px}
+.p11 .left .q .d{font-size:14.5px;color:rgba(247,243,234,.74);line-height:1.7}
+.p11 .left .sub{margin-top:16px;background:#FFF3D0;border-radius:8px;padding:16px 20px;
+  font-size:14px;color:#8A4A12;line-height:1.7}
+.p11 .right{position:absolute;top:0;right:0;width:810px;height:720px;padding:54px 56px 48px 34px;
+  display:flex;flex-direction:column;gap:9px}
+.p11 .h{flex:1;display:flex;align-items:center;gap:16px;background:#fff;border-radius:6px;padding:10px 22px;
+  box-shadow:0 3px 12px rgba(11,61,46,.06)}
+.p11 .h .en{width:118px;font-size:14px;color:var(--amber);font-weight:700;flex-shrink:0;letter-spacing:.5px}
+.p11 .h .zh{width:96px;font-family:var(--serif);font-size:18px;color:var(--green);font-weight:700;flex-shrink:0}
+.p11 .h .dd{flex:1;font-size:14px;color:var(--grey);line-height:1.5}
+.p11 .h.detect{background:#FFF3D0;box-shadow:0 0 0 1px #E0C88A inset}
+.p11 .h.detect .zh{color:#8A4A12}
+
+/* ===== P12 傳承 ===== */
+.p12{background:var(--cream);display:flex}
+.p12 .left{position:absolute;top:0;left:0;width:596px;height:720px;padding:60px 50px 54px 72px;display:flex;flex-direction:column}
+.p12 .cards{flex:1;display:flex;flex-direction:column;gap:12px;padding-top:20px}
+.p12 .c{flex:1;background:#fff;border-left:4px solid var(--green);border-radius:6px;padding:15px 24px;
+  display:flex;flex-direction:column;justify-content:center;gap:5px;box-shadow:0 4px 16px rgba(11,61,46,.06)}
+.p12 .c .t{font-family:var(--serif);font-size:20px;color:var(--green);font-weight:700}
+.p12 .c .d{font-size:14.5px;color:var(--grey);line-height:1.6}
+.p12 .right{position:absolute;top:0;right:0;width:684px;height:720px;background-size:cover;background-position:center}
+
+/* ===== P13 金句收束（Hero） ===== */
+.p13{background:var(--green)}
+.p13 .bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.70}
+.p13 .veil{position:absolute;inset:0;background:linear-gradient(110deg,rgba(11,61,46,.96) 0%,rgba(11,61,46,.88) 48%,rgba(11,61,46,.55) 100%)}
+.p13 .inner{position:absolute;inset:0;padding:70px 72px 56px;display:flex;flex-direction:column;
+  justify-content:center;align-items:flex-start;z-index:3}
+.p13 .q{font-family:var(--serif);font-size:50px;font-weight:700;color:var(--cream);line-height:1.4;letter-spacing:3px}
+.p13 .q em{font-style:normal;color:var(--amber-2)}
+.p13 .d{margin-top:28px;font-size:18px;color:rgba(247,243,234,.66);line-height:1.8;max-width:740px}
+
+/* ===== P14 附錄總表 ===== */
+.p14{background:var(--green);padding:44px 58px 38px;display:flex;flex-direction:column}
+.p14 .hd{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:13px}
+.p14 .hd .l{display:flex;align-items:center;gap:14px}
+.p14 .hd .bar{width:4px;height:30px;background:var(--amber)}
+.p14 .hd h2{font-family:var(--serif);font-size:29px;font-weight:700;color:var(--cream);letter-spacing:1px}
+.p14 .hd .r{font-size:14px;color:rgba(247,243,234,.50);letter-spacing:1px}
+.p14 .cols{flex:1;display:flex;gap:20px;padding-top:6px}
+.p14 .col{flex:1;display:flex;flex-direction:column;gap:4px}
+.p14 .col h4{font-family:var(--serif);font-size:16px;color:var(--amber-2);font-weight:700;
+  letter-spacing:1px;padding-bottom:5px;border-bottom:1px solid rgba(240,160,80,.28);margin-bottom:4px}
+.p14 .it{padding:4px 0;border-bottom:1px solid rgba(247,243,234,.09);display:flex;gap:9px;align-items:baseline}
+.p14 .it .k{font-size:12.5px;color:rgba(247,243,234,.55);flex:1;line-height:1.5}
+.p14 .it .v{font-size:12.5px;color:var(--cream);font-weight:600;text-align:right;white-space:nowrap}
+.p14 .ft{margin-top:13px;padding-top:11px;border-top:1px solid rgba(247,243,234,.14);
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  font-size:13px;color:rgba(247,243,234,.50);letter-spacing:1px}
+.p14 .ft .mid{font-family:var(--serif);font-size:15.5px;color:var(--amber-2);letter-spacing:1.5px}
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+<div id="ctrl">
+  <button id="prev" title="上一頁">&#9664;</button>
+  <span class="ind" id="ind">01 / 14</span>
+  <button id="next" title="下一頁">&#9654;</button>
+  <span class="sep"></span>
+  <button id="fs" title="全螢幕">&#9974;</button>
+</div>
+
+<div id="stage">
+
+<!-- ═══ P1 封面 ═══ -->
+<div class="slide p1 on">
+  <div class="bg" style="background-image:url('assets/hero.jpg')"></div>
+  <div class="veil"></div>
+  <div class="inner">
+    <div>
+      <div class="kicker"><div class="ln"></div><span>青年實戰 · 第三堂</span></div>
+      <h1 style="margin-top:26px">領導是做對的事，<br><span class="two">管理是把事做對</span></h1>
+    </div>
+    <div class="who">
+      <div class="bar"></div>
+      <div>
+        <div class="nm">翁振軒 Sean Own</div>
+        <div class="sub">會長・副會長・理監事・秘書長｜附危機管理 SOP 與傳承方法</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ P2 目錄 ═══ -->
+<div class="slide p2">
+  <div class="left">
+    <div>
+      <div class="ln"></div>
+      <h3>今天<br>談什麼</h3>
+    </div>
+    <p>商會缺的不是活動，<br>是讓人留下的理由。</p>
+  </div>
+  <div class="right">
+    <div class="it"><div class="no">壹</div><div class="tt">商會的真正功能</div><div class="dd">解決問題，不是聚集人</div></div>
+    <div class="it"><div class="no">貳</div><div class="tt">信任是唯一資產</div><div class="dd">職位給權力，責任給信任</div></div>
+    <div class="it"><div class="no">參</div><div class="tt">衝突與團隊</div><div class="dd">SBI 回饋法、雁隊理論</div></div>
+    <div class="it"><div class="no">肆</div><div class="tt">六種商數</div><div class="dd">順境看 IQ，逆境看 AQ</div></div>
+    <div class="it"><div class="no">伍</div><div class="tt">危機五個心</div><div class="dd">先偵測，再回應</div></div>
+    <div class="it"><div class="no">陸</div><div class="tt">傳承不是交位置</div><div class="dd">把人帶出來才算</div></div>
+  </div>
+</div>
+
+<!-- ═══ P3 開場（Hero） ═══ -->
+<div class="slide p3">
+  <div class="bg" style="background-image:url('assets/hero.jpg')"></div>
+  <div class="veil"></div>
+  <div class="inner">
+    <div class="quote">組織的資產不是錢、不是場地，<br><em>是信任。</em></div>
+    <div class="note">如果一個組織要倒，最先倒的不是財務，是信任——
+      就像銀行的帳戶，平時沒人感謝你存錢，但出事那天你就知道裡面有多少。</div>
+  </div>
+</div>
+
+<!-- ═══ P4 商會的真正功能 ═══ -->
+<div class="slide p4">
+  <div class="left">
+    <div class="hd"><div class="bar"></div><h2>辦活動 ≠ 解決問題</h2></div>
+    <div class="lead">很多商會的幹事一年做完幾場活動，年底覺得該做的都做了，但隔年會員人數沒有長。</div>
+    <div class="cmp">
+      <div class="box no">
+        <div class="t">辦活動</div>
+        <div class="d">把人聚集起來。結束就散場，熱情涼了，會員也就散了。</div>
+      </div>
+      <div class="box yes">
+        <div class="t">解決問題</div>
+        <div class="d">把人的問題接住。會員因為被幫得上而留下，這才是累積。</div>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="q">沒人知道的活動，<br><em>等於沒發生過。</em></div>
+    <div class="sm">不是說活動要轟轟烈烈，而是說你做的東西必須要讓別人看見、讓別人記得，否則它對組織沒有留下任何東西。</div>
+  </div>
+</div>
+
+<!-- ═══ P5 巨型數字（Hero） ═══ -->
+<div class="slide p5">
+  <div class="inner">
+    <div class="hd"><div class="bar"></div>
+      <h2 style="color:var(--cream);font-size:30px">領導力的三個基本功</h2></div>
+    <div class="mid">
+      <div class="big">3<span class="u">個基本功</span></div>
+      <div class="cap"><b>順序不能顛倒</b>——方向不清楚，後面兩個做得再好，也只是在錯誤的路上跑得更快。</div>
+    </div>
+    <div class="foot">
+      <div><div class="k">形塑方向</div><div class="v">我們是誰、服務誰、創造什麼價值</div></div>
+      <div><div class="k">信任帳戶</div><div class="v">誠實承擔、說到做到，都是在存錢</div></div>
+      <div><div class="k">承擔勇氣</div><div class="v">有功往下分，有錯自己扛</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ P6 章節封 ═══ -->
+<div class="slide p6">
+  <div class="mid">
+    <div class="no">02</div>
+    <h2>衝 突 與 團 隊</h2>
+    <div class="rule"></div>
+    <div class="sb">衝突不是問題，迴避衝突才是</div>
+  </div>
+</div>
+
+<!-- ═══ P7 領導 vs 管理 ═══ -->
+<div class="slide p7">
+  <div class="left">
+    <div>
+      <div class="ln"></div>
+      <h3>領導<br>與管理</h3>
+    </div>
+    <p>這張表最重要的<br>是「權力來源」那一行。</p>
+  </div>
+  <div class="right">
+    <div class="row key"><div class="kk">方向</div><div class="vv"><b>做對的事</b>——該不該做、值不值得做</div></div>
+    <div class="row"><div class="kk">執行</div><div class="vv">把事做對——怎麼做才有效率</div></div>
+    <div class="row"><div class="kk">關注</div><div class="vv">願景、共識、動機｜流程、SOP、效率</div></div>
+    <div class="row"><div class="kk">看的是</div><div class="vv"><b>梯子有沒有靠對牆</b>｜多快爬上梯子</div></div>
+    <div class="row key"><div class="kk">權力來源</div><div class="vv"><b>人心、信任、人格</b>｜職位、制度、獎懲</div></div>
+    <div class="warn">商會的會員有選擇，他可以不續會、可以退會——<b>靠的是影響力，不是職位。</b></div>
+  </div>
+</div>
+
+<!-- ═══ P8 衝突處理三步 ═══ -->
+<div class="slide p8">
+  <div class="left">
+    <div class="hd"><div class="bar"></div><h2>衝突三步走</h2></div>
+    <div class="lead">很多衝突之所以變成事故，不是因為意見不同，而是因為迴避了。</div>
+    <div class="tip">
+      <div class="t">半條麵包哲學</div>
+      <div class="d">沒有共識，但能接受，就先往前。若每件事都要等到所有人滿意才動，整個組織會癱瘓。</div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="st"><div class="no">1</div><div class="tx">
+      <div class="t">找共同目標</div>
+      <div class="d">不是問「你要什麼」，而是「我們今天要一起達成什麼」——這句話能把對話從「你對我錯」拉回「我們」。</div></div></div>
+    <div class="st"><div class="no">2</div><div class="tx">
+      <div class="t">確認立場</div>
+      <div class="d">你的需求是什麼、他的需求是什麼。很多時候會發現，兩個人多半都是好意。</div></div></div>
+    <div class="st half"><div class="no">3</div><div class="tx">
+      <div class="t">形成協議</div>
+      <div class="d"><b>不要求人人滿意，但求人人能接受。</b></div></div></div>
+  </div>
+</div>
+
+<!-- ═══ P9 SBI + 團隊 ═══ -->
+<div class="slide p9">
+  <div class="left">
+    <div class="hd"><div class="bar"></div><h2>SBI 回饋法</h2></div>
+    <div class="cards">
+      <div class="c"><div class="t">S｜Situation 情境</div>
+        <div class="d">「昨天開會的時候」</div></div>
+      <div class="c"><div class="t">B｜Behavior 行為</div>
+        <div class="d">「你沒有準備詳細資料」</div></div>
+      <div class="c"><div class="t">I｜Impact 影響</div>
+        <div class="d">「導致大家不了解狀況，討論失準」</div></div>
+      <div class="c" style="border-left-color:var(--amber)">
+        <div class="t">不要說</div>
+        <div class="d"><b>「你這個人怎麼都不準備」</b>——評價人會讓人防衛，描述事情才能讓人改進。</div></div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="q">交響樂團<br><em>不是每個人都獨奏。</em></div>
+    <div class="sm">商會最不缺人才，最缺的反而是團隊。讓每個人輪流當領導者——<b>雁隊理論：機會留給準備好的人。</b></div>
+  </div>
+</div>
+
+<!-- ═══ P10 六種商數 ═══ -->
+<div class="slide p10">
+  <div class="left">
+    <div class="hd"><div class="bar"></div><h2>六種商數</h2></div>
+    <div class="lead">對一個要帶組織的人來說，六種都要用，但<span style="color:#8A4A12;font-weight:700">在什麼時候用</span>，更重要。</div>
+    <div class="key">
+      <div class="t">順境看 IQ，逆境看 AQ</div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="r"><div class="ab">IQ</div><div class="vv"><b>專業能力</b></div><div class="wh">平時、順境</div></div>
+    <div class="r"><div class="ab">EQ</div><div class="vv"><b>情緒管理</b></div><div class="wh">人際、壓力</div></div>
+    <div class="r"><div class="ab">SQ</div><div class="vv"><b>人際關係</b></div><div class="wh">跨部門、跨文化</div></div>
+    <div class="r" style="background:#FFF3D0"><div class="ab">AQ</div><div class="vv"><b>逆境商數</b></div><div class="wh">危機、突發</div></div>
+    <div class="r"><div class="ab">CQ</div><div class="vv"><b>創造力</b></div><div class="wh">轉型、創新</div></div>
+    <div class="r"><div class="ab">MQ</div><div class="vv"><b>道德商數</b></div><div class="wh">底線、原則</div></div>
+  </div>
+</div>
+
+<!-- ═══ P11 危機五心 ═══ -->
+<div class="slide p11">
+  <div class="left">
+    <div>
+      <div class="hd"><div class="bar"></div><h3>危機<br>五個心</h3></div>
+      <div class="q">
+        <div class="t">先偵測，再回應</div>
+        <div class="d">問題界定錯了，用正確方法解決錯誤問題，是第三類錯誤。</div>
+      </div>
+      <div class="sub">媒體永遠比你早到，所以要指定<b>單一發言窗口</b>；
+        道歉要及時——在對方還在意的時候道歉，事後道歉沒有用。</div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="h"><div class="en">Compassion</div><div class="zh">關懷</div><div class="dd">先關心受傷的人，再講真相。順序不能反。</div></div>
+    <div class="h"><div class="en">Commitment</div><div class="zh">承諾</div><div class="dd">道歉要具體：誰負責、何時改善、如何避免再發。</div></div>
+    <div class="h"><div class="en">Credibility</div><div class="zh">可信</div><div class="dd">不講漂亮話，也不要說「無可奉告」。</div></div>
+    <div class="h"><div class="en">Clarity</div><div class="zh">清楚一致</div><div class="dd">前後口徑一致，不能兩套說法。</div></div>
+    <div class="h"><div class="en">Continued</div><div class="zh">連續</div><div class="dd">持續對外更新，不要失聲。</div></div>
+    <div class="h detect"><div class="en">Detect</div><div class="zh">偵測</div><div class="dd"><b>先搞清楚到底發生什麼。</b></div></div>
+  </div>
+</div>
+
+<!-- ═══ P12 傳承 ═══ -->
+<div class="slide p12">
+  <div class="left">
+    <div class="hd"><div class="bar"></div><h2>傳承不是交位置</h2></div>
+    <div class="cards">
+      <div class="c"><div class="t">真正的傳承</div>
+        <div class="d">把<b>經驗、信任、責任</b>一起交出去——位置最不值錢，下一任本來就有位置。</div></div>
+      <div class="c"><div class="t">先讓年輕人做小事</div>
+        <div class="d">並且<b>允許他們犯錯</b>。前面幾任做得太完美，後面的人怎麼做都像在退步。</div></div>
+      <div class="c"><div class="t">讓年輕人被看見</div>
+        <div class="d">被看見、被信任，比任何制度都重要。</div></div>
+      <div class="c"><div class="t">固定編制</div>
+        <div class="d">二代聯盟、ESG 聯盟、親子活動——不要只靠老一輩，因為老一輩會老。</div></div>
+    </div>
+  </div>
+  <div class="right" style="background-image:url('assets/hero.jpg')"></div>
+</div>
+
+<!-- ═══ P13 金句收束（Hero） ═══ -->
+<div class="slide p13">
+  <div class="bg" style="background-image:url('assets/hero.jpg')"></div>
+  <div class="veil"></div>
+  <div class="inner">
+    <div class="q">留下的不是<br>做過多少活動，<br>而是<em>帶出多少人、<br>串起多少力量。</em></div>
+    <div class="d">會長的定位是做平台，不做主角。做主角有掌聲，做平台只有「事情成了」這一個回報。</div>
+  </div>
+</div>
+
+<!-- ═══ P14 附錄總表 ═══ -->
+<div class="slide p14">
+  <div class="hd">
+    <div class="l"><div class="bar"></div><h2>第三堂 · 商會幹部領導力與危機管理 SOP</h2></div>
+    <div class="r">附錄十二節 · 完整流程表</div>
+  </div>
+  <div class="cols">
+    <div class="col">
+      <h4>三個基本功</h4>
+      <div class="it"><div class="k">形塑方向</div><div class="v">是誰・服務誰</div></div>
+      <div class="it"><div class="k">信任帳戶</div><div class="v">誠實承擔</div></div>
+      <div class="it"><div class="k">承擔勇氣</div><div class="v">有錯自己扛</div></div>
+      <h4 style="margin-top:10px">衝突三步</h4>
+      <div class="it"><div class="k">找共同目標</div><div class="v">拉回「我們」</div></div>
+      <div class="it"><div class="k">確認立場</div><div class="v">多半都是好意</div></div>
+      <div class="it"><div class="k">形成協議</div><div class="v">求人人能接受</div></div>
+    </div>
+    <div class="col">
+      <h4>六種商數</h4>
+      <div class="it"><div class="k">IQ 專業能力</div><div class="v">平時順境</div></div>
+      <div class="it"><div class="k">EQ 情緒管理</div><div class="v">人際壓力</div></div>
+      <div class="it"><div class="k">SQ 人際關係</div><div class="v">跨部門跨文化</div></div>
+      <div class="it"><div class="k">AQ 逆境商數</div><div class="v">危機突發</div></div>
+      <div class="it"><div class="k">CQ 創造力</div><div class="v">轉型創新</div></div>
+      <div class="it"><div class="k">MQ 道德商數</div><div class="v">底線原則</div></div>
+      <h4 style="margin-top:10px">SBI 回饋法</h4>
+      <div class="it"><div class="k">S 情境</div><div class="v">昨天開會時</div></div>
+      <div class="it"><div class="k">B 行為</div><div class="v">沒準備資料</div></div>
+    </div>
+    <div class="col">
+      <h4>危機五心</h4>
+      <div class="it"><div class="k">關懷</div><div class="v">先關心再真相</div></div>
+      <div class="it"><div class="k">承諾</div><div class="v">道歉要具體</div></div>
+      <div class="it"><div class="k">可信</div><div class="v">不說無可奉告</div></div>
+      <div class="it"><div class="k">清楚一致</div><div class="v">不能兩套說法</div></div>
+      <div class="it"><div class="k">連續</div><div class="v">不要失聲</div></div>
+      <div class="it"><div class="k">偵測</div><div class="v">先搞清楚再回應</div></div>
+      <h4 style="margin-top:10px">本堂金句</h4>
+      <div class="it"><div class="k">做對的事</div><div class="v">領導</div></div>
+      <div class="it"><div class="k">信任是資產</div><div class="v">唯一的</div></div>
+    </div>
+  </div>
+  <div class="ft">
+    <span>翁振軒 Sean Own · 青年實戰系列</span>
+    <span class="mid">留下的不是做過多少活動，是帶出多少人。</span>
+    <span>seanown.org</span>
+  </div>
+</div>
+
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const TOTAL=slides.length;
+let cur=0;
+function fit(){
+  const s=Math.min(window.innerWidth/1280,(window.innerHeight-70)/720);
+  slides.forEach(el=>{el.style.transform='scale('+s+')'});
+  document.getElementById('stage').style.height=(720*s+70)+'px';
+}
+function show(n){
+  cur=Math.max(0,Math.min(TOTAL-1,n));
+  slides.forEach((el,i)=>el.classList.toggle('on',i===cur));
+  document.getElementById('ind').textContent=String(cur+1).padStart(2,'0')+' / '+TOTAL;
+  document.getElementById('bar').style.width=((cur+1)/TOTAL*100)+'%';
+  location.hash=cur+1;
+}
+document.getElementById('next').onclick=()=>show(cur+1);
+document.getElementById('prev').onclick=()=>show(cur-1);
+function toggleFs(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+document.getElementById('fs').onclick=toggleFs;
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')show(cur+1);
+  if(e.key==='ArrowLeft'||e.key==='PageUp')show(cur-1);
+  if(e.key==='Home')show(0);
+  if(e.key==='End')show(TOTAL-1);
+  if(e.key==='f'||e.key==='F')toggleFs();
+});
+function readHash(){
+  const n=parseInt(location.hash.replace('#',''),10);
+  if(!isNaN(n)&&n>=1&&n<=TOTAL)show(n-1);
+}
+window.addEventListener('hashchange',readHash);
+window.__go=show;
+window.addEventListener('resize',fit);
+fit(); readHash();
+</script>
+</body>
+</html>

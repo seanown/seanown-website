@@ -195,6 +195,7 @@ SLUGS = {
     '120': 'o-regresso-1989',
     '121': 'meeting-ends-things-begin',
     '122': 'etiquette-is-not-form',
+    '123': 'leadership-and-crisis',
 }
 
 
