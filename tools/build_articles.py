@@ -1528,9 +1528,9 @@ def build(post, allposts):
 <a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
 <nav class="tnav" aria-label="網站導覽">
 <a href="{site}/about/">關於我</a>
-<!-- 「服務與合作」自2026-10-08 起暫時從導覽列隱藏（軒哥決定）。
+<!-- 「服務與合作」自 2026-10-08 起暫時從導覽列隱藏（軒哥決定）。
      /services/ 頁面本身保留，首頁 #sec-services 區塊與文章底部按鈕也都保留，
-     只有導覽列不顯示。要恢復：把下一行取消註解即可。
+     只有導覽列不顯示。要恢復：把下兩行的註解符號刪掉即可。
 <a href="{site}/services/">服務與合作</a>
 -->
 <a href="{site}/series/">作品</a>
