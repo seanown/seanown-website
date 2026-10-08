@@ -194,6 +194,7 @@ SLUGS = {
     '119': 'aspectos-de-macau-1923',
     '120': 'o-regresso-1989',
     '121': 'meeting-ends-things-begin',
+    '122': 'etiquette-is-not-form',
 }
 
 

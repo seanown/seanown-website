@@ -2,8 +2,13 @@ const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
 
-const DECK = path.resolve('C:/Users/user/WorkBuddy/Seanown.org/高效會議主持SOP');
+// 用法：node ppt_layout_check.js [deck目錄] [截圖輸出子目錄]
+// 不傳參數時預設指向第一堂（高效會議主持SOP），保持既有行為。
+const DECK = process.argv[2]
+  ? path.resolve(process.argv[2])
+  : path.resolve('C:/Users/user/WorkBuddy/Seanown.org/高效會議主持SOP');
 const FILE = 'file:///' + path.join(DECK, 'index.html').replace(/\\/g, '/');
+// 截圖一律寫到各自的 deck 目錄下，避免不同簡報互相覆蓋
 const SHOTS = path.join(DECK, 'shots');
 
 (async () => {
