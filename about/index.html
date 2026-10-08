@@ -137,6 +137,22 @@ section{padding-top:56px}
 .role .t{font-size:15px;font-weight:700;color:var(--blue);margin-bottom:3px}
 .role .o{font-size:13.5px;color:var(--gray)}
 
+/* 職務摺疊（2026-10-08 新增）
+   預設只顯示「創辦人暨董事總經理」，其餘 12 項點開才看見。
+   summary 做成可點的卡片，hover 提示可展開。 */
+.roles-fold{margin-top:4px}
+.roles-fold-sum{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--white);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:13px;padding:18px 22px;cursor:pointer;list-style:none;transition:all .2s}
+.roles-fold-sum::-webkit-details-marker{display:none}
+.roles-fold-sum:hover{border-color:var(--gold);box-shadow:var(--shadow)}
+.roles-fold-sum .t{font-size:15.5px;font-weight:700;color:var(--blue)}
+.roles-fold-sum .o{font-size:13.5px;color:var(--gray)}
+.roles-fold-sum .more{margin-left:auto;font-size:13px;font-weight:600;color:var(--blue);background:#F4F7FB;border:1px solid var(--line);border-radius:999px;padding:5px 14px;white-space:nowrap}
+.roles-fold[open] .roles-fold-sum .more{background:var(--blue);color:#fff;border-color:var(--blue)}
+.more-shut{display:none}
+.roles-fold[open] .more-open{display:none}
+.roles-fold[open] .more-shut{display:inline}
+.roles-fold .roles{margin-top:14px}
+
 /* 證據 */
 .ev{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .ev-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:24px 26px}
@@ -182,6 +198,25 @@ section{padding-top:56px}
   .cta-band{padding:34px 20px}
   .cta-btns a{width:100%}
 }
+
+/* 「關於我」下拉（2026-10-08，軒哥決定：聯絡不坐第一排，收進關於我底下）
+   純 CSS，不依賴 JS。.nav-mcta 是聯絡鈕的手機版複本，
+   因為手機版只保留 .cta，而 PC 的聯絡已收進下拉，沒有複本手機會全空。 */
+.tnav .nav-drop{position:relative}
+.tnav .nav-drop>summary{font-size:14px;font-weight:600;color:var(--text);cursor:pointer;list-style:none;display:flex;align-items:center;gap:5px}
+.tnav .nav-drop>summary::-webkit-details-marker{display:none}
+.tnav .nav-drop>summary::after{content:'';width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+.tnav .nav-drop[open]>summary::after{transform:rotate(225deg) translateY(-2px)}
+.tnav .nav-drop[open]>summary{color:var(--blue)}
+.tnav .nav-menu{position:absolute;top:calc(100% + 9px);left:-14px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 34px rgba(0,38,118,.16);padding:6px;min-width:158px;z-index:60}
+.tnav .nav-menu a{display:block;padding:9px 14px;border-radius:8px;font-size:14px}
+.tnav .nav-menu a:hover{background:#F4F7FB;color:var(--blue)}
+.tnav .nav-mcta{display:none}
+@media(max-width:860px){
+  .tnav .nav-drop{display:none}
+  .tnav .nav-mcta{display:block}
+}
+@media(min-width:861px){.tnav .nav-mcta{display:none}}
 </style>
 </head>
 <body>
@@ -190,23 +225,37 @@ section{padding-top:56px}
 <header class="topbar"><div class="topbar-in">
 <a class="brand" href="/">翁振軒 <span>SEAN OWN</span></a>
 <nav class="tnav" aria-label="網站導覽">
+  <details class="nav-drop">
+  <summary aria-current="page">關於我</summary>
+  <div class="nav-menu">
   <a href="/about/" aria-current="page">關於我</a>
-  <!-- 「服務與合作」自 2026-10-08 起暫時從導覽列隱藏（軒哥決定）。
-       /services/ 頁面本身、首頁 #sec-services 區塊、文章底部按鈕都保留，只有導覽列不顯示。
-       要恢復：把下一行的註解起始與結束符號刪掉即可。
+  <!-- 「服務與合作」自 2026-10-08 起暫時不顯示（軒哥決定）。
+       /services/ 頁面本身、首頁 #sec-services 區塊、文章底部按鈕都保留。
+       日後要恢復，把下一行取消註解即可（建議放在「聯絡」之後）。
   <a href="/services/">服務與合作</a>
   -->
+  <a href="/contact/">聯絡</a>
+  </div>
+  </details>
   <a href="/series/">作品</a>
   <a href="/articles/">專欄</a>
   <a href="/media/">媒體</a>
-  <a href="/contact/" class="cta">聯絡</a>
+  <!-- 手機版專用：PC 上 display:none。手機版 .tnav 只保留 .cta，
+       而 PC 的聯絡鈕已收進「關於我」下拉，故需這顆複本頂替，否則手機導航全空。 -->
+  <a href="/contact/" class="cta nav-mcta">聯絡</a>
 </nav>
 </div></header>
 
 <header class="masthead"><div class="masthead-in">
 <div class="kicker">ABOUT SEAN OWN</div>
 <h1>關於我<span class="en">SEAN OWN · 翁振軒</span></h1>
-<p class="lede">澳門台商、企業經營者、產業顧問與協會資源整合者。長期往返台灣、大陸、美國與澳門，近年以澳門為基地，推動中國數位服務出海、中華文創 IP 落地與青年跨界連結。目前擔任澳門龍遊集團創辦人、粵港澳大灣區電子商會會長、ECI@澳門創新專委會理事長。</p>
+<p class="lede">澳門台商、連續創業者、投資人、作家。<br>遊走於不同城市與文化邊界的經歷，造就跨界的觀察視野。立足澳門這座中西交匯的獨特平台，致力串聯澳門與內地與國際資源，促進 AI+產業、中華文創與青年領域的溝通與協作。<br>長年觀察澳門的城市變遷與影像文化，熱衷透過電影解讀一座城市的歷史脈絡。現任澳門龍遊集團創辦人、粵港澳大灣區電子商會會長、ECI@澳門創新專委會理事長，著有<a href="/book/shou-deng-ren-ying-ji/" style="color:var(--gold);font-weight:700">《守燈人影記——銀幕上的百年澳門》</a>。</p>
+<!-- 自我介紹於 2026-10-08 改為軒哥本人定稿版（前一版是《守燈人影記》書籍作者簡介改寫，
+     含出生年份、柏克萊學歷、祖籍、星象與 MBTI）。
+     改動理由：軒哥定位「台商／創業者／投資人／作家」四個身分為主軸，
+     出生背景讓位給下方既有的「學歷背景」區塊；MBTI 判為專業頁不需要，予以拿掉。
+     保留了「長年觀察澳門城市變遷與影像文化」與具體現職句，因為前者是作者身分、
+     後者是可查證資訊，兩者都服務於頁面用途。 -->
 <div class="masthead-btns">
 <a class="b1" href="/contact/">洽談合作</a>
 <a class="b2" href="/media/">看可查證的媒體報導</a>
@@ -226,9 +275,12 @@ section{padding-top:56px}
 <div class="pos-card">
 <p>我的核心工作是<strong>把資源接起來</strong>：把澳門的國際平台與中介角色，接到中國的技術與內容產能上；把企業與協會的需求，接到實際能落地的服務與人才上。</p>
 <p>具體落在四個方向：<strong>AI 數位服務出海</strong>（幫中國的數位服務與文化內容做多語種、多平台推向海外）、<strong>文化旅遊規劃</strong>（澳門與大灣區的文旅產品設計與落地）、<strong>AI 科普教育</strong>（全民 AI 素養培訓與認證體系）、<strong>融媒體與 IP 運營</strong>（媒體中心搭建與文娛 IP 落地）。</p>
+<!-- 「給非專業讀者的一行解釋」於 2026-10-08 移除（軒哥決定）：
+     這類解釋放在文章正文裡可以，網站上屬冗餘。要恢復：把下列三行取消註解即可。
 <div class="plain">
 <b>給非專業讀者的一行解釋：</b>「數位服務出海」＝幫中國的公司把產品與內容翻成各國語言、在海外平台投放與銷售；「IP」＝有辨識度的角色、故事或品牌版權，例如動畫角色、影視 IP、絲綠文化品牌；「雙算力」＝同時使用澳門與台灣兩地的伺服器與 AI 算力資源，兼顧成本與合規。
 </div>
+-->
 </div>
 </section>
 
@@ -245,7 +297,7 @@ section{padding-top:56px}
 <div class="fact">
 <div class="n">13 項</div>
 <div class="l">現任企業與協會職務</div>
-<div class="src">佐證：下方「企業職務與社會參與」逐項列出，包含龍遊集團、東望洋集團、粵港澳大灣區電子商會等具名機構。</div>
+<div class="src">佐證：下方「企業職務與社會參與」點開標題即可逐項查看，包含龍遊集團、東望洋集團、粵港澳大灣區電子商會等具名機構。</div>
 </div>
 <div class="fact">
 <div class="n">80+ 語種</div>
@@ -261,7 +313,10 @@ section{padding-top:56px}
 <p class="fact-note">說明：網站首頁早期版本曾展示「服務企業 100+」「海外曝光提升 +330%」等數字。這類數字缺乏公開方法與樣本說明，且多屬客戶端機密統計，無法獨立核實，因此本頁不列入。若需要正式合作提案中的專案成效數據，請於洽談時提出，我會提供可公開的統計口徑與匿名化案例說明。</p>
 </section>
 
-<!-- 人生軌跡 -->
+<!-- 「人生軌跡」整塊於 2026-10-08 移除（軒哥決定）：6 條時間軸與下方
+     「學歷背景」區塊重疊過多，頁面過長。學歷資訊仍完整保留在下方區塊。
+     1978 年生、祖籍浙江龍遊已移到下方「學歷背景」區塊，不會因本區塊移除而消失。
+     要恢復：把本註解內的 section 區塊取消註解即可。
 <section>
 <h2 class="sec-h">人生軌跡</h2>
 <p class="sec-sub">跨域半生，以行踐諾。</p>
@@ -274,6 +329,7 @@ section{padding-top:56px}
 <div class="tl-item"><div class="tl-y">進行中</div><div class="tl-d">以澳門為樞紐，連結大灣區與海外市場，並扶植青年創業與跨境就業。</div></div>
 </div>
 </section>
+-->
 
 <!-- 學歷與榮譽 -->
 <section>
@@ -284,6 +340,7 @@ section{padding-top:56px}
 <li>加州大學柏克萊分校（UC Berkeley）｜1997–2001</li>
 <li>學士：交叉學科研究（Interdisciplinary Studies）</li>
 <li>論文主題：國際經貿與大中華研究</li>
+<li>出生於台北，祖籍浙江龍遊（一九七八年生）</li>
 </ul>
 </div>
 <div class="box">
@@ -299,9 +356,17 @@ section{padding-top:56px}
 <!-- 職務 -->
 <section>
 <h2 class="sec-h">企業職務與社會參與</h2>
+<!-- 原副標「13 項具名職務，均可另行提供證明文件。」於 2026-10-08 移除（軒哥決定）：
+     數字已在上方「可以核實的數字」區塊列過，此處重複。要恢復：把下一行取消註解即可。
 <p class="sec-sub">13 項具名職務，均可另行提供證明文件。</p>
+-->
+<details class="roles-fold">
+<summary class="roles-fold-sum">
+<span class="t">創辦人暨董事總經理</span>
+<span class="o">澳門龍遊集團</span>
+<span class="more"><span class="more-open">展開其餘 12 項 ▾</span><span class="more-shut">收合 ▴</span></span>
+</summary>
 <div class="roles">
-<div class="role"><div class="t">創辦人暨董事總經理</div><div class="o">澳門龍遊集團</div></div>
 <div class="role"><div class="t">聯合創始人</div><div class="o">龍遊數字服務出海平台</div></div>
 <div class="role"><div class="t">董事</div><div class="o">東望洋集團</div></div>
 <div class="role"><div class="t">會長</div><div class="o">粵港澳大灣區電子商會</div></div>
@@ -315,12 +380,16 @@ section{padding-top:56px}
 <div class="role"><div class="t">館長</div><div class="o">澳門龍遊絲綢文化藝術中心</div></div>
 <div class="role"><div class="t">專家評委（第 11–13 屆）</div><div class="o">「贏在廣州」大學生創業大賽</div></div>
 </div>
+</details>
 </section>
 
 <!-- 可查證的證據鏈 -->
 <section>
 <h2 class="sec-h">第三方可查證的紀錄</h2>
+<!-- 原副標「以下為具名機構的公開頁面或報導原文，可直接點擊查核。」於 2026-10-08 移除（軒哥決定）：
+     區塊標題已說明是「可查證的紀錄」，副標重複。要恢復：把下一行取消註解即可。
 <p class="sec-sub">以下為具名機構的公開頁面或報導原文，可直接點擊查核。</p>
+-->
 <div class="ev">
 <div class="ev-card">
 <h3>ECI 澳門站暨 AI 科普論壇</h3>
@@ -371,7 +440,11 @@ section{padding-top:56px}
 <!-- 合作方向 -->
 <section>
 <h2 class="sec-h">可以合作的方向</h2>
+<!-- 原副標「若下列方向不符你的需求，也歡迎直接來信說明。」於 2026-10-08 移除（軒哥決定）：
+     屬禮貌性引導語，頁面下方已有「前往聯絡頁表單」按鈕，不需重複說明。
+     要恢復：把下一行取消註解即可。
 <p class="sec-sub">若下列方向不符你的需求，也歡迎直接來信說明。</p>
+-->
 <div class="svc">
 <div class="svc-item">
 <h3>AI 數位服務出海</h3>
