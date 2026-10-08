@@ -720,6 +720,33 @@ def build_movie_info(post, allposts):
     return slug, title
 
 
+def tl_img(p):
+    """輯頁時間軸的縮圖路徑（相對 series/<id>/ 根目錄）。
+
+    優先用 posts.json 的 images[0]——那才是這篇文章自己在各入口
+    （首頁「更多專欄」、文章頁、輯頁）統一的封面；
+    早期版本這裡硬寫 assets/og/<slug>.jpg，導致同一篇文章在首頁與
+    輯頁是兩張不同的圖（首頁已換新封面、輯頁還是舊的 og 圖）。
+    沒有 images 才回退 og 圖，保證行為與舊版一致。
+
+    🔴 界線：這裡只決定「取哪一張圖」，不管「怎麼裁」。
+    裁切規則屬於版面風格，各輯不同（電影輯是 poster-card 海報格，
+    直式contain；時間軸是 tl-img橫式 cover），不要用同一套 object-position
+    強壓全部輯頁——那會把其他輯的構圖一起改壞。
+    要讓某張封面在時間軸裡更好看，正解是重排封面圖本身的版面重心，
+    不是改全站裁切（見 tools/_gen_cover_121.py 的「中央安全區」註解）。
+    """
+    imgs = p.get('images') or []
+    if isinstance(imgs, str):
+        imgs = [imgs]
+    for src in imgs:
+        s = str(src or '').strip()
+        # 只接受站內相對路徑；外站URL 或空值一律略過，避免 og 回退失效
+        if s and not s.startswith(('http://', 'https://', '//', 'data:')):
+            return s.lstrip('./').lstrip('/')
+    return ''
+
+
 def build_series_page(s, posts, all_series):
     """產生單一輯頁 series/<id>/index.html"""
     sid = s['id']
@@ -772,7 +799,8 @@ def build_series_page(s, posts, all_series):
                 '%s'
                 '</div><h2>%s</h2><p>%s</p></div>'
                 '<div class="tl-arr">›</div></a></li>'
-            ) % (SITE, pslug, ov('../../assets/og/%s.jpg' % pslug), esc(p.get('title')), no, len(members),
+            ) % (SITE, pslug, ov('../../%s' % tl_img(p)) if tl_img(p) else
+                    ov('../../assets/og/%s.jpg' % pslug), esc(p.get('title')), no, len(members),
                  (p.get('date') or '').replace('-', '.'),
                  ('<span class="tl-loc">· %s</span>' % esc(loc)) if loc else '',
                  esc(ptitle), esc(plead))
