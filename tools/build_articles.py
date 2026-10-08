@@ -20,6 +20,26 @@ def ov(src):
         return s + ('&v=' + OG_VER if '?' in s else '?v=' + OG_VER)
     return s
 
+
+SHARE_WIDGET = os.path.join(ROOT, 'assets', 'share-widget.js')
+
+
+def load_share_widget():
+    """讀取微信分享元件（右上角綠色浮鈕）。
+
+    網頁無法直接調用微信分享（微信沒有給網頁 JS API），所以這顆按鈕做的是
+    「生成當前頁二維碼 + 複製連結」：手機掃碼 → 在微信裡打開 → 右上角 ··· → 發送給朋友。
+
+    元件內容由 tools/_make_share_widget.py 從 macau-weekly.html 抽出（含 QR 庫）。
+    檔案不存在時回傳空字串 → 頁面只是少一顆按鈕，不影響其他渲染。
+    """
+    if not os.path.exists(SHARE_WIDGET):
+        return ''
+    try:
+        return io.open(SHARE_WIDGET, encoding='utf-8').read()
+    except Exception:
+        return ''
+
 # 輯（Series）定義：由 data/series.json 驅動，posts.json 用 series 欄位掛載
 SERIES = {'collections': [], 'series': []}
 SERIES_BY_ID = {}
@@ -1710,6 +1730,9 @@ def build(post, allposts):
 <style>{css}</style>
 </head>
 <body>
+<!-- 微信分享按鈕（右上角綠色浮鈕）。連結自動取上方 canonical，勿手寫網址。
+     元件由 tools/_make_share_widget.py 從 macau-weekly.html 抽出。 -->
+{share_widget}
 <div class="topbar"><div class="topbar-in">
 <a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
 <nav class="tnav" aria-label="網站導覽">
@@ -1822,6 +1845,7 @@ function spxToggle(btn){{
         spx_html=spx_html,
         series_nav=series_nav,
         movie_nav=movie_nav,
+        share_widget=load_share_widget(),
     )
 
     d = os.path.join(ROOT, 'article', slug)
