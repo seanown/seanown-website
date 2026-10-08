@@ -196,6 +196,7 @@ SLUGS = {
     '121': 'meeting-ends-things-begin',
     '122': 'etiquette-is-not-form',
     '123': 'leadership-and-crisis',
+    '124': 'quzhou-nankong-returning-home',
 }
 
 
@@ -330,11 +331,11 @@ a{color:var(--blue);text-decoration:none}
 .topbar .minimal-hint{font-size:13px;color:var(--gray);text-decoration:none}
 .topbar .minimal-hint:hover{color:var(--blue)}
 /* 六層導覽（與全站獨立頁一致）*/
-.tnav{{display:flex;gap:17px;align-items:center}}
-.tnav a{{font-size:14px;font-weight:600;color:var(--text);text-decoration:none}}
-.tnav a:hover,.tnav a[aria-current]{{color:var(--blue)}}
-.tnav .cta{{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}}
-.tnav .cta:hover{{background:#010133}}
+.tnav{display:flex;gap:17px;align-items:center}
+.tnav a{font-size:14px;font-weight:600;color:var(--text);text-decoration:none}
+.tnav a:hover,.tnav a[aria-current]{color:var(--blue)}
+.tnav .cta{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}
+.tnav .cta:hover{background:#010133}
 
 /* 「關於我」下拉（2026-10-08，軒哥決定：聯絡不要坐第一排，收進關於我底下）
    純 CSS hover/focus 展開，不依賴 JS。
@@ -342,22 +343,22 @@ a{color:var(--blue);text-decoration:none}
    聯絡一旦收進下拉，PC 的 cta 消失後手機版會「一個按鈕都沒有」。
    因此 .nav-mcta 是同一顆聯絡鈕的手機版複本，平時 display:none，
    只在手機媒體查詢裡 display:block 頂替失去的 cta。兩者共用 .cta 樣式。 */
-.tnav .nav-drop{{position:relative}}
-.tnav .nav-drop>summary{{font-size:14px;font-weight:600;color:var(--text);cursor:pointer;list-style:none;display:flex;align-items:center;gap:5px}}
-.tnav .nav-drop>summary::-webkit-details-marker{{display:none}}
-.tnav .nav-drop>summary::after{{content:'';width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}}
-.tnav .nav-drop[open]>summary::after{{transform:rotate(225deg) translateY(-2px)}}
-.tnav .nav-drop[open]>summary{{color:var(--blue)}}
-.tnav .nav-menu{{position:absolute;top:calc(100% + 9px);left:-14px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 34px rgba(0,38,118,.16);padding:6px;min-width:158px;z-index:60}}
-.tnav .nav-menu a{{display:block;padding:9px 14px;border-radius:8px;font-size:14px}}
-.tnav .nav-menu a:hover{{background:#F4F7FB;color:var(--blue)}}
-.tnav .nav-mcta{{display:none}}
-@media(max-width:860px){{
-  .tnav a:not(.cta){{display:none}}
-  .tnav .nav-drop{{display:none}}
-  .tnav .nav-mcta{{display:block}}
-}}
-@media(min-width:861px){{.tnav .nav-mcta{{display:none}}}}
+.tnav .nav-drop{position:relative}
+.tnav .nav-drop>summary{font-size:14px;font-weight:600;color:var(--text);cursor:pointer;list-style:none;display:flex;align-items:center;gap:5px}
+.tnav .nav-drop>summary::-webkit-details-marker{display:none}
+.tnav .nav-drop>summary::after{content:'';width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+.tnav .nav-drop[open]>summary::after{transform:rotate(225deg) translateY(-2px)}
+.tnav .nav-drop[open]>summary{color:var(--blue)}
+.tnav .nav-menu{position:absolute;top:calc(100% + 9px);left:-14px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 34px rgba(0,38,118,.16);padding:6px;min-width:158px;z-index:60}
+.tnav .nav-menu a{display:block;padding:9px 14px;border-radius:8px;font-size:14px}
+.tnav .nav-menu a:hover{background:#F4F7FB;color:var(--blue)}
+.tnav .nav-mcta{display:none}
+@media(max-width:860px){
+  .tnav a:not(.cta){display:none}
+  .tnav .nav-drop{display:none}
+  .tnav .nav-mcta{display:block}
+}
+@media(min-width:861px){.tnav .nav-mcta{display:none}}
 .wrap{max-width:1120px;margin:0 auto;padding:36px 24px 0}
 /* PC：雜誌跨頁雙欄——左右兩頁並排、圖文交織；手機自動回單欄 */
 @media(min-width:900px){
@@ -1329,6 +1330,71 @@ DECK_CSS = """
     .dk-cta .dk-btn{width:100%;text-align:center}}
 """
 
+# 「致詞稿附錄」：文章頁底部收起式清單，點任一篇就地展開全文。
+# 用途 —— 活動現場他人致詞稿與本文一起留在同一頁，讀者可各取所需，
+# 不必另開 8 篇文章（那會讓主體紀行被稀釋、也讓每篇淪為薄殼）。
+SPEECH_CSS = """
+/* ---------- 致詞稿附錄：可展開清單 ---------- */
+.spx{margin:38px 0 8px;background:#F7F1E3;border:1px solid #E7DCC2;border-radius:18px;
+    padding:28px 28px 22px;box-shadow:0 14px 40px rgba(1,1,51,.08)}
+.spx-badge{display:inline-block;background:#8A5A00;color:#F7F1E3;font-size:12px;font-weight:700;
+    letter-spacing:2px;padding:4px 14px;border-radius:999px;margin-bottom:12px}
+.spx-title{font-family:Georgia,"Songti TC",serif;font-size:23px;color:#5A3E00;line-height:1.35;
+    margin:0 0 8px}
+.spx-sub{font-size:13.5px;color:#8A8266;margin:0 0 4px;line-height:1.7}
+.spx-hint{font-size:12.5px;color:#A79B78;margin:0 0 18px;padding-bottom:14px;
+    border-bottom:1px dashed #E7DCC2}
+.spx-item{border-bottom:1px solid #EFE7D2}
+.spx-item:last-child{border-bottom:0}
+.spx-head{width:100%;display:flex;align-items:flex-start;gap:14px;background:none;
+    border:0;padding:18px 0;cursor:pointer;text-align:left;font-family:inherit}
+.spx-head:hover{background:rgba(255,253,246,.7)}
+.spx-no{flex:0 0 34px;height:34px;border-radius:50%;background:#8A5A00;color:#F7F1E3;
+    font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;
+    margin-top:2px;letter-spacing:.02em}
+.spx-head:hover .spx-no{background:#6B4400}
+.spx-meta{flex:1;min-width:0}
+.spx-t{display:block;font-size:16.5px;font-weight:700;color:#3D2C00;line-height:1.45;margin:0 0 4px}
+.spx-by{display:block;font-size:13px;color:#8A8266;line-height:1.6;margin:0}
+.spx-by b{color:#6B4400;font-weight:700}
+.spx-cav{display:block;font-size:12px;color:#A79B78;font-style:italic;margin:2px 0 0}
+.spx-arrow{flex:0 0 16px;margin-top:10px;color:#C0B48C;font-size:13px;
+    transition:transform .22s ease}
+.spx-head[aria-expanded="true"] .spx-arrow{transform:rotate(180deg)}
+.spx-panel{display:none;padding:2px 0 22px 48px}
+.spx-panel.is-on{display:block;animation:spxIn .3s ease}
+@keyframes spxIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.spx-lead{font-size:14.5px;color:#6B5B38;background:#FFFDF6;border-left:3px solid #C9A227;
+    padding:12px 16px;margin:0 0 16px;line-height:1.75;border-radius:0 8px 8px 0}
+.spx-body{font-size:15.5px;line-height:1.85;color:var(--text)}
+.spx-body p{margin:0 0 14px}
+.spx-body blockquote{margin:0 0 14px;padding:12px 18px;background:#FFFDF6;
+    border-left:3px solid #C9A227;font-size:15px;color:#5A4A28;line-height:1.8}
+.spx-body h2,.spx-body h3{font-family:Georgia,"Songti TC",serif;color:#3D2C00;margin:20px 0 10px}
+/* 桌面版單篇全文獨立捲動區：實測最長單篇 1,679px，設 560px 約 3 屏，
+   展開時頁面不會被拉得過長，也不會把後面的清單推出版面。 */
+.spx-scroll{max-height:560px;overflow-y:auto;padding-right:6px;
+    scrollbar-width:thin;scrollbar-color:#C9A227 transparent}
+.spx-scroll::-webkit-scrollbar{width:7px}
+.spx-scroll::-webkit-scrollbar-track{background:transparent}
+.spx-scroll::-webkit-scrollbar-thumb{background:#D8CB9E;border-radius:99px}
+.spx-note{font-size:12.5px;color:#A79B78;margin:16px 0 0;padding-top:12px;
+    border-top:1px dashed #E7DCC2;line-height:1.7}
+.spx-foot{font-size:13px;color:#8A8266;margin:18px 0 0;padding-top:16px;
+    border-top:1px solid #EFE7D2;line-height:1.7}
+@media(max-width:720px){
+    .spx{padding:22px 18px 18px}
+    .spx-title{font-size:20px}
+    .spx-head{gap:11px;padding:15px 0}
+    .spx-no{flex:0 0 28px;height:28px;font-size:12px}
+    .spx-t{font-size:15.5px}
+    .spx-panel{padding-left:0}
+    .spx-body{font-size:15.5px;line-height:1.8}
+    /* 手機版不設限高：實測最長單篇（周錫瑋）3,761px 約 4.5 屏，
+       一次只開一篇，長度可接受。嵌套捲動在觸控上會與頁面滾動打架。 */
+    .spx-scroll{max-height:none;overflow:visible;padding-right:0}}
+"""
+
 def build_keypoints(kps):
     """本堂重點（三句話）卡片：置於正文之前，作為全文的提煉入口"""
     if not kps:
@@ -1339,6 +1405,94 @@ def build_keypoints(kps):
             '<ol class="kp-list">%s</ol>'
             '<p class="kp-note">以下三句話是整堂課的骨架；正文把它們拆開講，'
             '附錄則是可以直接印出來貼在會議室牆上的操作手冊。</p></div>' % li)
+
+
+def build_speeches(slug):
+    """致詞稿附錄：活動現場他人致詞稿的可展開清單。
+
+    為什麼不另開 8 篇文章：
+      1) 這 8 篇是「別人講的話」，混進主體紀行會讓讀者分不清哪句是作者觀點；
+      2) 各自只有 1,000–2,800 字，獨立成頁會是薄殼，SEO 也分散；
+      3) 留在同一頁，想看特定致詞稿的人點一下就開，不需跳轉。
+    資料來源 data/speeches.json（由 tools/build_speeches.py 解析生成）。
+    """
+    path = os.path.join(ROOT, 'data', 'speeches.json')
+    if not os.path.exists(path):
+        return ''
+    try:
+        data = json.load(io.open(path, encoding='utf-8'))
+    except Exception:
+        return ''
+    items = data.get('items') or []
+    if not items:
+        return ''
+
+    rows = []
+    for it in items:
+        no = it.get('no')
+        title = it.get('title') or ''
+        speaker = it.get('speaker') or ''
+        role = it.get('role') or ''
+        caveat = it.get('caveat') or ''
+        lead = it.get('lead') or ''
+        body = it.get('body') or ''
+        note = it.get('note') or ''
+
+        by = '<b>%s</b>' % esc(speaker)
+        if role:
+            by += '｜%s' % esc(role)
+        cav = '<span class="spx-cav">（%s）</span>' % esc(caveat) if caveat else ''
+
+        inner = ''
+        if lead:
+            inner += '<p class="spx-lead">%s</p>' % esc(lead)
+        if body:
+            # 原文常以導語段開頭；lead 已在金框顯示，正文就不重複一次
+            b2 = body
+            if lead:
+                bp = b2.split('</p>', 1)
+                if len(bp) == 2:
+                    core = re.sub(r'<[^>]+>', '', bp[0])
+                    core = re.sub(r'\s+', '', core)
+                    key = re.sub(r'\s+', '', lead)
+                    if core and key and (
+                            core.startswith(key[:20]) or key.startswith(core[:20])):
+                        b2 = bp[1]
+            inner += '<div class="spx-scroll"><div class="spx-body">%s</div></div>' % b2
+        if note:
+            inner += '<p class="spx-note">%s</p>' % esc(note)
+
+        rows.append(
+            '<div class="spx-item">'
+            '<button class="spx-head" type="button" aria-expanded="false" '
+            'onclick="spxToggle(this)">'
+            '<span class="spx-no">%s</span>'
+            '<span class="spx-meta">'
+            '<span class="spx-t">%s</span>'
+            '<span class="spx-by">%s</span>%s'
+            '</span>'
+            '<span class="spx-arrow">▾</span>'
+            '</button>'
+            '<div class="spx-panel" id="spx-p-%s">%s</div>'
+            '</div>' % (no, esc(title), by, cav, no, inner))
+
+    event = esc(data.get('event') or '')
+    date = esc(data.get('date') or '')
+    place = esc(data.get('place') or '')
+    meta = '｜'.join(x for x in (date, place) if x)
+
+    return ('\n\n<div class="spx" id="speeches">'
+            '<span class="spx-badge">附錄 · 致詞稿</span>'
+            '<h2 class="spx-title">本場致詞稿（%d 篇）</h2>'
+            '<p class="spx-sub">%s%s</p>'
+            '<p class="spx-hint">以下為同一場活動現場的致詞稿全文，'
+            '依發言順序排列。點任一篇即可就地展開閱讀，不必離開本文。</p>'
+            '%s'
+            '<p class="spx-foot">本篇為作者第一人稱紀行，'
+            '上述致詞稿為現場錄音整理，數字與事例均為致辭人所述；'
+            '部分說法未經第三方來源核實，已在文內註明。</p>'
+            '</div>' % (len(items), event, ('｜' + meta) if meta else '',
+                        ''.join(rows)))
 
 
 def build_deck(deck):
@@ -1393,14 +1547,22 @@ def build(post, allposts):
         body_html = io.open(os.path.join(ROOT, raw_rel), encoding='utf-8').read()
     else:
         body_html = md_to_html(post.get('body') or '', title)
+    # 若文章明確提供 lead，lead 欄已在頁首導語框顯示，
+    # 正文若以同一段開頭就會重複一次 —— 移除正文裡那段。
+    _lead = (post.get('lead') or '').strip()
+    if _lead:
+        _parts = body_html.split('</p>', 1)
+        if len(_parts) == 2 and len(_parts[0]) > 40 and _lead[:40] in _parts[0]:
+            body_html = _parts[1]
     # 本堂重點三句話：插在正文之前；演講稿：插在正文之後（附錄已在 body 內）
     kp_html = build_keypoints(post.get('keypoints'))
+    spx_html = build_speeches(slug)
     dk_html = build_deck(post.get('deck'))
     if kp_html:
         body_html = kp_html + body_html
     if dk_html:
         body_html = body_html + dk_html
-    desc = plain(post.get('body') or title, 105) or title
+    desc = plain((post.get('lead') or '').strip() or post.get('body') or title, 105) or title
     url = '%s/article/%s/' % (SITE, slug)
 
     rel = [p for p in allposts if p.get('category') == cat and str(p.get('num')) != num]
@@ -1496,7 +1658,7 @@ def build(post, allposts):
 
     att = ATTACHMENTS.get(slug)
     reader = build_reader(att) if att else ''
-    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '') + (SERIES_NAV_CSS if (series_nav or movie_nav).strip() else '') + (SJ_CSS if series_jump else '') + (DECK_CSS if (kp_html or dk_html) else '')
+    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '') + (SERIES_NAV_CSS if (series_nav or movie_nav).strip() else '') + (SJ_CSS if series_jump else '') + (DECK_CSS if (kp_html or dk_html) else '') + (SPEECH_CSS if spx_html else '')
 
     ld = {
         "@context": "https://schema.org",
@@ -1586,7 +1748,7 @@ def build(post, allposts):
 {cover}
 <div class="abody">{body}</div>
 {gallery}
-</article>{movie_nav}{series_nav}
+</article>{spx_html}{movie_nav}{series_nav}
 
 <div class="author">
 <img class="a-img" src="../../assets/images/avatar-1x1.jpg" alt="翁振軒 Sean Own 大頭照" loading="lazy">
@@ -1616,6 +1778,33 @@ def build(post, allposts):
 </div>
 <a class="float-cta" href="{site}/contact/">洽談合作</a>
 <div class="lb" id="lb" onclick="this.style.display='none'"><img id="lbimg" src="" alt=""></div>
+<script>
+// 致詞稿附錄：就地展開／收合。同一時間只開一篇，避免頁面過長。
+function spxToggle(btn){{
+  var no=btn.parentNode.querySelector('.spx-no').textContent;
+  var panel=document.getElementById('spx-p-'+no);
+  if(!panel)return;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  var all=document.querySelectorAll('.spx-panel.is-on');
+  for(var i=0;i<all.length;i++){{
+    all[i].classList.remove('is-on');
+    all[i].parentNode.querySelector('.spx-head').setAttribute('aria-expanded','false')
+  }}
+  if(!open){{
+    panel.classList.add('is-on');
+    btn.setAttribute('aria-expanded','true');
+    var sc=panel.querySelector('.spx-scroll');
+    if(sc)sc.scrollTop=0;
+    setTimeout(function(){{
+      var y=btn.getBoundingClientRect().top+window.pageYOffset-90;
+      var vy=window.pageYOffset;
+      if(vy<y-40||vy>y+window.innerHeight){{
+        window.scrollTo({{top:y,behavior:'smooth'}})
+      }}
+    }},60)
+  }}
+}}
+</script>
 </body>
 </html>
 """.format(
@@ -1623,13 +1812,14 @@ def build(post, allposts):
         og_title=esc(title[:30]), og_desc=esc(desc[:80]),
         og_img=ov('%s/assets/og/%s.jpg' % (SITE, slug)),
         ld=json.dumps(ld, ensure_ascii=False), css=page_css, site=SITE,
-        lead=esc(plain(post.get('body') or title, 110)),
+        lead=esc((post.get('lead') or '').strip() or plain(post.get('body') or title, 110)),
         reader=reader,
         date_fmt=date.replace('-', ' 年 ', 1).replace('-', ' 月 ') + ' 日' if date else '',
         loc_fmt=(' · ' + esc(loc)) if loc else '',
         cover=cover, body=body_html, gallery=gallery, rel=rel_html,
         subtitle_html=subtitle_html,
         series_jump=series_jump,
+        spx_html=spx_html,
         series_nav=series_nav,
         movie_nav=movie_nav,
     )

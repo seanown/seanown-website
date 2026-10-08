@@ -36,11 +36,11 @@ a{color:var(--blue);text-decoration:none}
 .topbar .minimal-hint{font-size:13px;color:var(--gray);text-decoration:none}
 .topbar .minimal-hint:hover{color:var(--blue)}
 /* 六層導覽（與全站獨立頁一致）*/
-.tnav{{display:flex;gap:17px;align-items:center}}
-.tnav a{{font-size:14px;font-weight:600;color:var(--text);text-decoration:none}}
-.tnav a:hover,.tnav a[aria-current]{{color:var(--blue)}}
-.tnav .cta{{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}}
-.tnav .cta:hover{{background:#010133}}
+.tnav{display:flex;gap:17px;align-items:center}
+.tnav a{font-size:14px;font-weight:600;color:var(--text);text-decoration:none}
+.tnav a:hover,.tnav a[aria-current]{color:var(--blue)}
+.tnav .cta{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}
+.tnav .cta:hover{background:#010133}
 
 /* 「關於我」下拉（2026-10-08，軒哥決定：聯絡不要坐第一排，收進關於我底下）
    純 CSS hover/focus 展開，不依賴 JS。
@@ -48,22 +48,22 @@ a{color:var(--blue);text-decoration:none}
    聯絡一旦收進下拉，PC 的 cta 消失後手機版會「一個按鈕都沒有」。
    因此 .nav-mcta 是同一顆聯絡鈕的手機版複本，平時 display:none，
    只在手機媒體查詢裡 display:block 頂替失去的 cta。兩者共用 .cta 樣式。 */
-.tnav .nav-drop{{position:relative}}
-.tnav .nav-drop>summary{{font-size:14px;font-weight:600;color:var(--text);cursor:pointer;list-style:none;display:flex;align-items:center;gap:5px}}
-.tnav .nav-drop>summary::-webkit-details-marker{{display:none}}
-.tnav .nav-drop>summary::after{{content:'';width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}}
-.tnav .nav-drop[open]>summary::after{{transform:rotate(225deg) translateY(-2px)}}
-.tnav .nav-drop[open]>summary{{color:var(--blue)}}
-.tnav .nav-menu{{position:absolute;top:calc(100% + 9px);left:-14px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 34px rgba(0,38,118,.16);padding:6px;min-width:158px;z-index:60}}
-.tnav .nav-menu a{{display:block;padding:9px 14px;border-radius:8px;font-size:14px}}
-.tnav .nav-menu a:hover{{background:#F4F7FB;color:var(--blue)}}
-.tnav .nav-mcta{{display:none}}
-@media(max-width:860px){{
-  .tnav a:not(.cta){{display:none}}
-  .tnav .nav-drop{{display:none}}
-  .tnav .nav-mcta{{display:block}}
-}}
-@media(min-width:861px){{.tnav .nav-mcta{{display:none}}}}
+.tnav .nav-drop{position:relative}
+.tnav .nav-drop>summary{font-size:14px;font-weight:600;color:var(--text);cursor:pointer;list-style:none;display:flex;align-items:center;gap:5px}
+.tnav .nav-drop>summary::-webkit-details-marker{display:none}
+.tnav .nav-drop>summary::after{content:'';width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+.tnav .nav-drop[open]>summary::after{transform:rotate(225deg) translateY(-2px)}
+.tnav .nav-drop[open]>summary{color:var(--blue)}
+.tnav .nav-menu{position:absolute;top:calc(100% + 9px);left:-14px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 34px rgba(0,38,118,.16);padding:6px;min-width:158px;z-index:60}
+.tnav .nav-menu a{display:block;padding:9px 14px;border-radius:8px;font-size:14px}
+.tnav .nav-menu a:hover{background:#F4F7FB;color:var(--blue)}
+.tnav .nav-mcta{display:none}
+@media(max-width:860px){
+  .tnav a:not(.cta){display:none}
+  .tnav .nav-drop{display:none}
+  .tnav .nav-mcta{display:block}
+}
+@media(min-width:861px){.tnav .nav-mcta{display:none}}
 .wrap{max-width:1120px;margin:0 auto;padding:36px 24px 0}
 /* PC：雜誌跨頁雙欄——左右兩頁並排、圖文交織；手機自動回單欄 */
 @media(min-width:900px){
@@ -165,6 +165,66 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 .sj-bar .sj-chip.sj-cur{background:var(--blue);border-color:var(--blue);color:#fff}
 .sj-bar .sj-chip.sj-all{border-color:var(--line);color:var(--gray);font-weight:600}
 @media(max-width:600px){.sj-bar .sj-label{width:100%;margin:0 0 2px}}
+
+/* ---------- 致詞稿附錄：可展開清單 ---------- */
+.spx{margin:38px 0 8px;background:#F7F1E3;border:1px solid #E7DCC2;border-radius:18px;
+    padding:28px 28px 22px;box-shadow:0 14px 40px rgba(1,1,51,.08)}
+.spx-badge{display:inline-block;background:#8A5A00;color:#F7F1E3;font-size:12px;font-weight:700;
+    letter-spacing:2px;padding:4px 14px;border-radius:999px;margin-bottom:12px}
+.spx-title{font-family:Georgia,"Songti TC",serif;font-size:23px;color:#5A3E00;line-height:1.35;
+    margin:0 0 8px}
+.spx-sub{font-size:13.5px;color:#8A8266;margin:0 0 4px;line-height:1.7}
+.spx-hint{font-size:12.5px;color:#A79B78;margin:0 0 18px;padding-bottom:14px;
+    border-bottom:1px dashed #E7DCC2}
+.spx-item{border-bottom:1px solid #EFE7D2}
+.spx-item:last-child{border-bottom:0}
+.spx-head{width:100%;display:flex;align-items:flex-start;gap:14px;background:none;
+    border:0;padding:18px 0;cursor:pointer;text-align:left;font-family:inherit}
+.spx-head:hover{background:rgba(255,253,246,.7)}
+.spx-no{flex:0 0 34px;height:34px;border-radius:50%;background:#8A5A00;color:#F7F1E3;
+    font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;
+    margin-top:2px;letter-spacing:.02em}
+.spx-head:hover .spx-no{background:#6B4400}
+.spx-meta{flex:1;min-width:0}
+.spx-t{display:block;font-size:16.5px;font-weight:700;color:#3D2C00;line-height:1.45;margin:0 0 4px}
+.spx-by{display:block;font-size:13px;color:#8A8266;line-height:1.6;margin:0}
+.spx-by b{color:#6B4400;font-weight:700}
+.spx-cav{display:block;font-size:12px;color:#A79B78;font-style:italic;margin:2px 0 0}
+.spx-arrow{flex:0 0 16px;margin-top:10px;color:#C0B48C;font-size:13px;
+    transition:transform .22s ease}
+.spx-head[aria-expanded="true"] .spx-arrow{transform:rotate(180deg)}
+.spx-panel{display:none;padding:2px 0 22px 48px}
+.spx-panel.is-on{display:block;animation:spxIn .3s ease}
+@keyframes spxIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.spx-lead{font-size:14.5px;color:#6B5B38;background:#FFFDF6;border-left:3px solid #C9A227;
+    padding:12px 16px;margin:0 0 16px;line-height:1.75;border-radius:0 8px 8px 0}
+.spx-body{font-size:15.5px;line-height:1.85;color:var(--text)}
+.spx-body p{margin:0 0 14px}
+.spx-body blockquote{margin:0 0 14px;padding:12px 18px;background:#FFFDF6;
+    border-left:3px solid #C9A227;font-size:15px;color:#5A4A28;line-height:1.8}
+.spx-body h2,.spx-body h3{font-family:Georgia,"Songti TC",serif;color:#3D2C00;margin:20px 0 10px}
+/* 桌面版單篇全文獨立捲動區：實測最長單篇 1,679px，設 560px 約 3 屏，
+   展開時頁面不會被拉得過長，也不會把後面的清單推出版面。 */
+.spx-scroll{max-height:560px;overflow-y:auto;padding-right:6px;
+    scrollbar-width:thin;scrollbar-color:#C9A227 transparent}
+.spx-scroll::-webkit-scrollbar{width:7px}
+.spx-scroll::-webkit-scrollbar-track{background:transparent}
+.spx-scroll::-webkit-scrollbar-thumb{background:#D8CB9E;border-radius:99px}
+.spx-note{font-size:12.5px;color:#A79B78;margin:16px 0 0;padding-top:12px;
+    border-top:1px dashed #E7DCC2;line-height:1.7}
+.spx-foot{font-size:13px;color:#8A8266;margin:18px 0 0;padding-top:16px;
+    border-top:1px solid #EFE7D2;line-height:1.7}
+@media(max-width:720px){
+    .spx{padding:22px 18px 18px}
+    .spx-title{font-size:20px}
+    .spx-head{gap:11px;padding:15px 0}
+    .spx-no{flex:0 0 28px;height:28px;font-size:12px}
+    .spx-t{font-size:15.5px}
+    .spx-panel{padding-left:0}
+    .spx-body{font-size:15.5px;line-height:1.8}
+    /* 手機版不設限高：實測最長單篇（周錫瑋）3,761px 約 4.5 屏，
+       一次只開一篇，長度可接受。嵌套捲動在觸控上會與頁面滾動打架。 */
+    .spx-scroll{max-height:none;overflow:visible;padding-right:0}}
 </style>
 </head>
 <body>
@@ -222,6 +282,104 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 
 </article>
 
+<div class="spx" id="speeches"><span class="spx-badge">附錄 · 致詞稿</span><h2 class="spx-title">本場致詞稿（8 篇）</h2><p class="spx-sub">第三屆長三角·大灣區百位台商走進衢州暨衢台經貿交流活動｜2026 年 6 月｜浙江衢州龍遊</p><p class="spx-hint">以下為同一場活動現場的致詞稿全文，依發言順序排列。點任一篇即可就地展開閱讀，不必離開本文。</p><div class="spx-item"><button class="spx-head" type="button" aria-expanded="false" onclick="spxToggle(this)"><span class="spx-no">1</span><span class="spx-meta"><span class="spx-t">開幕致辭：兩岸融合的大勢，大陸經濟的底氣</span><span class="spx-by"><b>仇開明</b>｜海峽兩岸關係協會副會長</span></span><span class="spx-arrow">▾</span></button><div class="spx-panel" id="spx-p-1"><p class="spx-lead">海峽兩岸關係協會副會長仇開明在活動開幕式上的致辭全文。本篇為「第三屆長三角·大灣區百位台商走進衢州」系列之一，系列首篇為翁振軒紀行《在南孔聖地，聽兩岸的聲音——一個回家的龍遊人》。</p><div class="spx-scroll"><div class="spx-body">
+<p>尊敬的各位領導、各位來賓、各位台商朋友：</p>
+<p>大家上午好。很高興應邀出席第三屆長三角·大灣區百位台商走進衢州暨衢台經貿交流活動。首先，我謹代表海峽兩岸關係協會，對活動的舉辦表示熱烈祝賀，向來自長三角、粵港澳大灣區以及台灣島內的各位企業家朋友，致以誠摯的歡迎。（原轉寫中的與會嘉賓名單，因錄音所限未能逐一核實，此處從略，以活動現場為準。）</p>
+<p>衢州地處四省通衢之地，歷史文化悠久，生態環境優美，近年來經濟社會發展生機盎然。大家知道，浙江是習近平總書記新時代中國特色社會主義思想的重要萌發地。20 多年前，習總書記在浙江工作期間親自謀劃了「八八戰略」這一重大決策部署，引領浙江走出了一條改革發展的路子。當前浙江正全力推進共同富裕示範區建設，經濟社會呈現高質量發展的良好勢頭。</p>
+<p>今年 4 月 10 日，習近平總書記在北京會見了中國國民黨主席鄭麗文率領的訪問團，就發展兩岸關係、維護台海和平提出重要主張。4 月 12 日，中央台辦受權發布十項政策措施，進一步促進兩岸交流合作。6 月 13 日，十項措施在福建廈門舉行對接簽約會。我們相信，只要兩岸同胞沿著習總書記指明的方向共同努力，兩岸關係必將迎來新的發展局面。</p>
+<p>各位嘉賓、各位朋友，大陸經濟體量大、韌性強、潛力足。過去幾個五年規劃時期，大陸經濟總量接連跨上新台階，目前已超過 140 萬億元人民幣。今年以來，大陸外貿保持較快增長，同比增長超過 15%，其中以電動汽車、鋰電池、光伏產品「新三樣」為代表的機電產品出口佔比超過 60%。大陸完備的產業體系、超大規模的市場、持續改善的營商環境，始終是台商、台胞投資興業的最佳選擇，也是抵禦各種風險的堅強後盾。</p>
+<p>衢州已連續舉辦三屆長三角·大灣區百位台商走進衢州活動，成為兩岸經貿交流的重要平台。我們期待更多台商朋友來衢州、來浙江、來大陸投資興業，共享發展機遇。</p>
+<p>最後，衷心祝願本次活動圓滿成功，祝各位嘉賓事業興旺、闔家幸福！</p>
+<blockquote><strong>金句</strong>：「大陸經濟始終是台商、台胞投資興業的最佳選擇，是抵禦風險的堅強後盾。」</blockquote>
+<p><strong>整理者按</strong>：仇會長的致辭，是一場活動的政治定盤星——先講政策（四月會見、十項措施、廈門對接），再講底氣（140 萬億、外貿增 15%）。數字都給得乾脆，這是大陸官員面對台商的一貫方式：先把形勢講清楚，再把門打開。（數據為致辭人所述，出處見系列首篇）</p></div></div><p class="spx-note">本篇為活動現場錄音整理，致辭中的數字與事例均為致辭人所述。</p></div></div><div class="spx-item"><button class="spx-head" type="button" aria-expanded="false" onclick="spxToggle(this)"><span class="spx-no">2</span><span class="spx-meta"><span class="spx-t">歡迎致辭：四省通衢之地，誠迎天下台商</span><span class="spx-by"><b>潘曉輝</b>｜衢州市人大常委會副主任</span></span><span class="spx-arrow">▾</span></button><div class="spx-panel" id="spx-p-2"><p class="spx-lead">衢州市人大常委會副主任潘曉輝在活動歡迎儀式上的致辭全文。本篇為「第三屆長三角·大灣區百位台商走進衢州」系列之一，系列首篇為翁振軒紀行《在南孔聖地，聽兩岸的聲音——一個回家的龍遊人》。</p><div class="spx-scroll"><div class="spx-body">
+<p>尊敬的各位領導、各位嘉賓，來自海峽兩岸的企業家朋友們：</p>
+<p>大家上午好。首先，我謹代表衢州市委、市政府和全市人民，向出席本次活動的各位嘉賓表示熱烈的歡迎，向長期以來關心支持衢州發展的各界朋友表示衷心的感謝。</p>
+<p>衢州是一座歷史文化名城。這裡是南孔聖地——北宋末年，孔子後裔扈蹕南渡，定居衢州，衍聖公府遷此，自此江南儒學在此生根發芽，衢州也因此被譽為「南孔文化名城」。這裡也是「世界圍棋聖地」——衢州爛柯山，是中國圍棋文化的發源地之一，「爛柯」一詞即源於此。千百年來，崇禮、誠信、包容的南孔家風與崇文尚德的民風在這裡一脈相承，形成了「衢州有禮」的獨特城市精神。</p>
+<p>衢州是一座區位優越的樞紐城市。地處浙閩贛皖四省邊際，素有「四省通衢、五路總交匯」之稱，是長三角與海西經濟區的重要銜接點，也是聯結長三角一體化與粵港澳大灣區建設的戰略通道。近年來，隨著杭衢高鐵等重大交通項目相繼建成，衢州已全面融入杭州一小時都市圈，「融衢接杭」的區位優勢正加速轉化為發展勝勢。</p>
+<p>當前，衢州正聚焦高端裝備、新能源、數字經濟、精密製造、特色農業、文旅康養等重點賽道，加快構建現代化產業體系。我們真誠歡迎廣大台商朋友來衢考察投資，共享衢州發展機遇。衢州將持續打造重商、親商、安商、富商的營商環境，落實惠台暖台各項政策措施，為台胞台企提供全生命週期服務，讓大家放心投資、安心創業、順心發展。</p>
+<p>最後，預祝本次活動取得圓滿成功，祝各位嘉賓身體健康、事業興旺！</p>
+<blockquote><strong>金句</strong>：「衢州有禮、辦事省心；四省通衢、誠迎天下。」</blockquote>
+<p><strong>整理者按</strong>：潘主任的歡迎辭，把衢州兩張名片亮出來——南孔聖地與世界圍棋聖地。衢州人談衢州，繞不開「禮」字；台商聽得懂這個字，因為禮是兩岸共通的語言。</p></div></div><p class="spx-note">本篇為活動現場錄音整理，致辭中的數字與事例均為致辭人所述。</p></div></div><div class="spx-item"><button class="spx-head" type="button" aria-expanded="false" onclick="spxToggle(this)"><span class="spx-no">3</span><span class="spx-meta"><span class="spx-t">龍遊文化推介：萬年、千年、百年——一座會動的城</span><span class="spx-by"><b>龍遊縣人民政府領導</b></span><span class="spx-cav">（現場錄音未收錄姓名，以職務呈現）</span></span><span class="spx-arrow">▾</span></button><div class="spx-panel" id="spx-p-3"><p class="spx-lead">龍遊縣人民政府領導在活動上的文化推介全文。本篇為「第三屆長三角·大灣區百位台商走進衢州」系列之一，系列首篇為翁振軒紀行《在南孔聖地，聽兩岸的聲音——一個回家的龍遊人》。</p><div class="spx-scroll"><div class="spx-body">
+<p>尊敬的各位領導、各位來賓、各位台商朋友：</p>
+<p>「梅子黃時日日晴，小溪泛盡卻山行。綠陰不減來時路，添得黃鸝四五聲。」</p>
+<p>這是南宋詩人曾幾的《三衢道中》，寫的正是我們這片土地。我想用這首詩，開啟今天的龍遊推介。</p>
+<p>龍遊有什麼？我給大家三組數字：<strong>萬年文化、千年古城、百年商幫</strong>。</p>
+<p><strong>萬年文化。</strong> 龍遊的荷花山遺址，距今約一萬年，是上山文化的重要組成部分，也是中國早期新石器時代文化的代表之一。一萬年前，這裡就有人類活動的足跡。</p>
+<p><strong>千年古城。</strong> 龍遊於公元前 222 年建縣，至今已有兩千二百多年歷史，是浙江省歷史最悠久的縣份之一。龍遊石窟、龍遊民居苑，都是這座千年古城的見證。</p>
+<p><strong>百年商幫。</strong> 龍遊商幫是明清時期全國十大商幫之一，也是唯一以縣級為單位的商幫。龍遊商幫主營珠寶、古玩，所以商幫中人要有文化底蘊——看不懂古玩字畫，是進不了這一行的。這也造就了龍遊人崇文重商的傳統。</p>
+<p>講一個有趣的地名：全國帶「龍」字的地名，多是名詞——黑龍江、九龍；唯獨「龍遊」的「遊」，是個動詞。一條會動的龍，一座有文化的城。</p>
+<p>再說說龍遊的交通：龍遊有 3 座高鐵站、5 個高速互通口、1 個內河港；衢州新機場的選址，三分之一在龍遊境內。可以說，龍遊已經融入杭州一小時交通圈。</p>
+<p>在對台交流方面，龍遊也有自己的故事：中泰科技落戶龍遊已近 20 年；我們與台灣的交流，從經貿合作到「村 BA」籃球賽，再到台灣藝術大學的尋根之旅，余氏宗親回鄉祭祖——兩岸同胞的血脈親情，在龍遊從未斷過。</p>
+<p>最後，歡迎各位來龍遊，試一試我們的龍遊發糕。祝各位身體旺旺、工作旺旺、生活旺旺！</p>
+<blockquote><strong>金句</strong>：「龍遊擁有萬年文化、千年古城、百年商幫；『龍遊』的『遊』，是動詞。」</blockquote>
+<p><strong>整理者按</strong>：這場推介是我在整場活動裡最喜歡的一段。開頭一首宋詩，中間一個地名玩笑，結尾一塊發糕——融合同樣可以是具體的、有味道的。（龍遊商幫主營珠寶古玩、荷花山遺址年代等，為致辭人所述，細節以官方資料為準）</p></div></div><p class="spx-note">本篇為活動現場錄音整理，致辭中的數字與事例均為致辭人所述。</p></div></div><div class="spx-item"><button class="spx-head" type="button" aria-expanded="false" onclick="spxToggle(this)"><span class="spx-no">4</span><span class="spx-meta"><span class="spx-t">致辭：我是衢州人，歡迎大家常回家</span><span class="spx-by"><b>徐莽</b>｜台企金融發展（深圳）研究院院長、前國台辦經濟局局長</span></span><span class="spx-arrow">▾</span></button><div class="spx-panel" id="spx-p-4"><p class="spx-lead">台企金融發展（深圳）研究院院長、前國台辦經濟局局長徐莽在活動上的致辭全文。本篇為「第三屆長三角·大灣區百位台商走進衢州」系列之一，系列首篇為翁振軒紀行《在南孔聖地，聽兩岸的聲音——一個回家的龍遊人》。</p><div class="spx-scroll"><div class="spx-body">
+<p>尊敬的各位領導、各位嘉賓，各位鄉親、各位台商朋友：</p>
+<p>大家好。剛才主持人介紹我的時候，提到我是台企金融發展（深圳）研究院的院長。其實，我還有另一個身份——我是衢州人。我出生在衢州江山，是土生土長的衢州人。</p>
+<p>離開家鄉多年，這次回來，我想先講講衢州最珍貴的東西——「衢州有禮」的「禮」。</p>
+<p>孔子講「禮」，把它當作一種社會治理工具：禮之用，和為貴。衢州是南孔聖地，兩千多年來，這座城市一直把「禮」作為安身立命之本。今天我們講營商環境，講親清政商關係，講到底，也是一個「禮」字——以禮待人，以誠相待，企業自然願意來。</p>
+<p>我在國台辦工作多年，也參與推動過許多兩岸經貿合作。我的感受是：兩岸同胞同根同源，台商到大陸投資，不只是做生意，更是回家。大陸市場足夠大、機遇足夠多，關鍵是找對地方、找對夥伴。</p>
+<p>我們研究院的宗旨，簡單講有三個目標：一是服務台商台企在大陸的發展，二是促進兩岸金融交流合作，三是為兩岸產業對接提供智庫支撐。今天到衢州來，我願意當大家的導遊，也願意當大家的服務員——帶各位看看衢州的山水，也為各位對接衢州的機會。</p>
+<p>最後，歡迎各位台商朋友多來衢州、常來衢州。衢州有禮，衢州有您，會更好。</p>
+<blockquote><strong>金句</strong>：「我願意當大家的導遊，也願意當大家的服務員。」</blockquote>
+<p><strong>整理者按</strong>：徐院長開場一句「我是衢州人」，讓全場都笑了——一個做了一輩子兩岸經貿的人，回到家鄉，把姿態放得很低：導遊、服務員。這大概就是「衢州有禮」的現代版本。</p></div></div><p class="spx-note">本篇為活動現場錄音整理，致辭中的數字與事例均為致辭人所述。</p></div></div><div class="spx-item"><button class="spx-head" type="button" aria-expanded="false" onclick="spxToggle(this)"><span class="spx-no">5</span><span class="spx-meta"><span class="spx-t">主旨演講：中國的康莊大道</span><span class="spx-by"><b>周錫瑋</b>｜旺旺集團副董事長、前台北縣長、中華永續城市發展基金會董事長</span></span><span class="spx-arrow">▾</span></button><div class="spx-panel" id="spx-p-5"><p class="spx-lead">旺旺集團副董事長、前台北縣長周錫瑋在活動上的主旨演講全文。本篇為「第三屆長三角·大灣區百位台商走進衢州」系列之一，系列首篇為翁振軒紀行《在南孔聖地，聽兩岸的聲音——一個回家的龍遊人》。</p><div class="spx-scroll"><div class="spx-body">
+<p>各位領導、各位會長、各位老朋友、新朋友，大家早安。</p>
+<p>昨天李主任傳簡訊給我，說之前討論的碳中和，準備得很好。他也提到，現在台商朋友需要兩個故事：一個大故事，一個小故事。大故事，是中國在全世界未來的發展；小故事，是台商在大陸的機遇。兩個故事，都需要兩岸中國人一起來寫。</p>
+<p>我上個月在北京清華大學做了一場演講。清華的學生與教授，專業能力是世界一流的。我當時在想，要跟這群最聰明的人談什麼大題目？最後我談的是——<strong>中國的康莊大道</strong>，英文講 prosperity and security，繁榮與安全。我認為，一個偉大的國家，應該關注的就是這兩件事。</p>
+<p><strong>談談「產能過剩」。</strong> 現在全世界都在談論中國的產能過剩，歐美國家質疑中國產品價廉物美，他們比不過。我前段時間聽伊朗大使和晶片領域的專家談美中比較：中國大陸的人才佔全世界一半；在 AI 領域，全世界最好的高端晶片，是中國人做出來的。西方智庫研究過一個問題：為什麼稀土的提煉技術與工廠，90% 在中國大陸，而不是在美國、歐洲？因為中國掌握了科技產品的中游，培養了有生產力的人才，又是全世界最大的市場——生產鏈完整，市場價值也被中國人掌握。這是今天真實的現實。</p>
+<p><strong>談談殖民主義。</strong> 大家還記得帝國主義嗎？當年歐洲列強靠堅船利炮侵略全世界。二戰之後，新形態的殖民主義是美國——看看美國在全球的軍事基地和盟友有多少。美國掌握領先科技與智慧財產，看不順眼就打仗。今天，很多人預言：這個時代，可能就是殖民帝國徹底沒落的時代。</p>
+<p>中國人崛起，什麼是真正實力的骨幹？<strong>沒有軍事實力的，不能談經濟；經濟不強大，沒有完整的生產鏈和科技人才，就不能談對產品上中下游的完全掌控。</strong> 而最後一塊，是科技領先。美國最強盛的時代，就是科技最強盛的時代，他們為全世界制定專利、規格、標準。我們向荷蘭購買 EUV 光刻機，荷蘭工廠卻必須受美國控制——因為裡面有美國的專利、智慧財產權、投資資金。ASML 對中國大陸是殘酷的：功能受限、速度放慢，最後連維修和零組件都不提供，這完全違背了全球經濟契約精神。美國操控世界，不只有公司，還有科技市場、經濟市場、貿易市場。</p>
+<p><strong>全世界只有中國可以全方位對抗美國。</strong></p>
+<p>歐美學者得出結論：中國大陸政府是最有效率的政府。他們不相信中國的基建如此強大、生產鏈如此完整；不相信「十五五」規劃能從中央貫徹到地方和企業；也不相信全世界最好的 10 所大學裡，中國大陸佔了 8 所；他們不敢相信，14 億人口從貧窮落後走到今天的富足平安，不敢相信中國的戰鬥機、航空母艦、太空衛星都能領先。這就是效率。</p>
+<p>今天大家不再爭論資本主義、社會主義、民主制度，大家討論的是：如何提高人民的效率。</p>
+<p>我到大陸這些年，最讓我驚喜的，是環境的乾淨。大運河、長江三峽、杭州上海的湖泊，河川整治非常迅速。韓國有位總統，因為整治一條 5 公里多長的清溪川，選上了總統。中國大陸不知道完成了多少這樣的改變——但這都是不容易的事。</p>
+<p><strong>談談綠色轉型。</strong> 很多歐美國家批評中國大量生產光伏、風電組件賣到歐美。但我認為，中國大陸是全球唯一真正認真做碳中和研究的國家。我坐飛機去內蒙古，山上全是光伏電板與風力發電，下面養的是牛羊。這麼大的投資，政府要下多大的決心，企業要做多大的事。今天全世界，只有歐盟在努力，世界大國都沒有做，尤其美國。</p>
+<p>講一個 100 年前的故事：美國用中國的資金和華工，建造了第一條鐵路。如今美國要建高速鐵路，號稱要用中國人的資金和科技，結果——到今天，美國連一條高速鐵路都沒建成。我們中國人追求的，不只是經濟發達、科技進步，不只是富有，而是<strong>平安與安全</strong>。為所有人民提供安全健康的環境，是最負責任的政府的行為。<strong>生於憂患，死於安樂。</strong></p>
+<p>我為什麼用這個標題？因為我想讓清華的學生們知道：今天中國大陸的進步繁榮與美好，是幾十年前的前輩，用「生於憂患、死於安樂」的覺悟換來的。從清朝開始，我們被欺負了多少年？今天能如此富強，是因為許多前輩的努力，讓我們免於戰亂、侵略與欺負。</p>
+<p>今天世界面對的現實，是美國對中國大陸的全面打壓，沒有一個方面放過。我們沒有全面強大的實力，就不能生存。<strong>人盡其才，物盡其用，貨暢其流。</strong> 看看我們現在的政策，都在遵循這四個原則；我們有「十五五」規劃，與「一帶一路」、上合組織合作，以軟實力為主，與全世界所有友好國家團結。</p>
+<p>我們也非常重視文化。歐洲國家之所以成為大國，是因為文化藝術發達。我們的文化藝術很好，但要走出去，引領未來潮流。</p>
+<p>最後，我歸納幾句話，也是我這幾年看到中國大陸官員政府努力的目標：</p>
+<p><strong>沒有強大的軍事，就沒有永久的和平；</strong> <strong>沒有進步的科技，就沒有競爭的條件；</strong> <strong>沒有完整的製造，就沒有繁榮的經濟；</strong> <strong>沒有一切為人民，就沒有團結的國家；</strong> <strong>沒有健全的制度，就沒有安定的社會；</strong> <strong>沒有相互尊重與誠信，就沒有兄弟和朋友。</strong></p>
+<p>古人說：「大道之行也，天下為公。」今天我看到的中國大陸，就是有這樣的機制。為什麼中國人有這麼多朋友？因為天下為公。我們全公司之所以安定和諧，是因為我們有思維——而全世界，尤其歐美，很多人沒有思維。中國人有思維，才有今天穩定發展、攜手同心、共創康莊。</p>
+<p>作為一個中國人，走在全世界都昂首闊步，很光榮、很驕傲。我更希望兩岸同胞一條心，一起為國家、為同胞努力，走出未來的康莊大道。謝謝大家！</p>
+<blockquote><strong>金句</strong>：「大道之行也，天下為公。」「沒有強大的軍事，就沒有永久的和平。」</blockquote>
+<p><strong>整理者按</strong>：周董事長講了將近二十分鐘，從清華講到衢州，從光刻機講到內蒙古的光伏牧場。他談的不是生意，是命運共同體——把兩岸的未來，放進一個更大的故事裡。（演講中的數字與事例均為致辭人所述；「全世界最好的10所大學大陸佔8所」等說法未經第三方來源核實，謹此註明）</p></div></div><p class="spx-note">本篇為活動現場錄音整理，致辭中的數字與事例均為致辭人所述；部分說法未經第三方來源核實，已在文內註明。</p></div></div><div class="spx-item"><button class="spx-head" type="button" aria-expanded="false" onclick="spxToggle(this)"><span class="spx-no">6</span><span class="spx-meta"><span class="spx-t">主旨演講：超聲波高端機床的國產突圍</span><span class="spx-by"><b>趙青沣</b>｜全意科技（浙江）有限公司創始人、董事長</span></span><span class="spx-arrow">▾</span></button><div class="spx-panel" id="spx-p-6"><p class="spx-lead">全意科技（浙江）有限公司創始人、董事長趙青沣在活動上的主旨演講全文。本篇為「第三屆長三角·大灣區百位台商走進衢州」系列之一，系列首篇為翁振軒紀行《在南孔聖地，聽兩岸的聲音——一個回家的龍遊人》。</p><div class="spx-scroll"><div class="spx-body">
+<p>尊敬的各位領導、兩岸各界嘉賓、各位企業家：</p>
+<p>大家好，我是全意科技（浙江）的創始人、董事長。很榮幸站在這裡，代表全意科技全體同仁，向各位表示歡迎，也感謝各級領導對企業發展的關心與支持。</p>
+<p><strong>為什麼落戶衢州？</strong></p>
+<p>我們認為，企業的長久發展，除了經營團隊自身的能力，離不開天時、地利與人和。幾年前，我們輾轉考察了各個省市，最終選擇落戶衢州。</p>
+<p>在我看來，優秀的營商環境，不是口頭表達或寫在紙上，而是能否把文字和語言落實到位。這一點，衢州沒有讓我們失望——從最初的選址、廠區規劃，到後來的廠房建設，推進都非常順利。</p>
+<p>衢州是適合事業發展和夢想生長的地方。這裡有溫度、有誠意、有未來。</p>
+<p><strong>我們在做什麼？</strong></p>
+<p>國民經濟的命脈產業——高端機床，被西方發達國家列入對華技術封鎖清單。以瓦森納協定為代表的限制，影響了中國高端製造業的發展進程。高端機床的核心技術，至今仍牢牢掌握在歐美和日本手中。</p>
+<p>但我一直堅信，國產高端機床絕對能夠成功，它離不開自研技術的突破與核心控制。作為有實業報國立場的企業，我們開始全心全意扎根衢州。全意科技成立後，於 2023 年成為國內少數實現超聲波機床系統量產的廠商。我們的目標，是通過自研技術，改變國家在高端機床領域受制於人的局面。</p>
+<p>我們的核心技術是超聲波加工：利用每秒 2 萬次以上的振動，頻率超過 21 千赫茲，高頻振動帶動刀具，對工件表面進行高頻衝擊，進而實現研磨、切削加工。相對於傳統加工，超聲加工在效率與成本上有極大優勢——尤其在面對難加工材料時，這種優勢具有唯一性。</p>
+<p><strong>傳統 CNC 的噩夢，正是我們全意科技的優勢。</strong></p>
+<p>我們服務於特種陶瓷、玻璃、藍寶石、鋁碳化矽、鈦合金、高溫合金等行業。這些高硬脆性材料，能讓傳統加工技術束手無策，而我們的設備能輕鬆應對。應用涵蓋工業生產、醫療、航空、航天、半導體、精密交通、電子、國防等領域。</p>
+<p>演講中我展示了一組實拍對比圖，都是高倍實物拍攝，沒有後期修改：鋁合金 6060 的加工效率，較傳統加工中心提升 <strong>3 倍</strong>；高溫合金刀具壽命提升 <strong>11 倍</strong>；部分刀具壽命提升 <strong>60 倍以上</strong>。（部分品類數據涉及客戶與產業機密，此處從略。）</p>
+<p>再以一組成本數據說明。以半導體、光伏行業大量使用的 F 型陶瓷吸盤為例（855 型全意超聲 CNC）：全意加工成本每套 <strong>6,500 元</strong>，市場加工成本約 <strong>11,000 元</strong>、市場供貨價 <strong>13,000 元</strong>；全意毛利率約 <strong>50%</strong>，市場毛利率僅 <strong>15%</strong> 左右。採用全意超聲加工方案，將徹底顛覆半導體、光伏行業硬脆材料加工的市場格局。</p>
+<p>我們已經與浙江三金金屬、中芯國際、華為等企業建立深度合作。原本只能靠進口完成的加工，如今可以由中國企業完成——這在一定程度上改變了客戶的採購路線，解決了關鍵領域受制於人的問題。尤其在半導體行業，一旦材料和加工能力雙雙突破，將極大改變行業生態。</p>
+<p><strong>兩岸佈局與專利突圍。</strong></p>
+<p>目前，全意科技在衢州兩年，已申請專利 76 件（文內亦稱 70 多件，投影片顯示 76 件）。我們以中國大陸與台灣作為防禦基盤，精準向歐盟、日本、美國三大高階市場進行技術突圍，全面涵蓋超高精密傳動技術、模切技術與超聲波精密加工三大領域。研發中心還有專利正在整理申報，數字每個月都在變化，預計明年專利過百。</p>
+<p>我們將用這些專利，打造自有的量產型超聲波機床技術路線，完成超聲技術領域的國產彎道超車，從加工端賦能各行各業。</p>
+<p>最後，我想承接周董事長的演講：我們把亞洲領先的超聲波工業應用技術，與可以比肩西方的高端機床生產技術，落地扎根在衢州。我們也希望更多台灣同胞，兩岸共同從衢州出發，邁向世界。謝謝大家！</p>
+<blockquote><strong>金句</strong>：「傳統 CNC 的噩夢，正是我們全意科技的優勢。」「讓中國的行業，用上中國人造的設備；從衢州出發，邁向世界。」</blockquote>
+<p><strong>整理者按</strong>：趙董把一場技術演講，講成了實業宣言。數據都是具體的——3 倍、11 倍、60 倍，6,500 對 11,000、50% 對 15%。在大家都講大故事的時候，他遞上的是一份車間裡的帳本。（專利數、成本、效率數據以現場投影片與致辭為準；客戶合作表述為致辭人所述）</p></div></div><p class="spx-note">本篇為活動現場錄音整理，數據以現場投影片與致辭為準，客戶合作表述為致辭人所述。</p></div></div><div class="spx-item"><button class="spx-head" type="button" aria-expanded="false" onclick="spxToggle(this)"><span class="spx-no">7</span><span class="spx-meta"><span class="spx-t">致辭：浙江省連續多年榮登榜首</span><span class="spx-by"><b>主辦方代表</b></span><span class="spx-cav">（現場錄音未收錄姓名，疑為省／市台辦或工商聯負責人，以職務呈現）</span></span><span class="spx-arrow">▾</span></button><div class="spx-panel" id="spx-p-7"><p class="spx-lead">活動主辦方代表的一段簡短致辭全文。本篇為「第三屆長三角·大灣區百位台商走進衢州」系列之一，系列首篇為翁振軒紀行《在南孔聖地，聽兩岸的聲音——一個回家的龍遊人》。</p><div class="spx-scroll"><div class="spx-body">
+<p>各位嘉賓、各位企業家朋友：</p>
+<p>浙江省連續多年榮登榜首，這是許多企業家給予的最高肯定。衢州的營商環境非常優秀，一直得到企業家的肯定。</p>
+<p>我們每次參加全國人大活動，或者全國工商聯的各種調研考察，都會讓民營企業的企業家代表發言。這樣的機會非常難得——幾千家企業翹首以待，希望有機會參加高層調研活動，而我們會把機會留給像明旺這樣的優秀企業。這也是我們為企業營造的良好環境。</p>
+<p>衢州的台資企業發展，得到了各個部門以及政府的大力支持。台商在這裡發展得好，也加深了兩岸產業合作的案例。</p>
+<p>最後，我們歡迎李會長的企業（冠龍）落戶龍遊，期待它在龍遊取得成功。謝謝！</p>
+<p>讓我們以最熱烈的掌聲，請海峽兩岸關係協會仇開明會長上台致辭。</p>
+<blockquote><strong>金句</strong>：「浙江省連續多年榮登榜首，這是許多企業家給予的最高肯定。」</blockquote>
+<p><strong>整理者按</strong>：這是一段簡短的串場致辭，前後不過一分多鐘，卻是整場活動的「承上啟下」——講浙江的營商環境，歡迎冠龍落戶龍遊，再把話筒交給仇會長。（致辭人姓名未在錄音中收錄；「明旺」一名音近待核，以現場為準）</p></div></div><p class="spx-note">本篇為活動現場錄音整理，致辭中的數字與事例均為致辭人所述；致辭人姓名未在錄音中收錄。</p></div></div><div class="spx-item"><button class="spx-head" type="button" aria-expanded="false" onclick="spxToggle(this)"><span class="spx-no">8</span><span class="spx-meta"><span class="spx-t">產業推介：龍遊的人工智能與新能源賽道</span><span class="spx-by"><b>龍遊產業主管部門代表</b></span><span class="spx-cav">（現場錄音未收錄姓名，以職務呈現）</span></span><span class="spx-arrow">▾</span></button><div class="spx-panel" id="spx-p-8"><p class="spx-lead">龍遊產業主管部門代表在活動上的產業推介（可確認部分）全文。本篇為「第三屆長三角·大灣區百位台商走進衢州」系列之一，系列首篇為翁振軒紀行《在南孔聖地，聽兩岸的聲音——一個回家的龍遊人》。</p><div class="spx-scroll"><div class="spx-body">
+<p>在人工智能領域，龍遊聚焦的戰略賽道是：<strong>硬件、新能源電池，以及智能本體及零部件</strong>。</p>
+<p><strong>硬件方面</strong>：數字電源、高速連接器、視頻封裝、服務器整機組裝等項目已在龍遊落地，產業鏈正從整機到零件逐步完善。</p>
+<p><strong>新能源電池方面</strong>：硫化物固態電解質項目已投產，正極材料即將量產；總投資近百億的電池項目、60GWh 鋰電電芯項目已開工，電子產業集群日益完善。</p>
+<p><strong>資本與科創方面</strong>：龍遊構建政府產業基金、價值資金和專項資金的政策體系，目前設有 <strong>19 支基金、總規模 127 億元</strong>，招投聯動、以投促引的效益日益顯現。科創資源上，浙工大生態工業創新研究院提供一站式技術研發與轉化服務；衢州海創園作為全省首個科創飛地，探索「<strong>研發在杭州、製造在衢州</strong>」的協同模式，讓省會創新資源與衢州製造優勢深度對接。</p>
+<p>龍遊既有技術構築，又有發展速度，更是一座重商、親商、安商的城市。我們將以最大的誠意和最優的服務，迎接各方投資者。</p>
+<blockquote><strong>金句</strong>：「研發在杭州、製造在衢州。」「龍遊既有技術構築，又有發展速度。」</blockquote>
+<p><strong>整理者按</strong>：這一段是整場活動錄音條件最差的一節，人聲與現場交流混在一起，能確認的產業信息只剩下上面這些骨架。可用則用，不可用的刪——留給讀者的，是龍遊在新能源與人工智能賽道上的真實佈局。（基金規模、項目產能為致辭人所述，以官方發布為準）</p></div></div><p class="spx-note">本篇為活動現場錄音整理，僅保留可確認內容；基金規模、項目產能為致辭人所述，以官方發布為準。</p></div></div><p class="spx-foot">本篇為作者第一人稱紀行，上述致詞稿為現場錄音整理，數字與事例均為致辭人所述；部分說法未經第三方來源核實，已在文內註明。</p></div>
+
 <div class="series-nav"><span class="sn-kicker">專輯</span><a class="sn-title" href="https://seanown.org/series/youth-crossover/">《青年實戰》</a><div class="sn-meta">第 5 / 9 篇 · 2026</div><div class="sn-links"><a href="https://seanown.org/article/rent-hike-still-profitable-yet-closed/"><span class="sn-lab">上一篇</span>年賺上億，房租漲1600萬仍可盈利，卻直接停業</a><a class="sn-all" href="https://seanown.org/series/youth-crossover/">查看全部專輯</a><a href="https://seanown.org/article/naval-three-steps-find-your-calling/"><span class="sn-lab">下一篇</span>納瓦爾：三步找到「天生該吃這碗飯」的領域</a></div></div>
 
 <div class="author">
@@ -235,7 +393,7 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 
 <div class="related">
 <h2>延伸閱讀</h2>
-<div class="rel-grid"><a class="rel-card" href="https://seanown.org/article/naval-three-steps-find-your-calling/"><span class="rc-tag">生活隨筆</span><h3>納瓦爾：三步找到「天生該吃這碗飯」的領域</h3><p>在「成為自己」這件事上，沒有人能比你做得更好。—— 納瓦爾 如果你還在迷茫該做什麼、往哪走，…</p></a><a class="rel-card" href="https://seanown.org/article/recent-reflections-twelve-quotes-sketch/"><span class="rc-tag">生活隨筆</span><h3>近期反思：十二句話，十二幅手繪</h3><p>把近期的閱讀、行走與觀察，濃縮成十二句話。每一句配一幅手繪線稿：左邊是畫，右邊是原話、背景與…</p></a></div>
+<div class="rel-grid"><a class="rel-card" href="https://seanown.org/article/quzhou-nankong-returning-home/"><span class="rc-tag">生活隨筆</span><h3>在南孔聖地，聽兩岸的聲音——一個回家的龍遊人</h3><p>隔了二十四年，我回到祖籍地衢州龍遊，以一位參加交流活動的台商身份，坐在百位台商中間。這篇記的…</p></a><a class="rel-card" href="https://seanown.org/article/naval-three-steps-find-your-calling/"><span class="rc-tag">生活隨筆</span><h3>納瓦爾：三步找到「天生該吃這碗飯」的領域</h3><p>在「成為自己」這件事上，沒有人能比你做得更好。—— 納瓦爾 如果你還在迷茫該做什麼、往哪走，…</p></a></div>
 </div>
 
 <div class="cta">
@@ -252,5 +410,32 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 </div>
 <a class="float-cta" href="https://seanown.org/contact/">洽談合作</a>
 <div class="lb" id="lb" onclick="this.style.display='none'"><img id="lbimg" src="" alt=""></div>
+<script>
+// 致詞稿附錄：就地展開／收合。同一時間只開一篇，避免頁面過長。
+function spxToggle(btn){
+  var no=btn.parentNode.querySelector('.spx-no').textContent;
+  var panel=document.getElementById('spx-p-'+no);
+  if(!panel)return;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  var all=document.querySelectorAll('.spx-panel.is-on');
+  for(var i=0;i<all.length;i++){
+    all[i].classList.remove('is-on');
+    all[i].parentNode.querySelector('.spx-head').setAttribute('aria-expanded','false')
+  }
+  if(!open){
+    panel.classList.add('is-on');
+    btn.setAttribute('aria-expanded','true');
+    var sc=panel.querySelector('.spx-scroll');
+    if(sc)sc.scrollTop=0;
+    setTimeout(function(){
+      var y=btn.getBoundingClientRect().top+window.pageYOffset-90;
+      var vy=window.pageYOffset;
+      if(vy<y-40||vy>y+window.innerHeight){
+        window.scrollTo({top:y,behavior:'smooth'})
+      }
+    },60)
+  }
+}
+</script>
 </body>
 </html>
