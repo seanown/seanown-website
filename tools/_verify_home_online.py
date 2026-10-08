@@ -70,7 +70,8 @@ with sync_playwright() as pw:
     check('L14 手機版 <300px（原始 500px）', mh < 300, 'height=%.0fpx' % mh)
     check('L15 手機版維持橫向',
           m.evaluate("getComputedStyle(document.querySelector('.author-flex-slim')).flexDirection") == 'row')
-    check('L16 手機版 nav 連結沒被壓扁（見下方獨立段落）', True)
+    check('L16 手機版「關於我」下拉可見（聯絡收在其下）',
+          m.locator('#nav .nav-drop > summary').is_visible())
 
     # 🔴 2026-10-09 新增：多視窗寬度掃描 nav。
     # 起因是發現一個既有 bug——320–414px 之間「作品／專欄／媒體」
