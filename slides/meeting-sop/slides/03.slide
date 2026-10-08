@@ -1,0 +1,65 @@
+<Slide style={{
+    width: '1280px',
+    height: '720px',
+    position: 'relative',
+    background: '#0B3D2E',
+    padding: 0,
+    fontFamily: '"PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif',
+}}>
+    <Box style={{ position: 'absolute', top: 0, right: 0, width: '704px', height: '720px' }}>
+        <Image src="assets/chapter_1.png" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <Box style={{
+            position: 'absolute',
+            top: 0, left: 0,
+            width: '100%', height: '100%',
+            background: 'linear-gradient(90deg, #0B3D2E 0%, rgba(11,61,46,.55) 30%, rgba(11,61,46,.12) 62%, rgba(11,61,46,.28) 100%)',
+        }} />
+    </Box>
+
+    <Box style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '720px', height: '720px',
+        padding: '84px 56px 68px 72px',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    }}>
+        <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+            <Box style={{ width: 40, height: 3, background: '#C75B12' }} />
+            <Text style={{ fontSize: 15, color: 'rgba(247,243,234,.62)', letterSpacing: 3 }}>
+                CHAPTER
+            </Text>
+        </Box>
+
+        <Box style={{ flexDirection: 'column', gap: 22 }}>
+            <Text style={{
+                fontSize: 96,
+                fontWeight: 'bold',
+                color: '#C75B12',
+                lineHeight: 0.98,
+                fontFamily: 'Georgia, "Songti SC", serif',
+            }}>
+                01
+            </Text>
+            <Text style={{
+                fontSize: 54,
+                fontWeight: 'bold',
+                color: '#F7F3EA',
+                lineHeight: 1.24,
+                letterSpacing: 2,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                會議為什麼
+                <br />
+                會壞掉
+            </Text>
+        </Box>
+
+        <Box style={{ flexDirection: 'column', gap: 12, maxWidth: 470 }}>
+            <Box style={{ width: 88, height: 2, background: 'rgba(240,160,80,.5)' }} />
+            <Text style={{ fontSize: 19, color: 'rgba(247,243,234,.80)', lineHeight: 1.72 }}>
+                我們不是不會開會，我們是把開會做成了儀式。
+            </Text>
+        </Box>
+    </Box>
+</Slide>

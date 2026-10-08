@@ -1,0 +1,121 @@
+<Slide style={{
+    width: '1280px',
+    height: '720px',
+    position: 'relative',
+    background: '#F7F3EA',
+    padding: 0,
+    fontFamily: '"PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif',
+}}>
+    <Box style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '300px', height: '720px',
+        background: '#0B3D2E',
+        padding: '68px 36px 54px 72px',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    }}>
+        <Box style={{ flexDirection: 'column', gap: 20 }}>
+            <Box style={{ width: 40, height: 3, background: '#C75B12' }} />
+            <Text style={{
+                fontSize: 15,
+                color: '#F0A050',
+                letterSpacing: 3,
+                fontWeight: 600,
+            }}>
+                RHYTHM
+            </Text>
+            <Text style={{
+                fontSize: 40,
+                fontWeight: 'bold',
+                color: '#F7F3EA',
+                lineHeight: 1.34,
+                letterSpacing: 3,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                主持
+                <br />
+                節奏
+            </Text>
+        </Box>
+        <Box style={{ flexDirection: 'column', gap: 10 }}>
+            <Box style={{ width: 60, height: 2, background: 'rgba(240,160,80,.5)' }} />
+            <Text style={{ fontSize: 15, color: 'rgba(247,243,234,.62)', lineHeight: 1.7 }}>
+                對工程師，���快」是精簡；對業務團隊，「快」是熱絡；對長輩，「快」是從容。
+            </Text>
+        </Box>
+    </Box>
+
+    <Box style={{
+        position: 'absolute',
+        top: 0, right: 0,
+        width: '980px', height: '720px',
+        padding: '58px 68px 50px 44px',
+        flexDirection: 'column',
+    }}>
+        <Box style={{ flexDirection: 'row', gap: 14, alignItems: 'center', height: 62 }}>
+            <Box style={{ width: 4, height: 34, background: '#C75B12' }} />
+            <Text style={{
+                fontSize: 33,
+                fontWeight: 'bold',
+                color: '#0B3D2E',
+                letterSpacing: 1,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                開場快、內容穩、轉場快、高潮慢、結尾快而有力
+            </Text>
+        </Box>
+
+        <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'column', gap: 11, paddingTop: 12 }}>
+            {[
+                { w: 212, k: '開場　快', d: '決定一場會生死的是頭十五分鐘。開場只需三句話：討論什麼、聚焦哪三個重點；希望產出什麼結論；時間如何分配。' },
+                { w: 330, k: '內容　穩', d: '報告與數據一旦出錯，全場都會停下來重新對齊。此時主持人不該急著推進，而該把節奏交給內容本身。' },
+                { w: 248, k: '轉場　快', d: '議題與議題之間的縫隙最容易失控。一句「這個議題我們待會另約時間談，先把目前這個收斂」就能把跑掉的話題拉回來。' },
+                { w: 372, k: '高潮　慢', d: '越是需要決策的議題，越要慢。催著舉手只會讓人選擇沉默；把時間讓給分歧，讓不同的聲音把話說完。' },
+                { w: 290, k: '結尾　快而有力', d: '最後十分鐘不能水。必須當場把「誰、做什麼、何時完成」念出來、當場確認，讓每個人帶走一份屬於自己的任務。' },
+            ].map((item, idx) => (
+                <Box key={item.k} style={{
+                    height: 88,
+                    flexShrink: 0,
+                    flexDirection: 'row',
+                    gap: 18,
+                    alignItems: 'stretch',
+                    background: '#FFFFFF',
+                    borderRadius: 6,
+                    padding: 0,
+                    boxShadow: '0 4px 18px rgba(11,61,46,.07)',
+                    overflow: 'hidden',
+                }}>
+                    <Box style={{
+                        width: item.w,
+                        flexShrink: 0,
+                        background: idx === 3 ? '#C75B12' : 'rgba(11,61,46,.10)',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        paddingLeft: 14,
+                        paddingRight: 14,
+                    }}>
+                        <Text style={{
+                            fontSize: 17,
+                            fontWeight: 600,
+                            color: idx === 3 ? '#F7F3EA' : '#0B3D2E',
+                            letterSpacing: 1,
+                        }}>
+                            {item.k}
+                        </Text>
+                    </Box>
+                    <Box style={{ flex: 1, minWidth: 0, flexDirection: 'column', justifyContent: 'center', padding: '12px 20px 12px 4px', overflow: 'hidden' }}>
+                        <Text style={{ fontSize: 15, color: '#5C5850', lineHeight: 1.6 }}>
+                            {item.d}
+                        </Text>
+                    </Box>
+                </Box>
+            ))}
+        </Box>
+
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 }}>
+            <Text style={{ fontSize: 14, color: '#8A8578', letterSpacing: 1 }}>高效會議主持 SOP</Text>
+            <Text style={{ fontSize: 14, color: '#8A8578', letterSpacing: 1 }}>08 / 14</Text>
+        </Box>
+    </Box>
+</Slide>

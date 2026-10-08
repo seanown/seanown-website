@@ -193,6 +193,7 @@ SLUGS = {
     '118': 'bicycle-man-1997',
     '119': 'aspectos-de-macau-1923',
     '120': 'o-regresso-1989',
+    '121': 'meeting-ends-things-begin',
 }
 
 
@@ -1220,6 +1221,103 @@ SJ_CSS = """
 @media(max-width:600px){.sj-bar .sj-label{width:100%;margin:0 0 2px}}
 """
 
+# 「本堂重點（三句話）」＋「演講稿放映」兩個區塊。
+# 用 post['keypoints'] 與 post['deck'] 觸發，不影響站上其他 120 篇。
+DECK_CSS = """
+/* ---------- 本堂重點：三句話 ---------- */
+.kp{column-span:all;margin:6px 0 34px;background:#fff;border:1px solid var(--line);
+    border-top:5px solid var(--gold);border-radius:14px;padding:26px 28px 24px;
+    box-shadow:0 14px 34px -28px rgba(1,1,51,.45)}
+.kp-kicker{font-size:11.5px;letter-spacing:.3em;color:#9AA2B1;font-weight:700;margin:0 0 4px}
+.kp-title{font-size:22px;color:var(--blue);font-weight:800;margin:0 0 20px;padding:0;
+    border:none;line-height:1.45}
+.kp-list{list-style:none;margin:0;padding:0;counter-reset:kp}
+.kp-list li{counter-increment:kp;position:relative;padding:0 0 0 62px;margin:0 0 18px;
+    font-size:17.5px;line-height:1.72;color:var(--text);text-align:left;font-weight:600}
+.kp-list li:last-child{margin-bottom:0}
+.kp-list li::before{content:counter(kp,decimal-leading-zero);position:absolute;left:0;top:1px;
+    width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;
+    font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;
+    letter-spacing:.02em}
+.kp-list li b{color:var(--blue);font-weight:800}
+.kp-note{margin:18px 0 0;padding-top:16px;border-top:1px dashed var(--line);
+    font-size:13.5px;color:var(--gray);line-height:1.8;text-align:left}
+/* ---------- 演講稿：縮圖輪播＋全屏放映 ---------- */
+.dk{column-span:all;margin:34px 0 0}
+.dk-hd{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+    flex-wrap:wrap;margin:0 0 6px}
+.dk-hd h2{font-size:23px;color:var(--blue);font-weight:800;margin:0;padding-left:14px;
+    border-left:5px solid var(--gold);line-height:1.4}
+.dk-hint{font-size:12.5px;color:var(--gray);letter-spacing:.04em;margin:0 0 18px;
+    padding:0 0 0 19px}
+.dk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.dk-item{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    background:#fff;box-shadow:0 10px 26px -24px rgba(1,1,51,.5);transition:all .2s}
+.dk-item:hover{border-color:var(--gold);transform:translateY(-3px);
+    box-shadow:0 16px 32px -22px rgba(1,1,51,.4)}
+.dk-item a{display:block}
+.dk-item img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;
+    border-bottom:1px solid var(--line)}
+.dk-cap{padding:11px 14px 13px;font-size:13px;line-height:1.6;color:var(--text);
+    font-weight:600;text-align:left}
+.dk-cap i{display:block;font-style:normal;font-size:10.5px;letter-spacing:.2em;
+    color:#9AA2B1;font-weight:700;margin-bottom:4px}
+.dk-cta{margin:22px 0 0;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.dk-btn{display:inline-block;background:var(--blue);color:#fff;font-size:14px;
+    font-weight:700;padding:12px 28px;border-radius:999px;text-decoration:none;letter-spacing:.04em}
+.dk-btn:hover{background:var(--blue-dark)}
+.dk-btn.ghost{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.dk-btn.ghost:hover{background:var(--blue);color:#fff}
+.dk-meta{font-size:12.5px;color:var(--gray);margin:0}
+@media(max-width:900px){.dk-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.dk-grid{grid-template-columns:1fr}
+    .kp{padding:22px 18px 20px}.kp-title{font-size:20px}
+    .kp-list li{font-size:16.5px;padding-left:52px}
+    .kp-list li::before{width:38px;height:38px;font-size:14px}
+    .dk-cta .dk-btn{width:100%;text-align:center}}
+"""
+
+def build_keypoints(kps):
+    """本堂重點（三句話）卡片：置於正文之前，作為全文的提煉入口"""
+    if not kps:
+        return ''
+    li = ''.join('<li>%s</li>' % esc(x) for x in kps)
+    return ('\n\n<div class="kp"><p class="kp-kicker">KEY POINTS</p>'
+            '<h2 class="kp-title">本堂重點（三句話）</h2>'
+            '<ol class="kp-list">%s</ol>'
+            '<p class="kp-note">以下三句話是整堂課的骨架；正文把它們拆開講，'
+            '附錄則是可以直接印出來貼在會議室牆上的操作手冊。</p></div>' % li)
+
+
+def build_deck(deck):
+    """演講稿（PPT）區塊：縮圖輪播＋全屏放映連結。置於附錄之後。"""
+    if not deck:
+        return ''
+    pages = deck.get('pages') or []
+    if not pages:
+        return ''
+    items = []
+    for i, p in enumerate(pages):
+        src = fix_asset(p.get('img') or '')
+        cap = p.get('cap') or ''
+        item = ('<figure class="dk-item"><a href="%s" target="_blank" rel="noopener">'
+                '<img src="%s" alt="%s" loading="lazy">'
+                '<figcaption class="dk-cap"><i>P%02d</i>%s</figcaption></a></figure>'
+                ) % (SITE + '/slides/meeting-sop/#' + str(i + 1), src, esc(cap), i + 1, esc(cap))
+        items.append(item)
+    href = SITE + '/slides/meeting-sop/'
+    return ('\n\n<div class="dk"><div class="dk-hd"><h2>演講稿：'
+            '%s</h2></div>'
+            '<p class="dk-hint">%s</p>'
+            '<div class="dk-grid">%s</div>'
+            '<div class="dk-cta">'
+            '<a class="dk-btn" href="%s" target="_blank" rel="noopener">全屏放映 14 頁 →</a>'
+            '<a class="dk-btn ghost" href="%s" target="_blank" rel="noopener">開啟獨立放映頁</a>'
+            '<span class="dk-meta">方向鍵或空白鍵翻頁 · 網址加 #8 可直接跳頁 · F 鍵全螢幕</span>'
+            '</div></div>') % (esc(deck.get('title') or '演講稿'),
+                                esc(deck.get('hint') or ''),
+                                ''.join(items), href, href)
+
 def build(post, allposts):
     num = str(post.get('num', '')).strip()
     slug = SLUGS.get(num) or ('post-' + (num or 'x'))
@@ -1243,6 +1341,13 @@ def build(post, allposts):
         body_html = io.open(os.path.join(ROOT, raw_rel), encoding='utf-8').read()
     else:
         body_html = md_to_html(post.get('body') or '', title)
+    # 本堂重點三句話：插在正文之前；演講稿：插在正文之後（附錄已在 body 內）
+    kp_html = build_keypoints(post.get('keypoints'))
+    dk_html = build_deck(post.get('deck'))
+    if kp_html:
+        body_html = kp_html + body_html
+    if dk_html:
+        body_html = body_html + dk_html
     desc = plain(post.get('body') or title, 105) or title
     url = '%s/article/%s/' % (SITE, slug)
 
@@ -1339,7 +1444,7 @@ def build(post, allposts):
 
     att = ATTACHMENTS.get(slug)
     reader = build_reader(att) if att else ''
-    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '') + (SERIES_NAV_CSS if (series_nav or movie_nav).strip() else '') + (SJ_CSS if series_jump else '')
+    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '') + (SERIES_NAV_CSS if (series_nav or movie_nav).strip() else '') + (SJ_CSS if series_jump else '') + (DECK_CSS if (kp_html or dk_html) else '')
 
     ld = {
         "@context": "https://schema.org",

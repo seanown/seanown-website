@@ -1,0 +1,82 @@
+<Slide style={{
+    width: '1280px',
+    height: '720px',
+    position: 'relative',
+    background: '#0B3D2E',
+    padding: 0,
+    fontFamily: '"PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif',
+}}>
+    <Image src="assets/cover_table.png" style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '100%', height: '100%',
+        objectFit: 'cover',
+    }} />
+
+    <Box style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '100%', height: '100%',
+        background: 'linear-gradient(90deg, rgba(11,61,46,.95) 0%, rgba(11,61,46,.86) 42%, rgba(11,61,46,.42) 78%, rgba(11,61,46,.30) 100%)',
+    }} />
+
+    <Box style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '100%', height: '100%',
+        padding: '64px 72px 40px 72px',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    }}>
+        <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+            <Box style={{ width: 46, height: 3, background: '#C75B12' }} />
+            <Text style={{ fontSize: 17, color: '#F0A050', letterSpacing: 3, fontWeight: 600 }}>
+                高效會議主持 SOP
+            </Text>
+        </Box>
+
+        <Box style={{ flexDirection: 'column', gap: 26, maxWidth: 800 }}>
+            <Text style={{
+                fontSize: 68,
+                fontWeight: 'bold',
+                color: '#F7F3EA',
+                lineHeight: 1.18,
+                letterSpacing: 2,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                會議結束了
+            </Text>
+            <Text style={{
+                fontSize: 68,
+                fontWeight: 'bold',
+                color: '#F0A050',
+                lineHeight: 1.18,
+                letterSpacing: 2,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                事情才開始
+            </Text>
+            <Box style={{ width: 120, height: 2, background: 'rgba(240,160,80,.55)', marginTop: 6 }} />
+            <Text style={{ fontSize: 21, color: 'rgba(247,243,234,.84)', lineHeight: 1.7, maxWidth: 660 }}>
+                主持人不是最會講的人，是讓會議產生結果的人——一份從會前籌備到散會落筆的完整操作手冊。
+            </Text>
+        </Box>
+
+        <Box style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 18 }}>
+                <Box style={{ width: 5, height: 42, background: '#C75B12' }} />
+                <Box style={{ flexDirection: 'column', gap: 5 }}>
+                    <Text style={{ fontSize: 19, color: '#F7F3EA', fontWeight: 600, letterSpacing: 1 }}>
+                        翁振軒　Sean Own
+                    </Text>
+                    <Text style={{ fontSize: 14, color: 'rgba(247,243,234,.62)', letterSpacing: 1 }}>
+                        澳門 · 2026 年 10 月
+                    </Text>
+                </Box>
+            </Box>
+            <Text style={{ fontSize: 14, color: 'rgba(247,243,234,.52)', letterSpacing: 1 }}>
+                14 / 14
+            </Text>
+        </Box>
+    </Box>
+</Slide>

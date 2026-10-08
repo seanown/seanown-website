@@ -1,0 +1,96 @@
+<Slide style={{
+    width: '1280px',
+    height: '720px',
+    position: 'relative',
+    background: '#0B3D2E',
+    padding: 0,
+    fontFamily: '"PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif',
+}}>
+    <Image src="assets/meeting_scene.png" style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '100%', height: '100%',
+        objectFit: 'cover',
+        opacity: 0.15,
+    }} />
+    <Box style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '100%', height: '100%',
+        background: 'linear-gradient(120deg, rgba(11,61,46,.97) 0%, rgba(11,61,46,.90) 58%, rgba(11,61,46,.74) 100%)',
+    }} />
+
+    <Box style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '100%', height: '720px',
+        padding: '64px 72px 52px 72px',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    }}>
+        <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+            <Box style={{ width: 4, height: 34, background: '#C75B12' }} />
+            <Text style={{
+                fontSize: 34,
+                fontWeight: 'bold',
+                color: '#F7F3EA',
+                letterSpacing: 1,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                真正用於決策的時間
+            </Text>
+        </Box>
+
+        <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 54 }}>
+            <Box style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 20 }}>
+                <Text style={{
+                    fontSize: 200,
+                    fontWeight: 'bold',
+                    color: 'transparent',
+                    backgroundImage: 'linear-gradient(160deg, #C75B12 0%, #F0A050 100%)',
+                    backgroundClip: 'text',
+                    lineHeight: 0.9,
+                    fontFamily: 'Georgia, "Songti SC", serif',
+                    letterSpacing: -4,
+                }}>
+                    15
+                </Text>
+                <Box style={{ flexDirection: 'column', gap: 6, paddingBottom: 34 }}>
+                    <Text style={{
+                        fontSize: 40,
+                        fontWeight: 'bold',
+                        color: '#F7F3EA',
+                        letterSpacing: 6,
+                        fontFamily: 'Georgia, "Songti SC", serif',
+                    }}>
+                        分鐘
+                    </Text>
+                    <Text style={{ fontSize: 16, color: 'rgba(247,243,234,.60)', letterSpacing: 1 }}>
+                        而這十五分鐘，往往發生在所有人都已經疲憊的時候
+                    </Text>
+                </Box>
+            </Box>
+
+            <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'column', gap: 18, borderLeft: '1px solid rgba(240,160,80,.34)', paddingLeft: 40 }}>
+                <Text style={{
+                    fontSize: 23,
+                    color: 'rgba(247,243,234,.92)',
+                    lineHeight: 1.7,
+                    fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+                }}>
+                    會議效率的真實問題，不是效率不夠，
+                    <br />
+                    而是<span style={{ color: '#F0A050', fontWeight: 'bold' }}>產出物不對</span>。
+                </Text>
+                <Text style={{ fontSize: 17, color: 'rgba(247,243,234,.68)', lineHeight: 1.78 }}>
+                    我們花大量時間交換信息，而那些信息用半小時就能說完；我們把真正的決定拖到最後十分鐘，而在那個時候通過的，往往只是最容易被通過的那個版本。
+                </Text>
+            </Box>
+        </Box>
+
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+            <Box style={{ width: 300, height: 2, background: 'rgba(240,160,80,.42)' }} />
+            <Text style={{ fontSize: 14, color: 'rgba(247,243,234,.48)', letterSpacing: 1 }}>05 / 14</Text>
+        </Box>
+    </Box>
+</Slide>

@@ -35,6 +35,13 @@ a{color:var(--blue);text-decoration:none}
 .brand span{color:var(--gold)}
 .topbar .minimal-hint{font-size:13px;color:var(--gray);text-decoration:none}
 .topbar .minimal-hint:hover{color:var(--blue)}
+/* 六層導覽（與全站獨立頁一致）*/
+.tnav{{display:flex;gap:17px;align-items:center}}
+.tnav a{{font-size:14px;font-weight:600;color:var(--text);text-decoration:none}}
+.tnav a:hover,.tnav a[aria-current]{{color:var(--blue)}}
+.tnav .cta{{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}}
+.tnav .cta:hover{{background:#010133}}
+@media(max-width:860px){{.tnav a:not(.cta){{display:none}}}}
 .wrap{max-width:1120px;margin:0 auto;padding:36px 24px 0}
 /* PC：雜誌跨頁雙欄——左右兩頁並排、圖文交織；手機自動回單欄 */
 @media(min-width:900px){
@@ -136,26 +143,18 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 .sj-bar .sj-chip.sj-cur{background:var(--blue);border-color:var(--blue);color:#fff}
 .sj-bar .sj-chip.sj-all{border-color:var(--line);color:var(--gray);font-weight:600}
 @media(max-width:600px){.sj-bar .sj-label{width:100%;margin:0 0 2px}}
-
-/* 六層導覽（與全站獨立頁一致）*/
-.tnav{display:flex;gap:17px;align-items:center}
-.tnav a{font-size:14px;font-weight:600;color:var(--text);text-decoration:none}
-.tnav a:hover,.tnav a[aria-current]{color:var(--blue)}
-.tnav .cta{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}
-.tnav .cta:hover{background:var(--blue-dark)}
-@media(max-width:860px){.tnav a:not(.cta){display:none}}
 </style>
 </head>
 <body>
 <div class="topbar"><div class="topbar-in">
 <a class="brand" href="https://seanown.org/">翁振軒 <span>SEAN OWN</span></a>
 <nav class="tnav" aria-label="網站導覽">
-  <a href="/about/">關於我</a>
-  <a href="/services/">服務與合作</a>
-  <a href="/series/">作品</a>
-  <a href="/articles/">專欄</a>
-  <a href="/media/">媒體</a>
-  <a href="/contact/" class="cta">聯絡</a>
+<a href="https://seanown.org/about/">關於我</a>
+<a href="https://seanown.org/services/">服務與合作</a>
+<a href="https://seanown.org/series/">作品</a>
+<a href="https://seanown.org/articles/">專欄</a>
+<a href="https://seanown.org/media/">媒體</a>
+<a href="https://seanown.org/contact/" class="cta">聯絡</a>
 </nav>
 </div></div>
 

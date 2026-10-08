@@ -1,0 +1,107 @@
+<Slide style={{
+    width: '1280px',
+    height: '720px',
+    position: 'relative',
+    background: '#F7F3EA',
+    padding: 0,
+    fontFamily: '"PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif',
+}}>
+    <Box style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '592px', height: '720px',
+        padding: '60px 52px 52px 72px',
+        flexDirection: 'column',
+    }}>
+        <Box style={{ flexDirection: 'row', gap: 14, alignItems: 'center', height: 62 }}>
+            <Box style={{ width: 4, height: 34, background: '#C75B12' }} />
+            <Text style={{
+                fontSize: 34,
+                fontWeight: 'bold',
+                color: '#0B3D2E',
+                letterSpacing: 1,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                現場出狀況怎麼辦
+            </Text>
+        </Box>
+
+        <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'column', gap: 12, paddingTop: 14 }}>
+            {[
+                { k: '貴賓遲到', d: '估算還要多久，先讓在場人自由交流安撫等待——不可先開場。' },
+                { k: '講者超時', d: '用大白板寫「剩 X 分鐘」舉到他視線，或在中段休息時溫馨提醒。' },
+                { k: '少數人鬼打牆', d: '「您這個意見很好，我們先記錄下來」→ 轉下一位 →「時間關係這個議題先保留」。' },
+                { k: '意見對立', d: '「我們先把各自立場放下，看問題的本質是什麼」——不是證明誰對誰錯，是找對組織最好的方案。' },
+            ].map((item, idx) => (
+                <Box key={item.k} style={{
+                    flex: 1, minWidth: 0, minHeight: 0,
+                    background: '#FFFFFF',
+                    borderLeft: '4px solid #0B3D2E',
+                    borderRadius: 6,
+                    padding: '18px 24px',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    gap: 8,
+                    boxShadow: '0 4px 18px rgba(11,61,46,.07)',
+                }}>
+                    <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                        <Text style={{
+                            fontSize: 30,
+                            fontWeight: 'bold',
+                            color: 'rgba(11,61,46,.16)',
+                            fontFamily: 'Georgia, "Songti SC", serif',
+                        }}>
+                            0{idx + 1}
+                        </Text>
+                        <Text style={{ fontSize: 22, fontWeight: 600, color: '#0B3D2E', letterSpacing: 1 }}>
+                            {item.k}
+                        </Text>
+                    </Box>
+                    <Text style={{ fontSize: 16, color: '#5C5850', lineHeight: 1.68 }}>
+                        {item.d}
+                    </Text>
+                </Box>
+            ))}
+        </Box>
+
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 }}>
+            <Text style={{ fontSize: 14, color: '#8A8578', letterSpacing: 1 }}>高效會議主持 SOP</Text>
+            <Text style={{ fontSize: 14, color: '#8A8578', letterSpacing: 1 }}>09 / 14</Text>
+        </Box>
+    </Box>
+
+    <Box style={{ position: 'absolute', top: 0, right: 0, width: '688px', height: '720px' }}>
+        <Image src="assets/host_speaking.png" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <Box style={{
+            position: 'absolute',
+            top: 0, left: 0,
+            width: '100%', height: '100%',
+            background: 'linear-gradient(90deg, #F7F3EA 0%, rgba(247,243,234,.30) 14%, rgba(11,61,46,.20) 46%, rgba(11,61,46,.55) 100%)',
+        }} />
+        <Box style={{
+            position: 'absolute',
+            bottom: 108, right: 52,
+            width: 460,
+            background: 'rgba(11,61,46,.90)',
+            borderLeft: '4px solid #C75B12',
+            borderRadius: 6,
+            padding: '24px 28px',
+            flexDirection: 'column',
+            gap: 10,
+        }}>
+            <Text style={{ fontSize: 15, color: '#F0A050', letterSpacing: 3, fontWeight: 600 }}>
+                GOLDEN LINE
+            </Text>
+            <Text style={{
+                fontSize: 21,
+                color: '#F7F3EA',
+                lineHeight: 1.62,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                心裡再慌，聲音要穩
+                <br />
+                ——不要讓觀眾看到你慌。
+            </Text>
+        </Box>
+    </Box>
+</Slide>

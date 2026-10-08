@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>會議結束了，事情才開始 — 高效會議主持 SOP</title>
+<style>
+:root{
+  --green:#0B3D2E; --green-2:#12513D; --cream:#F7F3EA; --amber:#C75B12; --amber-2:#F0A050;
+  --ink:#1A1A1A; --grey:#5C5850; --foot:#8A8578;
+  --serif: Georgia, "Songti SC", "STSong", "SimSun", serif;
+  --sans: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#2A2A28;font-family:var(--sans);overflow:hidden}
+
+/* ===== flex 溢出防護 =====
+   flex:1 的子元素預設 min-width/min-height 為 auto，長文字會撐破容器，
+   導致橫條被擠出邊界、文字竄位。縱向容器需 min-height:0，橫向需 min-width:0。 */
+.p2 .items,.p4 .steps,.p5 .insight,.p7 .cards,.p7 .card,
+.p8 .rhythms,.p8 .rh,.p9 .cards,.p9 .c,
+.p11 .steps,.p11 .st,.p11 .box1,.p11 .box2,
+.p12 .pair,.p12 .b,.p14 .cols,.p14 .col,.p14 .row{min-height:0}
+.p2 .item>div:last-child,.p4 .st .body,.p5 .insight,
+.p7 .card .bd,.p8 .rh .txt,
+.p11 .st .bd,.p14 .row .bd,.p14 .row .d{min-width:0}
+.p8 .rh .key{flex-shrink:0}
+.p8 .rh .txt p{word-break:break-word}
+
+/* ===== 舞台 ===== */
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+.slide{
+  width:1280px;height:720px;position:relative;overflow:hidden;flex-shrink:0;
+  transform-origin:center center;box-shadow:0 30px 80px rgba(0,0,0,.5);
+  opacity:0;position:absolute;pointer-events:none;
+}
+.slide.on{opacity:1;pointer-events:auto;position:relative}
+
+/* ===== 通用组件 ===== */
+.titlebar{position:absolute;top:0;left:0;width:100%;height:120px;padding:20px 72px;
+  display:flex;align-items:center;gap:14px;z-index:5}
+.titlebar .bar{width:4px;height:34px;background:var(--amber);flex-shrink:0}
+.titlebar h2{font-family:var(--serif);font-size:34px;font-weight:700;color:var(--green);letter-spacing:1px;line-height:1.3}
+.foot{position:absolute;bottom:20px;left:72px;right:72px;display:flex;justify-content:space-between;
+  align-items:center;font-size:14px;color:var(--foot);letter-spacing:1px;z-index:5}
+.foot.on-dark{color:rgba(247,243,234,.45)}
+
+/* ===== P1 封面 ===== */
+.p1{background:var(--green)}
+.p1 .bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.p1 .veil{position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(11,61,46,.95) 0%,rgba(11,61,46,.86) 42%,rgba(11,61,46,.42) 78%,rgba(11,61,46,.30) 100%)}
+.p1 .inner{position:absolute;inset:0;padding:64px 72px 40px;display:flex;flex-direction:column;justify-content:space-between;z-index:3}
+.p1 .kicker{display:flex;align-items:center;gap:14px}
+.p1 .kicker .ln{width:46px;height:3px;background:var(--amber)}
+.p1 .kicker span{font-size:17px;color:var(--amber-2);letter-spacing:3px;font-weight:600}
+.p1 .mid{display:flex;flex-direction:column;gap:26px;max-width:800px}
+.p1 h1{font-family:var(--serif);font-size:68px;font-weight:700;color:var(--cream);line-height:1.18;letter-spacing:2px}
+.p1 h1.two{color:var(--amber-2)}
+.p1 .rule{width:120px;height:2px;background:rgba(240,160,80,.55);margin-top:6px}
+.p1 .sub{font-size:21px;color:rgba(247,243,234,.84);line-height:1.7;max-width:660px}
+.p1 .bot{display:flex;justify-content:space-between;align-items:flex-end}
+.p1 .who{display:flex;align-items:center;gap:18px}
+.p1 .who .bar{width:5px;height:42px;background:var(--amber)}
+.p1 .who .nm{font-size:19px;color:var(--cream);font-weight:600;letter-spacing:1px}
+.p1 .who .dt{font-size:14px;color:rgba(247,243,234,.62);letter-spacing:1px;margin-top:5px}
+.p1 .pg{font-size:14px;color:rgba(247,243,234,.52)}
+
+/* ===== P2 目录 ===== */
+.p2{background:var(--cream);display:flex}
+.p2 .left{width:392px;background:var(--green);padding:72px 44px 60px;display:flex;flex-direction:column;justify-content:space-between}
+.p2 .left .ln{width:46px;height:3px;background:var(--amber);margin-bottom:18px}
+.p2 .left h3{font-family:var(--serif);font-size:44px;font-weight:700;color:var(--cream);line-height:1.28;letter-spacing:3px}
+.p2 .left p{font-size:15px;color:rgba(247,243,234,.66);line-height:1.7}
+.p2 .seal{width:44px;height:44px;border:1px solid rgba(199,91,18,.6);border-radius:4px;display:flex;
+  align-items:center;justify-content:center;margin-top:6px;font-family:var(--serif);font-size:15px;color:var(--amber-2);letter-spacing:1px}
+.p2 .right{flex:1;padding:70px 72px 60px 52px;display:flex;flex-direction:column}
+.p2 .items{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.p2 .item{display:flex;gap:26px;align-items:flex-start;padding-bottom:22px;border-bottom:1px solid rgba(11,61,46,.14)}
+.p2 .item:last-child{border:none;padding-bottom:0}
+.p2 .item .n{font-family:var(--serif);font-size:38px;font-weight:700;color:var(--amber);line-height:1.1;width:78px;flex-shrink:0}
+.p2 .item .t{font-size:24px;font-weight:600;color:var(--green);line-height:1.35;margin-bottom:9px}
+.p2 .item .d{font-size:16px;color:var(--grey);line-height:1.66}
+
+/* ===== 扉页 P3/P6 ===== */
+.p3,.p6{background:var(--green)}
+.p3 .img{position:absolute;top:0;right:0;width:704px;height:720px;background-size:cover;background-position:center}
+.p3 .img::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,var(--green) 0%,rgba(11,61,46,.55) 30%,rgba(11,61,46,.12) 62%,rgba(11,61,46,.28) 100%)}
+.p3 .col{position:absolute;top:0;left:0;width:720px;height:720px;padding:84px 56px 68px 72px;
+  display:flex;flex-direction:column;justify-content:space-between;z-index:3}
+.p6 .img{position:absolute;top:0;left:0;width:640px;height:720px;background-size:cover;background-position:center}
+.p6 .img::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(270deg,var(--green) 0%,rgba(11,61,46,.58) 34%,rgba(11,61,46,.14) 66%,rgba(11,61,46,.30) 100%)}
+.p6 .cap{position:absolute;bottom:56px;left:56px;z-index:3;display:flex;flex-direction:column;gap:8px}
+.p6 .cap .t1{font-size:15px;color:var(--amber-2);letter-spacing:3px;font-weight:600}
+.p6 .cap .t2{font-size:19px;color:rgba(247,243,234,.86);line-height:1.6}
+.p6 .col{position:absolute;top:0;right:0;width:700px;height:720px;padding:84px 72px 68px 56px;
+  display:flex;flex-direction:column;justify-content:space-between;z-index:3}
+.chap .kick{display:flex;align-items:center;gap:14px}
+.chap .kick .ln{width:40px;height:3px;background:var(--amber)}
+.chap .kick span{font-size:15px;color:rgba(247,243,234,.62);letter-spacing:3px}
+.chap .num{font-family:var(--serif);font-size:96px;font-weight:700;color:var(--amber);line-height:.98;margin-bottom:22px}
+.chap h3{font-family:var(--serif);font-size:54px;font-weight:700;color:var(--cream);line-height:1.24;letter-spacing:2px}
+.p6 .chap{align-items:flex-end;text-align:right}
+.p6 .chap h3{font-size:52px}
+.chap .quote{display:flex;flex-direction:column;gap:12px;max-width:470px}
+.chap .quote .rule{width:88px;height:2px;background:rgba(240,160,80,.5)}
+.chap .quote p{font-size:19px;color:rgba(247,243,234,.80);line-height:1.72}
+
+/* ===== P4 四小时 ===== */
+.p4{background:var(--cream)}
+.p4 .img{position:absolute;top:0;left:0;width:704px;height:720px;background-size:cover;background-position:center}
+.p4 .img::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(11,61,46,.30) 0%,rgba(11,61,46,.10) 45%,rgba(11,61,46,.72) 100%)}
+.p4 .imgcap{position:absolute;bottom:52px;left:56px;z-index:3;display:flex;flex-direction:column;gap:8px}
+.p4 .imgcap .t1{font-size:15px;color:var(--amber-2);letter-spacing:3px;font-weight:600}
+.p4 .imgcap .t2{font-size:25px;color:var(--cream);font-weight:600;letter-spacing:1px}
+.p4 .right{position:absolute;top:0;right:0;width:576px;height:720px;padding:56px 64px 52px 52px;display:flex;flex-direction:column}
+.p4 .steps{flex:1;display:flex;flex-direction:column;justify-content:space-between;padding-top:20px}
+.p4 .st{display:flex;gap:18px;align-items:flex-start;padding-bottom:16px}
+.p4 .st:last-child{padding-bottom:0}
+.p4 .st .m{font-family:var(--serif);font-size:44px;font-weight:700;color:rgba(11,61,46,.30);line-height:1;width:72px;text-align:right;flex-shrink:0}
+.p4 .st.last .m{color:var(--amber)}
+.p4 .st .body{flex:1;border-left:2px solid rgba(199,91,18,.34);padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.p4 .st .t{font-size:21px;font-weight:600;color:var(--green);letter-spacing:1px}
+.p4 .st .d{font-size:15px;color:var(--grey);line-height:1.62}
+
+/* ===== P5 巨型数字 ===== */
+.p5{background:var(--green)}
+.p5 .bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.15}
+.p5 .veil{position:absolute;inset:0;background:linear-gradient(120deg,rgba(11,61,46,.97) 0%,rgba(11,61,46,.90) 58%,rgba(11,61,46,.74) 100%)}
+.p5 .inner{position:absolute;inset:0;padding:64px 72px 52px;display:flex;flex-direction:column;justify-content:space-between;z-index:3}
+.p5 .hd{display:flex;align-items:center;gap:14px}
+.p5 .hd .bar{width:4px;height:34px;background:var(--amber)}
+.p5 .hd h2{font-family:var(--serif);font-size:34px;font-weight:700;color:var(--cream);letter-spacing:1px}
+.p5 .row{display:flex;align-items:center;gap:54px}
+.p5 .big{display:flex;align-items:flex-end;gap:20px}
+.p5 .big .n{font-family:var(--serif);font-size:200px;font-weight:700;line-height:.9;letter-spacing:-4px;
+  background:linear-gradient(160deg,var(--amber) 0%,var(--amber-2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.p5 .big .u{display:flex;flex-direction:column;gap:6px;padding-bottom:34px}
+.p5 .big .u .u1{font-family:var(--serif);font-size:40px;font-weight:700;color:var(--cream);letter-spacing:6px}
+.p5 .big .u .u2{font-size:16px;color:rgba(247,243,234,.60);letter-spacing:1px}
+.p5 .insight{flex:1;border-left:1px solid rgba(240,160,80,.34);padding-left:40px;display:flex;flex-direction:column;gap:18px}
+.p5 .insight .q{font-family:var(--serif);font-size:23px;color:rgba(247,243,234,.92);line-height:1.7}
+.p5 .insight .q b{color:var(--amber-2)}
+.p5 .insight .a{font-size:17px;color:rgba(247,243,234,.68);line-height:1.78}
+.p5 .bt{display:flex;justify-content:space-between;align-items:flex-end}
+.p5 .bt .rule{width:300px;height:2px;background:rgba(240,160,80,.42)}
+
+/* ===== P7 三不是 ===== */
+.p7{background:var(--cream);display:flex}
+.p7 .left{width:328px;background:var(--green);padding:70px 40px 56px 72px;display:flex;flex-direction:column;justify-content:space-between}
+.p7 .left .ln{width:40px;height:3px;background:var(--amber);margin-bottom:16px}
+.p7 .left h3{font-family:var(--serif);font-size:46px;font-weight:700;color:var(--cream);line-height:1.3;letter-spacing:4px}
+.p7 .left p{font-size:15px;color:rgba(247,243,234,.60);line-height:1.72}
+.p7 .right{flex:1;padding:64px 68px 52px 48px;display:flex;flex-direction:column}
+.p7 .cards{flex:1;display:flex;flex-direction:column;gap:14px;padding-top:14px}
+.p7 .card{flex:1;display:flex;gap:20px;align-items:center;background:#fff;border-left:4px solid var(--amber);
+  border-radius:6px;padding:20px 26px;box-shadow:0 4px 20px rgba(11,61,46,.08)}
+.p7 .ico{width:52px;height:52px;border-radius:26px;background:rgba(11,61,46,.07);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.p7 .ico svg{width:26px;height:26px;fill:var(--green)}
+.p7 .card .bd{flex:1;display:flex;flex-direction:column;gap:7px}
+.p7 .card .t{font-size:23px;font-weight:600;color:var(--green);letter-spacing:1px}
+.p7 .card .d{font-size:16px;color:var(--grey);line-height:1.66}
+.p7 .card .no{font-family:var(--serif);font-size:34px;font-weight:700;color:rgba(11,61,46,.14)}
+
+/* ===== P8 节奏 ===== */
+.p8{background:var(--cream);display:flex}
+.p8 .left{width:300px;background:var(--green);padding:68px 32px 54px 72px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.p8 .left .ln{width:40px;height:3px;background:var(--amber);margin-bottom:20px}
+.p8 .left .en{font-size:15px;color:var(--amber-2);letter-spacing:3px;font-weight:600;margin-bottom:18px}
+.p8 .left h3{font-family:var(--serif);font-size:40px;font-weight:700;color:var(--cream);line-height:1.34;letter-spacing:3px}
+.p8 .left .note{display:flex;flex-direction:column;gap:10px}
+.p8 .left .note .rule{width:60px;height:2px;background:rgba(240,160,80,.5);flex-shrink:0}
+.p8 .left .note p{font-size:15px;color:rgba(247,243,234,.62);line-height:1.7}
+.p8 .right{flex:1;min-width:0;padding:58px 68px 50px 44px;display:flex;flex-direction:column;overflow:hidden}
+.p8 .rhythms{flex:1;min-height:0;display:flex;flex-direction:column;gap:11px;padding-top:12px}
+.p8 .rh{height:88px;flex-shrink:0;display:flex;gap:18px;align-items:stretch;background:#fff;border-radius:6px;overflow:hidden;
+  box-shadow:0 4px 18px rgba(11,61,46,.07)}
+.p8 .rh .key{display:flex;align-items:center;justify-content:center;padding:0 14px;background:rgba(11,61,46,.10);flex-shrink:0;overflow:hidden}
+.p8 .rh.hot .key{background:var(--amber)}
+.p8 .rh .key span{font-size:17px;font-weight:600;color:var(--green);letter-spacing:1px;white-space:nowrap}
+.p8 .rh.hot .key span{color:var(--cream)}
+.p8 .rh .txt{flex:1;min-width:0;display:flex;align-items:center;padding:12px 20px 12px 4px;overflow:hidden}
+.p8 .rh .txt p{font-size:15px;color:var(--grey);line-height:1.6;word-break:break-word}
+
+/* ===== P9 现场状况 ===== */
+.p9{background:var(--cream)}
+.p9 .left{position:absolute;top:0;left:0;width:592px;height:720px;padding:60px 52px 52px 72px;display:flex;flex-direction:column}
+.p9 .cards{flex:1;display:flex;flex-direction:column;gap:12px;padding-top:14px}
+.p9 .c{flex:1;background:#fff;border-left:4px solid var(--green);border-radius:6px;padding:18px 24px;
+  display:flex;flex-direction:column;justify-content:center;gap:8px;box-shadow:0 4px 18px rgba(11,61,46,.07)}
+.p9 .c .hd{display:flex;align-items:center;gap:12px}
+.p9 .c .no{font-family:var(--serif);font-size:30px;font-weight:700;color:rgba(11,61,46,.16)}
+.p9 .c .t{font-size:22px;font-weight:600;color:var(--green);letter-spacing:1px}
+.p9 .c .d{font-size:16px;color:var(--grey);line-height:1.68}
+.p9 .img{position:absolute;top:0;right:0;width:688px;height:720px;background-size:cover;background-position:center}
+.p9 .img::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,var(--cream) 0%,rgba(247,243,234,.30) 14%,rgba(11,61,46,.20) 46%,rgba(11,61,46,.55) 100%)}
+.p9 .quote{position:absolute;bottom:108px;right:52px;width:460px;background:rgba(11,61,46,.90);
+  border-left:4px solid var(--amber);border-radius:6px;padding:24px 28px;z-index:3;display:flex;flex-direction:column;gap:10px}
+.p9 .quote .k{font-size:15px;color:var(--amber-2);letter-spacing:3px;font-weight:600}
+.p9 .quote .q{font-family:var(--serif);font-size:21px;color:var(--cream);line-height:1.62}
+
+/* ===== P10 中央扉页 ===== */
+.p10{background:var(--green);display:flex;align-items:center;justify-content:center}
+.p10 .bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.22}
+.p10 .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,61,46,.96) 0%,rgba(11,61,46,.86) 50%,rgba(11,61,46,.96) 100%)}
+.p10 .kick{position:absolute;top:76px;left:72px;display:flex;align-items:center;gap:14px;z-index:3}
+.p10 .kick .ln{width:40px;height:3px;background:var(--amber)}
+.p10 .kick span{font-size:15px;color:rgba(247,243,234,.62);letter-spacing:3px}
+.p10 .mid{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:24px;text-align:center}
+.p10 .num{font-family:var(--serif);font-size:132px;font-weight:700;line-height:.96;
+  background:linear-gradient(160deg,var(--amber) 0%,var(--amber-2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.p10 .rule{width:96px;height:2px;background:rgba(240,160,80,.5)}
+.p10 h3{font-family:var(--serif);font-size:56px;font-weight:700;color:var(--cream);line-height:1.2;letter-spacing:6px}
+.p10 .q{font-size:21px;color:rgba(247,243,234,.80);line-height:1.72;max-width:660px;margin-top:8px}
+
+/* ===== P11 决策八步 ===== */
+.p11{background:var(--cream)}
+.p11 .left{position:absolute;top:0;left:0;width:752px;height:720px;padding:58px 52px 52px 72px;display:flex;flex-direction:column}
+.p11 .steps{flex:1;display:flex;flex-direction:column;padding-top:12px}
+.p11 .st{flex:1;display:flex;align-items:center;gap:18px}
+.p11 .st .no{width:44px;height:44px;border-radius:22px;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.p11 .st.last .no{background:var(--amber)}
+.p11 .st .no span{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--cream)}
+.p11 .st .bd{flex:1;display:flex;align-items:center;gap:16px}
+.p11 .st .t{font-size:21px;color:var(--green);letter-spacing:1px}
+.p11 .st.last .t{font-size:23px;font-weight:600;color:var(--amber)}
+.p11 .st .hint{font-size:15px;color:var(--amber);letter-spacing:1px}
+.p11 .st .bar{width:2px;height:18px;background:rgba(11,61,46,.18)}
+.p11 .right{position:absolute;top:0;right:0;width:528px;height:720px;padding:58px 68px 52px 48px;
+  display:flex;flex-direction:column;gap:16px}
+.p11 .box1{flex:1;background:var(--green);border-radius:8px;padding:28px 30px;display:flex;flex-direction:column;justify-content:center;gap:16px;
+  box-shadow:0 6px 24px rgba(11,61,46,.18)}
+.p11 .box1 .k{font-size:15px;color:var(--amber-2);letter-spacing:3px;font-weight:600}
+.p11 .box1 .row{display:flex;align-items:center;gap:14px}
+.p11 .box1 .row .dt{width:6px;height:6px;background:var(--amber)}
+.p11 .box1 .row span{font-family:var(--serif);font-size:21px;color:var(--cream);letter-spacing:2px}
+.p11 .box1 p{font-size:15px;color:rgba(247,243,234,.62);line-height:1.7;margin-top:4px}
+.p11 .box2{flex:1;background:#fff;border:1px solid rgba(11,61,46,.16);border-left:4px solid var(--amber);border-radius:8px;
+  padding:28px 30px;display:flex;flex-direction:column;justify-content:center;gap:14px;box-shadow:0 4px 20px rgba(11,61,46,.08)}
+.p11 .box2 .k{font-size:15px;color:var(--amber);letter-spacing:3px;font-weight:600}
+.p11 .box2 .t{font-size:20px;color:var(--green);line-height:1.6;letter-spacing:1px}
+.p11 .box2 p{font-size:16px;color:var(--grey);line-height:1.72}
+
+/* ===== P12 讨论与表决 ===== */
+.p12{background:var(--cream);display:flex}
+.p12 .left{width:420px;background:var(--green);padding:68px 44px 56px 72px;display:flex;flex-direction:column;justify-content:space-between}
+.p12 .left .ln{width:40px;height:3px;background:var(--amber);margin-bottom:18px}
+.p12 .left h3{font-family:var(--serif);font-size:38px;font-weight:700;color:var(--cream);line-height:1.32;letter-spacing:3px}
+.p12 .left .q{display:flex;flex-direction:column;gap:12px}
+.p12 .left .q .rule{width:72px;height:2px;background:rgba(240,160,80,.5)}
+.p12 .left .q p{font-family:var(--serif);font-size:19px;color:var(--amber-2);line-height:1.7}
+.p12 .right{flex:1;padding:58px 68px 50px 48px;display:flex;flex-direction:column}
+.p12 .pair{flex:1;display:flex;flex-direction:column;gap:16px;padding-top:12px}
+.p12 .b{flex:1;border-radius:8px;padding:24px 30px;display:flex;flex-direction:column;gap:12px}
+.p12 .b.bad{background:#fff;border:1px solid rgba(11,61,46,.14);box-shadow:0 4px 20px rgba(11,61,46,.07)}
+.p12 .b.good{background:var(--green);box-shadow:0 6px 24px rgba(11,61,46,.18)}
+.p12 .b .hd{display:flex;align-items:center;gap:14px}
+.p12 .b .hd svg{width:26px;height:26px}
+.p12 .b.bad .hd svg{fill:var(--foot)} .p12 .b.good .hd svg{fill:var(--amber-2)}
+.p12 .b .t{font-size:22px;font-weight:600;letter-spacing:1px}
+.p12 .b.bad .t{color:var(--grey)} .p12 .b.good .t{color:var(--cream)}
+.p12 .b p{font-size:16px;line-height:1.72}
+.p12 .b.bad p{color:var(--grey)} .p12 .b.good p{color:rgba(247,243,234,.80)}
+.p12 .b .ft{margin-top:auto;padding-top:12px;font-size:16px;letter-spacing:1px}
+.p12 .b.bad .ft{color:var(--foot);border-top:1px solid rgba(11,61,46,.12)}
+.p12 .b.good .ft{color:var(--amber-2);border-top:1px solid rgba(240,160,80,.24)}
+
+/* ===== P13 附录扉页 ===== */
+.p13{background:var(--green);display:flex;align-items:center;justify-content:center}
+.p13 .inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:40px}
+.p13 .seal{width:76px;height:76px;border:2px solid rgba(199,91,18,.65);border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:25px;color:var(--amber-2);letter-spacing:2px}
+.p13 .mid{display:flex;flex-direction:column;align-items:center;gap:22px}
+.p13 h3{font-family:var(--serif);font-size:96px;font-weight:700;color:var(--cream);line-height:1.06;letter-spacing:14px}
+.p13 .rule{width:110px;height:2px;background:rgba(240,160,80,.5)}
+.p13 .q{font-size:22px;color:rgba(247,243,234,.80);line-height:1.74;text-align:center;max-width:620px}
+.p13 .tags{display:flex;align-items:center;gap:16px;border-top:1px solid rgba(240,160,80,.24);padding-top:34px}
+.p13 .tags .tg{display:flex;align-items:center;gap:10px}
+.p13 .tags .dt{width:5px;height:5px;background:var(--amber)}
+.p13 .tags span{font-size:16px;color:rgba(247,243,234,.66);letter-spacing:1px}
+
+/* ===== P14 SOP 总表 ===== */
+.p14{background:var(--green);padding:46px 60px 40px;display:flex;flex-direction:column}
+.p14 .hd{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:14px}
+.p14 .hd .l{display:flex;align-items:center;gap:14px}
+.p14 .hd .bar{width:4px;height:30px;background:var(--amber)}
+.p14 .hd h2{font-family:var(--serif);font-size:30px;font-weight:700;color:var(--cream);letter-spacing:1px}
+.p14 .cols{flex:1;display:flex;gap:22px;padding-top:6px}
+.p14 .col{flex:1;display:flex;flex-direction:column;gap:5px}
+.p14 .row{flex:1;display:flex;align-items:center;gap:14px;background:rgba(247,243,234,.06);border-radius:5px;padding:0 16px}
+.p14 .row .n{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--amber);width:22px;flex-shrink:0}
+.p14 .row .bd{flex:1;display:flex;align-items:center;gap:12px}
+.p14 .row .t{font-size:15px;color:var(--cream);font-weight:600;letter-spacing:1px;width:82px;flex-shrink:0}
+.p14 .row .d{flex:1;font-size:14px;color:rgba(247,243,234,.70);line-height:1.5}
+.p14 .ft{margin-top:14px;background:rgba(199,91,18,.18);border-left:4px solid var(--amber);border-radius:5px;padding:16px 24px;
+  display:flex;align-items:center;justify-content:space-between}
+.p14 .ft .q{font-family:var(--serif);font-size:19px;color:var(--cream);letter-spacing:1px}
+.p14 .ft .src{font-size:15px;color:var(--amber-2);letter-spacing:2px}
+
+/* ===== 控制条 ===== */
+#ctrl{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:999;
+  display:flex;align-items:center;gap:14px;background:rgba(20,20,20,.82);backdrop-filter:blur(10px);
+  padding:9px 18px;border-radius:30px;border:1px solid rgba(255,255,255,.12);opacity:.28;transition:opacity .25s}
+#ctrl:hover{opacity:1}
+#ctrl button{background:none;border:none;color:#E8E6E0;font-size:16px;cursor:pointer;padding:3px 9px;border-radius:4px;line-height:1}
+#ctrl button:hover{background:rgba(255,255,255,.14)}
+#ctrl .ind{color:#B8B4AC;font-size:13px;letter-spacing:1.5px;min-width:64px;text-align:center;font-variant-numeric:tabular-nums}
+#ctrl .sep{width:1px;height:15px;background:rgba(255,255,255,.16)}
+#bar{position:fixed;top:0;left:0;height:2px;background:var(--amber);z-index:1000;transition:width .2s}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div id="stage">
+
+<!-- ══ P1 ══ -->
+<div class="slide p1 on">
+  <div class="bg" style="background-image:url('assets/cover_table.jpg')"></div>
+  <div class="veil"></div>
+  <div class="inner">
+    <div class="kicker"><div class="ln"></div><span>高效會議主持 SOP</span></div>
+    <div class="mid">
+      <h1>會議結束了</h1>
+      <h1 class="two">事情才開始</h1>
+      <div class="rule"></div>
+      <p class="sub">主持人不是最會講的人，是讓會議產生結果的人——一份從會前籌備到散會落筆的完整操作手冊。</p>
+    </div>
+    <div class="bot">
+      <div class="who"><div class="bar"></div><div><div class="nm">翁振軒　Sean Own</div><div class="dt">澳門 · 2026 年 10 月</div></div></div>
+      <div class="pg">01 / 14</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ P2 ══ -->
+<div class="slide p2">
+  <div class="left">
+    <div><div class="ln"></div><h3>本場<br>四章</h3></div>
+    <div><p>從會議為什麼壞掉，到主持人能做什麼，最後收在一張可以列印、可以貼牆、會前逐項核對的清單上。</p><div class="seal">高效</div></div>
+  </div>
+  <div class="right">
+    <div class="items">
+      <div class="item"><div class="n">01</div><div><div class="t">會議為什麼會壞掉</div><div class="d">一場四小時的會，真正用於決策的時間不超過十五分鐘——問題不在效率不夠，而在產出物不對。</div></div></div>
+      <div class="item"><div class="n">02</div><div><div class="t">主持人的角色與節奏</div><div class="d">主持人的價值不在現場的表現力，而在一場會結束之後留下來的那幾行白紙黑字。</div></div></div>
+      <div class="item"><div class="n">03</div><div><div class="t">決策與收束</div><div class="d">討論和表決是兩個階段，不要混在一起；只有把決議重新念一遍，討論才算真正結束。</div></div></div>
+      <div class="item"><div class="n">04</div><div><div class="t">附錄 SOP</div><div class="d">十一節完整操作手冊，含五個不要、五個一定要、現場狀況處理與前二十四小時檢核。</div></div></div>
+    </div>
+    <div class="foot"><span>高效會議主持 SOP</span><span>02 / 14</span></div>
+  </div>
+</div>
+
+<!-- ══ P3 ══ -->
+<div class="slide p3">
+  <div class="img" style="background-image:url('assets/chapter_1.jpg')"></div>
+  <div class="col chap">
+    <div class="kick"><div class="ln"></div><span>CHAPTER</span></div>
+    <div><div class="num">01</div><h3>會議為什麼<br>會壞掉</h3></div>
+    <div class="quote"><div class="rule"></div><p>我們不是不會開會，我們是把開會做成了儀式。</p></div>
+  </div>
+</div>
+
+<!-- ══ P4 ══ -->
+<div class="slide p4">
+  <div class="img" style="background-image:url('assets/meeting_scene.jpg')"></div>
+  <div class="imgcap"><div class="t1">THE ORDINARY MEETING</div><div class="t2">一場普通會議的實際去向</div></div>
+  <div class="right">
+    <div class="titlebar" style="position:relative;padding:0;height:62px"><div class="bar"></div><h2>四個小時去了哪裡</h2></div>
+    <div class="steps">
+      <div class="st"><div class="m">20</div><div class="body"><div class="t">分鐘　寒暄與調試</div><div class="d">主辦方發材料、調麥克風、確認誰來了——這些事不該占用任何人的注意力。</div></div></div>
+      <div class="st"><div class="m">30</div><div class="body"><div class="t">分鐘　講背景</div><div class="d">由級別最高的人說明背景，而這部分內容在場所有人早已知道。</div></div></div>
+      <div class="st"><div class="m">60</div><div class="body"><div class="t">分鐘　反覆橫跳</div><div class="d">圍繞一個誰也拍不了板的問題反覆討論，直到所有人都累了。</div></div></div>
+      <div class="st last"><div class="m">10</div><div class="body"><div class="t">分鐘　念決議</div><div class="d">主持人念一遍決議，念完沒有人問「誰做、何時完成」。</div></div></div>
+    </div>
+    <div class="foot"><span>高效會議主持 SOP</span><span>04 / 14</span></div>
+  </div>
+</div>
+
+<!-- ══ P5 ══ -->
+<div class="slide p5">
+  <div class="bg" style="background-image:url('assets/meeting_scene.jpg')"></div>
+  <div class="veil"></div>
+  <div class="inner">
+    <div class="hd"><div class="bar"></div><h2>真正用於決策的時間</h2></div>
+    <div class="row">
+      <div class="big"><div class="n">15</div><div class="u"><div class="u1">分鐘</div><div class="u2">而這十五分鐘，往往發生在所有人都已經疲憊的時候</div></div></div>
+      <div class="insight">
+        <div class="q">會議效率的真實問題，不是效率不夠，<br>而是<b>產出物不對</b>。</div>
+        <div class="a">我們花大量時間交換信息，而那些信息用半小時就能說完；我們把真正的決定拖到最後十分鐘，而在那個時候通過的，往往只是最容易被通過的那個版本。</div>
+      </div>
+    </div>
+    <div class="bt"><div class="rule"></div><div class="pg" style="font-size:14px;color:rgba(247,243,234,.48)">05 / 14</div></div>
+  </div>
+</div>
+
+<!-- ══ P6 ══ -->
+<div class="slide p6">
+  <div class="img" style="background-image:url('assets/chapter_2.jpg')"></div>
+  <div class="cap"><div class="t1">BEFORE THE MEETING</div><div class="t2">開會前一定要白紙黑字寫下三件事</div></div>
+  <div class="col chap">
+    <div class="kick"><div class="ln"></div><span>CHAPTER</span></div>
+    <div><div class="num">02</div><h3>主持人的角色<br>與節奏</h3></div>
+    <div class="quote"><div class="rule"></div><p>主持人的價值不在現場的表現力，而在一場會結束之後，留不下來的那幾行白紙黑字。</p></div>
+  </div>
+</div>
+
+<!-- ══ P7 ══ -->
+<div class="slide p7">
+  <div class="left"><div><div class="ln"></div><h3>三個<br>不是</h3></div><p>主持不是表演，而是一套讓別人有效說話的技術。</p></div>
+  <div class="right">
+    <div class="titlebar" style="position:relative;padding:0;height:62px"><div class="bar"></div><h2>主持人的三個角色定位</h2></div>
+    <div class="cards">
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div><div class="bd"><div class="t">不是最會講的人</div><div class="d">主持人的本事不在於表達，而在了讓所有人在同一個時間裡有效討論；一場會裡如果最多的時間是主講人自己在說，那這場會的問題不在設備，在人選。</div></div><div class="no">01</div></div>
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM8 11H6V9h2v2zm5 0h-2V9h2v2zm5 0h-2V9h2v2z"/></svg></div><div class="bd"><div class="t">不是發言最多的人</div><div class="d">主持人說得越多，通常意味著其他人說得太少，而會議的資訊恰恰藏在那些沒有被問到的人身上；合格的主持人要做的，是把話從自己嘴裡轉到別人嘴裡。</div></div><div class="no">02</div></div>
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9c-.83 0-1.5-.67-1.5-1.5S18.67 6.5 19.5 6.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></div><div class="bd"><div class="t">不是討好所有人的人</div><div class="d">會議不是征求一致意見的場合，試圖讓每一個人都滿意地離開，往往意味著所有人都可以不承擔結果——包括組織。</div></div><div class="no">03</div></div>
+    </div>
+    <div class="foot"><span>高效會議主持 SOP</span><span>07 / 14</span></div>
+  </div>
+</div>
+
+<!-- ══ P8 ══ -->
+<div class="slide p8">
+  <div class="left"><div><div class="ln"></div><div class="en">RHYTHM</div><h3>主持<br>節奏</h3></div><div class="note"><div class="rule"></div><p>對工程師，「快」是精簡；對業務團隊，「快」是熱絡；對長輩，「快」是從容。</p></div></div>
+  <div class="right">
+    <div class="titlebar" style="position:relative;padding:0;height:62px"><div class="bar"></div><h2 style="font-size:33px">開場快、內容穩、轉場快、高潮慢、結尾快而有力</h2></div>
+    <div class="rhythms">
+      <div class="rh"><div class="key" style="width:212px"><span>開場　快</span></div><div class="txt"><p>決定一場會生死的是頭十五分鐘。開場只需三句話：討論什麼、聚焦哪三個重點；希望產出什麼結論；時間如何分配。</p></div></div>
+      <div class="rh"><div class="key" style="width:330px"><span>內容　穩</span></div><div class="txt"><p>報告與數據一旦出錯，全場都會停下來重新對齊。此時主持人不該急著推進，而該把節奏交給內容本身。</p></div></div>
+      <div class="rh"><div class="key" style="width:248px"><span>轉場　快</span></div><div class="txt"><p>議題與議題之間的縫隙最容易失控。一句「這個議題我們待會另約時間談，先把目前這個收斂」就能把跑掉的話題拉回來。</p></div></div>
+      <div class="rh hot"><div class="key" style="width:372px"><span>高潮　慢</span></div><div class="txt"><p>越是需要決策的議題，越要慢。催著舉手只會讓人選擇沉默；把時間讓給分歧，讓不同的聲音把話說完。</p></div></div>
+      <div class="rh"><div class="key" style="width:290px"><span>結尾　快而有力</span></div><div class="txt"><p>最後十分鐘不能水。必須當場把「誰、做什麼、何時完成」念出來、當場確認，讓每個人帶走一份屬於自己的任務。</p></div></div>
+    </div>
+    <div class="foot"><span>高效會議主持 SOP</span><span>08 / 14</span></div>
+  </div>
+</div>
+
+<!-- ══ P9 ══ -->
+<div class="slide p9">
+  <div class="left">
+    <div class="titlebar" style="position:relative;padding:0;height:62px"><div class="bar"></div><h2>現場出狀況怎麼辦</h2></div>
+    <div class="cards">
+      <div class="c"><div class="hd"><div class="no">01</div><div class="t">貴賓遲到</div></div><div class="d">估算還要多久，先讓在場人自由交流安撫等待——不可先開場。</div></div>
+      <div class="c"><div class="hd"><div class="no">02</div><div class="t">講者超時</div></div><div class="d">用大白板寫「剩 X 分鐘」舉到他視線，或在中段休息時溫馨提醒。</div></div>
+      <div class="c"><div class="hd"><div class="no">03</div><div class="t">少數人鬼打牆</div></div><div class="d">「您這個意見很好，我們先記錄下來」→ 轉下一位 →「時間關係這個議題先保留」。</div></div>
+      <div class="c"><div class="hd"><div class="no">04</div><div class="t">意見對立</div></div><div class="d">「我們先把各自立場放下，看問題的本質是什麼」——不是證明誰對誰錯，是找對組織最好的方案。</div></div>
+    </div>
+    <div class="foot"><span>高效會議主持 SOP</span><span>09 / 14</span></div>
+  </div>
+  <div class="img" style="background-image:url('assets/host_speaking.jpg')"></div>
+  <div class="quote"><div class="k">GOLDEN LINE</div><div class="q">心裡再慌，聲音要穩<br>——不要讓觀眾看到你慌。</div></div>
+</div>
+
+<!-- ══ P10 ══ -->
+<div class="slide p10">
+  <div class="bg" style="background-image:url('assets/chapter_1.jpg')"></div>
+  <div class="veil"></div>
+  <div class="kick"><div class="ln"></div><span>CHAPTER</span></div>
+  <div class="mid"><div class="num">03</div><div class="rule"></div><h3>決策與收束</h3><div class="q">討論和表決是兩個階段，不要混在一起。</div></div>
+  <div class="foot on-dark"><span>高效會議主持 SOP</span><span>10 / 14</span></div>
+</div>
+
+<!-- ══ P11 ══ -->
+<div class="slide p11">
+  <div class="left">
+    <div class="titlebar" style="position:relative;padding:0;height:62px"><div class="bar"></div><h2>正式會議決策八步</h2></div>
+    <div class="steps">
+      <div class="st"><div class="no"><span>1</span></div><div class="bd"><div class="t">宣布開會</div></div><div class="bar"></div></div>
+      <div class="st"><div class="no"><span>2</span></div><div class="bd"><div class="t">確認出席人數與法定門檻</div></div><div class="bar"></div></div>
+      <div class="st"><div class="no"><span>3</span></div><div class="bd"><div class="t">確認議程</div></div><div class="bar"></div></div>
+      <div class="st"><div class="no"><span>4</span></div><div class="bd"><div class="t">報告事項</div></div><div class="bar"></div></div>
+      <div class="st"><div class="no"><span>5</span></div><div class="bd"><div class="t">討論事項</div></div><div class="bar"></div></div>
+      <div class="st"><div class="no"><span>6</span></div><div class="bd"><div class="t">提案與臨時動議</div></div><div class="bar"></div></div>
+      <div class="st"><div class="no"><span>7</span></div><div class="bd"><div class="t">表決與決議</div></div><div class="bar"></div></div>
+      <div class="st last"><div class="no"><span>8</span></div><div class="bd"><div class="t">確認決議事項</div><div class="hint">最容易被跳過，也最不能省</div></div></div>
+    </div>
+    <div class="foot"><span>高效會議主持 SOP</span><span>11 / 14</span></div>
+  </div>
+  <div class="right">
+    <div class="box1"><div class="k">提案四要素</div>
+      <div class="row"><div class="dt"></div><span>做什麼</span></div>
+      <div class="row"><div class="dt"></div><span>誰負責</span></div>
+      <div class="row"><div class="dt"></div><span>何時完成</span></div>
+      <div class="row"><div class="dt"></div><span>需要什麼資源</span></div>
+      <p>只有方向沒有這四個要素的提案，不是提案，是一句話；而一句話永遠不會變成行動。</p>
+    </div>
+    <div class="box2"><div class="k">兩個階段</div><div class="t">討論完了再投票。</div><p>把討論和表決揉成同一個環節，會得到最順暢的流程，卻通過了一個在場所有人都沒有足夠力氣反對的方案。</p></div>
+  </div>
+</div>
+
+<!-- ══ P12 ══ -->
+<div class="slide p12">
+  <div class="left"><div><div class="ln"></div><h3>討論和表決<br>是兩個階段</h3></div><div class="q"><div class="rule"></div><p>討論完了再投票。</p></div></div>
+  <div class="right">
+    <div class="titlebar" style="position:relative;padding:0;height:62px"><div class="bar"></div><h2>兩種做法，兩種結果</h2></div>
+    <div class="pair">
+      <div class="b bad"><div class="hd"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-4-4 1.41-1.41L11 14.17l6.59-6.59L19 9l-8 8z"/></svg><div class="t">揉在一起的流程</div></div><p>討論到第三輪，主持人開始暗示自己希望通過的方向，接著問「大家還有沒有意見」，然後在沉默中宣布通過。</p><div class="ft">通過的不是經過比較的方案，而是所有人都沒有力氣反對的方案</div></div>
+      <div class="b good"><div class="hd"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><div class="t">正確的做法</div></div><p>依序走完八步，把結論留在「確認決議事項」這一步：把決議重新念一遍並在場確認，討論才算真正結束。</p><div class="ft">白紙黑字誰負責，比什麼都重要</div></div>
+    </div>
+    <div class="foot"><span>高效會議主持 SOP</span><span>12 / 14</span></div>
+  </div>
+</div>
+
+<!-- ══ P13 ══ -->
+<div class="slide p13">
+  <div class="inner">
+    <div class="seal">高效</div>
+    <div class="mid"><h3>附錄</h3><div class="rule"></div><p class="q">可列印、可貼牆、會前逐項核對。</p></div>
+    <div class="tags">
+      <div class="tg"><div class="dt"></div><span>十一節完整手冊</span></div>
+      <div class="tg"><div class="dt"></div><span>五個不要</span></div>
+      <div class="tg"><div class="dt"></div><span>五個一定要</span></div>
+      <div class="tg"><div class="dt"></div><span>現場狀況處理</span></div>
+      <div class="tg"><div class="dt"></div><span>前 24 小時檢核</span></div>
+    </div>
+  </div>
+  <div class="foot on-dark"><span>高效會議主持 SOP</span><span>13 / 14</span></div>
+</div>
+
+<!-- ══ P14 ══ -->
+<div class="slide p14">
+  <div class="hd"><div class="l"><div class="bar"></div><h2>第一堂 · 高效會議主持 SOP</h2></div><span style="font-size:14px;color:rgba(247,243,234,.44);letter-spacing:1px">14 / 14</span></div>
+  <div class="cols">
+    <div class="col">
+      <div class="row"><div class="n">一</div><div class="bd"><div class="t">本堂重點</div><div class="d">主持人不是最會講的人，是讓會議產生結果的人。</div></div></div>
+      <div class="row"><div class="n">二</div><div class="bd"><div class="t">會前籌備</div><div class="d">目的、議題類型、行動確認——白紙黑字寫下三件事。</div></div></div>
+      <div class="row"><div class="n">三</div><div class="bd"><div class="t">三個角色</div><div class="d">不是最會講、不是發言最多、不是討好所有人的人。</div></div></div>
+      <div class="row"><div class="n">四</div><div class="bd"><div class="t">開場三句話</div><div class="d">討論什麼、產出什麼結論、時間如何分配。</div></div></div>
+      <div class="row"><div class="n">五</div><div class="bd"><div class="t">節奏公式</div><div class="d">開場快、內容穩、轉場快、高潮慢、結尾快而有力。</div></div></div>
+    </div>
+    <div class="col">
+      <div class="row"><div class="n">六</div><div class="bd"><div class="t">五個不要</div><div class="d">不講太多、不失控、不怕異議、不犧牲決策、不忘決議。</div></div></div>
+      <div class="row"><div class="n">七</div><div class="bd"><div class="t">五個一定要</div><div class="d">先講目的、控制時間、讓不同聲音出現、轉成決策、確認負責人。</div></div></div>
+      <div class="row"><div class="n">八</div><div class="bd"><div class="t">現場狀況</div><div class="d">貴賓遲到、講者超時、設備故障、鬼打牆、離題、意見對立。</div></div></div>
+      <div class="row"><div class="n">九</div><div class="bd"><div class="t">決策八步</div><div class="d">宣布開會到確認決議事項，討論與表決分開。</div></div></div>
+      <div class="row"><div class="n">十</div><div class="bd"><div class="t">前 24 小時</div><div class="d">貴賓名單、流程時間軸、設備測試、應變預案、座位圖。</div></div></div>
+    </div>
+  </div>
+  <div class="ft"><div class="q">會議結束了，事情才開始——白紙黑字誰負責，比什麼都重要。</div><div class="src">seanown.org</div></div>
+</div>
+
+</div>
+
+<div id="ctrl">
+  <button id="prev" title="上一頁">&#9664;</button>
+  <span class="ind" id="ind">01 / 14</span>
+  <button id="next" title="下一頁">&#9654;</button>
+  <span class="sep"></span>
+  <button id="fs" title="全螢幕">&#9974;</button>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const TOTAL=slides.length;
+let cur=0;
+function fit(){
+  const s=Math.min(window.innerWidth/1280,(window.innerHeight-70)/720);
+  slides.forEach(el=>{el.style.transform='scale('+s+')'});
+  document.getElementById('stage').style.height=(720*s+70)+'px';
+}
+function show(n){
+  cur=Math.max(0,Math.min(TOTAL-1,n));
+  slides.forEach((el,i)=>el.classList.toggle('on',i===cur));
+  document.getElementById('ind').textContent=String(cur+1).padStart(2,'0')+' / '+TOTAL;
+  document.getElementById('bar').style.width=((cur+1)/TOTAL*100)+'%';
+  location.hash=cur+1;
+}
+document.getElementById('next').onclick=()=>show(cur+1);
+document.getElementById('prev').onclick=()=>show(cur-1);
+function toggleFs(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+document.getElementById('fs').onclick=toggleFs;
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(cur+1)}
+  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(cur-1)}
+  if(e.key==='Home')show(0); if(e.key==='End')show(TOTAL-1);
+  if(e.key==='f'||e.key==='F'){e.preventDefault();toggleFs()}
+});
+window.addEventListener('resize',fit);
+// 直接改網址 hash（#8）也要能跳頁，否則分享特定頁的連結會失效
+window.addEventListener('hashchange',()=>{
+  const n=parseInt(location.hash.slice(1));
+  if(n>=1&&n<=TOTAL&&n-1!==cur)show(n-1);
+});
+window.__go=show;// 供截圖／自動檢查工具切頁
+fit();
+const h=parseInt(location.hash.slice(1));
+if(h>=1&&h<=TOTAL)show(h-1);
+</script>
+</body>
+</html>

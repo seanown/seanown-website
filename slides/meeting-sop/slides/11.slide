@@ -1,0 +1,136 @@
+<Slide style={{
+    width: '1280px',
+    height: '720px',
+    position: 'relative',
+    background: '#F7F3EA',
+    padding: 0,
+    fontFamily: '"PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif',
+}}>
+    <Box style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '752px', height: '720px',
+        padding: '58px 52px 52px 72px',
+        flexDirection: 'column',
+    }}>
+        <Box style={{ flexDirection: 'row', gap: 14, alignItems: 'center', height: 62 }}>
+            <Box style={{ width: 4, height: 34, background: '#C75B12' }} />
+            <Text style={{
+                fontSize: 34,
+                fontWeight: 'bold',
+                color: '#0B3D2E',
+                letterSpacing: 1,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                正式會議決策八步
+            </Text>
+        </Box>
+
+        <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'column', paddingTop: 12 }}>
+            {[
+                '宣布開會',
+                '確認出席人數與法定門檻',
+                '確認議程',
+                '報告事項',
+                '討論事項',
+                '提案與臨時動議',
+                '表決與決議',
+                '確認決議事項',
+            ].map((s, idx) => {
+                const last = idx === 7;
+                return (
+                    <Box key={s} style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'row', alignItems: 'center', gap: 18 }}>
+                        <Box style={{
+                            width: 44, height: 44, borderRadius: 22,
+                            background: last ? '#C75B12' : '#0B3D2E',
+                            justifyContent: 'center', alignItems: 'center',
+                        }}>
+                            <Text style={{ fontSize: 19, fontWeight: 'bold', color: '#F7F3EA', fontFamily: 'Georgia, serif' }}>
+                                {idx + 1}
+                            </Text>
+                        </Box>
+                        <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+                            <Text style={{
+                                fontSize: last ? 23 : 21,
+                                fontWeight: last ? 600 : 'normal',
+                                color: last ? '#C75B12' : '#0B3D2E',
+                                letterSpacing: 1,
+                            }}>
+                                {s}
+                            </Text>
+                            {last && (
+                                <Text style={{ fontSize: 15, color: '#C75B12', letterSpacing: 1 }}>
+                                    最容易被跳過，也最不能省
+                                </Text>
+                            )}
+                        </Box>
+                        {idx !== 7 && <Box style={{ width: 2, height: 18, background: 'rgba(11,61,46,.18)' }} />}
+                    </Box>
+                );
+            })}
+        </Box>
+
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
+            <Text style={{ fontSize: 14, color: '#8A8578', letterSpacing: 1 }}>高效會議主持 SOP</Text>
+            <Text style={{ fontSize: 14, color: '#8A8578', letterSpacing: 1 }}>11 / 14</Text>
+        </Box>
+    </Box>
+
+    <Box style={{
+        position: 'absolute',
+        top: 0, right: 0,
+        width: '528px', height: '720px',
+        padding: '58px 68px 52px 48px',
+        flexDirection: 'column',
+        gap: 16,
+    }}>
+        <Box style={{
+            flex: 1, minWidth: 0, minHeight: 0,
+            background: '#0B3D2E',
+            borderRadius: 8,
+            padding: '28px 30px',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            gap: 16,
+            boxShadow: '0 6px 24px rgba(11,61,46,.18)',
+        }}>
+            <Text style={{ fontSize: 15, color: '#F0A050', letterSpacing: 3, fontWeight: 600 }}>
+                提案四要素
+            </Text>
+            {['做什麼', '誰負責', '何時完成', '需要什麼資源'].map((t, idx) => (
+                <Box key={t} style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+                    <Box style={{ width: 6, height: 6, background: '#C75B12' }} />
+                    <Text style={{ fontSize: 21, color: '#F7F3EA', letterSpacing: 2, fontFamily: 'Georgia, "Songti SC", serif' }}>
+                        {t}
+                    </Text>
+                </Box>
+            ))}
+            <Text style={{ fontSize: 15, color: 'rgba(247,243,234,.62)', lineHeight: 1.7, marginTop: 4 }}>
+                只有方向沒有這四個要素的提案，不是提案，是一句話；而一句話永遠不會變成行動。
+            </Text>
+        </Box>
+
+        <Box style={{
+            flex: 1, minWidth: 0, minHeight: 0,
+            background: '#FFFFFF',
+            border: '1px solid rgba(11,61,46,.16)',
+            borderLeft: '4px solid #C75B12',
+            borderRadius: 8,
+            padding: '28px 30px',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            gap: 14,
+            boxShadow: '0 4px 20px rgba(11,61,46,.08)',
+        }}>
+            <Text style={{ fontSize: 15, color: '#C75B12', letterSpacing: 3, fontWeight: 600 }}>
+                兩個階段
+            </Text>
+            <Text style={{ fontSize: 20, color: '#0B3D2E', lineHeight: 1.6, letterSpacing: 1 }}>
+                討論完了再投票。
+            </Text>
+            <Text style={{ fontSize: 16, color: '#5C5850', lineHeight: 1.72 }}>
+                把討論和表決揉成同一個環節，會得到最順暢的流程，卻通過了一個在場所有人都沒有足夠力氣反對的方案。
+            </Text>
+        </Box>
+    </Box>
+</Slide>

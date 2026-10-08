@@ -35,3 +35,5 @@ _poster_raw/_cuckoo_*
 # Python 執行期產物
 __pycache__/
 *.py[cod]
+# PPT 製作工作目錄（正式版已複製到 slides/meeting-sop/ 進版控）
+高效會議主持SOP/

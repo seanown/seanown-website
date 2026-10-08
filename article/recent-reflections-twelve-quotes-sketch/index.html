@@ -35,6 +35,13 @@ a{color:var(--blue);text-decoration:none}
 .brand span{color:var(--gold)}
 .topbar .minimal-hint{font-size:13px;color:var(--gray);text-decoration:none}
 .topbar .minimal-hint:hover{color:var(--blue)}
+/* 六層導覽（與全站獨立頁一致）*/
+.tnav{{display:flex;gap:17px;align-items:center}}
+.tnav a{{font-size:14px;font-weight:600;color:var(--text);text-decoration:none}}
+.tnav a:hover,.tnav a[aria-current]{{color:var(--blue)}}
+.tnav .cta{{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}}
+.tnav .cta:hover{{background:#010133}}
+@media(max-width:860px){{.tnav a:not(.cta){{display:none}}}}
 .wrap{max-width:1120px;margin:0 auto;padding:36px 24px 0}
 /* PC：雜誌跨頁雙欄——左右兩頁並排、圖文交織；手機自動回單欄 */
 @media(min-width:900px){
@@ -124,8 +131,6 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 .article p.qk-insight{margin:0;font-size:13.5px;line-height:1.85;color:#1A1A1A;background:#F8F9FB;border-radius:10px;padding:11px 14px;text-align:left}
 .article p.qk-insight .qk-lbl{display:block;margin-bottom:3px;font-size:10px;letter-spacing:.2em;color:#9AA2B1}
 .qk-more{display:inline-block;margin-top:11px;font-size:12.5px;color:var(--blue);font-weight:700}
-/* 原文尚未建頁：顯示為不可點的說明文字，避免死鏈 */
-.qk-more.qk-none{color:#98A2B3;font-weight:600;cursor:default}
 .qk-more:hover{color:var(--gold-dark)}
 @media(max-width:640px){.article .qk-card{padding:18px 16px 20px}.qk-badge{flex:0 0 84px}.qk-inner{gap:14px}.article h2.qk-quote{font-size:18.5px}}
 /* 長標題自適應（不影響站上其他文章） */
@@ -171,26 +176,18 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 .sj-bar .sj-chip.sj-cur{background:var(--blue);border-color:var(--blue);color:#fff}
 .sj-bar .sj-chip.sj-all{border-color:var(--line);color:var(--gray);font-weight:600}
 @media(max-width:600px){.sj-bar .sj-label{width:100%;margin:0 0 2px}}
-
-/* 六層導覽（與全站獨立頁一致）*/
-.tnav{display:flex;gap:17px;align-items:center}
-.tnav a{font-size:14px;font-weight:600;color:var(--text);text-decoration:none}
-.tnav a:hover,.tnav a[aria-current]{color:var(--blue)}
-.tnav .cta{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}
-.tnav .cta:hover{background:var(--blue-dark)}
-@media(max-width:860px){.tnav a:not(.cta){display:none}}
 </style>
 </head>
 <body>
 <div class="topbar"><div class="topbar-in">
 <a class="brand" href="https://seanown.org/">翁振軒 <span>SEAN OWN</span></a>
 <nav class="tnav" aria-label="網站導覽">
-  <a href="/about/">關於我</a>
-  <a href="/services/">服務與合作</a>
-  <a href="/series/">作品</a>
-  <a href="/articles/">專欄</a>
-  <a href="/media/">媒體</a>
-  <a href="/contact/" class="cta">聯絡</a>
+<a href="https://seanown.org/about/">關於我</a>
+<a href="https://seanown.org/services/">服務與合作</a>
+<a href="https://seanown.org/series/">作品</a>
+<a href="https://seanown.org/articles/">專欄</a>
+<a href="https://seanown.org/media/">媒體</a>
+<a href="https://seanown.org/contact/" class="cta">聯絡</a>
 </nav>
 </div></div>
 
@@ -363,7 +360,7 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
         <p class="qk-bg"><span class="qk-lbl">背景</span>行走感悟，奔赴四方</p>
         <p class="qk-insight"><span class="qk-lbl">認知啟示</span>不必等萬事俱備，上路本身就是解</p>
       </div>
-    <span class="qk-more qk-none" aria-disabled="true">原文待整理</span>
+    <a class="qk-more" href="/article/just-set-out-is-the-answer/">閱讀原文 →</a>
         </div>
   </article>
 <article class="qk-card">
@@ -545,7 +542,7 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
         <p class="qk-bg"><span class="qk-lbl">背景</span>井岡山行走感悟</p>
         <p class="qk-insight"><span class="qk-lbl">認知啟示</span>偉大來自起點的信念與持續堅守</p>
       </div>
-    <span class="qk-more qk-none" aria-disabled="true">原文待整理</span>
+    <a class="qk-more" href="/article/jinggangshan-first-mountain/">閱讀原文 →</a>
         </div>
   </article>
 <article class="qk-card">
@@ -670,7 +667,7 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
         <p class="qk-bg"><span class="qk-lbl">背景</span>潮汕僑批遊記，僑批書信</p>
         <p class="qk-insight"><span class="qk-lbl">認知啟示</span>跨越山海，文字承載鄉愁與族群連結</p>
       </div>
-    <span class="qk-more qk-none" aria-disabled="true">原文待整理</span>
+    <a class="qk-more" href="/article/jieyang-shantou-overseas-letters/">閱讀原文 →</a>
         </div>
   </article>
 </div>
