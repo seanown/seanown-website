@@ -302,6 +302,17 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .footer-bottom{max-width:1280px;margin:30px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;font-size:13px;opacity:.7}
 @media(max-width:968px){
 .nav-right{gap:12px}.nav-col-link{font-size:13px}
+/* 🔴 2026-10-09 修既有 bug：390px 視窗下 nav 連結被壓扁。
+   實測「作品／專欄／媒體」各只有 16px 寬（兩個中文字至少要 26px），
+   「澳門週訊」還被擠成兩行、高度從 44 變 88。
+   原因不是本次改動造成（改動前量一樣是 16x44），而是 .nav-right
+   裡的項目全部 flex-shrink:1，logo 又固定佔 133px，
+   320–390px 之間空間不夠時瀏覽器就從連結開始壓，
+   中文字沒有空格可斷行，於是每字被壓成一條。
+   兩道修正：① 連結禁止收縮＋強制不換行，寧可整體橫向捲動也不壓字；
+   ② 窄螢幕下 logo 只留英文名，省下約 60px 給選單。 */
+.nav-right{flex-shrink:0}
+.nav-col-link,.nav-drop>summary,.nav-weekly{flex-shrink:0;white-space:nowrap}
 .hero{background-image:url('assets/images/hero-red-horse-mobile.jpg');background-position:center 20%;align-items:flex-end}
 .hero-inner{justify-content:center;text-align:center;padding:70px 20px 64px}
 .hero-text{max-width:640px;background:rgba(12,5,10,.55);backdrop-filter:blur(6px);border-radius:18px;padding:32px 26px}
@@ -332,6 +343,26 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
    .hero-text h1（0,1,1），導致 480px 以下仍在用 52px 大標題、
    主標題被擠成 5 行並蓋住人像。這是既有 bug，2026-10-08 首屏精簡時才暴露。 */
 .hero-text h1,.hero-main{font-size:26px;line-height:1.25;margin-bottom:14px}
+/* 2026-10-09：480px 以下 nav 空間更緊，logo 只留英文名。
+   「翁振軒」三字約 60px，在 320–390px 區間會把右側選單壓到
+   每個連結只剩 13–16px（實測 320px 時三個連結各 13px）。
+   只留 Sean Own 後選單有足夠空間完整顯示。
+   480–968px 之間維持完整中文名（實測 768px 以上綽綽有餘）。
+   ⚠️ logo 結構是 `翁振軒 <span>Sean Own</span>`，
+   所以要藏的是「span 前面那段純文字」，不是 span 本身——
+   最初寫成 .logo span{display:none} 會把英文名一起藏掉。 */
+.nav-inner{padding:0 16px}
+/* font-size:0 是為了藏掉「翁振軒」那段純文字（span 前面），
+   再把 span 的字級撐回來。不用 display:none 是因為 logo 是 <a>，
+   整段藏掉會讓首頁在窄螢幕失去品牌辨識。 */
+.nav-inner .logo{font-size:0;white-space:nowrap}
+.nav-inner .logo span{font-size:17px;display:inline;letter-spacing:.5px}
+/* 320–390px 連 Sean Own 都會被壓成兩行（實測高度 58px，
+   正常應為 29px），所以再縮一階到 15px 並禁止 logo 收縮。 */
+.nav-inner .logo{flex-shrink:0}
+@media(max-width:374px){
+.nav-inner .logo span{font-size:15px}
+}
 @media(min-width:481px) and (max-width:768px){.hero-text h1,.hero-main{font-size:32px;line-height:1.25}}
 .hero-eyebrow{font-size:13px}.hero-subtitle{font-size:15px}.hero-slogan{font-size:19px;padding-left:12px}
 .hero-text{padding:24px 18px}
