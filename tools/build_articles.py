@@ -1448,6 +1448,12 @@ def build_speeches(slug):
         data = json.load(io.open(path, encoding='utf-8'))
     except Exception:
         return ''
+    # 門控：這份致詞稿只屬於 owner_slug 那篇文章（衢州南孔．龍遊那篇），
+    # 其餘 111 篇不該帶出——之前 build_speeches 把傳入的 slug 當空氣，
+    # 全站每篇文章都渲染了同一份致詞稿，錯把上篇內容串進本篇。
+    owner = (data.get('owner_slug') or '').strip()
+    if owner and slug != owner:
+        return ''
     items = data.get('items') or []
     if not items:
         return ''
