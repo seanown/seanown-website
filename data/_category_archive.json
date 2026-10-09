@@ -1,0 +1,678 @@
+{
+ "note": "category 欄位原始值備份。恢復分類時把對應 num 的 category 填回即可。",
+ "archived_at": "2026-10-10",
+ "items": [
+  {
+   "num": "124",
+   "slug": "quzhou-nankong-returning-home",
+   "title": "在南孔聖地，聽兩岸的聲音——一個回家的龍遊人",
+   "category": "生活隨筆"
+  },
+  {
+   "num": 38,
+   "slug": "bufeng-zhuiying",
+   "title": "《捕風追影》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 39,
+   "slug": "isabella",
+   "title": "《伊莎貝拉》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 37,
+   "slug": "naval-three-steps-find-your-calling",
+   "title": "納瓦爾：三步找到「天生該吃這碗飯」的領域",
+   "category": "生活隨筆"
+  },
+  {
+   "num": 36,
+   "slug": "wealth-leverage-macau",
+   "title": "財富與時代槓桿：新時代澳門文化商業的佈局思維",
+   "category": "澳門觀察"
+  },
+  {
+   "num": 35,
+   "slug": "recent-reflections-twelve-quotes-sketch",
+   "title": "近期反思：十二句話，十二幅手繪",
+   "category": "生活隨筆"
+  },
+  {
+   "num": 34,
+   "slug": "macau-budget-2020-2024-analysis",
+   "title": "澳門財政五年決算透視：公開賬本背後的支出邏輯與產業啟示",
+   "category": "澳門觀察"
+  },
+  {
+   "num": 33,
+   "slug": "hdi-2025-human-development-report",
+   "title": "📊 GDP 之外：用 HDI 重新丈量發展",
+   "category": "澳門觀察"
+  },
+  {
+   "num": 32,
+   "slug": "thinking-fast-and-slow-reading-notes",
+   "title": "《思考，快與慢》精讀筆記",
+   "category": "閱讀筆記"
+  },
+  {
+   "num": "31",
+   "slug": "macau-five-year-plan-diversification",
+   "title": "從一業獨大到百業共生：澳門三五規劃，真正改變的從來不是數字",
+   "category": "澳門觀察"
+  },
+  {
+   "num": "01",
+   "slug": "three-choices-define-your-life",
+   "title": "三個選擇，定義你的一生",
+   "category": "生活隨筆"
+  },
+  {
+   "num": "02",
+   "slug": "rent-hike-still-profitable-yet-closed",
+   "title": "年賺上億，房租漲1600萬仍可盈利，卻直接停業",
+   "category": "生活隨筆"
+  },
+  {
+   "num": "04",
+   "slug": "qixi-festival-original-meaning",
+   "title": "七夕：它原本不是情人節✨",
+   "category": "文化隨筆"
+  },
+  {
+   "num": "05",
+   "slug": "richard-koo-balance-sheet-recession",
+   "title": "讀懂辜朝明「資產負債表衰退」📊",
+   "category": "閱讀筆記"
+  },
+  {
+   "num": "06",
+   "slug": "two-thoughts-set-out-and-palm",
+   "title": "兩個念頭：出發與手相",
+   "category": "生活隨筆"
+  },
+  {
+   "num": "07",
+   "slug": "august-eighth-fathers-day-origin",
+   "title": "八八·爸爸節｜一段烽火歲月誕生的本土節日",
+   "category": "文化隨筆"
+  },
+  {
+   "num": "08",
+   "slug": "liqiu-start-of-autumn",
+   "title": "什麼！？今晚立秋！？（8月7日 19:42）",
+   "category": "文化隨筆"
+  },
+  {
+   "num": "11",
+   "slug": "fuhang-a-fathers-wisdom",
+   "title": "付航：一位父親最高級的智慧",
+   "category": "生活隨筆"
+  },
+  {
+   "num": "13",
+   "slug": "jiangxi-seven-days",
+   "title": "江西七日：從井岡山到滕王閣",
+   "category": "行走見聞"
+  },
+  {
+   "num": "20",
+   "slug": "kaipu-group-reunion",
+   "title": "拜訪凱普集團，一場意料之外的重逢",
+   "category": "生活隨筆"
+  },
+  {
+   "num": "21",
+   "slug": "chaoshan-journey-letters-home",
+   "title": "潮汕行：一封僑批的兩端",
+   "category": "行走見聞"
+  },
+  {
+   "num": "25",
+   "slug": "macau-ai-cross-border-services",
+   "title": "AI跨境服務的澳門方案",
+   "category": "澳門觀察"
+  },
+  {
+   "num": "26",
+   "slug": "ai-content-marketing-ctr-jump",
+   "title": "從CTR 22.7%到80%：AI內容營銷的躍遷",
+   "category": "澳門觀察"
+  },
+  {
+   "num": "27",
+   "slug": "macau-1-plus-4-digital-hub",
+   "title": "澳門「1+4」佈局下的數字樞紐機遇",
+   "category": "澳門觀察"
+  },
+  {
+   "num": "28",
+   "slug": "chinese-cultural-ip-globalization",
+   "title": "中華文化IP的全球化路徑",
+   "category": "澳門觀察"
+  },
+  {
+   "num": "29",
+   "slug": "young-entrepreneur-cross-boundary-thinking",
+   "title": "青年企業家的跨界思維",
+   "category": "澳門觀察"
+  },
+  {
+   "num": "30",
+   "slug": "choices-over-effort-three-turning-points",
+   "title": "選擇比努力重要：我的三次創業轉折",
+   "category": "澳門觀察"
+  },
+  {
+   "num": 40,
+   "slug": "huayang-nianhua",
+   "title": "《花樣年華》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 41,
+   "slug": "jingtian-modaotuan-2",
+   "title": "《驚天魔盜團2》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 42,
+   "slug": "dan-shen-nan-nv",
+   "title": "《單身男女》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 43,
+   "slug": "ji-zhan",
+   "title": "《激戰》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 44,
+   "slug": "pian-pian-xi-huan-ni",
+   "title": "《騙騙喜歡你》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 45,
+   "slug": "exiled",
+   "title": "《放逐》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 46,
+   "slug": "look-for-a-star",
+   "title": "《遊龍戲鳳》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 47,
+   "slug": "fulltime-killer",
+   "title": "《全職殺手》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 48,
+   "slug": "man-with-the-golden-gun",
+   "title": "《鐵金剛大戰金槍客》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 49,
+   "slug": "amor-e-dedinhos-de-pe",
+   "title": "《愛情與小腳趾》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 50,
+   "slug": "return-of-the-cuckoo",
+   "title": "《十月初五的月光》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 51,
+   "slug": "the-longest-nite",
+   "title": "《暗花》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 52,
+   "slug": "last-time-i-saw-macao",
+   "title": "《我最後一次看見澳門》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 53,
+   "slug": "helios",
+   "title": "《赤道》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 54,
+   "slug": "skyfall",
+   "title": "《新鐵金剛：智破天凶城》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 55,
+   "slug": "jin-zhi-yu-ye-1959",
+   "title": "《金枝玉葉》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 56,
+   "slug": "project-a-1983",
+   "title": "《A計劃》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 58,
+   "slug": "hao-jiang-feng-yun",
+   "title": "《濠江風雲》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 59,
+   "slug": "2046",
+   "title": "《2046》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 57,
+   "slug": "crash-2016",
+   "title": "《撞牆》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 60,
+   "slug": "hai-shang-hua-1986",
+   "title": "《海上花》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 61,
+   "slug": "when-i-fall-in-love-with-both",
+   "title": "《月亮的秘密》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 62,
+   "slug": "lan-yan-huo-2000",
+   "title": "《藍煙火》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 63,
+   "slug": "sisterhood-2016",
+   "title": "《骨妹》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 64,
+   "slug": "indiana-jones-temple-of-doom",
+   "title": "《奪寶奇兵之魔宮傳奇》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 65,
+   "slug": "macau-street-2013",
+   "title": "《澳門街》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 66,
+   "slug": "rouge",
+   "title": "《胭脂扣》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 67,
+   "slug": "shanghai-surprise-1986",
+   "title": "《上海驚情》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 68,
+   "slug": "johnny-english-reborn-2011",
+   "title": "《憨豆先生大戰特務》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 69,
+   "slug": "everyday-is-valentine",
+   "title": "《情迷大話王》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 70,
+   "slug": "macau-is-a-city-2019",
+   "title": "《媽閣是座城》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 71,
+   "slug": "pedicab-driver-1989",
+   "title": "《群龍戲鳳》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 72,
+   "slug": "macao-1952",
+   "title": "《Macao》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 73,
+   "slug": "our-17-2017",
+   "title": "《那一年，我17》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 74,
+   "slug": "cleopatra-jones-casino-of-gold-1975",
+   "title": "《女金剛鬥狂龍女》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 75,
+   "slug": "fist-of-fury-1972",
+   "title": "《精武門》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 76,
+   "slug": "black-falcon-1967",
+   "title": "《黑鷹》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 77,
+   "slug": "sentenced-to-hang-1989",
+   "title": "《三狼奇案》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 78,
+   "slug": "miracles-1989",
+   "title": "《奇蹟》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 79,
+   "slug": "love-in-a-fallen-city-1984",
+   "title": "《傾城之戀》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 80,
+   "slug": "love-is-a-many-splendored-thing-1955",
+   "title": "《生死戀》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 81,
+   "slug": "via-macau-1966",
+   "title": "《Via Macau》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 82,
+   "slug": "a-night-in-hong-kong-1961",
+   "title": "《香港之夜》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 83,
+   "slug": "the-white-storm-2013",
+   "title": "《掃毒》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 84,
+   "slug": "macao-enfer-du-jeu-1939",
+   "title": "《Macao, l'enfer du jeu》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 85,
+   "slug": "young-and-dangerous-1996",
+   "title": "《古惑仔之人在江湖》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 86,
+   "slug": "sharp-gun-2001",
+   "title": "《險角》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 87,
+   "slug": "flaming-brothers-1987",
+   "title": "《江湖龍虎鬥》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 88,
+   "slug": "ghost-returns-at-midnight-1964",
+   "title": "《午夜招魂》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 89,
+   "slug": "city-of-desire-2001",
+   "title": "《慾望之城》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 90,
+   "slug": "the-husband-of-a-lady-1965",
+   "title": "《小姐的丈夫》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 91,
+   "slug": "yellow-peril-1984",
+   "title": "《黃禍》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 92,
+   "slug": "double-relation-1966",
+   "title": "《親上加親》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 93,
+   "slug": "the-fatal-raid-2019",
+   "title": "《辣警霸王花 2 不義之戰》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 94,
+   "slug": "vengeance-2009",
+   "title": "《復仇》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 95,
+   "slug": "poker-king-2009",
+   "title": "《撲克王》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": "96",
+   "slug": "tianchangdijiu-1955",
+   "title": "《天長地久》觀後感",
+   "category": "澳門電影"
+  },
+  {
+   "num": 97,
+   "slug": "the-blazing-charmer-1959",
+   "title": "《噴火女郎》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 98,
+   "slug": "eight-murderers-1965",
+   "title": "《八個兇手》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 99,
+   "slug": "zhuixiongji-1965",
+   "title": "《追兇記》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 100,
+   "slug": "the-untold-story-1993",
+   "title": "《人肉叉燒包》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 101,
+   "slug": "chase-at-the-canidrome-1965",
+   "title": "《鐵金剛狗場追兇》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 102,
+   "slug": "china-dolls-1992",
+   "title": "《特區愛奴》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 103,
+   "slug": "riki-oh-1991",
+   "title": "《力王》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 104,
+   "slug": "macao-2525-2021",
+   "title": "《Macao 2525》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 105,
+   "slug": "madalena-2021",
+   "title": "《馬達・蓮娜》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 106,
+   "slug": "shang-chi-2021",
+   "title": "《尚氣與十環幫傳奇》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 107,
+   "slug": "double-dhamaal-2011",
+   "title": "《德哈瑪2》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 108,
+   "slug": "lets-sing-2021",
+   "title": "《熱唱吧》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 109,
+   "slug": "the-bewitching-braid-1996",
+   "title": "《大辮子的誘惑》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 110,
+   "slug": "shangcheng-2006",
+   "title": "《傷城》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 111,
+   "slug": "b420-2005",
+   "title": "《b420》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 112,
+   "slug": "butterfly-2004",
+   "title": "《蝴蝶》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 113,
+   "slug": "casino-tycoon-1992",
+   "title": "《賭城大亨之新哥傳奇》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 114,
+   "slug": "ah-long-1989",
+   "title": "《阿郎的故事》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 115,
+   "slug": "forbidden-1953",
+   "title": "《Forbidden》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 116,
+   "slug": "casino-tycoon-2-1992",
+   "title": "《賭城大亨II之至尊無敵》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 117,
+   "slug": "dragon-1993",
+   "title": "《李小龍傳》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 118,
+   "slug": "bicycle-man-1997",
+   "title": "《騎自行車的人》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 119,
+   "slug": "aspectos-de-macau-1923",
+   "title": "《Aspectos de Macau》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 120,
+   "slug": "o-regresso-1989",
+   "title": "《O Regresso》觀後感",
+   "category": "影評"
+  },
+  {
+   "num": 121,
+   "slug": "meeting-ends-things-begin",
+   "title": "會議結束了，事情才開始",
+   "category": "生活隨筆"
+  },
+  {
+   "num": 122,
+   "slug": "etiquette-is-not-form",
+   "title": "禮儀不是形式，是讓每個人被舒服地對待",
+   "category": "生活隨筆"
+  },
+  {
+   "num": 123,
+   "slug": "leadership-and-crisis",
+   "title": "領導是做對的事，管理是把事做對",
+   "category": "澳門觀察"
+  },
+  {
+   "num": 125,
+   "slug": "paulo-andrez-angel-investing",
+   "title": "跟 Paulo Andrez 學天使投資",
+   "category": "生活隨筆"
+  }
+ ]
+}

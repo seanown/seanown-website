@@ -90,6 +90,14 @@ def sorted_series():
                   key=lambda s: (int(s.get('order', 99) or 99), s.get('name', '')))
 
 
+# series 欄位型別是「字串 或 多專輯陣列」——統一成正規化函式
+def _series_list(p):
+    s = p.get('series')
+    if isinstance(s, list):
+        return [x for x in s if x]
+    return [s] if s else []
+
+
 def series_members(posts, sid):
     """取回某輯的成員文章。
 
@@ -97,8 +105,9 @@ def series_members(posts, sid):
     order_dir='asc'（預設）→ 日期升序（行記類，按實際行程順序讀）
     排序鍵由 _series_key() 決定：依輯 sort_by（預設 date，macau-film 為 filmYear），同序位再按篇號。
     """
+    # series 可能是字串，也可能是「多專輯」陣列（2026-10-10 分類體系廢除後常見）
     ms = [p for p in posts
-          if (p.get('series') or '').strip() == sid and p.get('status') != '整理中']
+          if sid in _series_list(p) and p.get('status') != '整理中']
     desc = str(SERIES_BY_ID.get(sid, {}).get('order_dir') or 'asc').lower() == 'desc'
     return sorted(ms, key=lambda p: _series_key(sid, p), reverse=desc)
 
@@ -1553,7 +1562,9 @@ def build(post, allposts):
     byline = (post.get('byline') or '').strip()
     byline_html = '<p class="byline">%s</p>' % esc(byline) if byline else ''
     # 文章頁頂部「按專輯逛」：列出全部專輯，當前文章所屬專輯高亮
-    cur_sid = (post.get('series') or '').strip()
+    # series 可能有多個（多專輯陣列），取第一個作當前輯
+    _cur = _series_list(post)
+    cur_sid = _cur[0] if _cur else ''
     sj_chips = ''
     for s in SERIES['series']:
         cls = 'sj-chip sj-cur' if s['id'] == cur_sid else 'sj-chip'
@@ -1587,21 +1598,30 @@ def build(post, allposts):
     desc = plain((post.get('lead') or '').strip() or post.get('body') or title, 105) or title
     url = '%s/article/%s/' % (SITE, slug)
 
-    rel = [p for p in allposts if p.get('category') == cat and str(p.get('num')) != num]
-    rel += [p for p in allposts if p.get('category') != cat and str(p.get('num')) != num]
+    # 延伸閱讀：2026-10-10 起改用「同專輯優先」而非同分類（分類體系已廢除）
+    _my_ser = post.get('series')
+    _my_ser = set(_my_ser) if isinstance(_my_ser, list) else ({_my_ser} if _my_ser else set())
+    rel = [p for p in allposts if _my_ser & set(
+        p.get('series') if isinstance(p.get('series'), list) else [p.get('series')])
+        and str(p.get('num')) != num]
+    rel += [p for p in allposts if str(p.get('num')) != num and p not in rel]
     rel = [p for p in rel if (p.get('body') or '').strip()][:2]
     rel_html = ''
     for p in rel:
         pn = str(p.get('num', '')).strip()
         ps = SLUGS.get(pn) or ('post-' + pn)
+        # 標籤顯示專輯名（同專輯者用該輯名，其餘用第一個專輯名）
+        _rs = p.get('series')
+        _rs = _rs if isinstance(_rs, list) else ([_rs] if _rs else [])
+        _rn = (SERIES_BY_ID.get(_rs[0], {}) or {}).get('name', '') if _rs else ''
         rel_html += (
             '<a class="rel-card" href="%s/article/%s/">'
             '<span class="rc-tag">%s</span><h3>%s</h3><p>%s</p></a>'
-        ) % (SITE, ps, esc(p.get('category')), esc(p.get('title')), esc(plain(p.get('body'), 46)))
+        ) % (SITE, ps, esc(_rn), esc(p.get('title')), esc(plain(p.get('body'), 46)))
 
     # ---- 輯導覽：本篇所屬輯 + 輯內上一篇／下一篇 ----
     series_nav = ''
-    sid = (post.get('series') or '').strip()
+    sid = cur_sid
     if sid and sid in SERIES_BY_ID:
         s = SERIES_BY_ID[sid]
         ms = series_members(allposts, sid)
@@ -1857,9 +1877,13 @@ def build_list(posts):
         num = str(p.get('num', '')).strip()
         slug = SLUGS.get(num) or ('post-' + num)
         title = (p.get('title') or '').strip()
-        cat = (p.get('category') or '').strip()
+        # 2026-10-10：分類體系廢除，篩選依據改用「專輯名」。
+        # 一篇文章可能掛多個專輯，取第一個作為篩選歸屬（顯示時仍可在專輯頁看到完整歸屬）。
+        _ser = p.get('series')
+        _ser = _ser if isinstance(_ser, list) else ([_ser] if _ser else [])
+        cat = (SERIES_BY_ID.get(_ser[0], {}) or {}).get('name', '') if _ser else ''
         date = (p.get('date') or '').strip()
-        is_film = (p.get('series') or '') == 'macau-film'
+        is_film = 'macau-film' in _series_list(p)
         cover = ov('../assets/og/%s.jpg' % slug)
         poster = ov('../assets/og/%s-poster.jpg' % slug)
         if is_film:
@@ -1912,18 +1936,13 @@ def build_list(posts):
         ser_chips = ('<span class="sj-label">按專輯逛</span>' + ser_chips +
                      '<a class="sj-chip sj-all" href="%s/series/">全部專輯 →</a>' % SITE)
 
+    # 篩選列改用「專輯」而非「分類」。
+    # 2026-10-10：軒哥決定廢除分類體系，專輯已完整承載（影評 44 + 澳門電影 39 = macau-film 83）。
+    # category 欄位保留在後台（data/_category_archive.json 有原始值備份），前端不再讀取。
     cat_btns = '<button class="lc-cat on" data-c="全部" type="button">全部<span>%d</span></button>' % len(items)
-    for c in CATS:
-        n = sum(1 for p in items if p.get('category') == c)
-        if n:
-            cat_btns += '<button class="lc-cat" data-c="%s" type="button">%s<span>%d</span></button>' % (esc(c), esc(c), n)
-    # 若有 CATS 之外的新分類，補在後面（避免新文章因分類未列舉而無法篩選）
-    known = set(CATS)
-    for c in sorted({(p.get('category') or '').strip() for p in items} - known):
-        if not c:
-            continue
-        n = sum(1 for p in items if (p.get('category') or '').strip() == c)
-        cat_btns += '<button class="lc-cat" data-c="%s" type="button">%s<span>%d</span></button>' % (esc(c), esc(c), n)
+    for s in all_ser:
+        cat_btns += '<button class="lc-cat" data-c="%s" type="button">%s<span>%d</span></button>' % (
+            esc(s['name']), esc(s['name']), s['n'])
 
     url = SITE + '/articles/'
     desc = '翁振軒專欄，聚焦澳門產業觀察、數位經濟趨勢、商業戰略思考。'
@@ -1940,7 +1959,7 @@ def build_list(posts):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>專欄文章｜翁振軒 Sean Own</title>
 <meta name="description" content="{desc}">
-<meta name="keywords" content="翁振軒,專欄,澳門觀察,行走見聞,閱讀筆記,文化隨筆,生活隨筆,數位經濟,Sean Own">
+<meta name="keywords" content="翁振軒,專欄,澳門電影,澳門解碼,青年實戰,生活隨筆,文化出海,數位經濟,Sean Own">
 <link rel="canonical" href="{url}">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <meta name="theme-color" content="#002676">
@@ -2107,7 +2126,7 @@ def build_home_films(published):
     """
     films = []
     for p in published:
-        if (p.get('series') or '') == 'macau-film':
+        if 'macau-film' in _series_list(p):
             fy = p.get('filmYear')
             try:
                 fy = int(fy)
