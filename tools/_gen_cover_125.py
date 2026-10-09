@@ -52,19 +52,15 @@ def render():
     base = vgrad(W, H, NAVY_DEEP, NAVY_MID).convert('RGBA')
     d = ImageDraw.Draw(base)
 
-    # ---- 右側幾何動機：零風險靶心（同心圓）＋ 上升柱狀 ----
+    # ---- 右側幾何動機：零風險靶心（同心圓）----
+    # （2026-10-09 軒哥圈出右下兩個金方塊問「要放什麼」——原是裝飾性上升柱狀，
+    #   但看起來像沒填內容的空框。拍板：拿掉留白，只留靶心一個視覺焦點。）
     layer = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     ld = ImageDraw.Draw(layer)
     cx, cy = 980, 300
     for r in (220, 168, 116, 64):
         ld.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(201, 154, 63, 38), width=2)
     ld.ellipse([cx - 15, cy - 15, cx + 15, cy + 15], fill=(201, 154, 63, 200))
-    # 上升柱狀（右下落腳，象徵資產成長；避開底部作者列分隔線，不重疊）
-    bars = [(120, 60), (160, 95), (200, 130)]
-    bx = 820
-    for i, (bw, bh) in enumerate(bars):
-        x = bx + i * (bw + 22)
-        ld.rectangle([x, H - 70 - bh, x + bw, H - 70], fill=(224, 188, 120, 150))
     base = Image.alpha_composite(base, layer).convert('RGB')
     d = ImageDraw.Draw(base)
 
