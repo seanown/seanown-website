@@ -412,27 +412,19 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="nav-inner">
 <a href="#" class="logo" onclick="goto('home');return false">翁振軒 <span>Sean Own</span></a>
 <div class="nav-right">
-<details class="nav-drop">
-<summary>關於我</summary>
-<div class="nav-menu">
-<a href="/about/">關於我</a>
-<!-- 「服務與合作」自 2026-10-08 起暫時從導覽列隱藏（軒哥決定）。
-     頁面本身、首頁 #sec-services 區塊、文章底部按鈕都保留，只有導覽列不顯示。
-     要恢復：把下一行取消註解即可（建議放在「聯絡」之後）。
-<a href="/services/" class="nav-col-link">服務與合作</a>
--->
-<a href="/contact/">聯絡</a>
-</div>
-</details>
+<!-- 2026-10-09 軒哥決定：把自己藏深一點。聯絡、媒體從導覽列下架（頁面本身保留），
+     導覽列只留 關於我／作品／專欄／澳門週訊；聯絡／媒體入口收在 /about/ 頁內。-->
+<a href="/about/" class="nav-col-link">關於我</a>
 <a href="/series/" class="nav-col-link">作品</a>
 <a href="/articles/" class="nav-col-link">專欄</a>
-<a href="/media/" class="nav-col-link">媒體</a>
 <a href="#" class="nav-col-link nav-weekly" onclick="openWeekly();return false">澳門週訊</a>
 </div>
 </div>
 </nav>
 
-<!-- 單頁長滾動：板塊順序 Hero→核心業務→數據→項目→文章→身分→關於我→研究報告→媒體→聯絡 -->
+<!-- 單頁長滾動：板塊順序 Hero→核心業務→數據→項目→文章→身分→關於我→研究報告→訂閱
+     （2026-10-09 軒哥決定：媒體報導區與合作聯絡區自首頁下架，把自己藏深一點；
+       完整媒體報導見 /media/，聯絡見 /contact/，入口收在 /about/ 頁內） -->
 <main id="page-home">
 <style>
 .stats-bar{background:linear-gradient(135deg,#010133,#0A1F5C);padding:46px 16px}
@@ -883,15 +875,12 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <p class="stats-note">以上數字均可在本站公開頁面或具名機構頁面查證，佐證說明見 <a href="/about/">關於我 · 可以核實的數字</a>。早期版本曾展示「服務企業 100+」「海外曝光 +330%」等無公開方法與樣本的統計，因無法獨立核實，已自本站移除；如需正式提案的專案成效數據，請於洽談時提出。</p>
 </div></section>
 
-<!-- ⑨ 媒體報導 -->
-<section class="section" id="sec-media" style="background:var(--white)"><div class="section-inner">
-<h2 class="section-title">媒體報導</h2><p class="section-subtitle">媒體採訪與活動報導</p><div class="title-line"></div>
-<div class="media-featured" id="media-featured"></div><div id="media-categories"></div>
-<!-- about-detail 自己的結尾：原本缺這個 </div>，瀏覽器的 div 糾錯
-     讓它一路「借用」訂閱區的 </div>，導致合作與聯絡、訂閱區被巢狀
-     吸進「關於作者」區塊內（實測 sec-author 內多出 coop-hero 280px）。 -->
-</div>
-</div></section>
+<!-- ⑨ 媒體報導：2026-10-09 軒哥決定自首頁下架（把自己藏深一點）。
+     頁面本身與 33 則報導紀錄保留於 /media/；統計數字仍在上方「可核實數字」。
+     🔴 歷史補丁搬家：#about-detail 原本缺 </div>，靠 sec-media 尾端那個補丁閉合
+     （否則訂閱區會被巢狀吸進「關於作者」區塊）。媒體區移除後，閉合點改到這裡——
+     下一行這個 </div> 不能刪。 -->
+</div><!-- /#about-detail（2026-10-09 自 sec-media 尾端補丁改於此閉合） -->
 
 
 <!-- ⑪ 訂閱我的寫作 -->
@@ -912,44 +901,10 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 </div>
 </div></section>
 
-<!-- ⑧ 合作與聯絡 -->
-<div class="coop-hero" id="sec-contact"><h2 id="contact-hero-title">合作與聯絡</h2><p id="contact-hero-sub">合作諮詢 · 聯絡 · 隨時歡迎</p></div>
-
-</div>
-</div></section>
-
-<section class="section"><div class="section-inner">
-<div class="contact-grid">
-<div class="contact-info">
-<h2 id="contact-section-title">保持聯繫</h2>
-<p id="contact-section-desc">無論是產業合作、資源對接還是交流探討，歡迎隨時聯繫。公務洽談、商務合作優先回覆；私人訊息恕難一一回覆。</p>
-<div class="contact-pre"><span>還不確定要不要談？先看四項服務的內容、流程與計價方式 →</span><a href="/services/">前往服務與合作</a></div>
-<div class="contact-item"><div class="contact-icon">📧</div><div><div class="label">電子郵箱</div><div class="value" id="contact-email">seanown@gmail.com</div></div></div>
-<div class="contact-item"><div class="contact-icon">📍</div><div><div class="label">所在地</div><div class="value" id="contact-location">澳門</div></div></div>
-<div class="contact-item"><div class="contact-icon">🌐</div><div><div class="label">網站</div><div class="value" id="contact-website">seanown.org</div></div></div>
-<div class="contact-item"><div class="contact-icon">🔗</div><div><div class="label" style="margin-bottom:8px">追蹤我</div><div class="social-links" style="margin-top:0"><a class="social-link" href="https://www.linkedin.com/in/sean-own-36b3108" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">in</a><a class="social-link" href="https://www.youtube.com/@MacauNext" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube">▶</a><a class="social-link" href="https://weibo.com/MacaoBlue" target="_blank" rel="noopener" title="微博 @MacaoBlue" aria-label="微博">微</a></div></div></div>
-</div>
-<div class="contact-form">
-<form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return submitForm(event)">
-<input type="hidden" name="form-name" value="contact">
-<p hidden aria-hidden="true"><label>Don't fill this: <input name="bot-field"></label></p>
-<div class="form-group"><label>姓名</label><input type="text" name="name" required minlength="2" maxlength="50" placeholder="請輸入您的姓名" onblur="validateField(this,'姓名至少 2 字')"><div class="form-error-msg"></div></div>
-<div class="form-group"><label>所屬單位</label><input type="text" name="organization" maxlength="100" placeholder="公司 / 商會 / 機構名稱（選填）"><div class="form-error-msg"></div></div>
-<div class="form-group"><label>聯繫信箱</label><input type="email" name="email" required placeholder="example@email.com" onblur="validateEmail(this)"><div class="form-error-msg"></div></div>
-<div class="form-group"><label>合作類型</label><select name="coop_type" required>
-<option value="" selected disabled>請選擇合作類型</option>
-<option>AI 數位服務出海</option>
-<option>文化旅遊</option>
-<option>AI 科普教育</option>
-<option>融媒體與 IP 運營</option>
-<option>其他</option>
-</select><div class="form-error-msg"></div></div>
-<div class="form-group"><label>需求描述</label><textarea name="message" required minlength="10" maxlength="500" placeholder="請描述您的合作需求或想談的議題（至少 10 字）" oninput="validateMessage(this)"></textarea><div class="form-counter"></div><div class="form-error-msg"></div></div>
-<p style="font-size:13px;opacity:.65;margin:0 0 16px">※ 公務洽談、商務合作優先回覆；私人訊息恕難一一回覆，敬請見諒。</p>
-<button type="submit" class="btn btn-primary" style="width:100%">發送訊息</button>
-</form>
-</div></div>
-</div></section>
+<!-- ⑧ 合作與聯絡：2026-10-09 軒哥決定自首頁下架（把自己藏深一點）。
+     聯絡表單本身保留於 /contact/ 頁（Netlify form 收信功能不變）；
+     首頁原有段落後的 stray </div></section> 一併清除。
+     首頁的洽談入口：float-cta 與文章彈窗 CTA 的 goto('contact') 已改為跳轉 /contact/。 -->
 </main>
 <!-- 澳門週訊全螢幕閱讀 -->
 <div class="weekly-overlay" id="weekly-overlay" onclick="if(event.target===this)closeWeekly()">
@@ -961,7 +916,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <a href="/contact/" class="float-cta" style="display:none" onclick="goto('contact');return false">洽談合作</a>
 
 <script>
-const SECMAP={about:'sec-author',column:'sec-articles',works:'sec-projects',coop:'sec-services',contact:'sec-contact',media:'sec-media',subscribe:'sec-subscribe'};
+const SECMAP={about:'sec-author',column:'sec-articles',works:'sec-projects',coop:'sec-services',subscribe:'sec-subscribe'};
 /* 🔴 2026-10-09：按鈕內含 .ae-open／.ae-shut 兩個 span 由 CSS 依
    aria-expanded 切換顯示，所以這裡「只」改 aria-expanded，
    絕對不要用 eb.textContent=... —— 那會把兩個 span 洗掉，
@@ -969,6 +924,10 @@ const SECMAP={about:'sec-author',column:'sec-articles',works:'sec-projects',coop
 function openAboutDetail(){var det=document.getElementById('about-detail');if(!det)return false;if(det.hidden){det.hidden=false;var eb=document.getElementById('about-expand-btn');if(eb){eb.setAttribute('aria-expanded','true')}return true}return false}
 function goto(sec,anchor){
 if(sec==='home'){window.scrollTo({top:0,behavior:'smooth'});return}
+/* 2026-10-09 軒哥決定：首頁的媒體區與聯絡區已下架，這兩個導向改為跳轉獨立頁。
+   這條要在 SECMAP 查找之前——否則 goto 會因找不到 sec-contact/sec-media 靜默返回。 */
+if(sec==='contact'){location.href='/contact/';return}
+if(sec==='media'){location.href='/media/';return}
 var det=document.getElementById('about-detail');
 var el=anchor?document.getElementById(anchor):null;
 if(!el)el=document.getElementById(SECMAP[sec]||('sec-'+sec));
@@ -1002,7 +961,8 @@ route()})();
 <div class="footer-col"><h3>網站導覽</h3>
 <a href="#sec-hero">首頁</a><a href="/about/">關於我</a><a href="/articles/">專欄文章</a><a href="/series/">專輯</a><a href="/book/shou-deng-ren-ying-ji/">著作</a></div>
 <div class="footer-col"><h3>更多</h3>
-<a href="#sec-services">合作方向</a><a href="/media/">媒體報導</a><a href="#" onclick="openWeekly();return false">澳門週訊</a><a href="/contact/">聯絡我</a></div>
+<!-- 2026-10-09 軒哥決定：聯絡、媒體自首頁下架（含頁尾），入口收在 /about/ 頁內 -->
+<a href="#sec-services">合作方向</a><a href="#" onclick="openWeekly();return false">澳門週訊</a></div>
 <div class="footer-col"><h3>聯絡</h3><a href="mailto:seanown@gmail.com">seanown@gmail.com</a><a href="https://seanown.org">seanown.org</a><a>澳門</a></div>
 </div>
 <div class="footer-bottom"><span id="footer-copyright">© 2026 Sean Own. 版權所有。</span><span id="footer-slogan">財自道生 利緣義取</span></div>

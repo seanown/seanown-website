@@ -75,8 +75,6 @@ img{max-width:100%;display:block}
 .tnav{display:flex;gap:18px;align-items:center}
 .tnav a{font-size:14px;font-weight:600;color:var(--text)}
 .tnav a:hover,.tnav a[aria-current]{color:var(--blue)}
-.tnav .cta{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}
-.tnav .cta:hover{background:var(--blue-dark)}
 
 /* 頁首 */
 .masthead{position:relative;background:linear-gradient(135deg,#002676 0%,#010133 100%);color:#fff;padding:64px 24px 56px;overflow:hidden}
@@ -86,12 +84,19 @@ img{max-width:100%;display:block}
 .masthead h1{font-size:42px;font-weight:800;letter-spacing:2px;margin-bottom:16px}
 .masthead h1 .en{color:var(--gold);font-size:.62em;letter-spacing:3px;display:block;margin-top:6px}
 .lede{font-size:17.5px;color:rgba(255,255,255,.92);max-width:760px;line-height:1.9}
-.masthead-btns{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
-.masthead-btns a{padding:13px 30px;border-radius:999px;font-size:15px;font-weight:700;transition:all .2s}
-.masthead-btns .b1{background:var(--gold);color:var(--blue-dark)}
-.masthead-btns .b1:hover{transform:translateY(-2px)}
-.masthead-btns .b2{border:2px solid rgba(255,255,255,.7);color:#fff}
-.masthead-btns .b2:hover{background:#fff;color:var(--blue)}
+/* 關於我：大部份區塊摺疊（2026-10-09 軒哥決定「藏深一點」：
+   頁面不要這麼長，除了「我的定位」保留展開，其餘 5 區預設收起，想看才點開。）
+   樣式與頁內既有的 .roles-fold 一致：summary 當標題、右側 ＋/− 切換。 */
+.about-fold{margin-top:56px}
+.about-fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px}
+.about-fold>summary.sec-h{margin-bottom:0}
+.about-fold>summary::-webkit-details-marker{display:none}
+.about-fold>summary:hover{color:var(--blue-dark)}
+.about-fold .fold-arr{margin-left:auto;font-size:24px;font-weight:700;color:var(--blue);line-height:1;flex:none}
+.about-fold .fa-shut{display:none}
+.about-fold[open] .fa-open{display:none}
+.about-fold[open] .fa-shut{display:inline}
+.about-fold[open]>summary{margin-bottom:10px}
 
 /* 區塊 */
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px 70px}
@@ -186,7 +191,6 @@ section{padding-top:56px}
 
 @media(max-width:860px){.facts,.roles{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){
-  .tnav a:not(.cta){display:none}
   .masthead{padding:46px 18px 42px}
   .masthead h1{font-size:29px}
   .lede{font-size:16px}
@@ -194,29 +198,12 @@ section{padding-top:56px}
   .two,.ev,.svc,.facts,.roles{grid-template-columns:1fr}
   .sec-h{font-size:22px}
   .pos-card{padding:24px 20px}
-  .masthead-btns a{width:100%;text-align:center}
   .cta-band{padding:34px 20px}
   .cta-btns a{width:100%}
 }
 
-/* 「關於我」下拉（2026-10-08，軒哥決定：聯絡不坐第一排，收進關於我底下）
-   純 CSS，不依賴 JS。.nav-mcta 是聯絡鈕的手機版複本，
-   因為手機版只保留 .cta，而 PC 的聯絡已收進下拉，沒有複本手機會全空。 */
-.tnav .nav-drop{position:relative}
-.tnav .nav-drop>summary{font-size:14px;font-weight:600;color:var(--text);cursor:pointer;list-style:none;display:flex;align-items:center;gap:5px}
-.tnav .nav-drop>summary::-webkit-details-marker{display:none}
-.tnav .nav-drop>summary::after{content:'';width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
-.tnav .nav-drop[open]>summary::after{transform:rotate(225deg) translateY(-2px)}
-.tnav .nav-drop[open]>summary{color:var(--blue)}
-.tnav .nav-menu{position:absolute;top:calc(100% + 9px);left:-14px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 34px rgba(0,38,118,.16);padding:6px;min-width:158px;z-index:60}
-.tnav .nav-menu a{display:block;padding:9px 14px;border-radius:8px;font-size:14px}
-.tnav .nav-menu a:hover{background:#F4F7FB;color:var(--blue)}
-.tnav .nav-mcta{display:none}
-@media(max-width:860px){
-  .tnav .nav-drop{display:none}
-  .tnav .nav-mcta{display:block}
-}
-@media(min-width:861px){.tnav .nav-mcta{display:none}}
+/* 2026-10-09 導覽列已瘦身為「關於我／作品／專欄」三項直鏈（見上方 .tnav），
+   原「關於我」下拉（.nav-drop）與手機版 .cta 複本已不再使用，相關 CSS 一併移除。 */
 </style>
 </head>
 <body>
@@ -225,24 +212,12 @@ section{padding-top:56px}
 <header class="topbar"><div class="topbar-in">
 <a class="brand" href="/">翁振軒 <span>SEAN OWN</span></a>
 <nav class="tnav" aria-label="網站導覽">
-  <details class="nav-drop">
-  <summary aria-current="page">關於我</summary>
-  <div class="nav-menu">
+<!-- 2026-10-09 軒哥決定：把自己藏深一點。聯絡、媒體從導覽列下架（頁面本身保留），
+     導覽列只留 關於我／作品／專欄 三項直鏈；「服務與合作」維持 2026-10-08 的隱藏。
+     聯絡／媒體入口改收在 /about/ 頁內（摺疊區與頁尾 CTA）。-->
   <a href="/about/" aria-current="page">關於我</a>
-  <!-- 「服務與合作」自 2026-10-08 起暫時不顯示（軒哥決定）。
-       /services/ 頁面本身、首頁 #sec-services 區塊、文章底部按鈕都保留。
-       日後要恢復，把下一行取消註解即可（建議放在「聯絡」之後）。
-  <a href="/services/">服務與合作</a>
-  -->
-  <a href="/contact/">聯絡</a>
-  </div>
-  </details>
   <a href="/series/">作品</a>
   <a href="/articles/">專欄</a>
-  <a href="/media/">媒體</a>
-  <!-- 手機版專用：PC 上 display:none。手機版 .tnav 只保留 .cta，
-       而 PC 的聯絡鈕已收進「關於我」下拉，故需這顆複本頂替，否則手機導航全空。 -->
-  <a href="/contact/" class="cta nav-mcta">聯絡</a>
 </nav>
 </div></header>
 
@@ -256,10 +231,8 @@ section{padding-top:56px}
      出生背景讓位給下方既有的「學歷背景」區塊；MBTI 判為專業頁不需要，予以拿掉。
      保留了「長年觀察澳門城市變遷與影像文化」與具體現職句，因為前者是作者身分、
      後者是可查證資訊，兩者都服務於頁面用途。 -->
-<div class="masthead-btns">
-<a class="b1" href="/contact/">洽談合作</a>
-<a class="b2" href="/media/">看可查證的媒體報導</a>
-</div>
+<!-- 2026-10-09 軒哥決定「藏深一點」：移除 hero 的「洽談合作／媒體報導」兩顆直曝按鈕，
+     聯絡與媒體入口改收在頁尾與下方摺疊區，不放在第一排這麼直接的地方。 -->
 </div></header>
 
 <main class="wrap" id="about-main">
@@ -284,9 +257,9 @@ section{padding-top:56px}
 </div>
 </section>
 
-<!-- 可查證的數字 -->
-<section>
-<h2 class="sec-h">可以核實的數字</h2>
+<!-- 可查證的數字（2026-10-09 起摺疊，預設收起） -->
+<details class="about-fold">
+<summary class="sec-h">可以核實的數字<span class="fold-arr"><span class="fa-open">＋</span><span class="fa-shut">−</span></span></summary>
 <p class="sec-sub">每項均標明期間與可公開佐證來源；無法公開核實者不列。</p>
 <div class="facts">
 <div class="fact">
@@ -311,7 +284,7 @@ section{padding-top:56px}
 </div>
 </div>
 <p class="fact-note">說明：網站首頁早期版本曾展示「服務企業 100+」「海外曝光提升 +330%」等數字。這類數字缺乏公開方法與樣本說明，且多屬客戶端機密統計，無法獨立核實，因此本頁不列入。若需要正式合作提案中的專案成效數據，請於洽談時提出，我會提供可公開的統計口徑與匿名化案例說明。</p>
-</section>
+</details>
 
 <!-- 「人生軌跡」整塊於 2026-10-08 移除（軒哥決定）：6 條時間軸與下方
      「學歷背景」區塊重疊過多，頁面過長。學歷資訊仍完整保留在下方區塊。
@@ -331,8 +304,9 @@ section{padding-top:56px}
 </section>
 -->
 
-<!-- 學歷與榮譽 -->
-<section>
+<!-- 學歷與榮譽（2026-10-09 起摺疊，預設收起；原區塊無獨立標題，summary 補上） -->
+<details class="about-fold">
+<summary class="sec-h">學歷與榮譽<span class="fold-arr"><span class="fa-open">＋</span><span class="fa-shut">−</span></span></summary>
 <div class="two">
 <div class="box">
 <h3>學歷背景</h3>
@@ -351,11 +325,11 @@ section{padding-top:56px}
 </ul>
 </div>
 </div>
-</section>
+</details>
 
-<!-- 職務 -->
-<section>
-<h2 class="sec-h">企業職務與社會參與</h2>
+<!-- 職務（2026-10-09 起整區摺疊，預設收起；內含既有的 .roles-fold 子摺疊） -->
+<details class="about-fold">
+<summary class="sec-h">企業職務與社會參與<span class="fold-arr"><span class="fa-open">＋</span><span class="fa-shut">−</span></span></summary>
 <!-- 原副標「13 項具名職務，均可另行提供證明文件。」於 2026-10-08 移除（軒哥決定）：
      數字已在上方「可以核實的數字」區塊列過，此處重複。要恢復：把下一行取消註解即可。
 <p class="sec-sub">13 項具名職務，均可另行提供證明文件。</p>
@@ -381,11 +355,11 @@ section{padding-top:56px}
 <div class="role"><div class="t">專家評委（第 11–13 屆）</div><div class="o">「贏在廣州」大學生創業大賽</div></div>
 </div>
 </details>
-</section>
+</details>
 
-<!-- 可查證的證據鏈 -->
-<section>
-<h2 class="sec-h">第三方可查證的紀錄</h2>
+<!-- 可查證的證據鏈（2026-10-09 起摺疊，預設收起） -->
+<details class="about-fold">
+<summary class="sec-h">第三方可查證的紀錄<span class="fold-arr"><span class="fa-open">＋</span><span class="fa-shut">−</span></span></summary>
 <!-- 原副標「以下為具名機構的公開頁面或報導原文，可直接點擊查核。」於 2026-10-08 移除（軒哥決定）：
      區塊標題已說明是「可查證的紀錄」，副標重複。要恢復：把下一行取消註解即可。
 <p class="sec-sub">以下為具名機構的公開頁面或報導原文，可直接點擊查核。</p>
@@ -435,11 +409,11 @@ section{padding-top:56px}
 </div>
 </div>
 </div>
-</section>
+</details>
 
-<!-- 合作方向 -->
-<section>
-<h2 class="sec-h">可以合作的方向</h2>
+<!-- 合作方向（2026-10-09 起摺疊，預設收起） -->
+<details class="about-fold">
+<summary class="sec-h">可以合作的方向<span class="fold-arr"><span class="fa-open">＋</span><span class="fa-shut">−</span></span></summary>
 <!-- 原副標「若下列方向不符你的需求，也歡迎直接來信說明。」於 2026-10-08 移除（軒哥決定）：
      屬禮貌性引導語，頁面下方已有「前往聯絡頁表單」按鈕，不需重複說明。
      要恢復：把下一行取消註解即可。
@@ -467,7 +441,7 @@ section{padding-top:56px}
 <a href="https://www.macaodaily.com/html/2026-06/03/content_1912209.htm" target="_blank" rel="noopener">澳門日報相關報導 ↗</a>
 </div>
 </div>
-</section>
+</details>
 
 <div class="cta-band">
 <h2>有具體的題目嗎？</h2>

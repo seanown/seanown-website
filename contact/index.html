@@ -133,7 +133,6 @@ img{max-width:100%;display:block}
 
 @media(max-width:900px){.cols{grid-template-columns:1fr}.alt{grid-template-columns:1fr}}
 @media(max-width:760px){
-  .tnav a:not(.cta){display:none}
   .masthead{padding:44px 18px 40px}
   .masthead h1{font-size:29px}
   .wrap{padding:30px 16px 56px}
@@ -153,12 +152,9 @@ img{max-width:100%;display:block}
 .tnav .nav-menu{position:absolute;top:calc(100% + 9px);left:-14px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 34px rgba(0,38,118,.16);padding:6px;min-width:158px;z-index:60}
 .tnav .nav-menu a{display:block;padding:9px 14px;border-radius:8px;font-size:14px}
 .tnav .nav-menu a:hover{background:#F4F7FB;color:var(--blue)}
-.tnav .nav-mcta{display:none}
 @media(max-width:860px){
-  .tnav .nav-drop{display:none}
-  .tnav .nav-mcta{display:block}
 }
-@media(min-width:861px){.tnav .nav-mcta{display:none}}
+@media(min-width:861px){}
 </style>
 </head>
 <body>
@@ -167,24 +163,12 @@ img{max-width:100%;display:block}
 <header class="topbar"><div class="topbar-in">
 <a class="brand" href="/">翁振軒 <span>SEAN OWN</span></a>
 <nav class="tnav" aria-label="網站導覽">
-  <details class="nav-drop">
-  <summary>關於我</summary>
-  <div class="nav-menu">
+<!-- 2026-10-09 軒哥決定：把自己藏深一點。聯絡、媒體從導覽列下架（頁面本身保留），
+     導覽列只留 關於我／作品／專欄 三項直鏈；「服務與合作」維持 2026-10-08 的隱藏。
+     聯絡／媒體入口改收在 /about/ 頁內（摺疊區與頁尾 CTA）。-->
   <a href="/about/">關於我</a>
-  <!-- 「服務與合作」自 2026-10-08 起暫時不顯示（軒哥決定）。
-       /services/ 頁面本身、首頁 #sec-services 區塊、文章底部按鈕都保留。
-       日後要恢復，把下一行取消註解即可（建議放在「聯絡」之後）。
-  <a href="/services/">服務與合作</a>
-  -->
-  <a href="/contact/" aria-current="page">聯絡</a>
-  </div>
-  </details>
   <a href="/series/">作品</a>
   <a href="/articles/">專欄</a>
-  <a href="/media/">媒體</a>
-  <!-- 手機版專用：PC 上 display:none。手機版 .tnav 只保留 .cta，
-       而 PC 的聯絡鈕已收進「關於我」下拉，故需這顆複本頂替，否則手機導航全空。 -->
-  <a href="/contact/" class="cta nav-mcta">聯絡</a>
 </nav>
 </div></header>
 
