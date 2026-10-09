@@ -3,7 +3,7 @@
 從 data/posts.json 生成每篇文章的獨立內頁：article/<slug>/index.html
 每頁含：獨立 URL、單獨 TDK、Berkeley 藍金排版、作者簡介、延伸閱讀、洽談合作 CTA、JSON-LD Article。
 """
-import io, os, re, json, html, glob
+import io, os, re, json, html, glob, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POSTS = os.path.join(ROOT, 'data', 'posts.json')
@@ -2172,6 +2172,21 @@ def main():
     if nmovie:
         print('  電影資訊頁：%d 頁' % nmovie)
     sanitize_outputs()
+    # sitemap 一併更新：新增文章後自動補進條目，避免手動維護漏掉
+    # （2026-10-09 曾漏掉 6 篇已上線文章，搜尋引擎抓不到）
+    try:
+        import subprocess
+        r = subprocess.run(
+            [sys.executable, os.path.join(ROOT, 'tools', 'build_sitemap.py')],
+            capture_output=True, text=True)
+        for line in (r.stdout or '').splitlines():
+            if line.strip():
+                print('  ' + line)
+        if r.returncode != 0:
+            print('  [WARN] build_sitemap.py 回傳非零，請手動檢查 sitemap')
+    except Exception as e:
+        print('  [WARN] sitemap 自動更新失敗：%s（請手動執行 '
+              'tools/build_sitemap.py）' % e)
     io.open(POSTS, 'w', encoding='utf-8', newline='\n').write(
         json.dumps(data, ensure_ascii=False, indent=2) + '\n')
     print('generated %d article pages, %d series pages' % (len(made), nser))
