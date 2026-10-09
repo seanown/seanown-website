@@ -217,6 +217,7 @@ SLUGS = {
     '122': 'etiquette-is-not-form',
     '123': 'leadership-and-crisis',
     '124': 'quzhou-nankong-returning-home',
+    '125': 'paulo-andrez-angel-investing',
 }
 
 
@@ -399,6 +400,10 @@ a{color:var(--blue);text-decoration:none}
 h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px;max-width:960px}
 .lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px;max-width:940px}
 .subtitle{font-size:19px;line-height:1.5;color:var(--blue);font-weight:600;margin:6px 0 18px;letter-spacing:.3px;max-width:960px}
+/* 本篇專屬署名（byline）：僅大象投資學第一堂等少數文章使用，
+   不掛全站「電子商會會長」頭銜，改掛該篇指定署名。海軍藍＋暖金點綴。*/
+.byline{font-size:14.5px;line-height:1.5;color:var(--text);font-weight:600;margin:-8px 0 16px;padding-left:14px;border-left:3px solid var(--gold);letter-spacing:.3px;max-width:960px}
+.byline .em{color:var(--blue)}
 .rule{width:56px;height:4px;background:var(--gold);border-radius:2px;margin:0 0 26px}
 .cover{margin:0 0 26px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10)}
 .cover img{width:100%;display:block}
@@ -1550,6 +1555,11 @@ def build(post, allposts):
     title = (post.get('title') or '').strip()
     subtitle = (post.get('subtitle') or '').strip()
     subtitle_html = '<p class="subtitle">%s</p>' % esc(subtitle) if subtitle else ''
+    # 本篇專屬署名（byline）：僅當該文章有 byline 欄位才顯示；
+    # 用於「大象投資學」第一堂——不掛全站「電子商會會長」頭銜，改掛「龍遊集團創辦人」。
+    # 其餘 111 篇無 byline 欄位，全局作者卡保持不變。
+    byline = (post.get('byline') or '').strip()
+    byline_html = '<p class="byline">%s</p>' % esc(byline) if byline else ''
     # 文章頁頂部「按專輯逛」：列出全部專輯，當前文章所屬專輯高亮
     cur_sid = (post.get('series') or '').strip()
     sj_chips = ''
@@ -1765,6 +1775,7 @@ def build(post, allposts):
 <div class="meta"><span class="tag">{cat}</span><span class="date">{date_fmt}{loc_fmt}</span></div>
 <h1>{title}</h1>
 {subtitle_html}
+{byline_html}
 <div class="rule"></div>
 <p class="lead">{lead}</p>
 {reader}
@@ -1841,6 +1852,7 @@ function spxToggle(btn){{
         loc_fmt=(' · ' + esc(loc)) if loc else '',
         cover=cover, body=body_html, gallery=gallery, rel=rel_html,
         subtitle_html=subtitle_html,
+        byline_html=byline_html,
         series_jump=series_jump,
         spx_html=spx_html,
         series_nav=series_nav,
