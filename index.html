@@ -405,6 +405,15 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .subscribe-note{margin-top:16px;font-size:12px;color:rgba(255,255,255,.55)}
 .subscribe-success{display:none;text-align:center;padding:14px;font-size:18px;font-weight:700;color:#fff}
 .subscribe-success.show{display:block}
+/* 訂閱摺疊（2026-10-11）：整段搬進「關於我」最底，預設收起。
+   樣式對齊 /about/ 頁「可以合作的方向」的摺疊頭（sec-h／fold-arr 同款語言）。 */
+.sub-fold{background:var(--white);border:1px solid rgba(0,50,98,.14);border-radius:16px;padding:2px 26px;margin-top:8px}
+.sub-fold summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:20px 0;font-size:22px;font-weight:800;color:var(--blue)}
+.sub-fold summary::-webkit-details-marker{display:none}
+.sub-fold .fold-arr{flex:none;width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:16px;font-weight:700}
+.sub-fold[open] .fa-open{display:none}
+.sub-fold:not([open]) .fa-shut{display:none}
+.sub-fold-body{padding:6px 0 26px}
 </style>
 </head>
 <body>
@@ -422,9 +431,10 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 </div>
 </nav>
 
-<!-- 單頁長滾動：板塊順序 Hero→核心業務→數據→項目→文章→身分→關於我→研究報告→訂閱
+<!-- 單頁長滾動：板塊順序 Hero→核心業務→數據→項目→文章→身分→關於我（含摺疊的訂閱）
      （2026-10-09 軒哥決定：媒體報導區與合作聯絡區自首頁下架，把自己藏深一點；
-       完整媒體報導見 /media/，聯絡見 /contact/，入口收在 /about/ 頁內） -->
+       完整媒體報導見 /media/，聯絡見 /contact/，入口收在 /about/ 頁內。
+     2026-10-11 軒哥決定：訂閱我的寫作自頁尾獨立區塊搬進「關於我」最底並摺疊收起） -->
 <main id="page-home">
 <style>
 .stats-bar{background:linear-gradient(135deg,#010133,#0A1F5C);padding:46px 16px}
@@ -752,7 +762,8 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="author-actions">
 <a class="author-more" href="/about/">關於我 ▸</a>
 <!-- 2026-10-09 修正：我第一版把「展開完整經歷」按鈕整個刪掉，結果
-     #about-detail 裡的 9 個 section 變成「永久隱藏」，其中代表項目
+     #about-detail 裡的 section（2026-10-11 起共 10 個，含摺疊的訂閱區）
+     變成「永久隱藏」，其中代表項目
      （8 張 practice-card）與數據 stats-bar 在 /about/ 頁並不存在，
      等於首頁從此看不到。軒哥說的是「全部折疊起來」——折疊暗示能展開，
      所以這裡把展開鈕加回來，但降級成一顆低調小鈕（.author-expand），
@@ -875,17 +886,15 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <p class="stats-note">以上數字均可在本站公開頁面或具名機構頁面查證，佐證說明見 <a href="/about/">關於我 · 可以核實的數字</a>。早期版本曾展示「服務企業 100+」「海外曝光 +330%」等無公開方法與樣本的統計，因無法獨立核實，已自本站移除；如需正式提案的專案成效數據，請於洽談時提出。</p>
 </div></section>
 
-<!-- ⑨ 媒體報導：2026-10-09 軒哥決定自首頁下架（把自己藏深一點）。
-     頁面本身與 33 則報導紀錄保留於 /media/；統計數字仍在上方「可核實數字」。
-     🔴 歷史補丁搬家：#about-detail 原本缺 </div>，靠 sec-media 尾端那個補丁閉合
-     （否則訂閱區會被巢狀吸進「關於作者」區塊）。媒體區移除後，閉合點改到這裡——
-     下一行這個 </div> 不能刪。 -->
-</div><!-- /#about-detail（2026-10-09 自 sec-media 尾端補丁改於此閉合） -->
-
-
-<!-- ⑪ 訂閱我的寫作 -->
+<!-- ⑪ 訂閱我的寫作（2026-10-11 軒哥決定：自頁尾獨立區塊搬進「關於我」最底。
+     不與「代表項目」合併、自成一段；整段用 details 摺疊，預設收起，
+     點標題才展開表單。goto('subscribe') 會自動解鎖 about-detail 與這個 details。
+     表單仍在 HTML 內，Netlify form 收信功能不變。 -->
 <section class="section" id="sec-subscribe" style="background:var(--bg)"><div class="section-inner">
-<h2 class="section-title">訂閱我的寫作</h2><p class="section-subtitle">新文章與著作進度，第一時間寄到你的信箱</p><div class="title-line"></div>
+<details class="sub-fold" id="subscribe-fold">
+<summary>訂閱我的寫作<span class="fold-arr"><span class="fa-open">＋</span><span class="fa-shut">−</span></span></summary>
+<div class="sub-fold-body">
+<p class="section-subtitle" style="text-align:left;margin-bottom:0">新文章與著作進度，第一時間寄到你的信箱</p>
 <div class="subscribe-wrap">
   <form name="subscribe" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return submitSubscribe(event)">
     <input type="hidden" name="form-name" value="subscribe">
@@ -899,7 +908,19 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
     <div class="subscribe-success" id="subscribe-success">✓ 訂閱成功，感謝你的支持！</div>
   </form>
 </div>
+</div>
+</details>
 </div></section>
+
+<!-- ⑨ 媒體報導：2026-10-09 軒哥決定自首頁下架（把自己藏深一點）。
+     頁面本身與 33 則報導紀錄保留於 /media/；統計數字仍在上方「可核實數字」。
+     🔴 歷史補丁搬家：#about-detail 原本缺 </div>，靠 sec-media 尾端那個補丁閉合
+     （否則訂閱區會被巢狀吸進「關於作者」區塊）。媒體區移除後，閉合點改到這裡——
+     下一行這個 </div> 不能刪。 -->
+</div><!-- /#about-detail（2026-10-09 自 sec-media 尾端補丁改於此閉合） -->
+<!-- ⑪ 訂閱我的寫作：2026-10-11 起搬進 #about-detail 最底（sec-stats 之後）並摺疊收起，
+     原頁尾獨立區塊已移除。 -->
+
 
 <!-- ⑧ 合作與聯絡：2026-10-09 軒哥決定自首頁下架（把自己藏深一點）。
      聯絡表單本身保留於 /contact/ 頁（Netlify form 收信功能不變）；
@@ -933,6 +954,9 @@ var el=anchor?document.getElementById(anchor):null;
 if(!el)el=document.getElementById(SECMAP[sec]||('sec-'+sec));
 var justOpened=(el&&det&&det.contains(el))||sec==='about'||sec==='works'||sec==='coop'||sec==='contact'||sec==='media'?openAboutDetail():false;
 if(!el)return;
+/* 2026-10-11：訂閱區搬進 about-detail 後再包一層 details 摺疊，
+   導向 sec-subscribe 時要把 details 一併展開，否則滾到底只看到收合標題。 */
+if(sec==='subscribe'){var fd=document.getElementById('subscribe-fold');if(fd&&!fd.open)fd.open=true}
 if(justOpened)setTimeout(function(){el.scrollIntoView({behavior:'smooth'})},80);else el.scrollIntoView({behavior:'smooth'});
 }
 function toggleAboutDetail(){var det=document.getElementById('about-detail');if(!det)return;det.hidden=!det.hidden;var eb=document.getElementById('about-expand-btn');if(eb){eb.setAttribute('aria-expanded',det.hidden?'false':'true');if(!det.hidden)det.scrollIntoView({behavior:'smooth',block:'nearest'})}}
