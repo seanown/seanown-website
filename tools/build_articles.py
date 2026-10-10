@@ -228,6 +228,7 @@ SLUGS = {
     '124': 'quzhou-nankong-returning-home',
     '125': 'paulo-andrez-angel-investing',
     '126': 'ai-kk-eight-trends',
+    '127': 'macau-city-depth-report',
 }
 
 
