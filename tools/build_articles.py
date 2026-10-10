@@ -2111,13 +2111,10 @@ def build_list(posts):
         ser_chips = ('<span class="sj-label">按專輯逛</span>' + ser_chips +
                      '<a class="sj-chip sj-all" href="%s/series/">全部專輯 →</a>' % SITE)
 
-    # 篩選列改用「專輯」而非「分類」。
-    # 2026-10-10：軒哥決定廢除分類體系，專輯已完整承載（影評 44 + 澳門電影 39 = macau-film 83）。
+    # 篩選列已移除（2026-10-11 軒哥：與「按專輯逛」重複，只留一排）。
+    # 專輯過濾由各專輯頁承擔（/series/<id>/，抬頭自帶「共 N 篇」）；
+    # 卡片仍保留 data-cat 標記，未來要恢復頁內篩選可直接加回按鈕。
     # category 欄位保留在後台（data/_category_archive.json 有原始值備份），前端不再讀取。
-    cat_btns = '<button class="lc-cat on" data-c="全部" type="button">全部<span>%d</span></button>' % len(items)
-    for s in all_ser:
-        cat_btns += '<button class="lc-cat" data-c="%s" type="button">%s<span>%d</span></button>' % (
-            esc(s['name']), esc(s['name']), s['n'])
 
     url = SITE + '/articles/'
     desc = '翁振軒專欄，聚焦澳門產業觀察、數位經濟趨勢、商業戰略思考。'
@@ -2172,16 +2169,9 @@ html{{scroll-behavior:smooth}}
 .ser-panel a span{{font-size:11.5px;color:var(--gray);margin-left:5px;font-weight:600}}
 .ser-panel a:hover span{{color:var(--gold)}}
 .ser-panel .sp-all{{border-color:var(--line);color:var(--gray);font-weight:600}}
-.filter-bar{{position:sticky;top:62px;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}}
-.lc-cat{{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 18px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;transition:all .2s}}
-.lc-cat span{{font-size:12px;color:var(--gray);margin-left:5px}}
-.lc-cat:hover{{border-color:var(--gold)}}
-.lc-cat.on{{background:var(--blue);border-color:var(--blue);color:#fff}}
-.lc-cat.on span{{color:var(--gold)}}
 .grid{{max-width:1180px;margin:0 auto;padding:44px 24px 60px;display:grid;grid-template-columns:repeat(3,1fr);gap:26px}}
 .lc-card{{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;color:inherit}}
 .lc-card:hover{{transform:translateY(-5px);box-shadow:0 18px 44px rgba(0,38,118,.13)}}
-.lc-card.hide{{display:none}}
 .lc-img{{aspect-ratio:16/9;overflow:hidden}}
 .lc-img img{{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}}
 .lc-card:hover .lc-img img{{transform:scale(1.04)}}
@@ -2201,7 +2191,7 @@ html{{scroll-behavior:smooth}}
 .float-cta{{display:none;position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);font-size:14px;transition:transform .2s,box-shadow .2s}}
 .float-cta:hover{{transform:translateY(-3px);box-shadow:0 16px 34px rgba(2,8,32,.4)}}
 @media(max-width:960px){{.grid{{grid-template-columns:repeat(2,1fr)}}.masthead h1{{font-size:34px}}}}
-@media(max-width:620px){{.grid{{grid-template-columns:1fr;padding:30px 16px 50px}}.filter-bar{{top:62px;padding:12px 14px}}.masthead{{padding:46px 18px 40px}}.masthead h1{{font-size:28px}}}}
+@media(max-width:620px){{.grid{{grid-template-columns:1fr;padding:30px 16px 50px}}.masthead{{padding:46px 18px 40px}}.masthead h1{{font-size:28px}}}}
 .ser-jump{{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;max-width:1180px;margin:18px auto 0;padding:0 24px}}
 .ser-jump .sj-label{{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700;margin-right:4px}}
 .sj-chip{{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:7px 16px;font-size:13.5px;font-weight:700;color:var(--blue);transition:all .2s}}
@@ -2225,8 +2215,6 @@ html{{scroll-behavior:smooth}}
 
 <div class="ser-jump" id="serjump">{ser_chips}</div>
 
-<div class="filter-bar" id="filter-bar">{cats}</div>
-
 <main class="grid" id="grid">{cards}</main>
 
 <footer class="foot">
@@ -2235,25 +2223,11 @@ html{{scroll-behavior:smooth}}
 </footer>
 
 <a class="float-cta" href="{site}/contact/">洽談合作</a>
-<script>
-(function(){{
-var SITE='{site}';
-var btns=document.querySelectorAll('.lc-cat');
-btns.forEach(function(b){{b.addEventListener('click',function(){{
-btns.forEach(function(x){{x.classList.remove('on')}});
-b.classList.add('on');
-var c=b.getAttribute('data-c');
-document.querySelectorAll('.lc-card').forEach(function(card){{
-card.classList.toggle('hide',c!=='全部'&&card.getAttribute('data-cat')!==c);
-}});
-}})}});
-}})();
-</script>
 </body>
 </html>
 """.format(desc=esc(desc), url=url, og='%s/assets/og/articles.jpg' % SITE,
            ld=json.dumps(ld, ensure_ascii=False), site=SITE,
-           n=len(items), cats=cat_btns, cards=cards, ser_chips=ser_chips)
+           n=len(items), cards=cards, ser_chips=ser_chips)
     d = os.path.join(ROOT, 'articles')
     os.makedirs(d, exist_ok=True)
     with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
