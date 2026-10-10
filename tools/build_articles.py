@@ -90,12 +90,20 @@ def sorted_series():
                   key=lambda s: (int(s.get('order', 99) or 99), s.get('name', '')))
 
 
-# 子輯的展示 emoji（傘頁卡片用）
-SUB_EMOJI = {
-    'classroom-ai': '🤖',
-    'classroom-invest': '📈',
-    'classroom-startup': '🚀',
-    'classroom-ip': '🎭',
+# 子輯／頂層輯卡片的主題（2026-10-11 升級：告別光禿禿 emoji）。
+# 每輯 = (emoji, 漸層起色, 漸層終色)；色系從全站藍金基底延伸，
+# 四色可辨但都壓深、降飽和，維持高級感。CSS 端用 --sc1/--sc2 接。
+SUB_THEME = {
+    'classroom-ai':      ('🤖', '#002676', '#1257C4'),
+    'classroom-invest':  ('📈', '#0B4F45', '#12876F'),
+    'classroom-startup': ('🚀', '#7A2E0C', '#C2540A'),
+    'classroom-ip':      ('🎭', '#4A1D7A', '#7C3AED'),
+}
+TOP_THEME = {
+    'macau-reader': ('🧭', '#002676', '#1257C4'),
+    'classroom':    ('🎓', '#7A2E0C', '#C2540A'),
+    'life-essays':  ('✍️', '#0B4F45', '#12876F'),
+    'macau-film':   ('🎬', '#4A1D7A', '#7C3AED'),
 }
 
 
@@ -567,27 +575,38 @@ a{color:var(--blue);text-decoration:none}
 .poster-card:hover .p-info{color:var(--gold-dark)}
 @media(orientation:portrait){.poster-grid{grid-template-columns:repeat(3,1fr);gap:18px}}
 @media(max-width:600px){.poster-grid{grid-template-columns:repeat(2,1fr);gap:14px}.sort-bar{justify-content:center}}
-.other-ser{max-width:1080px;margin:0 auto;padding:8px 24px 0;display:flex;gap:12px;flex-wrap:wrap}
-.os-card{flex:1 1 240px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px 18px;transition:all .2s}
-.os-card:hover{border-color:var(--gold);transform:translateY(-2px)}
-.os-card .os-n{font-size:17px;font-weight:800;color:var(--blue);margin-bottom:3px}
-.os-card .os-d{font-size:13px;color:var(--gray)}
-.os-card .os-grp{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--blue);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 8px;margin-bottom:7px}
+/* 其他專輯卡舊樣式已於 2026-10-11 移除（升級版見下方「其他專輯卡」區塊） */
 .foot{margin-top:46px;padding:26px 24px 46px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);text-align:center}
 .foot a{color:var(--blue)}
 @media(max-width:720px){.masthead h1{font-size:28px}.tl-card{flex-direction:column;align-items:flex-start}.tl-img{flex:0 0 auto;width:100%;height:170px}.wrap{padding:26px 18px 0}}
-/* ===== 傘頁：子輯卡片 grid ===== */
+/* ===== 傘頁：子輯卡片 grid（2026-10-11 升級：漸層 icon 磚＋序號＋頂部色條＋hover 箭頭） ===== */
 .crumb{max-width:1080px;margin:0 auto;padding:18px 24px 0}
 .crumb a{font-size:14px;font-weight:700;color:var(--blue)}
 .crumb a:hover{color:var(--gold-dark)}
-.sub-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px}
-.sub-card{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 24px;transition:all .22s;color:inherit}
-.sub-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,8,32,.12);border-color:var(--gold)}
-.sub-emoji{font-size:38px;margin-bottom:12px}
-.sub-name{font-size:21px;font-weight:800;color:var(--blue);margin-bottom:6px}
-.sub-desc{font-size:14px;color:var(--gray);line-height:1.7;margin-bottom:14px}
-.sub-count{font-size:12.5px;font-weight:700;color:var(--gold-dark);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 12px;display:inline-block}
-@media(max-width:600px){.sub-grid{grid-template-columns:repeat(2,1fr);gap:14px}.sub-card{padding:18px 16px}.sub-emoji{font-size:30px}.sub-name{font-size:17px}}
+.sub-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:20px}
+.sub-card{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-top:3px solid var(--sc1,#002676);border-radius:14px;padding:24px 22px 20px;transition:transform .22s,box-shadow .22s,border-color .22s;color:inherit;overflow:hidden}
+.sub-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(2,8,32,.13);border-color:var(--sc1,#002676)}
+.sub-idx{position:absolute;top:16px;right:18px;font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--gray);opacity:.45}
+.sub-ico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--sc1,#002676),var(--sc2,#1257C4));display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:14px;box-shadow:0 6px 16px rgba(2,8,32,.18)}
+.sub-name{font-size:20px;font-weight:800;color:var(--blue);margin-bottom:6px}
+.sub-desc{font-size:13.5px;color:var(--gray);line-height:1.7;margin-bottom:16px;flex:1}
+.sub-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sub-count{font-size:12px;font-weight:700;color:var(--blue);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 11px}
+.sub-go{font-size:13px;font-weight:800;color:var(--gold-dark);opacity:0;transform:translateX(-6px);transition:all .22s;white-space:nowrap}
+.sub-card:hover .sub-go{opacity:1;transform:none}
+@media(max-width:600px){.sub-grid{grid-template-columns:repeat(2,1fr);gap:13px}.sub-card{padding:16px 14px 14px}.sub-ico{width:42px;height:42px;font-size:21px;border-radius:11px;margin-bottom:10px}.sub-name{font-size:16.5px}.sub-desc{font-size:12.5px;margin-bottom:12px}.sub-go{display:none}.sub-idx{font-size:11.5px;top:12px;right:13px}}
+/* ===== 其他專輯卡（2026-10-11 升級：icon 磚＋副標＋篇數＋箭頭，3 欄 grid） ===== */
+.other-ser{max-width:1080px;margin:0 auto;padding:8px 24px 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(288px,1fr));gap:14px}
+.os-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 18px;transition:transform .2s,box-shadow .2s,border-color .2s;color:inherit}
+.os-card:hover{border-color:var(--sc1,#002676);transform:translateY(-3px);box-shadow:0 10px 26px rgba(2,8,32,.1)}
+.os-ico{flex:0 0 44px;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--sc1,#002676),var(--sc2,#1257C4));display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 5px 14px rgba(2,8,32,.16)}
+.os-main{flex:1;min-width:0}
+.os-card .os-n{font-size:16.5px;font-weight:800;color:var(--blue);margin-bottom:2px}
+.os-card .os-d{font-size:12.5px;color:var(--gray);line-height:1.55;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.os-meta{font-size:12px;font-weight:700;color:var(--gold-dark);letter-spacing:.4px}
+.os-arr{flex:0 0 auto;font-size:20px;color:var(--line);transition:color .2s,transform .2s}
+.os-card:hover .os-arr{color:var(--gold-dark);transform:translateX(3px)}
+@media(max-width:600px){.other-ser{grid-template-columns:1fr;gap:10px}.os-card{padding:13px 15px}.os-ico{flex-basis:40px;width:40px;height:40px;font-size:19px}.os-card .os-n{font-size:15.5px}}
 """
 
 
@@ -834,6 +853,37 @@ def tl_img(p):
     return ''
 
 
+def _others_html(posts, exclude_sid):
+    """「其他專輯」卡列（傘頁與一般專輯頁共用）：icon 磚＋名稱＋副標＋篇數＋箭頭。
+    2026-10-11 軒哥反馈原本一排白卡太單薄，升級成帶主題色的橫向卡。"""
+    cards = ''
+    for o in top_level_series():
+        if o['id'] == exclude_sid:
+            continue
+        # 傘輯（如軒哥小課堂）本身不掛文章，篇數＝子輯合計；否則會被「0 篇就跳過」誤濾掉
+        kids = children_of(o['id'])
+        if kids:
+            n = sum(len(series_members(posts, k['id'])) for k in kids)
+        else:
+            n = len(series_members(posts, o['id']))
+        if not n:
+            continue
+        emoji, c1, c2 = TOP_THEME.get(o['id'], ('📚', '#002676', '#1257C4'))
+        cards += (
+            '<a class="os-card" style="--sc1:%s;--sc2:%s" href="%s/series/%s/">'
+            '<div class="os-ico">%s</div>'
+            '<div class="os-main"><div class="os-n">%s</div>'
+            '<div class="os-d">%s</div>'
+            '<div class="os-meta">%d 篇 · %s</div></div>'
+            '<div class="os-arr">›</div></a>'
+        ) % (c1, c2, SITE, esc(o['id']), emoji, esc(o['name']),
+             esc(o.get('subtitle') or ''), n, esc(o.get('period') or ''))
+    if not cards:
+        return ''
+    return ('<div class="sec-lab" style="max-width:1080px;margin:0 auto;padding:34px 24px 0">'
+            '其他專輯</div><div class="other-ser">%s</div>' % cards)
+
+
 def _build_umbrella_page(s, posts, children):
     """產生傘頁 series/<id>/index.html：列出子輯卡片，不列文章（文章已分散到子輯）。"""
     sid = s['id']
@@ -841,34 +891,24 @@ def _build_umbrella_page(s, posts, children):
     items = ''
     total = 0
     first_slug = ''
-    for c in children:
+    for idx, c in enumerate(children):
         cm = series_members(posts, c['id'])
         total += len(cm)
         if not first_slug and cm:
             cn = str(cm[0].get('num', '')).strip()
             first_slug = SLUGS.get(cn) or ('post-' + cn)
-        emoji = SUB_EMOJI.get(c['id'], '📂')
+        emoji, c1, c2 = SUB_THEME.get(c['id'], ('📂', '#002676', '#1257C4'))
         items += (
-            '<a class="sub-card" href="%s/series/%s/">'
-            '<div class="sub-emoji">%s</div>'
+            '<a class="sub-card" style="--sc1:%s;--sc2:%s" href="%s/series/%s/">'
+            '<span class="sub-idx">%02d</span>'
+            '<div class="sub-ico">%s</div>'
             '<div class="sub-name">%s</div>'
             '<div class="sub-desc">%s</div>'
-            '<div class="sub-count">%d 堂課</div></a>'
-        ) % (SITE, esc(c['id']), emoji, esc(c.get('name') or ''),
-             esc(c.get('subtitle') or ''), len(cm))
-    others = ''
-    for o in top_level_series():
-        if o['id'] == sid:
-            continue
-        om = series_members(posts, o['id'])
-        if not om:
-            continue
-        others += ('<a class="os-card" href="%s/series/%s/"><div class="os-n">%s</div>'
-                   '<div class="os-d">%d 篇 · %s</div></a>'
-                   % (SITE, esc(o['id']), esc(o['name']), len(om), esc(o.get('period') or '')))
-    if others:
-        others = ('<div class="sec-lab" style="max-width:1080px;margin:0 auto;padding:34px 24px 0">'
-                  '其他專輯</div><div class="other-ser">%s</div>' % others)
+            '<div class="sub-foot"><span class="sub-count">%d 堂課</span>'
+            '<span class="sub-go">開始上課 ›</span></div></a>'
+        ) % (c1, c2, SITE, esc(c['id']), idx + 1, emoji,
+             esc(c.get('name') or ''), esc(c.get('subtitle') or ''), len(cm))
+    others = _others_html(posts, sid)
     url = '%s/series/%s/' % (SITE, sid)
     desc = plain(s.get('intro') or s.get('subtitle') or name, 100)
     ld = {
@@ -913,7 +953,7 @@ def _build_umbrella_page(s, posts, children):
 <div class="kicker">專輯 · 課程地圖</div>
 <h1>{name}</h1>
 <div class="sub">{sub}</div>
-<div class="period">共 {n} 堂課 · 4 個系列</div>
+<div class="period">共 {n} 堂課 · {nseries} 個系列</div>
 </div></div>
 
 {crumb}
@@ -933,7 +973,8 @@ def _build_umbrella_page(s, posts, children):
         name=esc(name), desc=esc(desc), kw=esc('%s,軒哥小課堂,課程,翁振軒,Sean Own' % name),
         url=url, og=ov('%s/assets/og/%s.jpg' % (SITE, cover_slug)),
         ld=json.dumps(ld, ensure_ascii=False), css=SERIES_PAGE_CSS, site=SITE,
-        sub=esc(s.get('subtitle') or ''), n=total, intro=intro_html, items=items,
+        sub=esc(s.get('subtitle') or ''), n=total, nseries=len(children),
+        intro=intro_html, items=items,
         others=others, crumb='')
     d = os.path.join(ROOT, 'series', sid)
     os.makedirs(d, exist_ok=True)
@@ -1003,19 +1044,7 @@ def build_series_page(s, posts, all_series):
                  ('<span class="tl-loc">· %s</span>' % esc(loc)) if loc else '',
                  esc(ptitle), esc(plead))
 
-    others = ''
-    for o in top_level_series():
-        if o['id'] == sid:
-            continue
-        om = series_members(posts, o['id'])
-        if not om:
-            continue
-        others += ('<a class="os-card" href="%s/series/%s/"><div class="os-n">%s</div>'
-                   '<div class="os-d">%d 篇 · %s</div></a>'
-                   % (SITE, esc(o['id']), esc(o['name']), len(om), esc(o.get('period') or '')))
-    if others:
-        others = ('<div class="sec-lab" style="max-width:1080px;margin:0 auto;padding:34px 24px 0">'
-                  '其他專輯</div><div class="other-ser">%s</div>' % others)
+    others = _others_html(posts, sid)
 
     coll_name = ''
     for c in SERIES.get('collections', []):

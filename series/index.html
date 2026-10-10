@@ -74,27 +74,38 @@ a{color:var(--blue);text-decoration:none}
 .poster-card:hover .p-info{color:var(--gold-dark)}
 @media(orientation:portrait){.poster-grid{grid-template-columns:repeat(3,1fr);gap:18px}}
 @media(max-width:600px){.poster-grid{grid-template-columns:repeat(2,1fr);gap:14px}.sort-bar{justify-content:center}}
-.other-ser{max-width:1080px;margin:0 auto;padding:8px 24px 0;display:flex;gap:12px;flex-wrap:wrap}
-.os-card{flex:1 1 240px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px 18px;transition:all .2s}
-.os-card:hover{border-color:var(--gold);transform:translateY(-2px)}
-.os-card .os-n{font-size:17px;font-weight:800;color:var(--blue);margin-bottom:3px}
-.os-card .os-d{font-size:13px;color:var(--gray)}
-.os-card .os-grp{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--blue);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 8px;margin-bottom:7px}
+/* 其他專輯卡舊樣式已於 2026-10-11 移除（升級版見下方「其他專輯卡」區塊） */
 .foot{margin-top:46px;padding:26px 24px 46px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);text-align:center}
 .foot a{color:var(--blue)}
 @media(max-width:720px){.masthead h1{font-size:28px}.tl-card{flex-direction:column;align-items:flex-start}.tl-img{flex:0 0 auto;width:100%;height:170px}.wrap{padding:26px 18px 0}}
-/* ===== 傘頁：子輯卡片 grid ===== */
+/* ===== 傘頁：子輯卡片 grid（2026-10-11 升級：漸層 icon 磚＋序號＋頂部色條＋hover 箭頭） ===== */
 .crumb{max-width:1080px;margin:0 auto;padding:18px 24px 0}
 .crumb a{font-size:14px;font-weight:700;color:var(--blue)}
 .crumb a:hover{color:var(--gold-dark)}
-.sub-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px}
-.sub-card{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 24px;transition:all .22s;color:inherit}
-.sub-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,8,32,.12);border-color:var(--gold)}
-.sub-emoji{font-size:38px;margin-bottom:12px}
-.sub-name{font-size:21px;font-weight:800;color:var(--blue);margin-bottom:6px}
-.sub-desc{font-size:14px;color:var(--gray);line-height:1.7;margin-bottom:14px}
-.sub-count{font-size:12.5px;font-weight:700;color:var(--gold-dark);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 12px;display:inline-block}
-@media(max-width:600px){.sub-grid{grid-template-columns:repeat(2,1fr);gap:14px}.sub-card{padding:18px 16px}.sub-emoji{font-size:30px}.sub-name{font-size:17px}}
+.sub-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:20px}
+.sub-card{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-top:3px solid var(--sc1,#002676);border-radius:14px;padding:24px 22px 20px;transition:transform .22s,box-shadow .22s,border-color .22s;color:inherit;overflow:hidden}
+.sub-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(2,8,32,.13);border-color:var(--sc1,#002676)}
+.sub-idx{position:absolute;top:16px;right:18px;font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--gray);opacity:.45}
+.sub-ico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--sc1,#002676),var(--sc2,#1257C4));display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:14px;box-shadow:0 6px 16px rgba(2,8,32,.18)}
+.sub-name{font-size:20px;font-weight:800;color:var(--blue);margin-bottom:6px}
+.sub-desc{font-size:13.5px;color:var(--gray);line-height:1.7;margin-bottom:16px;flex:1}
+.sub-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sub-count{font-size:12px;font-weight:700;color:var(--blue);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 11px}
+.sub-go{font-size:13px;font-weight:800;color:var(--gold-dark);opacity:0;transform:translateX(-6px);transition:all .22s;white-space:nowrap}
+.sub-card:hover .sub-go{opacity:1;transform:none}
+@media(max-width:600px){.sub-grid{grid-template-columns:repeat(2,1fr);gap:13px}.sub-card{padding:16px 14px 14px}.sub-ico{width:42px;height:42px;font-size:21px;border-radius:11px;margin-bottom:10px}.sub-name{font-size:16.5px}.sub-desc{font-size:12.5px;margin-bottom:12px}.sub-go{display:none}.sub-idx{font-size:11.5px;top:12px;right:13px}}
+/* ===== 其他專輯卡（2026-10-11 升級：icon 磚＋副標＋篇數＋箭頭，3 欄 grid） ===== */
+.other-ser{max-width:1080px;margin:0 auto;padding:8px 24px 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(288px,1fr));gap:14px}
+.os-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 18px;transition:transform .2s,box-shadow .2s,border-color .2s;color:inherit}
+.os-card:hover{border-color:var(--sc1,#002676);transform:translateY(-3px);box-shadow:0 10px 26px rgba(2,8,32,.1)}
+.os-ico{flex:0 0 44px;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--sc1,#002676),var(--sc2,#1257C4));display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 5px 14px rgba(2,8,32,.16)}
+.os-main{flex:1;min-width:0}
+.os-card .os-n{font-size:16.5px;font-weight:800;color:var(--blue);margin-bottom:2px}
+.os-card .os-d{font-size:12.5px;color:var(--gray);line-height:1.55;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.os-meta{font-size:12px;font-weight:700;color:var(--gold-dark);letter-spacing:.4px}
+.os-arr{flex:0 0 auto;font-size:20px;color:var(--line);transition:color .2s,transform .2s}
+.os-card:hover .os-arr{color:var(--gold-dark);transform:translateX(3px)}
+@media(max-width:600px){.other-ser{grid-template-columns:1fr;gap:10px}.os-card{padding:13px 15px}.os-ico{flex-basis:40px;width:40px;height:40px;font-size:19px}.os-card .os-n{font-size:15.5px}}
 </style>
 </head>
 <body>
