@@ -83,6 +83,18 @@ a{color:var(--blue);text-decoration:none}
 .foot{margin-top:46px;padding:26px 24px 46px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);text-align:center}
 .foot a{color:var(--blue)}
 @media(max-width:720px){.masthead h1{font-size:28px}.tl-card{flex-direction:column;align-items:flex-start}.tl-img{flex:0 0 auto;width:100%;height:170px}.wrap{padding:26px 18px 0}}
+/* ===== 傘頁：子輯卡片 grid ===== */
+.crumb{max-width:1080px;margin:0 auto;padding:18px 24px 0}
+.crumb a{font-size:14px;font-weight:700;color:var(--blue)}
+.crumb a:hover{color:var(--gold-dark)}
+.sub-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px}
+.sub-card{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 24px;transition:all .22s;color:inherit}
+.sub-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,8,32,.12);border-color:var(--gold)}
+.sub-emoji{font-size:38px;margin-bottom:12px}
+.sub-name{font-size:21px;font-weight:800;color:var(--blue);margin-bottom:6px}
+.sub-desc{font-size:14px;color:var(--gray);line-height:1.7;margin-bottom:14px}
+.sub-count{font-size:12.5px;font-weight:700;color:var(--gold-dark);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 12px;display:inline-block}
+@media(max-width:600px){.sub-grid{grid-template-columns:repeat(2,1fr);gap:14px}.sub-card{padding:18px 16px}.sub-emoji{font-size:30px}.sub-name{font-size:17px}}
 </style>
 </head>
 <body>
@@ -97,7 +109,7 @@ a{color:var(--blue);text-decoration:none}
 <div class="sub">同一主題的文章收成一專輯，按順序讀。</div>
 </div></div>
 
-<div class="other-ser" style="padding-top:30px"><a class="os-card" href="https://seanown.org/series/macau-reader/" style="flex:1 1 300px"><div class="os-n">澳門解碼</div><div class="os-d" style="margin-bottom:6px">從政策、財政到人的尺度，讀懂這座城</div><div class="os-d">5 篇 · 2026</div></a><a class="os-card" href="https://seanown.org/series/classroom/" style="flex:1 1 300px"><div class="os-n">軒哥小課堂</div><div class="os-d" style="margin-bottom:6px">投資、AI、IP、創業——把實戰拆開講給你聽</div><div class="os-d">13 篇 · 2026</div></a><a class="os-card" href="https://seanown.org/series/life-essays/" style="flex:1 1 300px"><div class="os-n">生活隨筆</div><div class="os-d" style="margin-bottom:6px">隨筆、節氣、書摘與行走——把日子讀出滋味</div><div class="os-d">13 篇 · 2026</div></a><a class="os-card" href="https://seanown.org/series/macau-film/" style="flex:1 1 300px"><div class="os-n">澳門電影</div><div class="os-d" style="margin-bottom:6px">用鏡頭與節奏，重新走讀澳門</div><div class="os-d">83 篇 · 連載中</div></a></div>
+<div class="other-ser" style="padding-top:30px"><a class="os-card" href="https://seanown.org/series/macau-reader/" style="flex:1 1 300px"><div class="os-n">澳門解碼</div><div class="os-d" style="margin-bottom:6px">從政策、財政到人的尺度，讀懂這座城</div><div class="os-d">5 篇 · 2026</div></a><a class="os-card" href="https://seanown.org/series/classroom/" style="flex:1 1 300px"><div class="os-n">軒哥小課堂</div><div class="os-d" style="margin-bottom:6px">投資、AI、IP、創業——把實戰拆開講給你聽</div><div class="os-d">4 個系列 · 13 堂課</div></a><a class="os-card" href="https://seanown.org/series/life-essays/" style="flex:1 1 300px"><div class="os-n">生活隨筆</div><div class="os-d" style="margin-bottom:6px">隨筆、節氣、書摘與行走——把日子讀出滋味</div><div class="os-d">13 篇 · 2026</div></a><a class="os-card" href="https://seanown.org/series/macau-film/" style="flex:1 1 300px"><div class="os-n">澳門電影</div><div class="os-d" style="margin-bottom:6px">用鏡頭與節奏，重新走讀澳門</div><div class="os-d">83 篇 · 連載中</div></a></div>
 
 <div class="foot">© 2026 翁振軒 Sean Own · <a href="https://seanown.org/">返回首頁</a> · <a href="https://seanown.org/articles/">全部文章</a></div>
 </body>

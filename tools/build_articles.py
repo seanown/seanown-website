@@ -90,6 +90,34 @@ def sorted_series():
                   key=lambda s: (int(s.get('order', 99) or 99), s.get('name', '')))
 
 
+# 子輯的展示 emoji（傘頁卡片用）
+SUB_EMOJI = {
+    'classroom-ai': '🤖',
+    'classroom-invest': '📈',
+    'classroom-startup': '🚀',
+    'classroom-ip': '🎭',
+}
+
+
+def children_of(sid):
+    """回傳某輯的子輯（parent==sid），依 order 排序；無則空清單。"""
+    kids = [s for s in SERIES['series'] if str(s.get('parent') or '').strip() == sid]
+    return sorted(kids, key=lambda s: (int(s.get('order', 99) or 99), s.get('name', '')))
+
+
+def top_level_series():
+    """僅含「頂層輯」（無 parent 者），供導覽列與總覽頁使用——確保頂層不超過 4 個。"""
+    return [s for s in sorted_series() if not str(s.get('parent') or '').strip()]
+
+
+def top_series_id(sid):
+    """把任一輯 id 解析為其頂層輯 id（支援一層嵌套）。"""
+    s = SERIES_BY_ID.get(sid)
+    if s and str(s.get('parent') or '').strip():
+        return s['parent']
+    return sid
+
+
 # series 欄位型別是「字串 或 多專輯陣列」——統一成正規化函式
 def _series_list(p):
     s = p.get('series')
@@ -548,6 +576,18 @@ a{color:var(--blue);text-decoration:none}
 .foot{margin-top:46px;padding:26px 24px 46px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);text-align:center}
 .foot a{color:var(--blue)}
 @media(max-width:720px){.masthead h1{font-size:28px}.tl-card{flex-direction:column;align-items:flex-start}.tl-img{flex:0 0 auto;width:100%;height:170px}.wrap{padding:26px 18px 0}}
+/* ===== 傘頁：子輯卡片 grid ===== */
+.crumb{max-width:1080px;margin:0 auto;padding:18px 24px 0}
+.crumb a{font-size:14px;font-weight:700;color:var(--blue)}
+.crumb a:hover{color:var(--gold-dark)}
+.sub-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px}
+.sub-card{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 24px;transition:all .22s;color:inherit}
+.sub-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,8,32,.12);border-color:var(--gold)}
+.sub-emoji{font-size:38px;margin-bottom:12px}
+.sub-name{font-size:21px;font-weight:800;color:var(--blue);margin-bottom:6px}
+.sub-desc{font-size:14px;color:var(--gray);line-height:1.7;margin-bottom:14px}
+.sub-count{font-size:12.5px;font-weight:700;color:var(--gold-dark);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 12px;display:inline-block}
+@media(max-width:600px){.sub-grid{grid-template-columns:repeat(2,1fr);gap:14px}.sub-card{padding:18px 16px}.sub-emoji{font-size:30px}.sub-name{font-size:17px}}
 """
 
 
@@ -794,9 +834,120 @@ def tl_img(p):
     return ''
 
 
-def build_series_page(s, posts, all_series):
-    """產生單一輯頁 series/<id>/index.html"""
+def _build_umbrella_page(s, posts, children):
+    """產生傘頁 series/<id>/index.html：列出子輯卡片，不列文章（文章已分散到子輯）。"""
     sid = s['id']
+    name = s.get('name') or sid
+    items = ''
+    total = 0
+    first_slug = ''
+    for c in children:
+        cm = series_members(posts, c['id'])
+        total += len(cm)
+        if not first_slug and cm:
+            cn = str(cm[0].get('num', '')).strip()
+            first_slug = SLUGS.get(cn) or ('post-' + cn)
+        emoji = SUB_EMOJI.get(c['id'], '📂')
+        items += (
+            '<a class="sub-card" href="%s/series/%s/">'
+            '<div class="sub-emoji">%s</div>'
+            '<div class="sub-name">%s</div>'
+            '<div class="sub-desc">%s</div>'
+            '<div class="sub-count">%d 堂課</div></a>'
+        ) % (SITE, esc(c['id']), emoji, esc(c.get('name') or ''),
+             esc(c.get('subtitle') or ''), len(cm))
+    others = ''
+    for o in top_level_series():
+        if o['id'] == sid:
+            continue
+        om = series_members(posts, o['id'])
+        if not om:
+            continue
+        others += ('<a class="os-card" href="%s/series/%s/"><div class="os-n">%s</div>'
+                   '<div class="os-d">%d 篇 · %s</div></a>'
+                   % (SITE, esc(o['id']), esc(o['name']), len(om), esc(o.get('period') or '')))
+    if others:
+        others = ('<div class="sec-lab" style="max-width:1080px;margin:0 auto;padding:34px 24px 0">'
+                  '其他專輯</div><div class="other-ser">%s</div>' % others)
+    url = '%s/series/%s/' % (SITE, sid)
+    desc = plain(s.get('intro') or s.get('subtitle') or name, 100)
+    ld = {
+        "@context": "https://schema.org", "@type": "CollectionPage",
+        "name": "%s｜翁振軒 Sean Own" % name, "url": url, "description": desc,
+        "inLanguage": "zh-Hant",
+        "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
+    }
+    cover_slug = first_slug or sid
+    intro_html = ''.join('<p>%s</p>' % esc(x.strip())
+                         for x in (s.get('intro') or '（輯序待補）').split('\n\n') if x.strip())
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{name}｜專輯｜翁振軒 Sean Own</title>
+<meta name="description" content="{desc}">
+<meta name="keywords" content="{kw}">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="{name}｜專輯｜翁振軒 Sean Own">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="{og}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{ld}</script>
+<style>{css}</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="mini-cta" href="{site}/articles/">專欄文章</a>
+</div></div>
+
+<div class="masthead"><div class="masthead-in">
+<div class="kicker">專輯 · 課程地圖</div>
+<h1>{name}</h1>
+<div class="sub">{sub}</div>
+<div class="period">共 {n} 堂課 · 4 個系列</div>
+</div></div>
+
+{crumb}
+
+<div class="wrap">
+<div class="intro"><div class="i-lab">專輯 序</div>{intro}</div>
+<div class="sec-lab">選一個系列開始</div>
+<div class="sub-grid">{items}</div>
+</div>
+
+{others}
+
+<div class="foot">© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/articles/">全部文章</a></div>
+</body>
+</html>
+""".format(
+        name=esc(name), desc=esc(desc), kw=esc('%s,軒哥小課堂,課程,翁振軒,Sean Own' % name),
+        url=url, og=ov('%s/assets/og/%s.jpg' % (SITE, cover_slug)),
+        ld=json.dumps(ld, ensure_ascii=False), css=SERIES_PAGE_CSS, site=SITE,
+        sub=esc(s.get('subtitle') or ''), n=total, intro=intro_html, items=items,
+        others=others, crumb='')
+    d = os.path.join(ROOT, 'series', sid)
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+    return sid, name, total
+
+
+def build_series_page(s, posts, all_series):
+    """產生單一輯頁 series/<id>/index.html（支援傘頁＋子輯）"""
+    sid = s['id']
+    children = children_of(sid)
+    if children:  # 傘頁：直接列出子輯
+        return _build_umbrella_page(s, posts, children)
     members = series_members(posts, sid)
     if not members:
         return None
@@ -853,7 +1004,7 @@ def build_series_page(s, posts, all_series):
                  esc(ptitle), esc(plead))
 
     others = ''
-    for o in sorted_series():
+    for o in top_level_series():
         if o['id'] == sid:
             continue
         om = series_members(posts, o['id'])
@@ -871,6 +1022,14 @@ def build_series_page(s, posts, all_series):
         if c['id'] == s.get('collection'):
             coll_name = c['name']
             break
+
+    # 子輯頁：加麵包屑回傘頁，並把 kicker 顯示為父輯名
+    parent_name = ''
+    crumb = ''
+    if s.get('parent'):
+        parent_name = (SERIES_BY_ID.get(s['parent'], {}) or {}).get('name', '')
+        crumb = ('<div class="crumb"><a href="%s/series/%s/">← %s</a></div>'
+                 % (SITE, esc(s['parent']), esc(parent_name)))
 
     name = s.get('name') or sid
     url = '%s/series/%s/' % (SITE, sid)
@@ -940,7 +1099,7 @@ def build_series_page(s, posts, all_series):
 <div class="sub">{sub}</div>
 <div class="period">{period} · 共 {n} 篇</div>
 </div></div>
-
+{crumb}
 <div class="wrap">
 <div class="intro"><div class="i-lab">專輯 序</div>{intro}</div>
 {sort_bar}
@@ -958,7 +1117,7 @@ def build_series_page(s, posts, all_series):
         name=esc(name), desc=esc(desc), kw=esc('%s,%s,翁振軒,Sean Own,專欄' % (name, coll_name)),
         url=url, og=ov('%s/assets/og/%s.jpg' % (SITE, cover_slug)),
         ld=json.dumps(ld, ensure_ascii=False), css=SERIES_PAGE_CSS, site=SITE,
-        kicker=esc(coll_name or '專輯'),
+        kicker=esc(parent_name or coll_name or '專輯'),
         sub=esc(s.get('subtitle') or ''), period=esc(s.get('period') or ''),
         n=len(members), items=items, others=others,
         sort_bar=sort_bar, grid_tag=grid_tag, film_js=film_js,
@@ -967,6 +1126,7 @@ def build_series_page(s, posts, all_series):
                  else ('按時間倒序 · 最新在前' if desc_order else '按時間順序'),
         intro=''.join('<p>%s</p>' % esc(x.strip())
                       for x in (s.get('intro') or '（輯序待補）').split('\n\n') if x.strip()),
+        crumb=crumb,
     )
     d = os.path.join(ROOT, 'series', sid)
     os.makedirs(d, exist_ok=True)
@@ -985,22 +1145,29 @@ def build_series_index(posts):
     coll_name = {c['id']: c['name'] for c in SERIES.get('collections', [])}
     cards = ''
     any_series = False
-    for s in sorted_series():
+    for s in top_level_series():
         m = series_members(posts, s['id'])
-        if not m:
+        kids = children_of(s['id'])
+        if not m and not kids:
             continue
         any_series = True
         grp = coll_name.get(s.get('collection'), '')
+        if kids:  # 傘頁：以「子輯數 · 子輯文章總數」呈現
+            n = sum(len(series_members(posts, c['id'])) for c in kids)
+            meta = '%d 個系列 · %d 堂課' % (len(kids), n)
+        else:
+            n = len(m)
+            meta = '%d 篇 · %s' % (n, s.get('period') or '')
         cards += (
             '<a class="os-card" href="%s/series/%s/" style="flex:1 1 300px">'
             '%s'
             '<div class="os-n">%s</div>'
             '<div class="os-d" style="margin-bottom:6px">%s</div>'
-            '<div class="os-d">%d 篇 · %s</div></a>'
+            '<div class="os-d">%s</div></a>'
         ) % (SITE, esc(s['id']),
              ('<div class="os-grp">%s</div>' % esc(grp)) if grp else '',
              esc(s['name']), esc(s.get('subtitle') or ''),
-             len(m), esc(s.get('period') or ''))
+             meta)
     rows = ''
     if cards:
         rows = '<div class="other-ser" style="padding-top:30px">%s</div>' % cards
@@ -1567,9 +1734,10 @@ def build(post, allposts):
     # series 可能有多個（多專輯陣列），取第一個作當前輯
     _cur = _series_list(post)
     cur_sid = _cur[0] if _cur else ''
+    top_sid = top_series_id(cur_sid)
     sj_chips = ''
-    for s in SERIES['series']:
-        cls = 'sj-chip sj-cur' if s['id'] == cur_sid else 'sj-chip'
+    for s in top_level_series():
+        cls = 'sj-chip sj-cur' if s['id'] == top_sid else 'sj-chip'
         sj_chips += '<a class="%s" href="%s/series/%s/">%s</a>' % (cls, SITE, esc(s['id']), esc(s['name']))
     series_jump = ('<div class="sj-bar"><span class="sj-label">按專輯逛</span>' + sj_chips +
                    '<a class="sj-chip sj-all" href="%s/series/">全部專輯 →</a></div>' % SITE) if sj_chips else ''
@@ -1636,8 +1804,11 @@ def build(post, allposts):
             ms = sorted(ms, key=lambda p: (str(p.get('date', '')), _numkey(p)))
         idx = next((i for i, p in enumerate(ms)
                     if str(p.get('num', '')).strip() == num), -1)
-        coll_name = next((c['name'] for c in SERIES.get('collections', [])
-                          if c['id'] == s.get('collection')), '專輯')
+        # 子輯文章：kicker 顯示父輯（軒哥小課堂），讓讀者知道這堂課歸在哪把大傘下
+        coll_name = (SERIES_BY_ID.get(s.get('parent'), {}) or {}).get('name') \
+            if s.get('parent') else next(
+                (c['name'] for c in SERIES.get('collections', [])
+                 if c['id'] == s.get('collection')), '專輯')
         if idx > 0:
             pp = ms[idx - 1]
             prev_a = ('<a href="%s/article/%s/"><span class="sn-lab">上一篇</span>%s</a>'
@@ -1883,7 +2054,7 @@ def build_list(posts):
         # 一篇文章可能掛多個專輯，取第一個作為篩選歸屬（顯示時仍可在專輯頁看到完整歸屬）。
         _ser = p.get('series')
         _ser = _ser if isinstance(_ser, list) else ([_ser] if _ser else [])
-        cat = (SERIES_BY_ID.get(_ser[0], {}) or {}).get('name', '') if _ser else ''
+        cat = (SERIES_BY_ID.get(top_series_id(_ser[0]), {}) or {}).get('name', '') if _ser else ''
         date = (p.get('date') or '').strip()
         is_film = 'macau-film' in _series_list(p)
         cover = ov('../assets/og/%s.jpg' % slug)
@@ -1917,11 +2088,13 @@ def build_list(posts):
     # 輯資料：全部輯清單 + 欄目 → 輯（以該輯成員最多的分類歸屬）
     all_ser = []
     ser_of_cat = {}
-    for s in sorted_series():
+    for s in top_level_series():
         m = series_members(items, s['id'])
-        if not m:
+        kids = children_of(s['id'])
+        if not m and not kids:
             continue
-        all_ser.append({'id': s['id'], 'name': s['name'], 'n': len(m)})
+        n = sum(len(series_members(items, c['id'])) for c in kids) if kids else len(m)
+        all_ser.append({'id': s['id'], 'name': s['name'], 'n': n})
         cnt = {}
         for p in m:
             k = (p.get('category') or '').strip()

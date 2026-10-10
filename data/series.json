@@ -1,5 +1,5 @@
 {
-  "_comment": "輯（Series）定義檔。posts.json 每篇文章用 series 欄位掛到某一個輯的 id。order 決定顯示先後；order_dir=asc 按時間順序、desc 新的在前。macau-film 為「給旅遊局、電影模式遊澳門」專書計畫，內容由另一專案同步產出，現已掛載《捕風追影》觀後感，為「澳門電影」專輯首篇。",
+  "_comment": "輯（Series）定義檔。posts.json 每篇文章用 series 欄位掛到某一個輯的 id。order 決定顯示先後；order_dir=desc 新的在前。macau-film 為「給旅遊局、電影模式遊澳門」專書計畫。classroom（軒哥小課堂）為「傘頁／父輯」，本身不掛文章，其下 4 個子輯（classroom-ai/invest/startup/ip）才是文章歸屬；子輯以 parent 欄位指回 classroom。頂層輯只有 4 個（macau-reader / classroom / life-essays / macau-film），確保導覽不超過 5。",
   "collections": [],
   "series": [
     {
@@ -18,7 +18,48 @@
       "order_dir": "desc",
       "subtitle": "投資、AI、IP、創業——把實戰拆開講給你聽",
       "period": "2026",
-      "intro": "有些課，學校不會教，但人生與事業遲早要面對：一筆天使投資怎麼看、一場 AI 變局怎麼讀、一個文化 IP 怎麼走出去、一次次創業轉折怎麼選。\n\n這一輯「軒哥小課堂」，把我這些年踩過的坑、想通的理，拆成一堂堂實戰課：從跟 Paulo Andrez 學天使投資，到凱文・凱利的 AI 八大趨勢；從中華文化 IP 的全球化路徑，到三次創業轉折的選擇方法論。不灌雞湯，只講能落地的底層邏輯。"
+      "umbrella": true,
+      "intro": "有些課，學校不會教，但人生與事業遲早要面對：一筆天使投資怎麼看、一場 AI 變局怎麼讀、一個文化 IP 怎麼走出去、一次次創業轉折怎麼選。\n\n這一輯「軒哥小課堂」做成課程地圖：點進來，先是四個系列——學 AI、學投資、學創業、學 IP——再各自展開一堂堂實戰課。不灌雞湯，只講能落地的底層邏輯。"
+    },
+    {
+      "id": "classroom-ai",
+      "name": "學 AI",
+      "parent": "classroom",
+      "order": 1,
+      "order_dir": "desc",
+      "subtitle": "看懂人工智慧，把它變成你的槓桿",
+      "period": "2026",
+      "intro": "AI 不是口號，是已經在重寫工作與生意的底層變量。這一系列把 AI 拆成「能看懂、能上手、能變現」的三堂課：從凱文・凱利的未來八大趨勢，到澳門如何用 AI 跨境服務、如何用 AI 內容行銷把點擊率從 22.7% 拉到 80%。"
+    },
+    {
+      "id": "classroom-invest",
+      "name": "學投資",
+      "parent": "classroom",
+      "order": 2,
+      "order_dir": "desc",
+      "subtitle": "讀懂錢的邏輯，做對長期選擇",
+      "period": "2026",
+      "intro": "投資的第一課，是先讀懂宏觀的錢往哪裡流。這一系列從辜朝明「資產負債表衰退」的宏觀框架，到跟 Paulo Andrez 學天使投資的實戰方法：怎麼看人、怎麼看賽道、怎麼在 early stage 下注又不被洗出去。"
+    },
+    {
+      "id": "classroom-startup",
+      "name": "學創業",
+      "parent": "classroom",
+      "order": 3,
+      "order_dir": "desc",
+      "subtitle": "從三次轉折到領導管理，實戰創業方法論",
+      "period": "2026",
+      "intro": "創業不是熱血，是一連串選擇。這一系列收錄我的實戰方法論：三個選擇如何定義一生、年賺上億卻主動停業的取捨、三次創業轉折的決策邏輯、青年企業家的跨界思維，以及「領導是做對的事，管理是把事做對」。"
+    },
+    {
+      "id": "classroom-ip",
+      "name": "學 IP",
+      "parent": "classroom",
+      "order": 4,
+      "order_dir": "desc",
+      "subtitle": "中華文化 IP 怎麼走出去、佈局新時代",
+      "period": "2026",
+      "intro": "IP 是文化走出門的唯一船票。這一系列談中華文化 IP 的全球化路徑，以及新時代澳門文化商業的佈局思維——怎麼把在地文化轉譯成世界能讀懂、願意付費的內容與商品。"
     },
     {
       "id": "life-essays",
