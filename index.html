@@ -464,8 +464,7 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .focus-img img{max-width:100%;max-height:420px;width:auto;height:auto;object-fit:contain;border-radius:4px;box-shadow:0 18px 48px rgba(1,1,51,.26)}
 @media(max-width:860px){.focus-img{min-height:0;aspect-ratio:auto;padding:20px}.focus-img img{max-height:none}}
 .focus-body{padding:40px 40px 36px;display:flex;flex-direction:column;justify-content:center}
-.focus-top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.focus-tag{font-size:13px;font-weight:700;color:var(--blue);background:var(--gold-light);padding:4px 14px;border-radius:12px}
+.focus-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .focus-date{font-size:13px;color:var(--gray)}
 .focus-card h3{font-size:26px;line-height:1.4;color:var(--blue);font-weight:800;margin-bottom:14px}
 .focus-card p{font-size:15px;line-height:1.8;color:var(--gray);margin:0 0 20px}
@@ -569,15 +568,15 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
   .wk-stat .n{font-size:22px;min-width:84px}
   .wk-btns a{width:100%;text-align:center}
 }
-.home-post-card{display:block;background:var(--white);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s;border-top:3px solid var(--sc,#002676)}
+.home-post-card{display:block;background:var(--white);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s;border-top:3px solid var(--gold)}
 .home-post-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(2,8,32,.14)}
 .home-post-img{width:100%;height:170px;object-fit:cover;display:block}
 .home-post-body{padding:20px 22px 24px}
-.home-post-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.home-post-tag{font-size:12px;font-weight:600;color:var(--blue);background:var(--gold-light);padding:3px 10px;border-radius:10px}
-/* 系列主題色標識（2026-10-11 軒哥：掃一眼顏色就知道是哪個系列／第幾堂） */
-.ser-tag{display:inline-flex;align-items:center;gap:6px;font-weight:800;color:var(--sc,#002676);background:var(--gold-light);background:color-mix(in srgb,var(--sc,#002676) 9%,#fff)}
-.ser-tag .dot{width:8px;height:8px;border-radius:50%;background:var(--sc,#002676);flex:none}
+.home-post-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+/* 系列標識（2026-10-11 軒哥：主分類金底藍字；小課堂子系列另掛四色實心標，避免與其他專輯撞色） */
+.pill{display:inline-flex;align-items:center;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;line-height:1.3;letter-spacing:.3px}
+.pill-main{background:var(--gold);color:var(--blue)}
+.pill-sub{background:var(--sc,#002676);color:#fff}
 .home-post-date{font-size:12px;opacity:.55}
 .home-post-card h3{font-size:17px;line-height:1.45;margin-bottom:8px;color:var(--blue)}
 .home-post-card p{font-size:14px;line-height:1.7;opacity:.75;margin:0}
@@ -1058,23 +1057,27 @@ route()})();
 let allPosts=[];let currentCat='澳門觀察';let searchQuery='';let searchTimer=null;
 // 分類大頭貼（方形）
 const CAT_AVATAR={'澳門觀察':'assets/images/avatars/shiju.jpg','行走見聞':'assets/images/avatars/shanhai.jpg','閱讀筆記':'assets/images/avatars/zixing.jpg','文化隨筆':'assets/images/avatars/gujin.jpg','生活隨筆':'assets/images/avatars/xinjing.jpg'};
-/* 專輯主題色（2026-10-11 軒哥決定：首頁卡片帶色點＋頂部色條，掃一眼辨識系列；
-   色票與 /series/ 傘頁 SUB_THEME／TOP_THEME 同一套——AI 藍、投資墨綠、創業琥珀、IP 紫） */
+/* 專輯主題色（2026-10-11 軒哥決定：首頁卡片雙層標識——
+   主分類＝金底藍字（澳門解碼／軒哥小課堂／生活隨筆／澳門電影）；
+   小課堂子系列＝另掛四色實心標（AI 藍、投資墨綠、創業琥珀、IP 紫），與其他專輯不撞色） */
 const SERIES_META={
  'macau-reader':{n:'澳門解碼',c:'#002676'},
  'classroom':{n:'軒哥小課堂',c:'#C2540A'},
- 'classroom-ai':{n:'小課堂 · 學AI',c:'#1257C4'},
- 'classroom-invest':{n:'小課堂 · 學投資',c:'#12876F'},
- 'classroom-startup':{n:'小課堂 · 學創業',c:'#C2540A'},
- 'classroom-ip':{n:'小課堂 · 學IP',c:'#7C3AED'},
+ 'classroom-ai':{n:'學AI',c:'#1257C4',tl:'軒哥小課堂'},
+ 'classroom-invest':{n:'學投資',c:'#12876F',tl:'軒哥小課堂'},
+ 'classroom-startup':{n:'學創業',c:'#C2540A',tl:'軒哥小課堂'},
+ 'classroom-ip':{n:'學IP',c:'#7C3AED',tl:'軒哥小課堂'},
  'life-essays':{n:'生活隨筆',c:'#12876F'},
  'macau-film':{n:'澳門電影',c:'#7C3AED'}
 };
 function serOf(p){const s=Array.isArray(p.series)?(p.series[0]||''):(p.series||'');return SERIES_META[s]||null}
+/* 主分類標＝金底藍字；若文章屬小課堂子系列（有 tl），主標顯示傘輯名、並回傳子系列色標 */
+function mainTag(p){const m=serOf(p);if(m&&m.tl)return {n:m.tl};return {n:m?m.n:(p.category||'')}}
+function subTag(p){const m=serOf(p);return (m&&m.tl)?{n:m.n,c:m.c}:null}
 async function loadPosts(){try{const res=await fetch('data/posts.json');const data=await res.json();
 // 只顯示「已上線」文章，並按日期（同日再按編號）降序，讓最新上線的排到首頁最前
 allPosts=(data.posts||[]).filter(p=>p.status==='已上線').slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||String(b.num||'').localeCompare(String(a.num||'')));renderFocus();renderHomeLatest()}catch(e){console.error('Load posts failed:',e)}}
-function renderFocus(){const g=document.getElementById('focus-card');if(!g||!allPosts.length)return;const p=allPosts.filter(x=>!x.no_focus).slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')))[0];if(!p)return;const txt=(p.body||'').replace(/<[^>]+>/g,'').replace(/[#*>\n`]/g,'').trim().slice(0,88);const raw=(p.images&&p.images[0])||'';const img=raw?wsrc(raw):(p.slug?'/assets/og/'+p.slug+'.jpg':'');const href=p.slug?('/article/'+p.slug+'/'):'#';const jump=p.slug?'':` onclick="openArticleByNum(\'${p.num}\');return false"`;const fsm=serOf(p);g.innerHTML=`<a class="focus-card" href="${href}"${jump}><img class="focus-img" src="${img}" data-fb="${vfb(raw||img)}" alt="${(p.title||'').replace(/"/g,'')} — 文章封面" loading="lazy" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}"><div class="focus-body"><div class="focus-top"><span class="focus-tag${fsm?' ser-tag':''}"${fsm?` style="--sc:${fsm.c}"`:''}>${fsm?`<i class="dot"></i>${fsm.n}`:(p.seriesName||p.category||'')}</span><span class="focus-date">${formatDate(p.date)} 發布</span></div><h3>${p.title||''}</h3><p>${txt}…</p><span class="focus-more">閱讀全文 →</span></div></a>`}
+function renderFocus(){const g=document.getElementById('focus-card');if(!g||!allPosts.length)return;const p=allPosts.filter(x=>!x.no_focus).slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')))[0];if(!p)return;const txt=(p.body||'').replace(/<[^>]+>/g,'').replace(/[#*>\n`]/g,'').trim().slice(0,88);const raw=(p.images&&p.images[0])||'';const img=raw?wsrc(raw):(p.slug?'/assets/og/'+p.slug+'.jpg':'');const href=p.slug?('/article/'+p.slug+'/'):'#';const jump=p.slug?'':` onclick="openArticleByNum(\'${p.num}\');return false"`;const fsm=serOf(p);const fmt=mainTag(p);const fst=subTag(p);g.innerHTML=`<a class="focus-card" href="${href}"${jump}><img class="focus-img" src="${img}" data-fb="${vfb(raw||img)}" alt="${(p.title||'').replace(/"/g,'')} — 文章封面" loading="lazy" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}"><div class="focus-body"><div class="focus-top"><span class="pill pill-main">${fmt.n}</span>${fst?`<span class="pill pill-sub" style="--sc:${fst.c}">${fst.n}</span>`:''}<span class="focus-date">${formatDate(p.date)} 發布</span></div><h3>${p.title||''}</h3><p>${txt}…</p><span class="focus-more">閱讀全文 →</span></div></a>`}
 /* 「更多專欄」取樣：每個專輯先保底 1 格，剩餘名額再按時間補。
    純按最新排序會被單一專輯整批吃掉（9/30 電影上線時 8 格全是電影海報），
    其他專輯等於沒露出。保底後 5 個專輯都能見到，再用多出來的名額補最新。 */
@@ -1083,7 +1086,7 @@ function pickHomeLatest(list,n){
   list.forEach(p=>{const s=p.series||'__none';if(seen[s]===undefined){seen[s]=1;first.push(p)}else rest.push(p)});
   return first.concat(rest).slice(0,n);
 }
-function renderHomeLatest(){const g=document.getElementById('home-latest');if(!g||!allPosts.length)return;const items=pickHomeLatest(allPosts,8);g.innerHTML=items.map(p=>{const txt=(p.body||'').replace(/<[^>]+>/g,'').replace(/[#*>\n`]/g,'').trim().slice(0,72);const img=(p.images&&p.images[0])?wsrc(p.images[0]):(p.slug?'/assets/og/'+p.slug+'.jpg':'');const raw=(p.images&&p.images[0])||img;const sm=serOf(p);const sc=sm?sm.c:'#002676';return `<a class="home-post-card" style="--sc:${sc}" href="${p.slug?'/article/'+p.slug+'/':'#'}" ${p.slug?'':'onclick="openArticleByNum(\''+p.num+'\');return false"'}>${img?`<img class="home-post-img" src="${img}" data-fb="${vfb(raw)}" alt="${(p.title||'').replace(/"/g,'')}" loading="lazy" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}else{this.style.display='none'}">`:''}<div class="home-post-body"><div class="home-post-top"><span class="home-post-tag${sm?' ser-tag':''}"${sm?` style="--sc:${sc}"`:''}>${sm?`<i class="dot"></i>${sm.n}`:(p.category||'')}</span><span class="home-post-date">${formatDate(p.date)}</span></div><h3>${p.title||''}</h3><p>${txt}…</p></div></a>`}).join('')}
+function renderHomeLatest(){const g=document.getElementById('home-latest');if(!g||!allPosts.length)return;const items=pickHomeLatest(allPosts,8);g.innerHTML=items.map(p=>{const txt=(p.body||'').replace(/<[^>]+>/g,'').replace(/[#*>\n`]/g,'').trim().slice(0,72);const img=(p.images&&p.images[0])?wsrc(p.images[0]):(p.slug?'/assets/og/'+p.slug+'.jpg':'');const raw=(p.images&&p.images[0])||img;const mt=mainTag(p);const st=subTag(p);return `<a class="home-post-card" href="${p.slug?'/article/'+p.slug+'/':'#'}" ${p.slug?'':'onclick="openArticleByNum(\''+p.num+'\');return false"'}>${img?`<img class="home-post-img" src="${img}" data-fb="${vfb(raw)}" alt="${(p.title||'').replace(/"/g,'')}" loading="lazy" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}else{this.style.display='none'}">`:''}<div class="home-post-body"><div class="home-post-top"><span class="pill pill-main">${mt.n}</span>${st?`<span class="pill pill-sub" style="--sc:${st.c}">${st.n}</span>`:''}<span class="home-post-date">${formatDate(p.date)}</span></div><h3>${p.title||''}</h3><p>${txt}…</p></div></a>`}).join('')}
 function openArticleByNum(n){const i=allPosts.findIndex(p=>String(p.num)===String(n));if(i>-1)openArticle(i)}
 function searchPosts(q){searchQuery=q.trim().toLowerCase();renderPosts()}
 function debouncedSearch(q){const clear=document.getElementById('search-clear');if(clear)clear.style.display=q?'flex':'none';clearTimeout(searchTimer);searchTimer=setTimeout(()=>searchPosts(q),250)}
