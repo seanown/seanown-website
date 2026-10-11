@@ -642,7 +642,6 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
       2. 保留 DOM 可隨時回復，改刪這段 CSS 即可，零風險。
    恢復方式：刪掉下面這段 CSS。 */
 .hero-eyebrow,
-.hero-subtitle,
 .hero-slogan,
 .hero-trust{display:none !important}
 /* 文字隱藏後補間距，避免主標題直接貼住按鈕 */
@@ -654,7 +653,6 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <div class="hero-text">
 <p class="hero-eyebrow" id="hero-name">翁振軒 <span class="gold">SEAN OWN</span>｜澳門</p>
 <h1 class="hero-main" id="hero-main-msg">澳門啟航，<br><span class="gold">連結全球</span></h1>
-<p class="hero-subtitle" id="hero-subtitle">服務對象：需要出海的中國企業與文化 IP 方、想引進外部資源的澳門與大灣區機構，以及需要舞台與資源的青年創業者。</p>
 <div class="hero-buttons">
 <a class="btn btn-primary" id="hero-btn1" href="/contact/">洽談合作</a>
 <a class="btn btn-outline" id="hero-btn2" href="/articles/">閱讀產業觀察</a>
@@ -1186,7 +1184,6 @@ async function loadSiteText(){
       const hn=document.getElementById('hero-name');
       if(hn&&st.hero.name) hn.innerHTML=st.hero.name+(st.hero.nameEn?` <span class="gold">${st.hero.nameEn}</span>`:'')+'｜澳門';
       // 首屏主訊息以 HTML 內的 #hero-main-msg 為準（site-text 不覆寫，避免被舊文案洗掉）
-      if(st.hero.subtitle) setText('hero-subtitle',st.hero.subtitle);
       if(st.hero.slogan) setText('hero-slogan',st.hero.slogan);
       setText('hero-btn1',st.hero.btn1);
       setText('hero-btn2',st.hero.btn2);
