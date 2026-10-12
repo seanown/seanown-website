@@ -300,6 +300,8 @@ def md_to_html(body, title=''):
         return ''
     b = body.replace('\r\n', '\n')
     b = re.sub(r'<br\s*/?>', '\n', b, flags=re.I)
+    # 原始 HTML 表格內的換行不可轉成 <br>：瀏覽器會把表格內不合法的 <br> 全部擠到表格前面，疊成大段空白（2026-10-13 修）
+    b = re.sub(r'(<table[\s\S]*?</table>)', lambda m: re.sub(r'\s*\n\s*', '', m.group(1)), b, flags=re.I)
     lines = b.split('\n')
     # 去掉與標題重複的首行
     while lines and not lines[0].strip():
