@@ -1876,9 +1876,10 @@ def build(post, allposts):
         mslug = SLUGS.get(num) or (post.get('slug') or '')
         if mslug:
             # 電影文章：頂部改用直式海報，底部資訊卡用橫式海報（上直下橫）
+            # 2026-10-13 修：og 瘦身(59fc564)已把 .png 全轉 .jpg，此處路徑仍寫死 .png 導致全站電影文章封面 404，改回 .jpg
             cover = ('<figure class="vposter"><img src="%s" alt="%s 電影海報" loading="lazy"></figure>'
-                     % (ov('../../assets/og/%s-poster.png' % mslug), esc(mi.get('title') or title)))
-            poster_html = '<div class="mn-poster"><img src="%s" alt="%s 電影海報" loading="lazy"></div>' % (ov('../../assets/og/%s-poster-land.png' % mslug), esc(title))
+                     % (ov('../../assets/og/%s-poster.jpg' % mslug), esc(mi.get('title') or title)))
+            poster_html = '<div class="mn-poster"><img src="%s" alt="%s 電影海報" loading="lazy"></div>' % (ov('../../assets/og/%s-poster-land.jpg' % mslug), esc(title))
             # 只有 macauScenes 非空才掛「跟著電影遊澳門打卡點」雙按鈕；否則只掛單按鈕，避免錨點跳空
             checkin_html = ''
             if mi.get('macauScenes'):
