@@ -44,3 +44,7 @@ __pycache__/
 
 # PPT 製作工作目錄（正式版已複製到 slides/meeting-sop/ 進版控）
 高效會議主持SOP/
+
+# 大型下載檔（58MB PPT，不進版控避免 clone 過慢）
+# ⚠️ 若要讓檔案上線，須改用 Git LFS 或改放物件儲存
+assets/downloads/*.pptx
