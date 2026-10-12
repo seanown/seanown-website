@@ -265,6 +265,8 @@ SLUGS = {
     '125': 'paulo-andrez-angel-investing',
     '126': 'ai-kk-eight-trends',
     '127': 'macau-city-depth-report',
+    '128': 'dragon-ai-dual-platform',
+    '129': 'huangpu-island-37373',
 }
 
 
@@ -417,6 +419,7 @@ a{color:var(--blue);text-decoration:none}
 /* PC：雜誌跨頁雙欄——左右兩頁並排、圖文交織；手機自動回單欄 */
 @media(min-width:900px){
 .abody{column-count:2;column-gap:56px;column-rule:1px solid var(--line)}
+.abody.single-col{column-count:1}
 .abody h2{column-span:all;margin-top:34px}
 .abody h3{break-after:avoid-column}
 .abody .tbl-wrap{column-span:all;break-inside:avoid}
@@ -1981,7 +1984,7 @@ def build(post, allposts):
 <p class="lead">{lead}</p>
 {reader}
 {cover}
-<div class="abody">{body}</div>
+<div class="abody{abody_cls}">{body}</div>
 {gallery}
 </article>{spx_html}{movie_nav}{series_nav}
 
@@ -2052,6 +2055,7 @@ function spxToggle(btn){{
         date_fmt=date.replace('-', ' 年 ', 1).replace('-', ' 月 ') + ' 日' if date else '',
         loc_fmt=(' · ' + esc(loc)) if loc else '',
         cover=cover, body=body_html, gallery=gallery, rel=rel_html,
+        abody_cls=(' single-col' if post.get('single_col') else ''),
         subtitle_html=subtitle_html,
         byline_html=byline_html,
         series_jump=series_jump,
