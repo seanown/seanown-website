@@ -51,17 +51,8 @@ a{color:var(--blue);text-decoration:none}
   .tnav a{font-size:13px}
 }
 .wrap{max-width:1120px;margin:0 auto;padding:36px 24px 0}
-/* PC：雜誌跨頁雙欄——左右兩頁並排、圖文交織；手機自動回單欄 */
-@media(min-width:900px){
-.abody{column-count:2;column-gap:56px;column-rule:1px solid var(--line)}
-.abody.single-col{column-count:1}
-.abody h2{column-span:all;margin-top:34px}
-.abody h3{break-after:avoid-column}
-.abody .tbl-wrap{column-span:all;break-inside:avoid}
-.abody blockquote{break-inside:avoid;margin-bottom:20px}
-.abody ul,.abody ol{break-inside:avoid}
-.abody hr{column-span:all}
-}
+/* 全站單欄閱讀（2026-10-13 軒哥拍板：文章不再分左右雙欄），正文限寬置中，行長約 36–40 字 */
+.article{max-width:720px;margin:0 auto}
 @media(min-width:900px) and (max-width:1279px){.wrap{max-width:960px}}
 .crumb{font-size:13px;color:var(--gray);margin-bottom:22px}
 .crumb a:hover{color:var(--blue)}
