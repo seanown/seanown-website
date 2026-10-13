@@ -1536,6 +1536,15 @@ DECK_CSS = """
 .dk-btn.ghost{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
 .dk-btn.ghost:hover{background:var(--blue);color:#fff}
 .dk-meta{font-size:12.5px;color:var(--gray);margin:0}
+/* 演講稿縮圖：預設收合，點開關才展開 */
+.dk-fold{margin:6px 0 0}
+.dk-fold-sum{cursor:pointer;display:inline-block;font-size:14px;font-weight:700;
+    color:var(--blue);background:#fff;border:1.5px solid var(--blue);
+    padding:9px 24px;border-radius:999px;user-select:none;transition:all .2s}
+.dk-fold-sum:hover{background:var(--blue);color:#fff}
+.dk-fold[open] .dk-fold-sum{margin-bottom:18px}
+.dk-btn.dl{background:var(--gold);color:#1a1a1a}
+.dk-btn.dl:hover{filter:brightness(.94)}
 @media(max-width:900px){.dk-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.dk-grid{grid-template-columns:1fr}
     .kp{padding:22px 18px 20px}.kp-title{font-size:20px}
@@ -1716,12 +1725,19 @@ def build_speeches(slug):
 
 
 def build_deck(deck):
-    """演講稿（PPT）區塊：縮圖輪播＋全屏放映連結。置於附錄之後。"""
+    """演講稿（PPT）區塊：縮圖輪播（預設折疊收起）＋下載＋全屏放映連結。置於附錄之後。"""
     if not deck:
         return ''
     pages = deck.get('pages') or []
     if not pages:
         return ''
+    n = len(pages)
+    # 各自獨立放映頁：優先取 deck.slides，否則退回 meeting-sop
+    _slides = deck.get('slides') or 'slides/meeting-sop/'
+    slides_href = _slides if _slides.startswith(('http', '//')) else (SITE + '/' + _slides.lstrip('/'))
+    # 可下載 zip：取 deck.download（相對 assets 或絕對網址）
+    _dl = deck.get('download') or ''
+    dl_href = _dl if _dl.startswith(('http', '//')) else (SITE + '/' + _dl.lstrip('/'))
     items = []
     for i, p in enumerate(pages):
         src = fix_asset(p.get('img') or '')
@@ -1729,20 +1745,24 @@ def build_deck(deck):
         item = ('<figure class="dk-item"><a href="%s" target="_blank" rel="noopener">'
                 '<img src="%s" alt="%s" loading="lazy">'
                 '<figcaption class="dk-cap"><i>P%02d</i>%s</figcaption></a></figure>'
-                ) % (SITE + '/slides/meeting-sop/#' + str(i + 1), src, esc(cap), i + 1, esc(cap))
+                ) % (slides_href + '#' + str(i + 1), src, esc(cap), i + 1, esc(cap))
         items.append(item)
-    href = SITE + '/slides/meeting-sop/'
+    dl_btn = ('<a class="dk-btn dl" href="%s" download>下載演講稿（%d 頁 zip）→</a>'
+              % (dl_href, n)) if _dl else ''
     return ('\n\n<div class="dk"><div class="dk-hd"><h2>演講稿：'
             '%s</h2></div>'
             '<p class="dk-hint">%s</p>'
-            '<div class="dk-grid">%s</div>'
+            '<details class="dk-fold"><summary class="dk-fold-sum">展開 %d 張縮圖 ▾</summary>'
+            '<div class="dk-grid">%s</div></details>'
             '<div class="dk-cta">'
-            '<a class="dk-btn" href="%s" target="_blank" rel="noopener">全屏放映 14 頁 →</a>'
+            '<a class="dk-btn" href="%s" target="_blank" rel="noopener">全屏放映 %d 頁 →</a>'
             '<a class="dk-btn ghost" href="%s" target="_blank" rel="noopener">開啟獨立放映頁</a>'
+            '%s'
             '<span class="dk-meta">方向鍵或空白鍵翻頁 · 網址加 #8 可直接跳頁 · F 鍵全螢幕</span>'
             '</div></div>') % (esc(deck.get('title') or '演講稿'),
                                 esc(deck.get('hint') or ''),
-                                ''.join(items), href, href)
+                                n, ''.join(items),
+                                slides_href, n, slides_href, dl_btn)
 
 def build(post, allposts):
     num = str(post.get('num', '')).strip()

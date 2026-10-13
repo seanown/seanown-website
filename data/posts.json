@@ -9000,6 +9000,8 @@
       "deck": {
         "title": "高效會議主持 SOP",
         "hint": "把整堂課拆成十四頁：三章正文＋一本可列印的現場操作手冊，下方任選一頁可全屏放映。",
+        "slides": "slides/meeting-sop/",
+        "download": "assets/downloads/deck-meeting-sop.zip",
         "pages": [
           {
             "img": "assets/images/posts/deck-meeting-sop/deck-01.jpg",
@@ -9082,61 +9084,63 @@
       "deck": {
         "title": "第二堂 · 商務禮儀與典禮 SOP",
         "hint": "14 頁演講稿",
+        "slides": "slides/etiquette-sop/",
+        "download": "assets/downloads/deck-etiquette-122.zip",
         "pages": [
           {
-            "img": "deck-etiquette-122/deck-01.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-01.jpg",
             "cap": "禮儀不是形式，是讓每個人被舒服地對待"
           },
           {
-            "img": "deck-etiquette-122/deck-02.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-02.jpg",
             "cap": "今天談什麼"
           },
           {
-            "img": "deck-etiquette-122/deck-03.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-03.jpg",
             "cap": "被尊重，也舒服"
           },
           {
-            "img": "deck-etiquette-122/deck-04.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-04.jpg",
             "cap": "台上那三秒鐘"
           },
           {
-            "img": "deck-etiquette-122/deck-05.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-05.jpg",
             "cap": "排位置的底碼：九個字"
           },
           {
-            "img": "deck-etiquette-122/deck-06.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-06.jpg",
             "cap": "章節：排位"
           },
           {
-            "img": "deck-etiquette-122/deck-07.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-07.jpg",
             "cap": "「右」是誰的右"
           },
           {
-            "img": "deck-etiquette-122/deck-08.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-08.jpg",
             "cap": "兩套規則，相反"
           },
           {
-            "img": "deck-etiquette-122/deck-09.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-09.jpg",
             "cap": "五種場景，五套邏輯"
           },
           {
-            "img": "deck-etiquette-122/deck-10.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-10.jpg",
             "cap": "章節：五種場景"
           },
           {
-            "img": "deck-etiquette-122/deck-11.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-11.jpg",
             "cap": "宴會五細節與頒獎六步"
           },
           {
-            "img": "deck-etiquette-122/deck-12.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-12.jpg",
             "cap": "出狀況怎麼辦"
           },
           {
-            "img": "deck-etiquette-122/deck-13.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-13.jpg",
             "cap": "講的不是動作，而是分寸"
           },
           {
-            "img": "deck-etiquette-122/deck-14.jpg",
+            "img": "assets/images/posts/deck-etiquette-122/deck-14.jpg",
             "cap": "附錄：完整 SOP 總表"
           }
         ]
@@ -9164,61 +9168,63 @@
       "deck": {
         "title": "第三堂 · 商會幹部領導力與危機管理",
         "hint": "14 頁演講稿",
+        "slides": "slides/leadership-sop/",
+        "download": "assets/downloads/deck-leadership-123.zip",
         "pages": [
           {
-            "img": "deck-leadership-123/deck-01.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-01.jpg",
             "cap": "領導是做對的事，管理是把事做對"
           },
           {
-            "img": "deck-leadership-123/deck-02.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-02.jpg",
             "cap": "今天談什麼"
           },
           {
-            "img": "deck-leadership-123/deck-03.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-03.jpg",
             "cap": "組織的資產是信任"
           },
           {
-            "img": "deck-leadership-123/deck-04.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-04.jpg",
             "cap": "辦活動不等於解決問題"
           },
           {
-            "img": "deck-leadership-123/deck-05.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-05.jpg",
             "cap": "領導力三個基本功"
           },
           {
-            "img": "deck-leadership-123/deck-06.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-06.jpg",
             "cap": "章節：衝突與團隊"
           },
           {
-            "img": "deck-leadership-123/deck-07.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-07.jpg",
             "cap": "領導與管理的分野"
           },
           {
-            "img": "deck-leadership-123/deck-08.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-08.jpg",
             "cap": "衝突處理三步走"
           },
           {
-            "img": "deck-leadership-123/deck-09.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-09.jpg",
             "cap": "SBI 回饋法與雁隊理論"
           },
           {
-            "img": "deck-leadership-123/deck-10.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-10.jpg",
             "cap": "六種商數"
           },
           {
-            "img": "deck-leadership-123/deck-11.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-11.jpg",
             "cap": "危機五個心"
           },
           {
-            "img": "deck-leadership-123/deck-12.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-12.jpg",
             "cap": "傳承不是交位置"
           },
           {
-            "img": "deck-leadership-123/deck-13.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-13.jpg",
             "cap": "留下的是人，不是活動"
           },
           {
-            "img": "deck-leadership-123/deck-14.jpg",
+            "img": "assets/images/posts/deck-leadership-123/deck-14.jpg",
             "cap": "附錄：完整 SOP 總表"
           }
         ]
