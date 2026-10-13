@@ -268,6 +268,7 @@ SLUGS = {
     '127': 'macau-city-depth-report',
     '128': 'dragon-ai-dual-platform',
     '129': 'huangpu-island-37373',
+    '130': 'apff-61-macau-2025',
 }
 
 
