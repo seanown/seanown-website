@@ -98,6 +98,7 @@ SUB_THEME = {
     'classroom-invest':  ('📈', '#0B4F45', '#12876F'),
     'classroom-startup': ('🚀', '#7A2E0C', '#C2540A'),
     'classroom-ip':      ('🎭', '#4A1D7A', '#7C3AED'),
+    'classroom-talk':    ('☕', '#5C4300', '#9A7B0A'),
 }
 TOP_THEME = {
     'macau-reader': ('🧭', '#002676', '#1257C4'),
