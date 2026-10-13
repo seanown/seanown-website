@@ -239,6 +239,12 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 .practice-card:hover{border-color:var(--gold);box-shadow:var(--shadow)}
 .practice-card h3{font-size:18px;color:var(--blue);margin-bottom:8px}.practice-card .year{color:var(--gold);font-weight:700;font-size:14px}
 .practice-card p{font-size:14px;color:var(--gray);margin-top:8px}
+.practice-fold>summary{cursor:pointer;list-style:none}
+.practice-fold>summary::-webkit-details-marker{display:none}
+.practice-fold .pc-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.practice-fold .pc-cue{color:var(--gold);font-weight:700;font-size:14px;transition:transform .2s}
+.practice-fold[open] .pc-cue{transform:rotate(180deg)}
+.practice-fold[open]{border-color:var(--gold);box-shadow:var(--shadow)}
 .media-featured{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:50px}
 .media-card{background:var(--white);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:all .3s;display:block;text-decoration:none;color:inherit}
 .media-card:hover{transform:translateY(-4px)}
@@ -878,14 +884,14 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
 <button class="insights-cat" data-wcat="文旅教育">文旅教育</button>
 </div>
 <div class="practice-grid" id="works-grid">
-<div class="practice-card" data-wcat="AI數位"><span class="year">2018-至今</span><h3>龍遊 AI 數字服務出海平台</h3><p>營運 8 年，架構為澳門與台灣雙伺服器、雙算力中心；支援 80 語種內容生成，Facebook API 授權（台灣僅 3 家）。客戶端的海外曝光與轉化成效屬商業機密，需於合作洽談時提供統計口徑說明。</p></div>
-<div class="practice-card" data-wcat="AI數位"><span class="year">2026</span><h3>灣青 AI 融媒體中心</h3><p>2026 年揭牌成立，聯動全球青年 AI 傳播網絡，落地五大戰略合作。</p></div>
-<div class="practice-card" data-wcat="文旅教育"><span class="year">2026</span><h3>ECI 澳門站 AI 科普論壇</h3><p>提出「先教帶後教」AI 科普策略，構建 ECI + 教青局雙認證體系。</p></div>
-<div class="practice-card" data-wcat="文旅教育"><span class="year">2026</span><h3>大灣區中華青年文化研學基地</h3><p>2026 重磅簽約，打造港澳青少年文化交流與研學樞紐。</p></div>
-<div class="practice-card" data-wcat="商會項目"><span class="year">2025</span><h3>第十六屆亞洲電子論壇</h3><p>介紹龍遊雙算力架構，倡議澳門成為數字服務出海自由港，獲澳門特首岑浩輝親臨。</p></div>
-<div class="practice-card" data-wcat="商會項目"><span class="year">2026</span><h3>灣青 AI 聯全球</h3><p>大會主席，落地五大戰略合作：AI 融媒體中心、風神音樂祭 IP、文化研學基地、產教融合、本草中國 IP。</p></div>
+<details class="practice-card practice-fold" data-wcat="AI數位"><summary><div class="pc-top"><span class="year">2018-至今</span><span class="pc-cue">▾</span></div><h3>龍遊 AI 數字服務出海平台</h3><p>營運 8 年，架構為澳門與台灣雙伺服器、雙算力中心；支援 80 語種內容生成，Facebook API 授權（台灣僅 3 家）。客戶端的海外曝光與轉化成效屬商業機密，需於合作洽談時提供統計口徑說明。</p></summary><div class="assoc-links"><a class="assoc-btn" href="/article/dragon-ai-dual-platform/">🚀 龍遊 AI 雙平台簡報（站內）</a></div></details>
+<details class="practice-card practice-fold" data-wcat="AI數位"><summary><div class="pc-top"><span class="year">2026</span><span class="pc-cue">▾</span></div><h3>灣青 AI 融媒體中心</h3><p>2026 年揭牌成立，聯動全球青年 AI 傳播網絡，落地五大戰略合作。</p></summary><div class="assoc-links"><a class="assoc-btn media" href="https://www.waou.com.mo/2026/06/06/%E7%81%A3%E5%8D%80%E9%9D%92%E5%B9%B4ai%E8%9E%8D%E5%AA%92%E9%AB%94%E4%B8%AD%E5%BF%83%E6%8F%AD%E7%89%8C/" target="_blank" rel="noopener">📰 新華澳報：灣區青年AI融媒體中心揭牌</a></div></details>
+<details class="practice-card practice-fold" data-wcat="文旅教育"><summary><div class="pc-top"><span class="year">2026</span><span class="pc-cue">▾</span></div><h3>ECI 澳門站 AI 科普論壇</h3><p>提出「先教帶後教」AI 科普策略，構建 ECI + 教青局雙認證體系。</p></summary><div class="assoc-links"><a class="assoc-btn media" href="https://www.asiaeconomynews.com/page193.html?article_id=1074" target="_blank" rel="noopener">📰 亞洲經濟報：ECI澳門站暨AI科普論壇舉行</a><a class="assoc-btn media" href="https://www.taichungdaily.com/instantNews/31894" target="_blank" rel="noopener">📰 大眾報：ECI落戶澳門 開啟AI科普新紀元</a></div></details>
+<details class="practice-card practice-fold" data-wcat="文旅教育"><summary><div class="pc-top"><span class="year">2026</span><span class="pc-cue">▾</span></div><h3>大灣區中華青年文化研學基地</h3><p>2026 重磅簽約，打造港澳青少年文化交流與研學樞紐。</p></summary><div class="assoc-links"><a class="assoc-btn media" href="http://www.hqxwtoutiao.com/?p=72320" target="_blank" rel="noopener">📰 華夏網：研學基地重磅簽約 打造文化交流新平台</a></div></details>
+<details class="practice-card practice-fold" data-wcat="商會項目"><summary><div class="pc-top"><span class="year">2025</span><span class="pc-cue">▾</span></div><h3>第十六屆亞洲電子論壇</h3><p>介紹龍遊雙算力架構，倡議澳門成為數字服務出海自由港，獲澳門特首岑浩輝親臨。</p></summary><div class="assoc-links"><a class="assoc-btn media" href="https://www.news.cn/expo/20251207/c074c96e4a764bc6b2ec095f2b6f869f/c.html" target="_blank" rel="noopener">📰 新華網：第十六屆亞洲電子論壇舉辦</a><a class="assoc-btn media" href="http://www.hqxwtoutiao.com/?p=63881" target="_blank" rel="noopener">📰 華夏網：亞洲電子論壇澳門啟幕</a><a class="assoc-btn" href="/article/dragon-ai-dual-platform/">🚀 龍遊 AI 雙平台簡報（論壇首發）</a></div></details>
+<details class="practice-card practice-fold" data-wcat="商會項目"><summary><div class="pc-top"><span class="year">2026</span><span class="pc-cue">▾</span></div><h3>灣青 AI 聯全球</h3><p>大會主席，落地五大戰略合作：AI 融媒體中心、風神音樂祭 IP、文化研學基地、產教融合、本草中國 IP。</p></summary><div class="assoc-links"><a class="assoc-btn media" href="http://www.hqxwtoutiao.com/?p=72327" target="_blank" rel="noopener">📰 華夏網：風神音樂祭落戶大灣區獨家運營</a></div></details>
 <div class="practice-card" data-wcat="文創IP"><span class="year">2026 籌備中</span><h3>中華文化 IP 國際版權中心</h3><p>以中華文化為核心的 IP 版權交易中心，推動中華文化的國際化傳播與產品商業化運營。</p></div>
-<div class="practice-card" data-wcat="文創IP"><span class="year">進行中</span><h3>龍遊絲綢藝文展</h3><p>以絲綢為載體的當代藝文策展，推動絲綢文化傳承與文創轉化。</p></div>
+<details class="practice-card practice-fold" data-wcat="文創IP"><summary><div class="pc-top"><span class="year">進行中</span><span class="pc-cue">▾</span></div><h3>龍遊絲綢藝文展</h3><p>以絲綢為載體的當代藝文策展，推動絲綢文化傳承與文創轉化。</p></summary><div class="assoc-links"><a class="assoc-btn" href="https://www.silklyart.com/" target="_blank" rel="noopener">🎨 SILKLY ART 主站</a><a class="assoc-btn" href="https://www.silklyart.com/mo/" target="_blank" rel="noopener">🏮 中文站</a></div></details>
 </div>
 </div></section>
 
