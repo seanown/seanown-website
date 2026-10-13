@@ -1,0 +1,6083 @@
+[
+ {
+  "page_index": 0,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000006",
+   "page_index": 0,
+   "shape_count": 1,
+   "shapes": [
+    {
+     "h": 284,
+     "id": "0000c8",
+     "img": "pptx:\\ppt\\media\\image4.png/geil4v",
+     "type": "picture",
+     "w": 377,
+     "x": 281,
+     "y": 100
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 1,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000007",
+   "page_index": 1,
+   "shape_count": 3,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_color": "235A69",
+     "font_name": "Microsoft YaHei",
+     "font_size": 32.0,
+     "h": 39,
+     "id": "0000ca",
+     "text": "協會成立\r",
+     "type": "shape",
+     "w": 740,
+     "x": 109,
+     "y": 37
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 331,
+     "id": "0000cb",
+     "text": "在國家廣電總局網絡視聽節目管理司、中國網絡視聽節目服務協會的推動以及澳門中聯辦宣傳文體部支持下，澳門網絡視聽協會在2025年3月已正式成立，旨在推動澳門視聽產業的專業化與國際化發展。\r協會的成立宗旨是促進澳門與內地及國際網絡視聽產業的交流合作，提升澳門視聽內容的創作與製作水準，並搭建產業鏈整合平台。為此，協會將組織業界研討會、專題培訓、作品展映及行業對接活動，推動本地視聽作品進入更廣闊的市場，特別是葡語國家市場，促進中葡文化交流。\r",
+     "type": "shape",
+     "w": 511,
+     "x": 82,
+     "y": 111
+    },
+    {
+     "h": 361,
+     "id": "0000cc",
+     "img": "pptx:\\ppt\\media\\image5.png/geil4v",
+     "type": "picture",
+     "w": 246,
+     "x": 658,
+     "y": 102
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 2,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000008",
+   "page_index": 2,
+   "shape_count": 11,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_color": "235A69",
+     "font_name": "Microsoft YaHei",
+     "font_size": 32.0,
+     "h": 39,
+     "id": "0000ce",
+     "text": "協會架構及會員情況\r",
+     "type": "shape",
+     "w": 740,
+     "x": 109,
+     "y": 24
+    },
+    {
+     "font_name": "Arial",
+     "h": 138,
+     "id": "0000cf",
+     "text": "協會架構包括會員大會、理事會及監事會，由來自新聞、影視、新媒體及網絡創意等領域的專業人士組成。會長由澳門日報的陸波社長擔任、副會長單位來自澳門有線、澳廣視、蓮花衛視等知名媒體機構，確保協會的專業性與影響力。理事會則由澳門文化推廣協會、網絡創意發展協會、新媒體聯盟、演藝人協會等業界組織負責；監事會則由互聯網文化協會等機構監督運作，確保協會發展的透明性與規範性。\r",
+     "type": "shape",
+     "w": 884,
+     "x": 37,
+     "y": 86
+    },
+    {
+     "font_name": "汉仪中宋简",
+     "font_size": 24.0,
+     "h": 5,
+     "id": "0000d0",
+     "text": "\r",
+     "type": "shape",
+     "w": 169,
+     "x": 671,
+     "y": 317
+    },
+    {
+     "font_name": "汉仪中宋简",
+     "font_size": 24.0,
+     "h": 5,
+     "id": "0000d1",
+     "text": "\r",
+     "type": "shape",
+     "w": 169,
+     "x": 366,
+     "y": 318
+    },
+    {
+     "fill": "none",
+     "font_name": "Arial",
+     "font_size": 14.0,
+     "h": 182,
+     "id": "0000d2",
+     "text": "中國傳媒大學媒介融合與傳播國家重點實驗室出站博士後。近年來主持多項影視創作及投資項目，多個作品獲評中共中央宣傳部「五個一工程」獎，包括電視劇、廣播劇和歌曲。此外，曾主持多項國家級、省部級及橫向課題，發表SCI、CSSCI及港澳核心期刊學術論文數篇，出版專著2部，多次應邀參與國家級學術會議，並發表主旨演講。\r",
+     "type": "shape",
+     "w": 324,
+     "x": 597,
+     "y": 336
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 62,
+     "id": "0000d3",
+     "text": "第十三屆全國人大代表，現任澳門互聯網文化協會會長。\r",
+     "type": "shape",
+     "w": 231,
+     "x": 335,
+     "y": 339
+    },
+    {
+     "font_name": "汉仪中宋简",
+     "font_size": 24.0,
+     "h": 5,
+     "id": "0000d4",
+     "text": "\r",
+     "type": "shape",
+     "w": 169,
+     "x": 92,
+     "y": 318
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 91,
+     "id": "0000d5",
+     "text": "第十屆全國政協代表、第十一屆、十二屆、十三屆全國人大代表，現任澳門日報社長。\r",
+     "type": "shape",
+     "w": 231,
+     "x": 64,
+     "y": 342
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 29,
+     "id": "0000d6",
+     "text": "會長 陸波\r",
+     "type": "shape",
+     "w": 150,
+     "x": 129,
+     "y": 280
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 29,
+     "id": "0000d7",
+     "text": "理事長 丁瀟\r",
+     "type": "shape",
+     "w": 150,
+     "x": 698,
+     "y": 280
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 29,
+     "id": "0000d8",
+     "text": "監事長 黎世褀\r",
+     "type": "shape",
+     "w": 150,
+     "x": 384,
+     "y": 280
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 3,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000009",
+   "page_index": 3,
+   "shape_count": 3,
+   "shapes": [
+    {
+     "h": 504,
+     "id": "0000dc",
+     "text": "\r",
+     "type": "shape",
+     "w": 914,
+     "x": 23,
+     "y": 18
+    },
+    {
+     "h": 412,
+     "id": "0000dd",
+     "type": "table",
+     "w": 412,
+     "x": 47,
+     "y": 64
+    },
+    {
+     "h": 464,
+     "id": "0000de",
+     "type": "table",
+     "w": 412,
+     "x": 491,
+     "y": 38
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 4,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00000a",
+   "page_index": 4,
+   "shape_count": 4,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "0000e0",
+     "img": "pptx:\\ppt\\media\\image2.jpeg/geil4v",
+     "type": "picture",
+     "w": 961,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "h": 504,
+     "id": "0000e1",
+     "text": "\r",
+     "type": "shape",
+     "w": 914,
+     "x": 23,
+     "y": 18
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 33,
+     "id": "0000e2",
+     "text": "專委會主任名單\r",
+     "type": "shape",
+     "w": 638,
+     "x": 172,
+     "y": 59
+    },
+    {
+     "h": 346,
+     "id": "0000e3",
+     "type": "table",
+     "w": 512,
+     "x": 235,
+     "y": 109
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 5,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00000b",
+   "page_index": 5,
+   "shape_count": 6,
+   "shapes": [
+    {
+     "font_name": "Microsoft YaHei",
+     "h": 204,
+     "id": "0000ec",
+     "text": "      《澳門網絡視聽研究報告》將結合政策環境、市場資料、內容趨勢與受眾行為等多方面進行深入探討，初步擬涵蓋數位出版、網路遊戲產業、網路綜藝、微短劇、網路直播、長短視頻、音訊等方面。\r      除主體內容外，藍皮書亦將包括總結性報告、年度觀察分析、代表性個案研究、視覺化資料圖表及政策建議部分，並根據研究過程中獲得的成果動態調整章節與重點。\r      目前進度：已完成策劃、資料收集、調研等工作，初稿在撰寫中，亦與社科文獻出版社簽訂出版合同，預計2026年正式出版。\r",
+     "type": "shape",
+     "w": 869,
+     "x": 45,
+     "y": 145
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 83,
+     "id": "0000ed",
+     "text": "一、出版項目\r1、《澳門網絡視聽研究報告》\r",
+     "type": "shape",
+     "w": 606,
+     "x": 45,
+     "y": 63
+    },
+    {
+     "h": 192,
+     "id": "0000ee",
+     "img": "pptx:\\ppt\\media\\image6.jpeg/geil4v",
+     "type": "picture",
+     "w": 135,
+     "x": 768,
+     "y": 324
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "h": 102,
+     "id": "0000ef",
+     "text": "     由協會指導，澳門科學出版社出版的《微短劇在澳琴聯動下的實操指南》面世。本書不側重理論，以作者的實際經歷為基礎，聚焦實戰，為澳琴微短劇產業從業者、追夢人提供實用的發展指引。\r",
+     "type": "shape",
+     "w": 663,
+     "x": 45,
+     "y": 387
+    },
+    {
+     "font_color": "0F1115",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 31,
+     "id": "0000f0",
+     "text": "2、《微短劇在澳琴聯動下的實操指南》\r",
+     "type": "shape",
+     "w": 579,
+     "x": 45,
+     "y": 356
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_color": "235A69",
+     "font_name": "Microsoft YaHei",
+     "font_size": 32.0,
+     "h": 39,
+     "id": "0000f1",
+     "text": "成立至今的協會活動\r",
+     "type": "shape",
+     "w": 740,
+     "x": 109,
+     "y": 24
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 6,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00000c",
+   "page_index": 6,
+   "shape_count": 16,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "000100",
+     "img": "pptx:\\ppt\\media\\image2.jpeg/geil4v",
+     "type": "picture",
+     "w": 961,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 46,
+     "id": "000101",
+     "text": "二、2025紀念抗戰勝利80周年系列活動\r",
+     "type": "shape",
+     "w": 585,
+     "x": 42,
+     "y": 36
+    },
+    {
+     "h": 143,
+     "id": "000102",
+     "img": "pptx:\\ppt\\media\\image7.jpeg/geil4v",
+     "type": "picture",
+     "w": 286,
+     "x": 42,
+     "y": 160
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 29,
+     "id": "000103",
+     "text": "澳門人的抗戰研討會\r",
+     "type": "shape",
+     "w": 267,
+     "x": 361,
+     "y": 177
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "h": 143,
+     "id": "000104",
+     "img": "pptx:\\ppt\\media\\image8.jpeg/geil4v",
+     "type": "picture",
+     "w": 261,
+     "x": 655,
+     "y": 160
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 73,
+     "id": "000105",
+     "text": "濠江憶榮光——紀念中國人民抗日戰爭勝利80周年暨澳門回歸祖國26周年圖片展 \r",
+     "type": "shape",
+     "w": 261,
+     "x": 361,
+     "y": 237
+    },
+    {
+     "fill": "F1D673",
+     "h": 20,
+     "id": "000106",
+     "rot": 270.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 23,
+     "x": 339,
+     "y": 182
+    },
+    {
+     "fill": "F1D673",
+     "h": 20,
+     "id": "000107",
+     "rot": 90.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 23,
+     "x": 621,
+     "y": 264
+    },
+    {
+     "h": 163,
+     "id": "000108",
+     "img": "pptx:\\ppt\\media\\image9.png/geil4v",
+     "type": "picture",
+     "w": 286,
+     "x": 42,
+     "y": 334
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 51,
+     "id": "000109",
+     "text": "由協會支持的紀錄片\r《澳門人的抗戰2》\r",
+     "type": "shape",
+     "w": 267,
+     "x": 355,
+     "y": 349
+    },
+    {
+     "fill": "F1D673",
+     "h": 20,
+     "id": "00010a",
+     "rot": 270.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 23,
+     "x": 333,
+     "y": 354
+    },
+    {
+     "h": 191,
+     "id": "00010b",
+     "img": "pptx:\\ppt\\media\\image10.jpeg/geil4v",
+     "type": "picture",
+     "w": 128,
+     "x": 655,
+     "y": 332
+    },
+    {
+     "h": 190,
+     "id": "00010c",
+     "img": "pptx:\\ppt\\media\\image11.jpeg/geil4v",
+     "type": "picture",
+     "w": 134,
+     "x": 782,
+     "y": 331
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 51,
+     "id": "00010d",
+     "text": "由協會支持抗戰主題微電影\r《烽火之聲》《和平之路》\r",
+     "type": "shape",
+     "w": 267,
+     "x": 355,
+     "y": 438
+    },
+    {
+     "fill": "F1D673",
+     "h": 20,
+     "id": "00010e",
+     "rot": 90.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 23,
+     "x": 620,
+     "y": 454
+    },
+    {
+     "fill": "none",
+     "font_name": "Arial",
+     "h": 69,
+     "id": "00010f",
+     "text": "為紀念中國人民抗日戰爭暨世界反法西斯戰爭勝利80周年，協會以不同的方式開展活動，如研討會、圖片展。協會支持抗戰主題紀錄片和微電影，並舉行放映會。\r",
+     "type": "shape",
+     "w": 865,
+     "x": 42,
+     "y": 85
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 7,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00000d",
+   "page_index": 7,
+   "shape_count": 10,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "00011f",
+     "img": "pptx:\\ppt\\media\\image2.jpeg/geil4v",
+     "type": "picture",
+     "w": 961,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 36,
+     "id": "000120",
+     "text": "三、第十五屆全運會相關活動\r",
+     "type": "shape",
+     "w": 400,
+     "x": 49,
+     "y": 38
+    },
+    {
+     "h": 166,
+     "id": "000121",
+     "img": "pptx:\\ppt\\media\\image12.jpeg/geil4v",
+     "type": "picture",
+     "w": 293,
+     "x": 564,
+     "y": 78
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "h": 36,
+     "id": "000122",
+     "text": "1、【光影迎全運·秒秒都是宣傳片】—— 第十五屆全國運動會優秀短視頻大賽\r",
+     "type": "shape",
+     "w": 447,
+     "x": 61,
+     "y": 82
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 94,
+     "id": "000123",
+     "text": "共有15位元參賽者分別獲得最佳傳播獎、最佳主題呈現獎、最佳網絡傳播潛力獎、最具創意獎、最佳人氣獎、最佳澳門故事獎和優秀獎。\r",
+     "type": "shape",
+     "w": 443,
+     "x": 60,
+     "y": 152
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "h": 44,
+     "id": "000124",
+     "text": "2、活力澳門迎十五運隨手拍作品徵集活動\r",
+     "type": "shape",
+     "w": 363,
+     "x": 60,
+     "y": 259
+    },
+    {
+     "h": 176,
+     "id": "000125",
+     "img": "pptx:\\ppt\\media\\image13.jpeg/geil4v",
+     "type": "picture",
+     "w": 414,
+     "x": 49,
+     "y": 301
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "h": 29,
+     "id": "000126",
+     "text": "3、澳門心·中國夢文化澳門原創音樂徵集\r",
+     "type": "shape",
+     "w": 400,
+     "x": 502,
+     "y": 259
+    },
+    {
+     "h": 197,
+     "id": "000127",
+     "img": "pptx:\\ppt\\media\\image14.jpeg/geil4v",
+     "type": "picture",
+     "w": 227,
+     "x": 702,
+     "y": 301
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 178,
+     "id": "000128",
+     "text": "由澳門網路視聽協會支援的「澳門心·中國夢」文化澳門原創音樂徵集活動於2025年9月30日啟動，吸引了來自內地、香港及澳門的眾多音樂人積極參與，共收到投稿作品近5,000首。\r",
+     "type": "shape",
+     "w": 174,
+     "x": 510,
+     "y": 304
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 8,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00000e",
+   "page_index": 8,
+   "shape_count": 11,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "00013d",
+     "img": "pptx:\\ppt\\media\\image2.jpeg/geil4v",
+     "type": "picture",
+     "w": 961,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 36,
+     "id": "00013e",
+     "text": " 四、國際傳播活動\r",
+     "type": "shape",
+     "w": 400,
+     "x": 32,
+     "y": 30
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 182,
+     "id": "00013f",
+     "text": "     2025年12月16日，由澳門網絡視聽協會國際傳播專委會與澳門中華民族文創學會主辦的 「視聽無界 · 融合共生——海峽兩岸暨港澳網路視聽分享暨出海戰略論壇」 在澳門青年孵化中心隆重舉行。論壇彙聚港、澳、台及內地視聽領域代表，共同探討網絡視聽內容的新機遇，並交流出海策略與合作可能。\r",
+     "type": "shape",
+     "w": 408,
+     "x": 42,
+     "y": 77
+    },
+    {
+     "h": 239,
+     "id": "000140",
+     "img": "pptx:\\ppt\\media\\image15.png/geil4v",
+     "type": "picture",
+     "w": 143,
+     "x": 306,
+     "y": 264
+    },
+    {
+     "h": 147,
+     "id": "000141",
+     "img": "pptx:\\ppt\\media\\image16.jpeg/geil4v",
+     "type": "picture",
+     "w": 249,
+     "x": 54,
+     "y": 274
+    },
+    {
+     "font_color": "0F1115",
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 36,
+     "id": "000142",
+     "text": "五、線下脫口秀\r",
+     "type": "shape",
+     "w": 400,
+     "x": 499,
+     "y": 33
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 34,
+     "id": "000143",
+     "text": "協會支持的脫口秀《我們能棟篤笑》在7月-8月間在大灣區線下演出8場。\r",
+     "type": "shape",
+     "w": 419,
+     "x": 499,
+     "y": 66
+    },
+    {
+     "h": 216,
+     "id": "000144",
+     "img": "pptx:\\ppt\\media\\image17.png/geil4v",
+     "type": "picture",
+     "w": 153,
+     "x": 502,
+     "y": 141
+    },
+    {
+     "h": 222,
+     "id": "000145",
+     "img": "pptx:\\ppt\\media\\image18.jpeg/geil4v",
+     "type": "picture",
+     "w": 158,
+     "x": 638,
+     "y": 140
+    },
+    {
+     "h": 194,
+     "id": "000146",
+     "img": "pptx:\\ppt\\media\\image19.jpeg/geil4v",
+     "type": "picture",
+     "w": 145,
+     "x": 734,
+     "y": 315
+    },
+    {
+     "h": 192,
+     "id": "000147",
+     "img": "pptx:\\ppt\\media\\image20.jpeg/geil4v",
+     "type": "picture",
+     "w": 136,
+     "x": 609,
+     "y": 317
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 9,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00000f",
+   "page_index": 9,
+   "shape_count": 6,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "00015a",
+     "img": "pptx:\\ppt\\media\\image2.jpeg/geil4v",
+     "type": "picture",
+     "w": 961,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 36,
+     "id": "00015b",
+     "text": " 六、培訓類成果\r",
+     "type": "shape",
+     "w": 400,
+     "x": 47,
+     "y": 40
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 412,
+     "id": "00015c",
+     "text": "1、「青年視野·中國影像」2025年大灣區青年視聽創作與傳播研修交流（山西大同）\r參訓名單：澳門現代日報的林善智、范肇倫，澳廣視的容美恩，澳門日報曾惠鍵\r2、大灣區視聽創作青年人才研修班(第2期)（陝西西安）\r參訓名單：\r區世源 澳門網絡視聽協會副理事長及國際傳播專委會主任\r麥婉玉 澳門網絡視聽協會文旅專委會主任\r陳耀祖 澳廣視節目及製作部導演     蔡佩詩 澳廣視電視監製\r羅倩婷 澳門日報攝影記者           黃曼羚 中國傳媒大學研究生\r3、粵港澳大灣區微短劇內容創作管理高級研修班（廣東廣州）\r參訓名單：\r王笛 澳門影視產業發展促進會    魏珂 澳門影視產業發展促進會 \r戴顯揚 澳門直播協會                楊婉君 澳門直播協會    \r梁穎兒 澳門直播協會                張少君 天下國際傳媒      \r陳志達 澳門天下國際                鄒子荷 澳門網絡視聽協會  \r夏林 澳門網絡視聽協會             李婉晴 水木晴瀾（北京）文化傳媒有限公司\r",
+     "type": "shape",
+     "w": 457,
+     "x": 60,
+     "y": 85
+    },
+    {
+     "h": 168,
+     "id": "00015d",
+     "img": "pptx:\\ppt\\media\\image21.png/geil4v",
+     "type": "picture",
+     "w": 320,
+     "x": 548,
+     "y": 204
+    },
+    {
+     "h": 175,
+     "id": "00015e",
+     "img": "pptx:\\ppt\\media\\image22.png/geil4v",
+     "type": "picture",
+     "w": 320,
+     "x": 548,
+     "y": 22
+    },
+    {
+     "h": 138,
+     "id": "00015f",
+     "img": "pptx:\\ppt\\media\\image23.png/geil4v",
+     "type": "picture",
+     "w": 320,
+     "x": 548,
+     "y": 378
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 10,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000010",
+   "page_index": 10,
+   "shape_count": 10,
+   "shapes": [
+    {
+     "h": 130,
+     "id": "00016f",
+     "img": "pptx:\\ppt\\media\\image24.jpeg/geil4v",
+     "type": "picture",
+     "w": 230,
+     "x": 473,
+     "y": 331
+    },
+    {
+     "h": 130,
+     "id": "000170",
+     "img": "pptx:\\ppt\\media\\image25.jpeg/geil4v",
+     "type": "picture",
+     "w": 230,
+     "x": 473,
+     "y": 61
+    },
+    {
+     "h": 130,
+     "id": "000171",
+     "img": "pptx:\\ppt\\media\\image26.jpeg/geil4v",
+     "type": "picture",
+     "w": 230,
+     "x": 708,
+     "y": 61
+    },
+    {
+     "h": 130,
+     "id": "000172",
+     "img": "pptx:\\ppt\\media\\image27.jpeg/geil4v",
+     "type": "picture",
+     "w": 230,
+     "x": 708,
+     "y": 196
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 185,
+     "id": "000173",
+     "text": "「澳門·國際網絡視聽節」於2026年6月1-2日在永利澳門舉行，期間舉辦「浪潮之夜·澳門國際網絡達人盛典」「澳門國際網絡傳媒產業峰會」「澳門國際微短劇金光獎頒獎典禮」，活動吸引近六百五十名來自海內外多地的政府代表、行業組織、平臺機構、專家學者及內容創作者到場參與。\r活動相關內容通過新聞媒體、短視頻平臺及社交媒體持續擴散，累計在海內外平臺實現超一億人次流覽熱度。\r",
+     "type": "shape",
+     "w": 416,
+     "x": 35,
+     "y": 275
+    },
+    {
+     "h": 130,
+     "id": "000174",
+     "img": "pptx:\\ppt\\media\\image28.jpeg/geil4v",
+     "type": "picture",
+     "w": 230,
+     "x": 473,
+     "y": 196
+    },
+    {
+     "h": 130,
+     "id": "000175",
+     "img": "pptx:\\ppt\\media\\image29.png/geil4v",
+     "type": "picture",
+     "w": 230,
+     "x": 708,
+     "y": 331
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 153,
+     "id": "000176",
+     "text": "指導單位：\u000b國家廣電總局網絡視聽節目管理司\r國家廣電總局國際合作司\r澳門中聯辦宣傳文體部\r外交部駐澳門特派員公署新聞及公共外交部\r澳門特區政府文化局\r中葡論壇（澳門）常設秘書處\r\r",
+     "type": "shape",
+     "w": 257,
+     "x": 35,
+     "y": 100
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 182,
+     "id": "000177",
+     "text": "主辦單位：\r中國網絡視聽節目服務協會\r澳門網絡視聽協會\r澳門文化界聯合總會\r澳門文化推廣協會\r南光文化創意產業公司\r\r支援單位：\r澳門特區政府招商投資促進局\r澳門特區政府旅遊局\r中國電信（澳門）有限公司\r\r",
+     "type": "shape",
+     "w": 171,
+     "x": 285,
+     "y": 100
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 36,
+     "id": "000178",
+     "text": "七、澳門 • 國際網絡視聽節\r",
+     "type": "shape",
+     "w": 400,
+     "x": 47,
+     "y": 40
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 11,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000011",
+   "page_index": 11,
+   "shape_count": 2,
+   "shapes": [
+    {
+     "font_color": "235A69",
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 30,
+     "id": "000179",
+     "ph": true,
+     "text": "澳門·國際網絡視聽節活動日程\r",
+     "type": "shape",
+     "w": 327,
+     "x": 323,
+     "y": 34
+    },
+    {
+     "h": 418,
+     "id": "00017a",
+     "type": "table",
+     "w": 843,
+     "x": 65,
+     "y": 74
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 12,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000012",
+   "page_index": 12,
+   "shape_count": 29,
+   "shapes": [
+    {
+     "h": 165,
+     "id": "00018a",
+     "img": "pptx:\\ppt\\media\\image30.png/geil4v",
+     "type": "picture",
+     "w": 154,
+     "x": 54,
+     "y": 77
+    },
+    {
+     "h": 165,
+     "id": "00018b",
+     "img": "pptx:\\ppt\\media\\image31.png/geil4v",
+     "type": "picture",
+     "w": 153,
+     "x": 238,
+     "y": 81
+    },
+    {
+     "h": 165,
+     "id": "00018c",
+     "img": "pptx:\\ppt\\media\\image32.png/geil4v",
+     "type": "picture",
+     "w": 153,
+     "x": 412,
+     "y": 83
+    },
+    {
+     "fill": "none",
+     "font_color": "235A69",
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 38,
+     "id": "00018d",
+     "text": "澳門國際網絡視聽節首屆戰報：現象級熱度，刷屏全網（截至2026年6月25日）\r",
+     "type": "shape",
+     "w": 579,
+     "x": 54,
+     "y": 21
+    },
+    {
+     "fill": "none",
+     "font_color": "100032",
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 38,
+     "id": "00018e",
+     "text": "抖音觀看量\r",
+     "type": "shape",
+     "w": 131,
+     "x": 249,
+     "y": 96
+    },
+    {
+     "fill": "none",
+     "font_color": "100031",
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 38,
+     "id": "00018f",
+     "text": "微博話題\r",
+     "type": "shape",
+     "w": 133,
+     "x": 417,
+     "y": 100
+    },
+    {
+     "fill": "none",
+     "font_color": "120030",
+     "font_name": "Microsoft YaHei",
+     "font_size": 28.0,
+     "h": 43,
+     "id": "000190",
+     "text": "5800萬+\r",
+     "type": "shape",
+     "w": 173,
+     "x": 230,
+     "y": 134
+    },
+    {
+     "fill": "none",
+     "font_color": "140130",
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 43,
+     "id": "000191",
+     "text": "1000萬+\r",
+     "type": "shape",
+     "w": 147,
+     "x": 414,
+     "y": 136
+    },
+    {
+     "fill": "none",
+     "font_color": "060126",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 47,
+     "id": "000192",
+     "text": "相關話題熱度\r2800萬+\r",
+     "type": "shape",
+     "w": 177,
+     "x": 224,
+     "y": 179
+    },
+    {
+     "fill": "none",
+     "font_color": "040220",
+     "font_name": "Microsoft YaHei",
+     "font_size": 21.0,
+     "h": 67,
+     "id": "000193",
+     "text": "首屆即破圈，全網累計曝光1.2億+\r",
+     "type": "shape",
+     "w": 580,
+     "x": 13,
+     "y": 242
+    },
+    {
+     "fill": "none",
+     "font_color": "100031",
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 23,
+     "id": "000194",
+     "text": "快手熱榜\r",
+     "type": "shape",
+     "w": 79,
+     "x": 89,
+     "y": 98
+    },
+    {
+     "fill": "none",
+     "font_color": "140130",
+     "font_name": "Microsoft YaHei",
+     "font_size": 32.0,
+     "h": 26,
+     "id": "000195",
+     "text": "TOP 2\r",
+     "type": "shape",
+     "w": 88,
+     "x": 89,
+     "y": 134
+    },
+    {
+     "fill": "none",
+     "font_color": "060126",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 85,
+     "id": "000196",
+     "text": "58家海外媒體\r閱讀量840萬+\r",
+     "type": "shape",
+     "w": 177,
+     "x": 403,
+     "y": 182
+    },
+    {
+     "fill": "none",
+     "font_color": "060126",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 50,
+     "id": "000197",
+     "text": "相關話題熱度\r1100萬+\r",
+     "type": "shape",
+     "w": 105,
+     "x": 81,
+     "y": 177
+    },
+    {
+     "children": [
+      {
+       "h": 0,
+       "id": "000198",
+       "img": "pptx:\\ppt\\media\\image33.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 0,
+       "y": 0
+      },
+      {
+       "h": 0,
+       "id": "000199",
+       "img": "pptx:\\ppt\\media\\image34.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 0,
+       "y": 0
+      },
+      {
+       "h": 0,
+       "id": "00019a",
+       "img": "pptx:\\ppt\\media\\image35.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 0,
+       "y": 0
+      },
+      {
+       "h": 0,
+       "id": "00019b",
+       "img": "pptx:\\ppt\\media\\image36.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      },
+      {
+       "h": 0,
+       "id": "00019c",
+       "img": "pptx:\\ppt\\media\\image37.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      },
+      {
+       "border_alpha": 100,
+       "border_width": 1.0,
+       "fill": "none",
+       "font_name": "Microsoft YaHei",
+       "font_size": 16.0,
+       "h": 0,
+       "id": "00019d",
+       "text": "強制曝光，活動日全天開屏，覆蓋數億日活用戶\r",
+       "type": "shape",
+       "w": 1,
+       "x": 0,
+       "y": 0
+      },
+      {
+       "fill": "none",
+       "font_name": "Microsoft YaHei",
+       "font_size": 14.0,
+       "h": 0,
+       "id": "00019e",
+       "text": "今日頭條\r",
+       "type": "shape",
+       "w": 0,
+       "x": 0,
+       "y": 1
+      },
+      {
+       "fill": "none",
+       "font_name": "Microsoft YaHei",
+       "font_size": 14.0,
+       "h": 0,
+       "id": "00019f",
+       "text": "小紅書\r",
+       "type": "shape",
+       "w": 0,
+       "x": 0,
+       "y": 1
+      },
+      {
+       "fill": "none",
+       "font_name": "Microsoft YaHei",
+       "font_size": 14.0,
+       "h": 0,
+       "id": "0001a0",
+       "text": "抖音\r",
+       "type": "shape",
+       "w": 0,
+       "x": 0,
+       "y": 1
+      },
+      {
+       "fill": "none",
+       "font_name": "Microsoft YaHei",
+       "font_size": 14.0,
+       "h": 0,
+       "id": "0001a1",
+       "text": "西瓜視頻\r",
+       "type": "shape",
+       "w": 0,
+       "x": 1,
+       "y": 1
+      },
+      {
+       "fill": "none",
+       "font_name": "Microsoft YaHei",
+       "font_size": 14.0,
+       "h": 0,
+       "id": "0001a2",
+       "text": "快手\r",
+       "type": "shape",
+       "w": 0,
+       "x": 1,
+       "y": 1
+      }
+     ],
+     "h": 213,
+     "id": "0001a3",
+     "type": "group",
+     "w": 363,
+     "x": 586,
+     "y": 77
+    },
+    {
+     "h": 224,
+     "id": "0001a4",
+     "img": "pptx:\\ppt\\media\\image38.jpeg/geil4v",
+     "type": "picture",
+     "w": 103,
+     "x": 37,
+     "y": 303
+    },
+    {
+     "h": 225,
+     "id": "0001a5",
+     "img": "pptx:\\ppt\\media\\image39.jpeg/geil4v",
+     "type": "picture",
+     "w": 104,
+     "x": 145,
+     "y": 303
+    },
+    {
+     "h": 224,
+     "id": "0001a6",
+     "img": "pptx:\\ppt\\media\\image40.jpeg/geil4v",
+     "type": "picture",
+     "w": 103,
+     "x": 514,
+     "y": 303
+    },
+    {
+     "h": 224,
+     "id": "0001a7",
+     "img": "pptx:\\ppt\\media\\image41.jpeg/geil4v",
+     "type": "picture",
+     "w": 103,
+     "x": 402,
+     "y": 303
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 58,
+     "id": "0001a8",
+     "text": "話題熱度2800萬+\r登平臺熱榜TOP6\r榜單觀看量5800萬+\r",
+     "type": "shape",
+     "w": 170,
+     "x": 251,
+     "y": 332
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 39,
+     "id": "0001a9",
+     "text": "抖音\r",
+     "type": "shape",
+     "w": 79,
+     "x": 250,
+     "y": 303
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_name": "Microsoft YaHei",
+     "h": 9,
+     "id": "0001aa",
+     "rot": 270.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 13,
+     "x": 256,
+     "y": 311
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 31,
+     "id": "0001ab",
+     "text": "快手\r",
+     "type": "shape",
+     "w": 84,
+     "x": 308,
+     "y": 439
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 63,
+     "id": "0001ac",
+     "text": "話題熱度1100萬+\r斬獲快手熱榜，\r社會榜TOP2\r",
+     "type": "shape",
+     "w": 138,
+     "x": 253,
+     "y": 468
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_name": "Microsoft YaHei",
+     "h": 9,
+     "id": "0001ad",
+     "rot": 90.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 13,
+     "x": 370,
+     "y": 449
+    },
+    {
+     "h": 222,
+     "id": "0001ae",
+     "img": "pptx:\\ppt\\media\\image42.jpeg/geil4v",
+     "type": "picture",
+     "w": 132,
+     "x": 695,
+     "y": 299
+    },
+    {
+     "h": 116,
+     "id": "0001af",
+     "img": "pptx:\\ppt\\media\\image43.jpeg/geil4v",
+     "type": "picture",
+     "w": 98,
+     "x": 825,
+     "y": 298
+    },
+    {
+     "h": 104,
+     "id": "0001b0",
+     "img": "pptx:\\ppt\\media\\image44.jpeg/geil4v",
+     "type": "picture",
+     "w": 100,
+     "x": 825,
+     "y": 415
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 173,
+     "id": "0001b1",
+     "text": "戶外廣告矩陣\r",
+     "type": "shape",
+     "w": 39,
+     "x": 667,
+     "y": 298
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 13,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000013",
+   "page_index": 13,
+   "shape_count": 11,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "0001d9",
+     "img": "pptx:\\ppt\\media\\image2.jpeg/geil4v",
+     "type": "picture",
+     "w": 961,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "h": 504,
+     "id": "0001da",
+     "text": "\r",
+     "type": "shape",
+     "w": 914,
+     "x": 23,
+     "y": 18
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 36,
+     "id": "0001db",
+     "text": "八、其他活動與受邀項目\r",
+     "type": "shape",
+     "w": 400,
+     "x": 49,
+     "y": 38
+    },
+    {
+     "h": 212,
+     "id": "0001dc",
+     "img": "pptx:\\ppt\\media\\image45.png/geil4v",
+     "type": "picture",
+     "w": 170,
+     "x": 31,
+     "y": 89
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 73,
+     "id": "0001dd",
+     "text": "協會作為支持單位參與《歡樂旅旅旅》電影篇放映會\r",
+     "type": "shape",
+     "w": 217,
+     "x": 8,
+     "y": 315
+    },
+    {
+     "h": 217,
+     "id": "0001de",
+     "img": "pptx:\\ppt\\media\\image46.png/geil4v",
+     "type": "picture",
+     "w": 217,
+     "x": 235,
+     "y": 86
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 73,
+     "id": "0001df",
+     "text": "協會代表參加弄潮·數媒融合創未來2025紫金網絡傳播創新大會主題分享會\r",
+     "type": "shape",
+     "w": 228,
+     "x": 235,
+     "y": 315
+    },
+    {
+     "h": 172,
+     "id": "0001e0",
+     "img": "pptx:\\ppt\\media\\image47.jpeg/geil4v",
+     "type": "picture",
+     "w": 230,
+     "x": 473,
+     "y": 109
+    },
+    {
+     "h": 172,
+     "id": "0001e1",
+     "img": "pptx:\\ppt\\media\\image48.jpeg/geil4v",
+     "type": "picture",
+     "w": 230,
+     "x": 711,
+     "y": 109
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 73,
+     "id": "0001e2",
+     "text": "協會作為支持單位參與徒步旅遊熱潮暨徒步熊貓IP發佈會活動\r",
+     "type": "shape",
+     "w": 230,
+     "x": 473,
+     "y": 326
+    },
+    {
+     "fill": "none",
+     "font_color": "000000",
+     "font_name": "Arial",
+     "h": 36,
+     "id": "0001e3",
+     "text": "參觀全民國家安全教育展\r",
+     "type": "shape",
+     "w": 230,
+     "x": 711,
+     "y": 326
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 14,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000014",
+   "page_index": 14,
+   "shape_count": 10,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 434,
+     "id": "0001ee",
+     "text": "\r",
+     "type": "shape",
+     "w": 420,
+     "x": 17,
+     "y": 83
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 20.0,
+     "h": 39,
+     "id": "0001ef",
+     "text": "我們的解決路徑\r",
+     "type": "shape",
+     "w": 346,
+     "x": 474,
+     "y": 83
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 19,
+     "id": "0001f0",
+     "rot": 90.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 23,
+     "x": 447,
+     "y": 100
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 16.0,
+     "h": 324,
+     "id": "0001f1",
+     "text": "一、影視 + 文旅 + 文創深度融合\r以影視內容帶動文旅場景與衍生品，通過文創大賽、直播帶貨、線下實體店實現商業變現。\r\r二、系列IP開發 + 橫向多元改編\r打造「大灣區時代風貌三部曲」 ，同一IP衍生電視劇、音樂劇、廣播劇、電影、小說、文創產品。\r\r三、立足粵港澳大灣區 + 聯動內地及民族地區 + 拓展國際傳播\r內容緊扣粵港澳灣區發展，與新疆、內蒙古、雲南、貴州等民族地區深度聯動，並積極拓展國際傳播，構建全球化的傳播與資源網路。\r",
+     "type": "shape",
+     "w": 450,
+     "x": 468,
+     "y": 145
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 20.0,
+     "h": 39,
+     "id": "0001f2",
+     "text": "澳門影視文化發展劣勢\r",
+     "type": "shape",
+     "w": 260,
+     "x": 77,
+     "y": 86
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 16.0,
+     "h": 332,
+     "id": "0001f3",
+     "text": "市場規模有限，本地影視內容難以形成規模效應。\r\r產業鏈條短，單一作品容易「播完即止」 ，缺乏持續影響力。\r\r文創與文旅、消費場景脫節，難以實現商業閉環。\r\r與內地及國際市場對接不足，傳播管道單一。\r",
+     "type": "shape",
+     "w": 390,
+     "x": 37,
+     "y": 145
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 19,
+     "id": "0001f4",
+     "rot": 90.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 23,
+     "x": 35,
+     "y": 102
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 32.0,
+     "h": 59,
+     "id": "0001f5",
+     "text": "澳門影視文化——困境與突破路徑\r",
+     "type": "shape",
+     "w": 575,
+     "x": 186,
+     "y": 9
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 44,
+     "id": "0001f6",
+     "text": "\r",
+     "type": "shape",
+     "w": 465,
+     "x": 236,
+     "y": 480
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "h": 29,
+     "id": "0001f7",
+     "text": "把「劣勢」變成「特色」 ，把「局限」變成「機會」\r",
+     "type": "shape",
+     "w": 435,
+     "x": 247,
+     "y": 486
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 15,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000015",
+   "page_index": 15,
+   "shape_count": 5,
+   "shapes": [
+    {
+     "id": "0001fc",
+     "ph": true,
+     "text": "\r",
+     "type": "shape"
+    },
+    {
+     "id": "0001fd",
+     "ph": true,
+     "text": "\r",
+     "type": "shape"
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "0001fe",
+     "img": "pptx:\\ppt\\media\\image2.jpeg/geil4v",
+     "type": "picture",
+     "w": 961,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_name": "Microsoft YaHei",
+     "font_size": 28.0,
+     "h": 36,
+     "id": "0001ff",
+     "text": " 問題一\r",
+     "type": "shape",
+     "w": 103,
+     "x": 408,
+     "y": 195
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 28.0,
+     "h": 34,
+     "id": "000200",
+     "text": "市場規模有限，本地影視內容難以形成規模效應\r",
+     "type": "shape",
+     "w": 740,
+     "x": 89,
+     "y": 247
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 16,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000016",
+   "page_index": 16,
+   "shape_count": 10,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "000206",
+     "img": "pptx:\\ppt\\media\\image2.jpeg/geil4v",
+     "type": "picture",
+     "w": 961,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "h": 434,
+     "id": "000207",
+     "img": "pptx:\\ppt\\media\\image49.png/geil4v",
+     "type": "picture",
+     "w": 460,
+     "x": 484,
+     "y": 78
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 27,
+     "id": "000208",
+     "text": " 案例一\r",
+     "type": "shape",
+     "w": 84,
+     "x": 26,
+     "y": 21
+    },
+    {
+     "fill": "none",
+     "font_color": "404040",
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 369,
+     "id": "000209",
+     "text": "2020年6月於央視一套黃金檔首播。\r榮譽獎項（部分）：\r· 國家廣播電視總局《網絡視聽節目優秀作品創作規劃》\r· 中宣部《中國當代文學藝術創作工程規劃》 重點現實題材電視劇劇本創作資助作品\r· 國家廣播電視總局百部重點電視劇選題片\r· 國家廣播電視總局走出去內容扶持計劃項目\r· 廣東省廣播電視局廣東省電視劇優秀劇本扶持—重點扶持項目\r· 廣東省廣播電視局《廣東省重點電視劇選題》\r· 澳門文化發展基金扶持項目\r· 國家廣播電視總局電視劇司《國產電視劇選集》\r· 「TV」地標中國電視媒體綜合大型調研年度優秀電視劇\r· 第十六屆中美電視節「中華文化傳播力」\r· 國家五部委認定2021-2022年度國家文化出口重點項目\r· 國家廣播電視總局「中國電視劇選集」\r· 第二屆環球影視文化傳播年度優選「年度優秀劇集」\r· 廣東省廣播影視獎評選電視劇類一等獎\r· 中宣部第十六屆精神文明建設「五個一工程」優秀作品獎\r· 第33屆中國電視劇「飛天獎」提名作品\r· 第31屆中國電視「金鷹獎」優秀電視劇作品獎提名\r· 第六屆中加國際電影節最佳電視劇獎\r· 入圍第13屆澳門國際電視節\r......\r",
+     "type": "shape",
+     "w": 448,
+     "x": 497,
+     "y": 94
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.25,
+     "font_color": "404040",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 165,
+     "id": "00020a",
+     "text": "    \r      「這既是澳門與內地和香港合作的第一部大灣區主題的電視劇，也是第一部由澳門本地企業製作、出品的長篇電視劇，植入了豐富的澳門元素，填補了澳門在華語電視劇創作生產領域的空白；同時它也是第一部完整反映澳門回歸20周年巨大變化的電視劇。可以說，《灣區兒女》架起了一座粵港澳之間的文化大橋，具有標誌性意義。」\r",
+     "type": "shape",
+     "w": 420,
+     "x": 26,
+     "y": 337
+    },
+    {
+     "h": 206,
+     "id": "00020b",
+     "img": "pptx:\\ppt\\media\\image50.jpeg/geil4v",
+     "type": "picture",
+     "w": 138,
+     "x": 32,
+     "y": 111
+    },
+    {
+     "h": 208,
+     "id": "00020c",
+     "img": "pptx:\\ppt\\media\\image51.png/geil4v",
+     "rot": 360.0,
+     "type": "picture",
+     "w": 156,
+     "x": 185,
+     "y": 113
+    },
+    {
+     "h": 39,
+     "id": "00020d",
+     "img": "pptx:\\ppt\\media\\image52.jpeg/geil4v",
+     "type": "picture",
+     "w": 87,
+     "x": 45,
+     "y": 327
+    },
+    {
+     "fill": "none",
+     "font_color": "404040",
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 39,
+     "id": "00020e",
+     "text": "「大灣區時代風貌三部曲」第1部——《灣區兒女》\r",
+     "type": "shape",
+     "w": 460,
+     "x": 26,
+     "y": 55
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 24,
+     "id": "00020f",
+     "text": "影視 + 文旅 + 文創\r",
+     "type": "shape",
+     "w": 480,
+     "x": 117,
+     "y": 24
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 17,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000017",
+   "page_index": 17,
+   "shape_count": 19,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "000220",
+     "img": "pptx:\\ppt\\media\\image53.jpeg/geil4v",
+     "type": "picture",
+     "w": 963,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "border_alpha": 100,
+     "fill": "none",
+     "font_name": "Arial",
+     "font_size": 1.0,
+     "h": 148,
+     "id": "000221",
+     "text": "\r",
+     "type": "shape",
+     "w": 852,
+     "x": 46,
+     "y": 81
+    },
+    {
+     "border_alpha": 100,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 5.0,
+     "h": 30,
+     "id": "000222",
+     "text": "\r電視劇《灣區兒女》文創文旅衍生\r",
+     "type": "shape",
+     "w": 435,
+     "x": 22,
+     "y": 28
+    },
+    {
+     "children": [
+      {
+       "h": 0,
+       "id": "000223",
+       "img": "pptx:\\ppt\\media\\image54.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      },
+      {
+       "fill": "none",
+       "h": 0,
+       "id": "000224",
+       "img": "pptx:\\ppt\\media\\image55.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      }
+     ],
+     "h": 203,
+     "id": "000225",
+     "type": "group",
+     "w": 168,
+     "x": 22,
+     "y": 92
+    },
+    {
+     "children": [
+      {
+       "h": 112,
+       "id": "000226",
+       "img": "pptx:\\ppt\\media\\image56.png/geil4v",
+       "type": "picture",
+       "w": 237,
+       "x": 532,
+       "y": 272
+      },
+      {
+       "h": 129,
+       "id": "000227",
+       "img": "pptx:\\ppt\\media\\image57.jpeg/geil4v",
+       "type": "picture",
+       "w": 237,
+       "x": 532,
+       "y": 384
+      }
+     ],
+     "h": 189,
+     "id": "000228",
+     "type": "group",
+     "w": 171,
+     "x": 477,
+     "y": 312
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 33,
+     "id": "000229",
+     "text": "「灣區兒女杯」文創大賽   \r",
+     "type": "shape",
+     "w": 258,
+     "x": 195,
+     "y": 118
+    },
+    {
+     "h": 0,
+     "id": "00022a",
+     "type": "connector",
+     "w": 776,
+     "x": 89,
+     "y": 304
+    },
+    {
+     "h": 364,
+     "id": "00022b",
+     "type": "connector",
+     "w": 0,
+     "x": 464,
+     "y": 140
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "808080",
+     "fill_alpha": 90,
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 135,
+     "id": "00022c",
+     "text": "聯合澳門科技大學共同舉辦，活動獲澳門特區政府、中聯辦、旅遊局等多方領導出席支持。中華人民共和國國家發展和改革委員會也對此次活動給予了充分的肯定。\r",
+     "type": "shape",
+     "w": 252,
+     "x": 201,
+     "y": 159
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 27,
+     "id": "00022d",
+     "text": "明星「帶貨」模式\r",
+     "type": "shape",
+     "w": 225,
+     "x": 17,
+     "y": 317
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "808080",
+     "fill_alpha": 90,
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 135,
+     "id": "00022e",
+     "text": "與澳門旅遊局創新推出「心出發游澳門」 《灣區兒女》旅遊路線。跟隨劇中主角一起遊覽耳熟能詳的熱門景點。電視劇僅播出18天已有超過9萬人報名參加，滿意度超過8成。\r",
+     "type": "shape",
+     "w": 252,
+     "x": 659,
+     "y": 342
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "808080",
+     "fill_alpha": 90,
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 135,
+     "id": "00022f",
+     "text": "《灣區兒女》衍生的文創產品在“澳門國際直播節”中由董明珠進行「帶貨」銷售。讓消費者體驗明星同款文創產品，銷量和銷售資料可觀。\r",
+     "type": "shape",
+     "w": 259,
+     "x": 19,
+     "y": 348
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 27,
+     "id": "000230",
+     "text": "《灣區兒女》旅遊路線\r",
+     "type": "shape",
+     "w": 205,
+     "x": 653,
+     "y": 311
+    },
+    {
+     "h": 183,
+     "id": "000231",
+     "img": "pptx:\\ppt\\media\\image58.jpeg/geil4v",
+     "type": "picture",
+     "w": 136,
+     "x": 691,
+     "y": 109
+    },
+    {
+     "h": 200,
+     "id": "000232",
+     "img": "pptx:\\ppt\\media\\image59.png/geil4v",
+     "type": "picture",
+     "w": 102,
+     "x": 351,
+     "y": 307
+    },
+    {
+     "h": 180,
+     "id": "000233",
+     "img": "pptx:\\ppt\\media\\image60.jpeg/geil4v",
+     "type": "picture",
+     "w": 90,
+     "x": 832,
+     "y": 111
+    },
+    {
+     "h": 199,
+     "id": "000234",
+     "img": "pptx:\\ppt\\media\\image61.png/geil4v",
+     "type": "picture",
+     "w": 79,
+     "x": 265,
+     "y": 307
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 27,
+     "id": "000235",
+     "text": "文創衍生品開發\r",
+     "type": "shape",
+     "w": 225,
+     "x": 475,
+     "y": 127
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "808080",
+     "fill_alpha": 90,
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 135,
+     "id": "000236",
+     "text": "借助《灣區兒女》的孵化平臺，衍生了電視劇男一號孫堅代言的發財鼠禮盒，在直播間掀起一股搶購風潮。\r",
+     "type": "shape",
+     "w": 203,
+     "x": 477,
+     "y": 158
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 18,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000018",
+   "page_index": 18,
+   "shape_count": 5,
+   "shapes": [
+    {
+     "id": "00024d",
+     "ph": true,
+     "text": "\r",
+     "type": "shape"
+    },
+    {
+     "id": "00024e",
+     "ph": true,
+     "text": "\r",
+     "type": "shape"
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "00024f",
+     "img": "pptx:\\ppt\\media\\image2.jpeg/geil4v",
+     "type": "picture",
+     "w": 961,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_name": "Microsoft YaHei",
+     "font_size": 28.0,
+     "h": 36,
+     "id": "000250",
+     "text": " 問題二\r",
+     "type": "shape",
+     "w": 103,
+     "x": 428,
+     "y": 195
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 28.0,
+     "h": 34,
+     "id": "000251",
+     "text": "產業鏈條短，單一作品容易「播完即止」 ，缺乏持續影響力\r",
+     "type": "shape",
+     "w": 764,
+     "x": 98,
+     "y": 247
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 19,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000019",
+   "page_index": 19,
+   "shape_count": 9,
+   "shapes": [
+    {
+     "fill": "none",
+     "h": 540,
+     "id": "00025b",
+     "img": "pptx:\\ppt\\media\\image62.jpeg/geil4v",
+     "type": "picture",
+     "w": 959,
+     "x": 0,
+     "y": 2
+    },
+    {
+     "fill": "none",
+     "font_color": "262626",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 242,
+     "id": "00025c",
+     "text": "       電視劇《青春之城》（原名《從這裡開始》）是國內首部描寫人工智慧製造的現實主義題材作品。該劇力邀國內著名演員秦海璐、林雨申、熱依紮、朱雨辰、孫陽、黃米依、臺灣演員黃維德、香港演員羅嘉良等共同演繹。2023年4月，《青春之城》在央視一套首播，愛奇藝、騰訊視頻同期熱播。首播當晚《新聞聯播》對本劇進行報導，開播十分鐘收視率破1，上線第一天全國收視率第一。播出期間，包括黨媒、央媒、主流媒體在內的百餘家媒體對《青春之城》進行了報導，提及聲量達3000餘條；全網平臺共登話題榜33次，微博傳播話題閱讀總量達1.2億次+，新媒體點擊5億+，全網點擊20億+。\r  \r\r",
+     "type": "shape",
+     "w": 454,
+     "x": 32,
+     "y": 111
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 62,
+     "id": "00025d",
+     "text": "「大灣區時代風貌三部曲」第2部——\r                                《青春之城》\r",
+     "type": "shape",
+     "w": 561,
+     "x": 26,
+     "y": 55
+    },
+    {
+     "h": 204,
+     "id": "00025e",
+     "img": "pptx:\\ppt\\media\\image63.png/geil4v",
+     "type": "picture",
+     "w": 138,
+     "x": 332,
+     "y": 310
+    },
+    {
+     "h": 434,
+     "id": "00025f",
+     "img": "pptx:\\ppt\\media\\image49.png/geil4v",
+     "type": "picture",
+     "w": 433,
+     "x": 511,
+     "y": 78
+    },
+    {
+     "children": [
+      {
+       "h": 0,
+       "id": "000260",
+       "img": "pptx:\\ppt\\media\\image64.png/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      },
+      {
+       "children": [
+        {
+         "h": 90,
+         "id": "000261",
+         "img": "pptx:\\ppt\\media\\image65.jpeg/geil4v",
+         "type": "picture",
+         "w": 122,
+         "x": 34,
+         "y": 387
+        },
+        {
+         "h": 90,
+         "id": "000262",
+         "img": "pptx:\\ppt\\media\\image66.jpeg/geil4v",
+         "rot": 360.0,
+         "type": "picture",
+         "w": 103,
+         "x": 156,
+         "y": 387
+        },
+        {
+         "h": 151,
+         "id": "000263",
+         "img": "pptx:\\ppt\\media\\image67.jpeg/geil4v",
+         "rot": 360.0,
+         "type": "picture",
+         "w": 122,
+         "x": 34,
+         "y": 236
+        },
+        {
+         "h": 151,
+         "id": "000264",
+         "img": "pptx:\\ppt\\media\\image68.jpeg/geil4v",
+         "rot": 360.0,
+         "type": "picture",
+         "w": 104,
+         "x": 155,
+         "y": 236
+        }
+       ],
+       "h": 0,
+       "id": "000265",
+       "type": "group",
+       "w": 0,
+       "x": 1,
+       "y": 1
+      },
+      {
+       "h": 0,
+       "id": "000266",
+       "img": "pptx:\\ppt\\media\\image69.jpeg/geil4v",
+       "rot": 360.0,
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      }
+     ],
+     "h": 204,
+     "id": "000267",
+     "type": "group",
+     "w": 293,
+     "x": 37,
+     "y": 310
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "font_color": "262626",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 387,
+     "id": "000268",
+     "text": "· 中共中央宣傳部「建黨百年」主題重點跟蹤項目​、2021-2022年重點選題​\r· 中共中央宣傳部《中國當代文學藝術創作工程規劃》重點現實題材電視劇​\r· 入選中宣部、國家廣電總局「禮贊新時代 奮進新征程」優秀電視劇展播​\r· 中共中央宣傳部2023年度文化產業發展專項資金推動影視產業發展項目\r·「TV」地標（2023）電視和網絡視聽綜合實力大型調研年度優秀電視劇\r· 2024年中美電視節「年度金天使獎電視劇」\r· 第十屆中加國際電影節「最佳電視劇獎」\r· 廣東省第十三屆精神文明建設「五個一工程」優秀作品獎\r· 廣東省廣播電視局2021-2025年「十四五」廣播電視和網路視聽節目重點選題規劃\r· 第32屆廣東省廣播影視獎節目作品類二等獎\r·  中國電視藝術家協會、澳門特區政府文化局、中央人民政府駐澳門聯絡辦公室宣傳文化部擔任該劇的顧問單位\r",
+     "type": "shape",
+     "w": 417,
+     "x": 514,
+     "y": 88
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 27,
+     "id": "000269",
+     "text": " 案例二\r",
+     "type": "shape",
+     "w": 84,
+     "x": 26,
+     "y": 21
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 24,
+     "id": "00026a",
+     "text": "系列IP開發 + 橫向多元改編\r",
+     "type": "shape",
+     "w": 265,
+     "x": 127,
+     "y": 21
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 20,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00001a",
+   "page_index": 20,
+   "shape_count": 17,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "fill": "none",
+     "font_name": "Arial",
+     "font_size": 1.0,
+     "h": 148,
+     "id": "00027f",
+     "text": "\r",
+     "type": "shape",
+     "w": 851,
+     "x": 29,
+     "y": 104
+    },
+    {
+     "border_alpha": 100,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 5.0,
+     "h": 30,
+     "id": "000280",
+     "text": "\rIP橫向改編——文藝精品二創\r",
+     "type": "shape",
+     "w": 435,
+     "x": 3,
+     "y": 9
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 24,
+     "id": "000281",
+     "text": "影视小说《从这里开始》\r",
+     "type": "shape",
+     "w": 225,
+     "x": 627,
+     "y": 268
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 143,
+     "id": "000282",
+     "text": "該小說改編自電視劇《青春之城》，2022年9月由廣東人民出版社出版。成為記錄大灣區發展的重要文藝作品，被評價為「以文藝修史、以精神鑄魂」。 \r",
+     "type": "shape",
+     "w": 179,
+     "x": 776,
+     "y": 89
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 229,
+     "id": "000283",
+     "text": "該劇取材于《青春之城》孟夢故事線，已於2024年5月在央廣中國之聲播出；並在數十家省級媒體、上百家地市及電臺和融媒平臺輪番播出，覆蓋數億人群。已獲中宣部「五個一工程」獎、廣東省「五個一工程」獎等多項榮譽。\r",
+     "type": "shape",
+     "w": 205,
+     "x": 158,
+     "y": 56
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 24,
+     "id": "000284",
+     "text": "廣播劇《我從灣區來看你》\r",
+     "type": "shape",
+     "w": 205,
+     "x": 3,
+     "y": 270
+    },
+    {
+     "h": 203,
+     "id": "000285",
+     "img": "pptx:\\ppt\\media\\image70.jpeg/geil4v",
+     "type": "picture",
+     "w": 149,
+     "x": 20,
+     "y": 67
+    },
+    {
+     "h": 203,
+     "id": "000286",
+     "img": "pptx:\\ppt\\media\\image71.jpeg/geil4v",
+     "type": "picture",
+     "w": 141,
+     "x": 647,
+     "y": 64
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 24,
+     "id": "000287",
+     "text": "電 影《地上的雲》\r",
+     "type": "shape",
+     "w": 141,
+     "x": 350,
+     "y": 268
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 160,
+     "id": "000288",
+     "text": "首部大灣區與新疆融合民族特色文化傳承題材影片，以廣東援疆企業為原型背景，將新時代黨的治疆方略中「文化潤疆」的特色貫徹進影片中。蔣勤勤、陳建斌領銜主演，已完成拍攝工作。\r",
+     "type": "shape",
+     "w": 198,
+     "x": 470,
+     "y": 94
+    },
+    {
+     "h": 204,
+     "id": "000289",
+     "img": "pptx:\\ppt\\media\\image72.jpeg/geil4v",
+     "type": "picture",
+     "w": 135,
+     "x": 349,
+     "y": 66
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 26,
+     "id": "00028a",
+     "text": "音樂劇《青春之城》\r",
+     "type": "shape",
+     "w": 132,
+     "x": 111,
+     "y": 495
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "font_name": "Noto Sans SC",
+     "font_size": 14.0,
+     "h": 202,
+     "id": "00028b",
+     "text": "改編自電視劇《青春之城》以粵港澳大灣區城市為舞臺背景，生動展現了灣區青年們的拼搏精神和追求夢想的力量。已於2024年12月起在北京、深圳、佛山等多個劇院巡演。\r",
+     "type": "shape",
+     "w": 230,
+     "x": 270,
+     "y": 301
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 26,
+     "id": "00028c",
+     "text": "音樂劇《織夢》\r",
+     "type": "shape",
+     "w": 132,
+     "x": 565,
+     "y": 495
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "font_name": "Noto Sans SC",
+     "font_size": 14.0,
+     "h": 177,
+     "id": "00028d",
+     "text": "改編自廣播劇《我從灣區來看你》。講述廣東青年參與援疆棉紡產業建設的故事，定位為「多元融合創新音樂劇」 ，以粵疆跨域創新的藝術語言，促進各民族文化交流交融，已完成基本創排工作。\r",
+     "type": "shape",
+     "w": 236,
+     "x": 734,
+     "y": 321
+    },
+    {
+     "h": 164,
+     "id": "00028e",
+     "img": "pptx:\\ppt\\media\\image73.jpeg/geil4v",
+     "type": "picture",
+     "w": 230,
+     "x": 510,
+     "y": 323
+    },
+    {
+     "h": 158,
+     "id": "00028f",
+     "img": "pptx:\\ppt\\media\\image74.jpeg/geil4v",
+     "type": "picture",
+     "w": 230,
+     "x": 50,
+     "y": 329
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 21,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00001b",
+   "page_index": 21,
+   "shape_count": 10,
+   "shapes": [
+    {
+     "fill": "none",
+     "h": 540,
+     "id": "0002a3",
+     "img": "pptx:\\ppt\\media\\image75.jpeg/geil4v",
+     "type": "picture",
+     "w": 959,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 34,
+     "id": "0002a4",
+     "text": "城市記憶與時代浪潮的藝術表達——\r",
+     "type": "shape",
+     "w": 387,
+     "x": 9,
+     "y": 27
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 32,
+     "id": "0002a5",
+     "text": "音樂劇《潮起大灣》\r",
+     "type": "shape",
+     "w": 238,
+     "x": 196,
+     "y": 72
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 223,
+     "id": "0002a6",
+     "text": "作品根據電視劇《灣區兒女》改編創作，立足新時代粵港澳大灣區建設背景。該項目獲得2025年度國家藝術基金大型舞臺劇和作品創作資助、澳門特別行政區政府文化發展基金資助，《橫琴粵澳深度合作區文化事業發展扶持辦法》2025年度扶持，並首次以音樂劇形式代表澳門參演第七屆全國少數民族文藝會演。作品由中國音樂劇協會會長鍾浩擔任總導演，主創團隊匯聚澳門及內地的優秀藝術人才。\r在舞臺呈現上，作品結合冰屏技術與多媒體影像手段，營造出富有層次感與流動感的視覺空間，使敘事在現實與記憶、城市與人物之間自然切換。音樂創作則融匯多元風格與地域特色，以更具時代感和感染力的聽覺表達，進一步拓展了舞臺藝術的表現維度。\r截至目前，作品已先後在福州、泉州、澳門、北京等地開展線上及線下演出共16場，舞臺呈現及製作體系日趨成熟。\r\r",
+     "type": "shape",
+     "w": 592,
+     "x": 15,
+     "y": 119
+    },
+    {
+     "h": 94,
+     "id": "0002a7",
+     "img": "pptx:\\ppt\\media\\image76.png/geil4v",
+     "type": "picture",
+     "w": 91,
+     "x": 854,
+     "y": 9
+    },
+    {
+     "h": 96,
+     "id": "0002a8",
+     "img": "pptx:\\ppt\\media\\image77.png/geil4v",
+     "type": "picture",
+     "w": 312,
+     "x": 525,
+     "y": 9
+    },
+    {
+     "h": 201,
+     "id": "0002a9",
+     "img": "pptx:\\ppt\\media\\image78.jpeg/geil4v",
+     "type": "picture",
+     "w": 302,
+     "x": 2,
+     "y": 329
+    },
+    {
+     "h": 201,
+     "id": "0002aa",
+     "img": "pptx:\\ppt\\media\\image79.png/geil4v",
+     "type": "picture",
+     "w": 299,
+     "x": 320,
+     "y": 329
+    },
+    {
+     "h": 201,
+     "id": "0002ab",
+     "img": "pptx:\\ppt\\media\\image80.jpeg/geil4v",
+     "type": "picture",
+     "w": 302,
+     "x": 642,
+     "y": 330
+    },
+    {
+     "h": 226,
+     "id": "0002ac",
+     "img": "pptx:\\ppt\\media\\image81.jpeg/geil4v",
+     "type": "picture",
+     "w": 302,
+     "x": 641,
+     "y": 103
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 22,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00001c",
+   "page_index": 22,
+   "shape_count": 7,
+   "shapes": [
+    {
+     "id": "0002b2",
+     "ph": true,
+     "text": "\r",
+     "type": "shape"
+    },
+    {
+     "id": "0002b3",
+     "ph": true,
+     "text": "\r",
+     "type": "shape"
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "0002b4",
+     "img": "pptx:\\ppt\\media\\image2.jpeg/geil4v",
+     "type": "picture",
+     "w": 961,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_name": "Microsoft YaHei",
+     "font_size": 28.0,
+     "h": 36,
+     "id": "0002b5",
+     "text": " 問題三\r",
+     "type": "shape",
+     "w": 103,
+     "x": 428,
+     "y": 133
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 28.0,
+     "h": 34,
+     "id": "0002b6",
+     "text": "文創與文旅、消費場景脫節，難以實現商業閉環\r",
+     "type": "shape",
+     "w": 764,
+     "x": 98,
+     "y": 185
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_name": "Microsoft YaHei",
+     "font_size": 28.0,
+     "h": 36,
+     "id": "0002b7",
+     "text": " 問題四\r",
+     "type": "shape",
+     "w": 103,
+     "x": 428,
+     "y": 252
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 28.0,
+     "h": 34,
+     "id": "0002b8",
+     "text": "與內地及國際市場對接不足，傳播管道單一\r",
+     "type": "shape",
+     "w": 764,
+     "x": 98,
+     "y": 304
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 23,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00001d",
+   "page_index": 23,
+   "shape_count": 16,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 5.0,
+     "h": 30,
+     "id": "0002cc",
+     "text": "\r\t中華文化出海\r",
+     "type": "shape",
+     "w": 435,
+     "x": 21,
+     "y": 90
+    },
+    {
+     "fill": "none",
+     "h": 90,
+     "id": "0002cd",
+     "img": "pptx:\\ppt\\media\\image82.jpeg/geil4v",
+     "type": "picture",
+     "w": 152,
+     "x": 21,
+     "y": 164
+    },
+    {
+     "fill": "none",
+     "h": 94,
+     "id": "0002ce",
+     "img": "pptx:\\ppt\\media\\image83.png/geil4v",
+     "type": "picture",
+     "w": 152,
+     "x": 21,
+     "y": 261
+    },
+    {
+     "fill": "none",
+     "h": 90,
+     "id": "0002cf",
+     "img": "pptx:\\ppt\\media\\image84.png/geil4v",
+     "type": "picture",
+     "w": 148,
+     "x": 178,
+     "y": 360
+    },
+    {
+     "fill": "none",
+     "h": 93,
+     "id": "0002d0",
+     "img": "pptx:\\ppt\\media\\image85.jpeg/geil4v",
+     "type": "picture",
+     "w": 152,
+     "x": 21,
+     "y": 359
+    },
+    {
+     "fill": "none",
+     "h": 94,
+     "id": "0002d1",
+     "img": "pptx:\\ppt\\media\\image86.png/geil4v",
+     "type": "picture",
+     "w": 148,
+     "x": 178,
+     "y": 261
+    },
+    {
+     "fill": "none",
+     "h": 90,
+     "id": "0002d2",
+     "img": "pptx:\\ppt\\media\\image87.jpeg/geil4v",
+     "type": "picture",
+     "w": 148,
+     "x": 178,
+     "y": 164
+    },
+    {
+     "children": [
+      {
+       "fill": "none",
+       "h": 0,
+       "id": "0002d3",
+       "img": "pptx:\\ppt\\media\\image88.png/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      },
+      {
+       "fill": "none",
+       "h": 0,
+       "id": "0002d4",
+       "img": "pptx:\\ppt\\media\\image89.png/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 1
+      },
+      {
+       "fill": "none",
+       "h": 0,
+       "id": "0002d5",
+       "img": "pptx:\\ppt\\media\\image90.png/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      },
+      {
+       "fill": "none",
+       "h": 0,
+       "id": "0002d6",
+       "img": "pptx:\\ppt\\media\\image91.png/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 1
+      },
+      {
+       "h": 0,
+       "id": "0002d7",
+       "img": "pptx:\\ppt\\media\\image92.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      },
+      {
+       "h": 0,
+       "id": "0002d8",
+       "img": "pptx:\\ppt\\media\\image93.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      }
+     ],
+     "h": 283,
+     "id": "0002d9",
+     "type": "group",
+     "w": 291,
+     "x": 332,
+     "y": 165
+    },
+    {
+     "children": [
+      {
+       "border_alpha": 100,
+       "border_width": 0.75,
+       "fill": "none",
+       "h": 0,
+       "id": "0002da",
+       "img": "pptx:\\ppt\\media\\image94.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      },
+      {
+       "border_alpha": 100,
+       "border_width": 0.75,
+       "fill": "none",
+       "h": 0,
+       "id": "0002db",
+       "img": "pptx:\\ppt\\media\\image95.png/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      },
+      {
+       "border_alpha": 100,
+       "border_width": 0.75,
+       "fill": "none",
+       "h": 0,
+       "id": "0002dc",
+       "img": "pptx:\\ppt\\media\\image96.png/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      },
+      {
+       "border_alpha": 100,
+       "border_width": 0.75,
+       "fill": "none",
+       "h": 0,
+       "id": "0002dd",
+       "img": "pptx:\\ppt\\media\\image97.png/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      },
+      {
+       "h": 0,
+       "id": "0002de",
+       "img": "pptx:\\ppt\\media\\image98.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 1
+      },
+      {
+       "h": 0,
+       "id": "0002df",
+       "img": "pptx:\\ppt\\media\\image99.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 1
+      }
+     ],
+     "h": 283,
+     "id": "0002e0",
+     "type": "group",
+     "w": 314,
+     "x": 635,
+     "y": 165
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_color": "333333",
+     "font_name": "Noto Sans SC",
+     "font_size": 16.0,
+     "h": 30,
+     "id": "0002e1",
+     "text": "疍家文化\r",
+     "type": "shape",
+     "w": 293,
+     "x": 25,
+     "y": 128
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_color": "333333",
+     "font_name": "Noto Sans SC",
+     "font_size": 16.0,
+     "h": 30,
+     "id": "0002e2",
+     "text": "嶺南習俗\r",
+     "type": "shape",
+     "w": 277,
+     "x": 337,
+     "y": 128
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_color": "333333",
+     "font_name": "Noto Sans SC",
+     "font_size": 16.0,
+     "h": 30,
+     "id": "0002e3",
+     "text": "壯麗邊疆風貌\r",
+     "type": "shape",
+     "w": 309,
+     "x": 633,
+     "y": 128
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 55,
+     "id": "0002e4",
+     "text": "電視劇《灣區兒女》1:1還原搭建了疍家漁村，呈現獨特的疍家水上婚禮。劇中還融入廣東醒獅、賽龍舟等嶺南風俗，對疍家以及嶺南文化都做了鮮明的表達。\r",
+     "type": "shape",
+     "w": 554,
+     "x": 42,
+     "y": 450
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 55,
+     "id": "0002e5",
+     "text": "《青春之城》在新疆吐魯番取景拍攝，盡顯新疆大美風光與濃郁獨特的風土人情。\r",
+     "type": "shape",
+     "w": 303,
+     "x": 647,
+     "y": 450
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 24,
+     "id": "0002e6",
+     "text": "搭建中華文化交流的橋樑\r",
+     "type": "shape",
+     "w": 480,
+     "x": 240,
+     "y": 96
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 29,
+     "id": "0002e7",
+     "text": "立足粵港澳大灣區 + 聯動內地及民族地區 + 國際傳播\r",
+     "type": "shape",
+     "w": 621,
+     "x": 38,
+     "y": 26
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 24,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00001e",
+   "page_index": 24,
+   "shape_count": 28,
+   "shapes": [
+    {
+     "fill": "none",
+     "h": 92,
+     "id": "00030c",
+     "img": "pptx:\\ppt\\media\\image100.jpeg/geil4v",
+     "type": "picture",
+     "w": 125,
+     "x": 330,
+     "y": 136
+    },
+    {
+     "fill": "none",
+     "h": 262,
+     "id": "00030d",
+     "img": "pptx:\\ppt\\media\\image101.jpeg/geil4v",
+     "type": "picture",
+     "w": 211,
+     "x": 713,
+     "y": 258
+    },
+    {
+     "border_color": "FFFFFF",
+     "h": 99,
+     "id": "00030e",
+     "img": "pptx:\\ppt\\media\\image102.jpeg/geil4v",
+     "type": "picture",
+     "w": 223,
+     "x": 59,
+     "y": 132
+    },
+    {
+     "fill": "none",
+     "h": 84,
+     "id": "00030f",
+     "img": "pptx:\\ppt\\media\\image103.png/geil4v",
+     "rot": 306.51461666666665,
+     "type": "picture",
+     "w": 81,
+     "x": 257,
+     "y": 146
+    },
+    {
+     "fill": "none",
+     "h": 96,
+     "id": "000310",
+     "img": "pptx:\\ppt\\media\\image104.jpeg/geil4v",
+     "type": "picture",
+     "w": 208,
+     "x": 58,
+     "y": 255
+    },
+    {
+     "fill": "none",
+     "h": 106,
+     "id": "000311",
+     "img": "pptx:\\ppt\\media\\image105.png/geil4v",
+     "type": "picture",
+     "w": 134,
+     "x": 327,
+     "y": 247
+    },
+    {
+     "fill": "none",
+     "h": 133,
+     "id": "000312",
+     "img": "pptx:\\ppt\\media\\image106.jpeg/geil4v",
+     "type": "picture",
+     "w": 316,
+     "x": 57,
+     "y": 359
+    },
+    {
+     "fill": "none",
+     "h": 160,
+     "id": "000313",
+     "img": "pptx:\\ppt\\media\\image107.png/geil4v",
+     "type": "picture",
+     "w": 217,
+     "x": 154,
+     "y": 332
+    },
+    {
+     "fill": "none",
+     "h": 172,
+     "id": "000314",
+     "img": "pptx:\\ppt\\media\\image108.png/geil4v",
+     "type": "picture",
+     "w": 234,
+     "x": 29,
+     "y": 87
+    },
+    {
+     "fill": "none",
+     "h": 134,
+     "id": "000315",
+     "img": "pptx:\\ppt\\media\\image109.png/geil4v",
+     "type": "picture",
+     "w": 182,
+     "x": 99,
+     "y": 236
+    },
+    {
+     "fill": "none",
+     "h": 93,
+     "id": "000316",
+     "img": "pptx:\\ppt\\media\\image103.png/geil4v",
+     "rot": 300.7024166666667,
+     "type": "picture",
+     "w": 89,
+     "x": 260,
+     "y": 255
+    },
+    {
+     "fill": "none",
+     "h": 86,
+     "id": "000317",
+     "img": "pptx:\\ppt\\media\\image110.png/geil4v",
+     "type": "picture",
+     "w": 153,
+     "x": 389,
+     "y": 349
+    },
+    {
+     "fill": "none",
+     "h": 138,
+     "id": "000318",
+     "img": "pptx:\\ppt\\media\\image111.png/geil4v",
+     "type": "picture",
+     "w": 232,
+     "x": 578,
+     "y": 122
+    },
+    {
+     "fill": "none",
+     "h": 90,
+     "id": "000319",
+     "img": "pptx:\\ppt\\media\\image112.png/geil4v",
+     "type": "picture",
+     "w": 78,
+     "x": 617,
+     "y": 64
+    },
+    {
+     "children": [
+      {
+       "fill": "none",
+       "h": 229,
+       "id": "00031a",
+       "img": "pptx:\\ppt\\media\\image113.jpeg/geil4v",
+       "type": "picture",
+       "w": 100,
+       "x": 679,
+       "y": 183
+      },
+      {
+       "fill": "none",
+       "h": 229,
+       "id": "00031b",
+       "img": "pptx:\\ppt\\media\\image114.jpeg/geil4v",
+       "type": "picture",
+       "w": 98,
+       "x": 780,
+       "y": 183
+      }
+     ],
+     "h": 98,
+     "id": "00031c",
+     "type": "group",
+     "w": 86,
+     "x": 840,
+     "y": 122
+    },
+    {
+     "fill": "none",
+     "h": 199,
+     "id": "00031d",
+     "img": "pptx:\\ppt\\media\\image115.png/geil4v",
+     "type": "picture",
+     "w": 197,
+     "x": 643,
+     "y": 66
+    },
+    {
+     "fill": "none",
+     "h": 96,
+     "id": "00031e",
+     "img": "pptx:\\ppt\\media\\image116.png/geil4v",
+     "rot": 321.96861666666666,
+     "type": "picture",
+     "w": 111,
+     "x": 316,
+     "y": 341
+    },
+    {
+     "fill": "none",
+     "h": 97,
+     "id": "00031f",
+     "img": "pptx:\\ppt\\media\\image117.png/geil4v",
+     "rot": 324.92615,
+     "type": "picture",
+     "w": 112,
+     "x": 775,
+     "y": 178
+    },
+    {
+     "fill": "none",
+     "h": 142,
+     "id": "000320",
+     "img": "pptx:\\ppt\\media\\image118.jpeg/geil4v",
+     "type": "picture",
+     "w": 52,
+     "x": 537,
+     "y": 221
+    },
+    {
+     "fill": "none",
+     "h": 166,
+     "id": "000321",
+     "img": "pptx:\\ppt\\media\\image119.jpeg/geil4v",
+     "type": "picture",
+     "w": 68,
+     "x": 489,
+     "y": 92
+    },
+    {
+     "fill": "none",
+     "h": 128,
+     "id": "000322",
+     "img": "pptx:\\ppt\\media\\image120.jpeg/geil4v",
+     "type": "picture",
+     "w": 105,
+     "x": 604,
+     "y": 261
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 10.5,
+     "h": 20,
+     "id": "000323",
+     "text": "电视剧《青春之城》剧照\r",
+     "type": "shape",
+     "w": 134,
+     "x": 724,
+     "y": 265
+    },
+    {
+     "fill": "none",
+     "font_color": "404040",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 36,
+     "id": "000324",
+     "text": "非遺傳承服裝設計作品在《青春之城》劇中珠寶設計師孟夢的服裝造型中展示。\r",
+     "type": "shape",
+     "w": 320,
+     "x": 389,
+     "y": 457
+    },
+    {
+     "fill": "none",
+     "h": 74,
+     "id": "000325",
+     "img": "pptx:\\ppt\\media\\image103.png/geil4v",
+     "rot": 314.0,
+     "type": "picture",
+     "w": 71,
+     "x": 453,
+     "y": 139
+    },
+    {
+     "fill": "none",
+     "h": 74,
+     "id": "000326",
+     "img": "pptx:\\ppt\\media\\image103.png/geil4v",
+     "rot": 314.0,
+     "type": "picture",
+     "w": 71,
+     "x": 474,
+     "y": 271
+    },
+    {
+     "fill": "none",
+     "h": 160,
+     "id": "000327",
+     "img": "pptx:\\ppt\\media\\image121.png/geil4v",
+     "rot": 112.39911666666667,
+     "type": "picture",
+     "w": 185,
+     "x": 661,
+     "y": 123
+    },
+    {
+     "fill": "none",
+     "h": 74,
+     "id": "000328",
+     "img": "pptx:\\ppt\\media\\image103.png/geil4v",
+     "rot": 356.16995,
+     "type": "picture",
+     "w": 71,
+     "x": 659,
+     "y": 385
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 31,
+     "id": "000329",
+     "text": "《青春之城》中的服裝造型融入了藏區非遺傳承服裝設計作品\r",
+     "type": "shape",
+     "w": 796,
+     "x": 59,
+     "y": 50
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 25,
+  "info": {
+   "anim_count": 1,
+   "animations": [
+    {
+     "index": 0,
+     "preset_class": 1,
+     "preset_id": 22,
+     "preset_subtype": 8,
+     "seq_type": "STTLTimeNodeType_mainSeq",
+     "shape_id": "000356",
+     "trigger_id": "kDefaultTriggerId"
+    }
+   ],
+   "page_id": "00001f",
+   "page_index": 25,
+   "shape_count": 17,
+   "shapes": [
+    {
+     "fill": "none",
+     "h": 540,
+     "id": "00034e",
+     "img": "pptx:\\ppt\\media\\image62.jpeg/geil4v",
+     "type": "picture",
+     "w": 959,
+     "x": 0,
+     "y": 2
+    },
+    {
+     "fill": "none",
+     "font_color": "262626",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 117,
+     "id": "00034f",
+     "text": "       劇集已上線YouTube平臺，並配製了西班牙語、法語、俄語、阿拉伯語版本上線CGTN電視及網絡平臺，面向全球播出。同時，已於2025年5月在中阿衛視衛星頻道播出，覆蓋西亞北非22個阿拉伯國家和地區近5億人口。\r",
+     "type": "shape",
+     "w": 415,
+     "x": 52,
+     "y": 77
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 36,
+     "id": "000350",
+     "text": "《青春之城》\r",
+     "type": "shape",
+     "w": 561,
+     "x": 52,
+     "y": 55
+    },
+    {
+     "h": 144,
+     "id": "000351",
+     "img": "pptx:\\ppt\\media\\image122.jpeg/geil4v",
+     "type": "picture",
+     "w": 358,
+     "x": 54,
+     "y": 191
+    },
+    {
+     "border_alpha": 100,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 5.0,
+     "h": 30,
+     "id": "000352",
+     "text": "\r國際傳播：中國故事，全球觸達\r",
+     "type": "shape",
+     "w": 435,
+     "x": 26,
+     "y": 21
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_color": "404040",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 102,
+     "id": "000353",
+     "text": "     該劇已成功登陸東南亞、北美、歐洲、澳洲等全球核心市場，觸達超100多個國家；並譯製了阿拉伯語，面向阿拉伯地區22個國家播出。\r",
+     "type": "shape",
+     "w": 245,
+     "x": 53,
+     "y": 400
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 34,
+     "id": "000354",
+     "text": "《灣區兒女》\r",
+     "type": "shape",
+     "w": 480,
+     "x": 49,
+     "y": 358
+    },
+    {
+     "h": 195,
+     "id": "000355",
+     "img": "pptx:\\ppt\\media\\image123.jpeg/geil4v",
+     "type": "picture",
+     "w": 152,
+     "x": 309,
+     "y": 342
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 27,
+     "id": "000356",
+     "text": "BIGUI（碧鬼）視頻IP節目\r",
+     "type": "shape",
+     "w": 411,
+     "x": 565,
+     "y": 66
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 14.0,
+     "h": 84,
+     "id": "000357",
+     "text": "長期專注國際化內容  \r多語種輸出  \r多IP策劃\r",
+     "type": "shape",
+     "w": 206,
+     "x": 570,
+     "y": 108
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "h": 127,
+     "id": "000358",
+     "img": "pptx:\\ppt\\media\\image124.png/geil4v",
+     "type": "picture",
+     "w": 206,
+     "x": 730,
+     "y": 205
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "h": 131,
+     "id": "000359",
+     "img": "pptx:\\ppt\\media\\image125.png/geil4v",
+     "type": "picture",
+     "w": 193,
+     "x": 525,
+     "y": 202
+    },
+    {
+     "fill": "none",
+     "font_color": "404040",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 51,
+     "id": "00035a",
+     "text": "IN CHINA《在中国》宣传京郊青龙峡旅游一集，单条视频经全球237家媒体的传播，达到2亿多的播放量。\r",
+     "type": "shape",
+     "w": 248,
+     "x": 718,
+     "y": 342
+    },
+    {
+     "fill": "none",
+     "font_color": "404040",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 51,
+     "id": "00035b",
+     "text": "BIGUI节目在AP美联社被推荐在首页醒目位置，该节目还被国外102家媒体采用及播出。\r",
+     "type": "shape",
+     "w": 220,
+     "x": 504,
+     "y": 344
+    },
+    {
+     "h": 120,
+     "id": "00035c",
+     "img": "pptx:\\ppt\\media\\image126.jpeg/geil4v",
+     "type": "picture",
+     "w": 134,
+     "x": 650,
+     "y": 397
+    },
+    {
+     "h": 120,
+     "id": "00035d",
+     "img": "pptx:\\ppt\\media\\image127.jpeg/geil4v",
+     "type": "picture",
+     "w": 134,
+     "x": 791,
+     "y": 397
+    },
+    {
+     "h": 120,
+     "id": "00035e",
+     "img": "pptx:\\ppt\\media\\image128.jpeg/geil4v",
+     "type": "picture",
+     "w": 134,
+     "x": 508,
+     "y": 400
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 26,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000020",
+   "page_index": 26,
+   "shape_count": 13,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "000379",
+     "img": "pptx:\\ppt\\media\\image2.jpeg/geil4v",
+     "type": "picture",
+     "w": 961,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "h": 442,
+     "id": "00037a",
+     "img": "pptx:\\ppt\\media\\image129.png/geil4v",
+     "type": "picture",
+     "w": 397,
+     "x": 21,
+     "y": 94
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 20.0,
+     "h": 76,
+     "id": "00037b",
+     "text": "經濟效益\r文創價值突破10億\r",
+     "type": "shape",
+     "w": 346,
+     "x": 480,
+     "y": 94
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 19,
+     "id": "00037c",
+     "rot": 90.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 23,
+     "x": 449,
+     "y": 108
+    },
+    {
+     "h": 168,
+     "id": "00037d",
+     "img": "pptx:\\ppt\\media\\image130.jpeg/geil4v",
+     "rot": 345.0,
+     "type": "picture",
+     "w": 251,
+     "x": 89,
+     "y": 220
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 16.0,
+     "h": 274,
+     "id": "00037e",
+     "text": "·IP衍生品開發\r《灣區兒女》《青春之城》等系列IP開發文創產品超200款，累計銷售破十億\r·IP系列開發\r音樂劇、廣播劇等改編授權收入持續增長\r·直播帶貨轉化\r明星專場直播單場刷新澳門文創紀錄\r·線下實體\r線下實體店年均IP衍生品銷售超千萬元\r\r",
+     "type": "shape",
+     "w": 450,
+     "x": 468,
+     "y": 179
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 20.0,
+     "h": 76,
+     "id": "00037f",
+     "text": "社會效益\r多個「五個一」國家級榮譽\r",
+     "type": "shape",
+     "w": 324,
+     "x": 77,
+     "y": 96
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 16.0,
+     "h": 332,
+     "id": "000380",
+     "text": "電視劇《灣區兒女》\r→ 第十六屆精神文明建設「五個一工程」優秀作品獎\r廣播劇《我從灣區來看你》\r→ 中宣部「五個一工程」獎\r歌曲《盛世蓮花》\r→ 中宣部第十七屆精神文明建設「五個一工程」優秀作品獎\r電視劇《青春之城》\r→ 入選中宣部、國家廣電總局「禮贊新時代 奮進新征程」優秀電視劇展播\r→ 廣東省第十三屆精神文明建設「五個一工程」優秀作品獎\r\r",
+     "type": "shape",
+     "w": 353,
+     "x": 49,
+     "y": 178
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 19,
+     "id": "000381",
+     "rot": 90.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 23,
+     "x": 35,
+     "y": 112
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 36.0,
+     "h": 65,
+     "id": "000382",
+     "text": "從劣勢到優勢——我們的實踐成果\r",
+     "type": "shape",
+     "w": 575,
+     "x": 196,
+     "y": -7
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 44,
+     "id": "000383",
+     "text": "\r",
+     "type": "shape",
+     "w": 465,
+     "x": 236,
+     "y": 474
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "font_size": 24.0,
+     "h": 36,
+     "id": "000384",
+     "text": "內容贏得口碑，IP創造價值\r",
+     "type": "shape",
+     "w": 435,
+     "x": 247,
+     "y": 480
+    },
+    {
+     "font_name": "Microsoft YaHei",
+     "h": 29,
+     "id": "000385",
+     "text": "社會效益與經濟效益雙豐收\r",
+     "type": "shape",
+     "w": 400,
+     "x": 282,
+     "y": 56
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 27,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000021",
+   "page_index": 27,
+   "shape_count": 37,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 0.5,
+     "font_color": "FFFFFF",
+     "font_name": "Arial",
+     "font_size": 20.0,
+     "h": 24,
+     "id": "000397",
+     "text": "\r",
+     "type": "shape",
+     "w": 959,
+     "x": 0,
+     "y": 451
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "h": 25,
+     "id": "000398",
+     "rot": 90.0,
+     "type": "connector",
+     "w": 0,
+     "x": 256,
+     "y": 450
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_color": "FFFFFF",
+     "font_name": "Arial",
+     "h": 4,
+     "id": "000399",
+     "rot": 90.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 7,
+     "x": 264,
+     "y": 461
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "h": 25,
+     "id": "00039a",
+     "rot": 90.0,
+     "type": "connector",
+     "w": 0,
+     "x": 442,
+     "y": 450
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_color": "FFFFFF",
+     "font_name": "Arial",
+     "h": 4,
+     "id": "00039b",
+     "rot": 90.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 7,
+     "x": 450,
+     "y": 461
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "h": 25,
+     "id": "00039c",
+     "rot": 90.0,
+     "type": "connector",
+     "w": 0,
+     "x": 629,
+     "y": 450
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_color": "FFFFFF",
+     "font_name": "Arial",
+     "h": 4,
+     "id": "00039d",
+     "rot": 90.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 7,
+     "x": 637,
+     "y": 461
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "h": 25,
+     "id": "00039e",
+     "rot": 90.0,
+     "type": "connector",
+     "w": 0,
+     "x": 815,
+     "y": 450
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_color": "FFFFFF",
+     "font_name": "Arial",
+     "h": 4,
+     "id": "00039f",
+     "rot": 90.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 7,
+     "x": 823,
+     "y": 461
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 3.0,
+     "fill": "none",
+     "h": 283,
+     "id": "0003a0",
+     "type": "connector",
+     "w": 0,
+     "x": 43,
+     "y": 167
+    },
+    {
+     "fill": "none",
+     "font_color": "1F74AD",
+     "font_name": "Arial",
+     "font_size": 14.0,
+     "h": 24,
+     "id": "0003a1",
+     "text": "四月\r",
+     "type": "shape",
+     "w": 166,
+     "x": 33,
+     "y": 145
+    },
+    {
+     "fill": "none",
+     "font_color": "235A69",
+     "font_name": "Arial",
+     "font_size": 20.0,
+     "h": 65,
+     "id": "0003a2",
+     "text": "深港澳青年創意設計大賽\r",
+     "type": "shape",
+     "w": 166,
+     "x": 45,
+     "y": 170
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 3.0,
+     "fill": "none",
+     "h": 314,
+     "id": "0003a3",
+     "type": "connector",
+     "w": 0,
+     "x": 216,
+     "y": 159
+    },
+    {
+     "fill": "none",
+     "font_color": "1F74AD",
+     "font_name": "Arial",
+     "font_size": 14.0,
+     "h": 24,
+     "id": "0003a5",
+     "text": "六月\r",
+     "type": "shape",
+     "w": 166,
+     "x": 206,
+     "y": 121
+    },
+    {
+     "fill": "none",
+     "font_color": "235A69",
+     "font_name": "Arial",
+     "font_size": 20.0,
+     "h": 34,
+     "id": "0003a4",
+     "text": "澳門·國際網絡視聽節\r",
+     "type": "shape",
+     "w": 161,
+     "x": 216,
+     "y": 142
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 3.0,
+     "fill": "none",
+     "h": 271,
+     "id": "0003a6",
+     "type": "connector",
+     "w": 1,
+     "x": 389,
+     "y": 179
+    },
+    {
+     "fill": "none",
+     "font_color": "1F74AD",
+     "font_name": "Arial",
+     "font_size": 14.0,
+     "h": 24,
+     "id": "0003a7",
+     "text": "十月\r",
+     "type": "shape",
+     "w": 166,
+     "x": 546,
+     "y": 86
+    },
+    {
+     "fill": "none",
+     "font_color": "235A69",
+     "font_name": "Arial",
+     "font_size": 20.0,
+     "h": 34,
+     "id": "0003a8",
+     "text": "深澳雙創周活動\r",
+     "type": "shape",
+     "w": 166,
+     "x": 566,
+     "y": 113
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 3.0,
+     "fill": "none",
+     "h": 334,
+     "id": "0003a9",
+     "type": "connector",
+     "w": 2,
+     "x": 563,
+     "y": 117
+    },
+    {
+     "fill": "none",
+     "font_color": "1F74AD",
+     "font_name": "Arial",
+     "font_size": 14.0,
+     "h": 24,
+     "id": "0003aa",
+     "text": "十二月\r",
+     "type": "shape",
+     "w": 166,
+     "x": 726,
+     "y": 15
+    },
+    {
+     "fill": "none",
+     "font_color": "235A69",
+     "font_name": "Arial",
+     "font_size": 16.0,
+     "h": 172,
+     "id": "0003ab",
+     "text": "·澳門心中國夢音樂徵集\r·中華民族文創產品設計大賽\r·非遺創新精品展\r·非遺跨界時尚秀\r\r\r",
+     "type": "shape",
+     "w": 225,
+     "x": 744,
+     "y": 42
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 3.0,
+     "fill": "none",
+     "h": 416,
+     "id": "0003ac",
+     "type": "connector",
+     "w": 0,
+     "x": 742,
+     "y": 43
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "000000",
+     "font_color": "222222",
+     "font_name": "Arial",
+     "h": 48,
+     "id": "0003ad",
+     "text": "\r",
+     "type": "shape",
+     "w": 47,
+     "x": -1,
+     "y": 402
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "000000",
+     "font_color": "222222",
+     "font_name": "Arial",
+     "h": 48,
+     "id": "0003ae",
+     "text": "\r",
+     "type": "shape",
+     "w": 48,
+     "x": 903,
+     "y": 403
+    },
+    {
+     "fill": "none",
+     "font_color": "235A69",
+     "font_name": "Arial",
+     "font_size": 40.0,
+     "h": 60,
+     "id": "0003af",
+     "text": "活動策劃\r",
+     "type": "shape",
+     "w": 443,
+     "x": 26,
+     "y": 29
+    },
+    {
+     "h": 88,
+     "id": "0003b0",
+     "img": "pptx:\\ppt\\media\\image131.jpeg/geil4v",
+     "type": "picture",
+     "w": 156,
+     "x": 220,
+     "y": 210
+    },
+    {
+     "h": 105,
+     "id": "0003b1",
+     "img": "pptx:\\ppt\\media\\image132.jpeg/geil4v",
+     "type": "picture",
+     "w": 166,
+     "x": 47,
+     "y": 238
+    },
+    {
+     "h": 104,
+     "id": "0003b2",
+     "img": "pptx:\\ppt\\media\\image133.jpeg/geil4v",
+     "type": "picture",
+     "w": 163,
+     "x": 48,
+     "y": 344
+    },
+    {
+     "h": 88,
+     "id": "0003b3",
+     "img": "pptx:\\ppt\\media\\image134.jpeg/geil4v",
+     "type": "picture",
+     "w": 156,
+     "x": 220,
+     "y": 299
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "h": 88,
+     "id": "0003b4",
+     "img": "pptx:\\ppt\\media\\image135.jpeg/geil4v",
+     "type": "picture",
+     "w": 167,
+     "x": 568,
+     "y": 152
+    },
+    {
+     "h": 107,
+     "id": "0003b5",
+     "img": "pptx:\\ppt\\media\\image136.jpeg/geil4v",
+     "type": "picture",
+     "w": 178,
+     "x": 756,
+     "y": 204
+    },
+    {
+     "fill": "none",
+     "font_color": "1F74AD",
+     "font_name": "Arial",
+     "font_size": 14.0,
+     "h": 24,
+     "id": "0003b6",
+     "text": "八月\r",
+     "type": "shape",
+     "w": 166,
+     "x": 381,
+     "y": 146
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_color": "235A69",
+     "font_name": "Arial",
+     "font_size": 16.0,
+     "h": 30,
+     "id": "0003b7",
+     "text": "趣至夏日原創市集\r",
+     "type": "shape",
+     "w": 174,
+     "x": 395,
+     "y": 181
+    },
+    {
+     "h": 117,
+     "id": "0003b8",
+     "img": "pptx:\\ppt\\media\\image137.jpeg/geil4v",
+     "type": "picture",
+     "w": 154,
+     "x": 400,
+     "y": 212
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 110,
+     "id": "0003b9",
+     "img": "pptx:\\ppt\\media\\image138.jpeg/geil4v",
+     "type": "picture",
+     "w": 180,
+     "x": 754,
+     "y": 314
+    },
+    {
+     "h": 75,
+     "id": "0003ba",
+     "img": "pptx:\\ppt\\media\\image139.jpeg/geil4v",
+     "type": "picture",
+     "w": 163,
+     "x": 572,
+     "y": 248
+    },
+    {
+     "fill": "none",
+     "h": 89,
+     "id": "0003bb",
+     "img": "pptx:\\ppt\\media\\image140.jpeg/geil4v",
+     "type": "picture",
+     "w": 165,
+     "x": 568,
+     "y": 329
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 28,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000022",
+   "page_index": 28,
+   "shape_count": 7,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 31,
+     "id": "0003e7",
+     "text": "深港澳青少年創意設計大賽\r",
+     "type": "shape",
+     "w": 313,
+     "x": 56,
+     "y": 66
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 14.0,
+     "h": 236,
+     "id": "0003e8",
+     "text": "        自2023年起舉辦。\r       大賽以「交流交融、創想未來」為主題，面向年齡不超過19週歲的深港澳青少年，鼓勵他們通過創意與設計，結合在地文化，描繪粵港澳大灣區未來的宏偉景象，徵集作品包括科技新發明、創意新媒體、設計新視角、科普新世界等四個類別。  \r\r       該活動引發中央電視台持續關注，已連續四屆獲得相關報導。   \r    \r     \r",
+     "type": "shape",
+     "w": 434,
+     "x": 32,
+     "y": 143
+    },
+    {
+     "h": 114,
+     "id": "0003e9",
+     "img": "pptx:\\ppt\\media\\image141.jpeg/geil4v",
+     "type": "picture",
+     "w": 178,
+     "x": 503,
+     "y": 234
+    },
+    {
+     "h": 114,
+     "id": "0003ea",
+     "img": "pptx:\\ppt\\media\\image142.jpeg/geil4v",
+     "type": "picture",
+     "w": 235,
+     "x": 685,
+     "y": 234
+    },
+    {
+     "children": [
+      {
+       "h": 0,
+       "id": "0003eb",
+       "img": "pptx:\\ppt\\media\\image143.png/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 0,
+       "y": 1
+      },
+      {
+       "border_alpha": 100,
+       "border_width": 1.0,
+       "h": 0,
+       "id": "0003ec",
+       "img": "pptx:\\ppt\\media\\image144.png/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 0,
+       "y": 1
+      },
+      {
+       "h": 0,
+       "id": "0003ed",
+       "img": "pptx:\\ppt\\media\\image145.png/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 1
+      }
+     ],
+     "h": 140,
+     "id": "0003ee",
+     "type": "group",
+     "w": 726,
+     "x": 3,
+     "y": 363
+    },
+    {
+     "h": 193,
+     "id": "0003ef",
+     "img": "pptx:\\ppt\\media\\image146.jpeg/geil4v",
+     "type": "picture",
+     "w": 417,
+     "x": 503,
+     "y": 37
+    },
+    {
+     "h": 136,
+     "id": "0003f0",
+     "img": "pptx:\\ppt\\media\\image147.png/geil4v",
+     "type": "picture",
+     "w": 225,
+     "x": 733,
+     "y": 361
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 29,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000023",
+   "page_index": 29,
+   "shape_count": 11,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 35,
+     "id": "0003fd",
+     "text": "文創館\r",
+     "type": "shape",
+     "w": 458,
+     "x": 37,
+     "y": 21
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 24,
+     "id": "0003fe",
+     "text": "——中華民族文創館\r",
+     "type": "shape",
+     "w": 153,
+     "x": 123,
+     "y": 27
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_size": 14.0,
+     "h": 123,
+     "id": "0003ff",
+     "text": "澳門中華民族文創館是澳門與少數民族文創展示與交易基地，並由國家民委原副主任江家福先生親筆題寫。文創館以中華文化為主流，多元文化共存的合作交流基地為起點，向世界傳播中華民族文化，使各地遊客感受中華少數民族的魅力。產品分類包括民族首飾、民族文創、民族工藝、傳統服飾、佛教文創、澳門原創。\r",
+     "type": "shape",
+     "w": 485,
+     "x": 43,
+     "y": 62
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 118,
+     "id": "000400",
+     "img": "pptx:\\ppt\\media\\image148.png/geil4v",
+     "type": "picture",
+     "w": 191,
+     "x": 550,
+     "y": 51
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 118,
+     "id": "000401",
+     "img": "pptx:\\ppt\\media\\image149.jpeg/geil4v",
+     "type": "picture",
+     "w": 196,
+     "x": 741,
+     "y": 51
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 35,
+     "id": "000402",
+     "text": "ACC(創意廊)\r",
+     "type": "shape",
+     "w": 458,
+     "x": 37,
+     "y": 199
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 14.0,
+     "h": 123,
+     "id": "000403",
+     "text": "        ACC（Amazing Creation & Collection 的縮寫）是一個匯聚澳門地道文化、中西交融、經典創新的藝術創作、交流、展示和交易的空間，彙集了澳門本土的攝影、視頻、化作、手工藝品等原創作品。經過數年時間的運營， 已與數十位個澳門本土文創品牌合作，為澳門與深圳兩地文創人士提供同台展示的機會，繼而實現優質產品的孵化和落地，同時為他們提供銷售平臺。\r",
+     "type": "shape",
+     "w": 499,
+     "x": 43,
+     "y": 229
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 160,
+     "id": "000404",
+     "img": "pptx:\\ppt\\media\\image150.jpeg/geil4v",
+     "type": "picture",
+     "w": 296,
+     "x": 583,
+     "y": 193
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 32,
+     "id": "000405",
+     "text": "Depanda（國潮文化） \r",
+     "type": "shape",
+     "w": 458,
+     "x": 37,
+     "y": 366
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_size": 14.0,
+     "h": 85,
+     "id": "000406",
+     "text": " Depanda以熊猫（Panda）这一高辨识度、具备天然“明星效应”的文化符号为核心记忆点，打造国潮品牌集合店。通过潮酷的创意表达与精准高效的传播方式，持续吸引年轻消费者，构建鲜明的IP场景记忆点，实现对年轻消费群体的深度覆盖与情感连接。\r",
+     "type": "shape",
+     "w": 480,
+     "x": 48,
+     "y": 409
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 163,
+     "id": "000407",
+     "img": "pptx:\\ppt\\media\\image151.png/geil4v",
+     "type": "picture",
+     "w": 242,
+     "x": 624,
+     "y": 366
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 30,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000024",
+   "page_index": 30,
+   "shape_count": 26,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 46,
+     "id": "000408",
+     "text": "\r",
+     "type": "shape",
+     "w": 143,
+     "x": 757,
+     "y": 156
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "fill": "235A69",
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 42,
+     "id": "000409",
+     "text": "\r",
+     "type": "shape",
+     "w": 96,
+     "x": 481,
+     "y": 106
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "fill": "235A69",
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 42,
+     "id": "00040a",
+     "text": "\r",
+     "type": "shape",
+     "w": 96,
+     "x": 253,
+     "y": 109
+    },
+    {
+     "fill": "none",
+     "font_size": 28.0,
+     "h": 58,
+     "id": "00040b",
+     "text": "大赛\r",
+     "type": "shape",
+     "w": 98,
+     "x": 18,
+     "y": 202
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 28.0,
+     "h": 52,
+     "id": "00040c",
+     "text": "影視植入\r",
+     "type": "shape",
+     "w": 124,
+     "x": 247,
+     "y": 186
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 18.0,
+     "h": 27,
+     "id": "00040d",
+     "text": "找到好作品\r",
+     "type": "shape",
+     "w": 96,
+     "x": 122,
+     "y": 185
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 28.0,
+     "h": 52,
+     "id": "00040e",
+     "text": "展覽\r",
+     "type": "shape",
+     "w": 81,
+     "x": 264,
+     "y": 253
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 24.0,
+     "h": 46,
+     "id": "00040f",
+     "text": "銷售\r",
+     "type": "shape",
+     "w": 81,
+     "x": 492,
+     "y": 100
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 28.0,
+     "h": 134,
+     "id": "000410",
+     "text": "線下店鋪\r中華民族文創館\rACC創意廊\rDepanda\r",
+     "type": "shape",
+     "w": 124,
+     "x": 468,
+     "y": 151
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 28.0,
+     "h": 84,
+     "id": "000411",
+     "text": "直播\r\r",
+     "type": "shape",
+     "w": 124,
+     "x": 468,
+     "y": 282
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 29,
+     "id": "000412",
+     "text": "獲取收入\r",
+     "type": "shape",
+     "w": 88,
+     "x": 644,
+     "y": 190
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 54,
+     "id": "000413",
+     "text": "\r",
+     "type": "shape",
+     "w": 135,
+     "x": 763,
+     "y": 247
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 20.0,
+     "h": 39,
+     "id": "000414",
+     "text": "公益（接後頁）\r",
+     "type": "shape",
+     "w": 190,
+     "x": 740,
+     "y": 156
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 20.0,
+     "h": 39,
+     "id": "000415",
+     "text": "剩餘利潤\r",
+     "type": "shape",
+     "w": 124,
+     "x": 769,
+     "y": 250
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 172,
+     "id": "000416",
+     "rot": 180.0,
+     "text": "\r",
+     "type": "shape",
+     "w": 800,
+     "x": 49,
+     "y": 301
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 18.0,
+     "h": 34,
+     "id": "000417",
+     "text": "反哺大賽，形成閉環\r",
+     "type": "shape",
+     "w": 165,
+     "x": 377,
+     "y": 429
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 24.0,
+     "h": 51,
+     "id": "000418",
+     "text": "品牌\r",
+     "type": "shape",
+     "w": 116,
+     "x": 246,
+     "y": 100
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.25,
+     "fill": "none",
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 277,
+     "id": "000419",
+     "text": "\r",
+     "type": "shape",
+     "w": 152,
+     "x": 229,
+     "y": 95
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.25,
+     "fill": "none",
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 282,
+     "id": "00041a",
+     "text": "\r",
+     "type": "shape",
+     "w": 153,
+     "x": 455,
+     "y": 96
+    },
+    {
+     "font_color": "235A69",
+     "font_name": "Microsoft YaHei",
+     "font_size": 32.0,
+     "h": 46,
+     "id": "00041b",
+     "text": "核心活動 → 內容品牌化 → 價值閉環\r",
+     "type": "shape",
+     "w": 566,
+     "x": 190,
+     "y": 15
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 27,
+     "id": "00041c",
+     "text": "\r",
+     "type": "shape",
+     "w": 87,
+     "x": 123,
+     "y": 219
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "fill": "235A69",
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 57,
+     "id": "00041d",
+     "text": "\r",
+     "type": "shape",
+     "w": 96,
+     "x": 15,
+     "y": 203
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 28.0,
+     "h": 34,
+     "id": "00041e",
+     "text": "大賽\r",
+     "type": "shape",
+     "w": 79,
+     "x": 34,
+     "y": 217
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 25,
+     "id": "00041f",
+     "text": "\r",
+     "type": "shape",
+     "w": 70,
+     "x": 383,
+     "y": 219
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "font_color": "000000",
+     "font_name": "+mn-lt",
+     "font_size": 18.0,
+     "h": 21,
+     "id": "000420",
+     "text": "\r",
+     "type": "shape",
+     "w": 111,
+     "x": 621,
+     "y": 221
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 2.0,
+     "fill": "none",
+     "font_color": "000000",
+     "font_size": 18.0,
+     "h": 113,
+     "id": "000421",
+     "text": "\r",
+     "type": "shape",
+     "w": 19,
+     "x": 735,
+     "y": 174
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 31,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000025",
+   "page_index": 31,
+   "shape_count": 6,
+   "shapes": [
+    {
+     "fill": "none",
+     "h": 150,
+     "id": "000438",
+     "img": "pptx:\\ppt\\media\\image152.jpeg/geil4v",
+     "type": "picture",
+     "w": 224,
+     "x": 115,
+     "y": 225
+    },
+    {
+     "fill": "none",
+     "h": 150,
+     "id": "000439",
+     "img": "pptx:\\ppt\\media\\image153.jpeg/geil4v",
+     "type": "picture",
+     "w": 224,
+     "x": 115,
+     "y": 66
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 99,
+     "id": "00043a",
+     "text": "彩虹路——民族青少年藝術教育公益活動\r該活動由中央廣播電視總台民族節目中心於2013年5月倡議發起，協會作為專案共同發起單位，通過組織內地及港澳臺藝術家赴民族地區開展采風、創作與教學等系列活動，定向資助民族地區中小學藝術教育，持續推動民族地區青少年藝術教育的健康發展。截至目前，「彩虹路」項目已在民族地區中小學校捐建美術、音樂教室共91所，並在8所學校發放藝術包755個，取得了良好的社會效益和教育成效。\r",
+     "type": "shape",
+     "w": 741,
+     "x": 115,
+     "y": 395
+    },
+    {
+     "fill": "none",
+     "h": 308,
+     "id": "00043b",
+     "img": "pptx:\\ppt\\media\\image154.jpeg/geil4v",
+     "type": "picture",
+     "w": 218,
+     "x": 622,
+     "y": 66
+    },
+    {
+     "fill": "none",
+     "h": 308,
+     "id": "00043c",
+     "img": "pptx:\\ppt\\media\\image155.jpeg/geil4v",
+     "type": "picture",
+     "w": 218,
+     "x": 372,
+     "y": 66
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 34,
+     "id": "00043d",
+     "text": "公益扶貧 \r",
+     "type": "shape",
+     "w": 278,
+     "x": 111,
+     "y": 10
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 32,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000026",
+   "page_index": 32,
+   "shape_count": 11,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "00044b",
+     "img": "pptx:\\ppt\\media\\image1.jpeg/geil4v",
+     "type": "picture",
+     "w": 960,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "font_color": "404040",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 36,
+     "id": "00044c",
+     "text": "      自2019年12月前往貴州從江頂洞小學進行幫扶工作，並與頂洞小學簽署長遠幫扶協定後，多次聯動企業資源向頂洞小學全校學生捐贈冬季校服、鞋子等物資。\r",
+     "type": "shape",
+     "w": 519,
+     "x": 83,
+     "y": 468
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "h": 149,
+     "id": "00044d",
+     "img": "pptx:\\ppt\\media\\image156.jpeg/geil4v",
+     "type": "picture",
+     "w": 248,
+     "x": 49,
+     "y": 298
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "h": 167,
+     "id": "00044e",
+     "img": "pptx:\\ppt\\media\\image157.jpeg/geil4v",
+     "type": "picture",
+     "w": 248,
+     "x": 49,
+     "y": 125
+    },
+    {
+     "children": [
+      {
+       "border_alpha": 100,
+       "border_width": 0.75,
+       "fill": "none",
+       "h": 0,
+       "id": "00044f",
+       "img": "pptx:\\ppt\\media\\image158.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      },
+      {
+       "border_alpha": 100,
+       "border_width": 0.75,
+       "fill": "none",
+       "h": 0,
+       "id": "000450",
+       "img": "pptx:\\ppt\\media\\image159.jpeg/geil4v",
+       "type": "picture",
+       "w": 0,
+       "x": 1,
+       "y": 0
+      }
+     ],
+     "h": 321,
+     "id": "000451",
+     "type": "group",
+     "w": 227,
+     "x": 674,
+     "y": 125
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "font_color": "404040",
+     "font_name": "Microsoft YaHei",
+     "font_size": 12.0,
+     "h": 51,
+     "id": "000452",
+     "text": "      2020年10月赴雲南考察，參訪團與祿勸彝族苗族自治縣領導在崇德小學留影；與縣教體局簽訂教育幫扶合作框架協議。\r",
+     "type": "shape",
+     "w": 234,
+     "x": 674,
+     "y": 458
+    },
+    {
+     "h": 127,
+     "id": "000453",
+     "img": "pptx:\\ppt\\media\\image160.jpeg/geil4v",
+     "type": "picture",
+     "w": 185,
+     "x": 304,
+     "y": 321
+    },
+    {
+     "h": 127,
+     "id": "000454",
+     "img": "pptx:\\ppt\\media\\image161.jpeg/geil4v",
+     "type": "picture",
+     "w": 173,
+     "x": 493,
+     "y": 321
+    },
+    {
+     "fill": "none",
+     "h": 191,
+     "id": "000455",
+     "img": "pptx:\\ppt\\media\\image162.jpeg/geil4v",
+     "type": "picture",
+     "w": 363,
+     "x": 304,
+     "y": 125
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "h": 29,
+     "id": "000456",
+     "text": "小學教育幫扶\r",
+     "type": "shape",
+     "w": 480,
+     "x": 247,
+     "y": 77
+    },
+    {
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 34,
+     "id": "000457",
+     "text": "公益扶貧 \r",
+     "type": "shape",
+     "w": 278,
+     "x": 38,
+     "y": 32
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 33,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000027",
+   "page_index": 33,
+   "shape_count": 10,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 31,
+     "id": "000467",
+     "text": "交流活動概要\r",
+     "type": "shape",
+     "w": 166,
+     "x": 51,
+     "y": 38
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "font_color": "235A69",
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 35,
+     "id": "000468",
+     "text": "\r（國際）\r",
+     "type": "shape",
+     "w": 107,
+     "x": 190,
+     "y": 21
+    },
+    {
+     "border_alpha": 100,
+     "border_color": "000000",
+     "h": 156,
+     "id": "000469",
+     "img": "pptx:\\ppt\\media\\image163.png/geil4v",
+     "type": "picture",
+     "w": 229,
+     "x": 472,
+     "y": 137
+    },
+    {
+     "fill": "none",
+     "font_name": "微軟正黑體",
+     "font_size": 16.0,
+     "h": 27,
+     "id": "00046a",
+     "text": "赴匈牙利參加中國品牌商品展\r",
+     "type": "shape",
+     "w": 229,
+     "x": 472,
+     "y": 293
+    },
+    {
+     "border_alpha": 100,
+     "border_color": "000000",
+     "border_width": 1.0,
+     "fill": "none",
+     "h": 156,
+     "id": "00046b",
+     "img": "pptx:\\ppt\\media\\image164.jpeg/geil4v",
+     "type": "picture",
+     "w": 208,
+     "x": 36,
+     "y": 137
+    },
+    {
+     "font_name": "微軟正黑體",
+     "font_size": 16.0,
+     "h": 46,
+     "id": "00046c",
+     "text": "赴伊朗參加2017中國（伊朗）貿易博覽會\r",
+     "type": "shape",
+     "w": 208,
+     "x": 36,
+     "y": 293
+    },
+    {
+     "border_alpha": 100,
+     "border_color": "000000",
+     "border_width": 1.0,
+     "fill": "none",
+     "h": 156,
+     "id": "00046d",
+     "img": "pptx:\\ppt\\media\\image165.jpeg/geil4v",
+     "type": "picture",
+     "w": 216,
+     "x": 250,
+     "y": 137
+    },
+    {
+     "fill": "none",
+     "font_name": "微軟正黑體",
+     "font_size": 16.0,
+     "h": 46,
+     "id": "00046e",
+     "text": "赴俄羅斯拜訪俄羅斯亞洲工業企業家聯盟\r",
+     "type": "shape",
+     "w": 216,
+     "x": 250,
+     "y": 294
+    },
+    {
+     "h": 156,
+     "id": "00046f",
+     "img": "pptx:\\ppt\\media\\image166.jpeg/geil4v",
+     "type": "picture",
+     "w": 208,
+     "x": 708,
+     "y": 137
+    },
+    {
+     "fill": "none",
+     "font_name": "微軟正黑體",
+     "font_size": 16.0,
+     "h": 46,
+     "id": "000470",
+     "text": "赴哈薩克斯坦拜訪當地核心傳媒機構與創意產業平台\r",
+     "type": "shape",
+     "w": 208,
+     "x": 708,
+     "y": 293
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 34,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000028",
+   "page_index": 34,
+   "shape_count": 5,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "font_name": "Microsoft YaHei",
+     "font_size": 20.0,
+     "h": 153,
+     "id": "00047b",
+     "text": "交流活動概要\r",
+     "type": "shape",
+     "w": 46,
+     "x": 40,
+     "y": 179
+    },
+    {
+     "h": 486,
+     "id": "00047c",
+     "type": "table",
+     "w": 431,
+     "x": 91,
+     "y": 21
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 0.75,
+     "fill": "none",
+     "font_color": "235A69",
+     "font_name": "Microsoft YaHei",
+     "font_size": 16.0,
+     "h": 35,
+     "id": "00047d",
+     "text": "（國內）\r",
+     "type": "shape",
+     "w": 76,
+     "x": 15,
+     "y": 332
+    },
+    {
+     "h": 172,
+     "id": "00047e",
+     "type": "table",
+     "w": 431,
+     "x": 529,
+     "y": 21
+    },
+    {
+     "h": 377,
+     "id": "00047f",
+     "img": "pptx:\\ppt\\media\\image167.png/geil4v",
+     "type": "picture",
+     "w": 466,
+     "x": 480,
+     "y": 149
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 35,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "000029",
+   "page_index": 35,
+   "shape_count": 28,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 12.0,
+     "h": 51,
+     "id": "000493",
+     "text": "2017年12月16-17日\r赴中南民族大學參加全國民族院校藥學院發展戰略研討暨院長聯席會議\r",
+     "type": "shape",
+     "w": 203,
+     "x": 451,
+     "y": 140
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 121,
+     "id": "000494",
+     "img": "pptx:\\ppt\\media\\image168.png/geil4v",
+     "type": "picture",
+     "w": 203,
+     "x": 451,
+     "y": 19
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 12.0,
+     "h": 41,
+     "id": "000495",
+     "text": "2017年7月赴內蒙古參加中華一家親-海峽兩岸各民族歡度那達慕\r",
+     "type": "shape",
+     "w": 188,
+     "x": 64,
+     "y": 144
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 12.0,
+     "h": 53,
+     "id": "000496",
+     "text": "2017年8月赴雲南參加「中華一家親.涼都情似火」海峽兩岸各民族歡度彝族火把節活動\r",
+     "type": "shape",
+     "w": 171,
+     "x": 266,
+     "y": 145
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 115,
+     "id": "000497",
+     "img": "pptx:\\ppt\\media\\image169.png/geil4v",
+     "type": "picture",
+     "w": 188,
+     "x": 64,
+     "y": 26
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 122,
+     "id": "000498",
+     "img": "pptx:\\ppt\\media\\image170.jpeg/geil4v",
+     "type": "picture",
+     "w": 171,
+     "x": 266,
+     "y": 20
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 12.0,
+     "h": 36,
+     "id": "000499",
+     "text": "2018年8月赴雲南參加中華民族\r一家親之雲南石林火把節\r",
+     "type": "shape",
+     "w": 197,
+     "x": 668,
+     "y": 146
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 123,
+     "id": "00049a",
+     "img": "pptx:\\ppt\\media\\image171.jpeg/geil4v",
+     "type": "picture",
+     "w": 197,
+     "x": 668,
+     "y": 19
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "font_size": 12.0,
+     "h": 33,
+     "id": "00049b",
+     "text": "2019年3月3-4日\r赴海南考察交流\r",
+     "type": "shape",
+     "w": 177,
+     "x": 14,
+     "y": 336
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 118,
+     "id": "00049c",
+     "img": "pptx:\\ppt\\media\\image172.png/geil4v",
+     "type": "picture",
+     "w": 177,
+     "x": 14,
+     "y": 218
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "00049d",
+     "text": "2020年9月21日-22日\r中葡青年深圳交流團\r",
+     "type": "shape",
+     "w": 185,
+     "x": 199,
+     "y": 336
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 117,
+     "id": "00049e",
+     "img": "pptx:\\ppt\\media\\image173.png/geil4v",
+     "type": "picture",
+     "w": 185,
+     "x": 199,
+     "y": 219
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "00049f",
+     "text": "2020年11月1日—11月3日\r深圳文創參觀學習之旅\r",
+     "type": "shape",
+     "w": 163,
+     "x": 394,
+     "y": 333
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 118,
+     "id": "0004a0",
+     "img": "pptx:\\ppt\\media\\image174.jpeg/geil4v",
+     "type": "picture",
+     "w": 163,
+     "x": 394,
+     "y": 218
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004a1",
+     "text": "2020年10月25日-10月27日\r澳閩青年影視產業交流行\r",
+     "type": "shape",
+     "w": 193,
+     "x": 564,
+     "y": 336
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 117,
+     "id": "0004a2",
+     "img": "pptx:\\ppt\\media\\image175.jpeg/geil4v",
+     "type": "picture",
+     "w": 193,
+     "x": 565,
+     "y": 219
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 118,
+     "id": "0004a3",
+     "img": "pptx:\\ppt\\media\\image176.png/geil4v",
+     "type": "picture",
+     "w": 188,
+     "x": 763,
+     "y": 218
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004a4",
+     "text": "  2020年12月16日-12月20日\r澳浙創新創業交流團\r",
+     "type": "shape",
+     "w": 188,
+     "x": 763,
+     "y": 338
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 100,
+     "id": "0004a5",
+     "img": "pptx:\\ppt\\media\\image177.jpeg/geil4v",
+     "type": "picture",
+     "w": 177,
+     "x": 7,
+     "y": 380
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004a6",
+     "text": "  2021年4月26日-4月30日\r中葡安徽文創產業交流行\r",
+     "type": "shape",
+     "w": 177,
+     "x": 7,
+     "y": 479
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 105,
+     "id": "0004a7",
+     "img": "pptx:\\ppt\\media\\image178.png/geil4v",
+     "type": "picture",
+     "w": 185,
+     "x": 191,
+     "y": 380
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004a8",
+     "text": " 2022年8月30日—9月3日\r北京青年影視文化學習交流行\r",
+     "type": "shape",
+     "w": 185,
+     "x": 191,
+     "y": 485
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 105,
+     "id": "0004a9",
+     "img": "pptx:\\ppt\\media\\image179.png/geil4v",
+     "type": "picture",
+     "w": 186,
+     "x": 383,
+     "y": 380
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004aa",
+     "text": " 2022年9月13日—917日\r江蘇青年影視文化學習交流行\r",
+     "type": "shape",
+     "w": 186,
+     "x": 383,
+     "y": 484
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 105,
+     "id": "0004ab",
+     "img": "pptx:\\ppt\\media\\image180.png/geil4v",
+     "type": "picture",
+     "w": 177,
+     "x": 576,
+     "y": 380
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004ac",
+     "text": "2022年10月30日—11月3日\r四川青年影視文創學習交流行\r",
+     "type": "shape",
+     "w": 176,
+     "x": 576,
+     "y": 483
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 105,
+     "id": "0004ad",
+     "img": "pptx:\\ppt\\media\\image181.jpeg/geil4v",
+     "type": "picture",
+     "w": 190,
+     "x": 758,
+     "y": 380
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004ae",
+     "text": " 2023年5月17日—5月19日\r大灣區青年文化交流團\r",
+     "type": "shape",
+     "w": 188,
+     "x": 760,
+     "y": 485
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 36,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00002a",
+   "page_index": 36,
+   "shape_count": 26,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004ca",
+     "text": " 2023年5月23日—5月27日\r江西青年影視文創學習交流行\r",
+     "type": "shape",
+     "w": 271,
+     "x": -7,
+     "y": 159
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 131,
+     "id": "0004cb",
+     "img": "pptx:\\ppt\\media\\image182.jpeg/geil4v",
+     "type": "picture",
+     "w": 213,
+     "x": 17,
+     "y": 21
+    },
+    {
+     "border_color": "EEECE1",
+     "border_width": 1.0,
+     "h": 128,
+     "id": "0004cc",
+     "img": "pptx:\\ppt\\media\\image183.jpeg/geil4v",
+     "type": "picture",
+     "w": 180,
+     "x": 238,
+     "y": 22
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004cd",
+     "text": " 2023年9月12日—9月17日\r澳新少數民族交流團\r",
+     "type": "shape",
+     "w": 187,
+     "x": 234,
+     "y": 154
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 130,
+     "id": "0004ce",
+     "img": "pptx:\\ppt\\media\\image184.jpeg/geil4v",
+     "type": "picture",
+     "w": 195,
+     "x": 426,
+     "y": 21
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004cf",
+     "text": " 2023年10月24日—10月28日\r浙江青年影視文創學習交流行\r",
+     "type": "shape",
+     "w": 197,
+     "x": 424,
+     "y": 153
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 130,
+     "id": "0004d0",
+     "img": "pptx:\\ppt\\media\\image185.jpeg/geil4v",
+     "type": "picture",
+     "w": 195,
+     "x": 629,
+     "y": 21
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004d1",
+     "text": " 2023年11月13日—11月17日\r第二屆北京青年影視文創學習交流行\r",
+     "type": "shape",
+     "w": 207,
+     "x": 625,
+     "y": 152
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 39,
+     "id": "0004d2",
+     "text": "2024年10月21日-10月25日\r澳門-上海青年影視文創交流行\r",
+     "type": "shape",
+     "w": 205,
+     "x": 17,
+     "y": 328
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004d3",
+     "text": "2024年11月3日-11月7日\r第三屆北京青年影視文創學習交流行\r",
+     "type": "shape",
+     "w": 208,
+     "x": 230,
+     "y": 326
+    },
+    {
+     "h": 129,
+     "id": "0004d4",
+     "img": "pptx:\\ppt\\media\\image186.jpeg/geil4v",
+     "type": "picture",
+     "w": 197,
+     "x": 17,
+     "y": 198
+    },
+    {
+     "h": 128,
+     "id": "0004d5",
+     "img": "pptx:\\ppt\\media\\image187.jpeg/geil4v",
+     "type": "picture",
+     "w": 208,
+     "x": 230,
+     "y": 198
+    },
+    {
+     "h": 129,
+     "id": "0004d6",
+     "img": "pptx:\\ppt\\media\\image188.jpeg/geil4v",
+     "type": "picture",
+     "w": 207,
+     "x": 449,
+     "y": 199
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004d7",
+     "text": "2024年11月26日-11月30日\r澳門-福建青年影視文創學習交流行\r",
+     "type": "shape",
+     "w": 207,
+     "x": 449,
+     "y": 327
+    },
+    {
+     "h": 129,
+     "id": "0004d8",
+     "img": "pptx:\\ppt\\media\\image189.jpeg/geil4v",
+     "type": "picture",
+     "w": 189,
+     "x": 666,
+     "y": 198
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 36,
+     "id": "0004d9",
+     "text": "2025年3月26日-3月30日\r澳門-四川文化交流行\r",
+     "type": "shape",
+     "w": 192,
+     "x": 665,
+     "y": 327
+    },
+    {
+     "h": 110,
+     "id": "0004da",
+     "img": "pptx:\\ppt\\media\\image190.jpeg/geil4v",
+     "type": "picture",
+     "w": 165,
+     "x": 23,
+     "y": 377
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 38,
+     "id": "0004db",
+     "text": "2025年10月13日-10月17日\r澳門-湖南青年文化交流行\r",
+     "type": "shape",
+     "w": 165,
+     "x": 23,
+     "y": 486
+    },
+    {
+     "h": 111,
+     "id": "0004dc",
+     "img": "pptx:\\ppt\\media\\image191.png/geil4v",
+     "type": "picture",
+     "w": 176,
+     "x": 199,
+     "y": 376
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 43,
+     "id": "0004dd",
+     "text": "2025年10月28日-11月1日\r澳門—浙江青年影視文創學習交流行\r",
+     "type": "shape",
+     "w": 176,
+     "x": 198,
+     "y": 485
+    },
+    {
+     "h": 114,
+     "id": "0004de",
+     "img": "pptx:\\ppt\\media\\image192.png/geil4v",
+     "type": "picture",
+     "w": 187,
+     "x": 386,
+     "y": 376
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 43,
+     "id": "0004df",
+     "text": "2025年11月11日-11月15日\r皖澳青年文化學習考察團\r",
+     "type": "shape",
+     "w": 187,
+     "x": 387,
+     "y": 490
+    },
+    {
+     "h": 114,
+     "id": "0004e0",
+     "img": "pptx:\\ppt\\media\\image193.jpeg/geil4v",
+     "type": "picture",
+     "w": 182,
+     "x": 582,
+     "y": 376
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 43,
+     "id": "0004e1",
+     "text": "2026年4月13日-4月17日\r澳門-四川青年影視文創交流團\r",
+     "type": "shape",
+     "w": 187,
+     "x": 579,
+     "y": 489
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 43,
+     "id": "0004e2",
+     "text": "2026年9月7日-9月11日\r澳門-西藏民族文化交流團\r",
+     "type": "shape",
+     "w": 187,
+     "x": 766,
+     "y": 492
+    },
+    {
+     "h": 116,
+     "id": "0004e3",
+     "img": "pptx:\\ppt\\media\\image194.jpeg/geil4v",
+     "type": "picture",
+     "w": 175,
+     "x": 773,
+     "y": 376
+    }
+   ],
+   "version": 0
+  }
+ },
+ {
+  "page_index": 37,
+  "info": {
+   "anim_count": 0,
+   "animations": [],
+   "page_id": "00002b",
+   "page_index": 37,
+   "shape_count": 5,
+   "shapes": [
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 540,
+     "id": "0004f7",
+     "img": "pptx:\\ppt\\media\\image195.jpeg/geil4v",
+     "type": "picture",
+     "w": 962,
+     "x": 0,
+     "y": 0
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 78,
+     "id": "0004f8",
+     "img": "pptx:\\ppt\\media\\image196.png/geil4v",
+     "type": "picture",
+     "w": 412,
+     "x": 267,
+     "y": 211
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 54,
+     "id": "0004f9",
+     "img": "pptx:\\ppt\\media\\image197.png/geil4v",
+     "type": "picture",
+     "w": 384,
+     "x": 279,
+     "y": 222
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 16,
+     "id": "0004fa",
+     "img": "pptx:\\ppt\\media\\image198.png/geil4v",
+     "type": "picture",
+     "w": 2,
+     "x": 266,
+     "y": 260
+    },
+    {
+     "border_alpha": 100,
+     "border_width": 1.0,
+     "h": 16,
+     "id": "0004fb",
+     "img": "pptx:\\ppt\\media\\image199.png/geil4v",
+     "type": "picture",
+     "w": 3,
+     "x": 677,
+     "y": 227
+    }
+   ],
+   "version": 0
+  }
+ }
+]
