@@ -141,6 +141,14 @@ section{padding-top:56px}
 .role:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow)}
 .role .t{font-size:15px;font-weight:700;color:var(--blue);margin-bottom:3px}
 .role .o{font-size:13.5px;color:var(--gray)}
+/* 聯合創始人：可點展開卡（連至媒體報導與龍遊 AI 雙平台簡報） */
+.role-fold>summary{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;cursor:pointer;list-style:none;padding-right:22px}
+.role-fold>summary::-webkit-details-marker{display:none}
+.role-cue{position:absolute;right:0;top:2px;color:var(--blue);font-size:12px;font-weight:800;transition:transform .2s}
+.role-fold[open]>summary .role-cue{transform:rotate(180deg)}
+.role-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.role-links a{display:inline-flex;align-items:center;gap:5px;background:var(--blue);color:#fff;font-size:12.5px;font-weight:700;padding:7px 13px;border-radius:999px;text-decoration:none;transition:all .2s}
+.role-links a:hover{background:var(--gold);color:#1a1a1a}
 
 /* 職務摺疊（2026-10-08 新增）
    預設只顯示「創辦人暨董事總經理」，其餘 12 項點開才看見。
@@ -341,7 +349,7 @@ section{padding-top:56px}
 <span class="more"><span class="more-open">展開其餘 12 項 ▾</span><span class="more-shut">收合 ▴</span></span>
 </summary>
 <div class="roles">
-<div class="role"><div class="t">聯合創始人</div><div class="o">龍遊數字服務出海平台</div></div>
+<details class="role role-fold"><summary class="role-sum"><span class="t">聯合創始人</span><span class="o">龍遊數字服務出海平台</span><span class="role-cue">▾</span></summary><div class="role-links"><a href="/media/">📰 媒體報導與發布</a><a href="/article/dragon-ai-dual-platform/">🚀 龍遊 AI 雙平台簡報（PPT）</a></div></details>
 <div class="role"><div class="t">董事</div><div class="o">東望洋集團</div></div>
 <div class="role"><div class="t">會長</div><div class="o">粵港澳大灣區電子商會</div></div>
 <div class="role"><div class="t">理事長</div><div class="o">ECI@澳門創新專委會</div></div>
