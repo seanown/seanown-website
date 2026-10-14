@@ -257,7 +257,6 @@ img{{max-width:100%;display:block}}
 .foot a{{color:var(--blue);font-weight:600}}
 
 @media(max-width:760px){{
-  .tnav a:not(.cta){{display:none}}
   .masthead h1{{font-size:29px}}
   .masthead{{padding:44px 18px 40px}}
   .wrap{{padding:32px 16px 56px}}
@@ -269,6 +268,22 @@ img{{max-width:100%;display:block}}
   .cta-btns a{{width:100%}}
   .sec-h{{font-size:22px}}
 }}
+
+/* 「關於我」下拉（2026-10-08，軒哥決定：聯絡不坐第一排，收進關於我底下）
+   純 CSS，不依賴 JS。.nav-mcta 是聯絡鈕的手機版複本，
+   因為手機版只保留 .cta，而 PC 的聯絡已收進下拉，沒有複本手機會全空。 */
+.tnav .nav-drop{{position:relative}}
+.tnav .nav-drop>summary{{font-size:14px;font-weight:600;color:var(--text);cursor:pointer;list-style:none;display:flex;align-items:center;gap:5px}}
+.tnav .nav-drop>summary::-webkit-details-marker{{display:none}}
+.tnav .nav-drop>summary::after{{content:'';width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}}
+.tnav .nav-drop[open]>summary::after{{transform:rotate(225deg) translateY(-2px)}}
+.tnav .nav-drop[open]>summary{{color:var(--blue)}}
+.tnav .nav-menu{{position:absolute;top:calc(100% + 9px);left:-14px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 34px rgba(0,38,118,.16);padding:6px;min-width:158px;z-index:60}}
+.tnav .nav-menu a{{display:block;padding:9px 14px;border-radius:8px;font-size:14px}}
+.tnav .nav-menu a:hover{{background:#F4F7FB;color:var(--blue)}}
+@media(max-width:860px){{
+}}
+@media(min-width:861px){{}}
 </style>
 </head>
 <body>
@@ -277,10 +292,12 @@ img{{max-width:100%;display:block}}
 <header class="topbar"><div class="topbar-in">
 <a class="brand" href="/">翁振軒 <span>SEAN OWN</span></a>
 <nav class="tnav" aria-label="網站導覽">
-<a href="/articles/">專欄文章</a>
-<a href="/series/">專輯</a>
-<a href="/about/">關於我</a>
-<a href="/contact/" class="cta">洽談合作</a>
+<!-- 2026-10-09 軒哥決定：把自己藏深一點。聯絡、媒體從導覽列下架（頁面本身保留），
+     導覽列只留 關於我／作品／專欄 三項直鏈；「服務與合作」維持 2026-10-08 的隱藏。
+     聯絡／媒體入口改收在 /about/ 頁內（摺疊區與頁尾 CTA）。-->
+  <a href="/about/">關於我</a>
+  <a href="/series/">作品</a>
+  <a href="/articles/">專欄</a>
 </nav>
 </div></header>
 
