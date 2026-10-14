@@ -1787,7 +1787,7 @@ def build(post, allposts):
         cls = 'sj-chip sj-cur' if s['id'] == top_sid else 'sj-chip'
         sj_chips += '<a class="%s" href="%s/series/%s/">%s</a>' % (cls, SITE, esc(s['id']), esc(s['name']))
     series_jump = ('<div class="sj-bar"><span class="sj-label">按專輯逛</span>' + sj_chips +
-                   '<a class="sj-chip sj-all" href="%s/series/">全部專輯 →</a></div>' % SITE) if sj_chips else ''
+                   '<a class="sj-chip sj-all" href="%s/series/">全部作品 →</a></div>' % SITE) if sj_chips else ''
     cat = (post.get('category') or '').strip()
     date = (post.get('date') or '').strip()
     loc = (post.get('location') or '').strip()
@@ -1873,7 +1873,7 @@ def build(post, allposts):
             '<span class="sn-kicker">%s</span>'
             '<a class="sn-title" href="%s/series/%s/">《%s》</a>'
             '<div class="sn-meta">第 %d / %d 篇 · %s</div>'
-            '<div class="sn-links">%s<a class="sn-all" href="%s/series/%s/">查看全部專輯</a>%s</div>'
+            '<div class="sn-links">%s<a class="sn-all" href="%s/series/%s/">查看全部作品</a>%s</div>'
             '</div>'
         ) % (esc(coll_name), SITE, sid, esc(s.get('name') or sid),
              idx + 1, len(ms), esc(s.get('period') or ''),
@@ -2158,7 +2158,7 @@ def build_list(posts):
             SITE, esc(s['id']), esc(s['name']))
     if ser_chips:
         ser_chips = ('<span class="sj-label">按專輯逛</span>' + ser_chips +
-                     '<a class="sj-chip sj-all" href="%s/series/">全部專輯 →</a>' % SITE)
+                     '<a class="sj-chip sj-all" href="%s/series/">全部作品 →</a>' % SITE)
 
     # 篩選列已移除（2026-10-11 軒哥：與「按專輯逛」重複，只留一排）。
     # 專輯過濾由各專輯頁承擔（/series/<id>/，抬頭自帶「共 N 篇」）；
