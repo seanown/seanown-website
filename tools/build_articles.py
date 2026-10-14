@@ -1162,12 +1162,153 @@ def build_series_page(s, posts, all_series):
     return sid, name, len(members)
 
 
-def build_series_index(posts):
-    """產生輯總覽頁 series/index.html
+# 2026-10-14：《守燈人影記》書專區 CSS（/series/ 作品頁用，軒哥拍板整頁只放書）
+BOOK_SEC_CSS = """
+<style>
+.book-sec{background:linear-gradient(160deg,#0A1F5C 0%,#010133 62%,#0b1330 100%);position:relative;overflow:hidden;padding:56px 24px 60px}
+.book-sec::before{content:"";position:absolute;right:-140px;top:-140px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(253,181,21,.16),transparent 68%);pointer-events:none}
+.book-sec::after{content:"";position:absolute;left:-100px;bottom:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(90,140,255,.18),transparent 68%);pointer-events:none}
+.book-sec .book-in{position:relative;z-index:1;max-width:1080px;margin:0 auto}
+.book-kicker{font-size:12px;letter-spacing:5px;color:var(--gold);font-weight:700;margin-bottom:14px}
+.book-hero{display:grid;grid-template-columns:236px minmax(0,1fr);gap:48px;align-items:center}
+.book-cover{display:block;border-radius:8px;overflow:hidden;box-shadow:0 22px 56px rgba(0,0,0,.5);position:relative;transition:transform .35s;width:100%;max-width:236px}
+.book-cover:hover{transform:translateY(-6px) scale(1.01)}
+.book-cover img{width:100%;max-width:236px;display:block;height:auto}
+.book-cover::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(253,181,21,.28);border-radius:8px}
+.book-badge{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#010133;font-size:12.5px;font-weight:800;letter-spacing:1.6px;padding:7px 16px;border-radius:3px;margin-bottom:18px}
+.book-title{font-size:clamp(32px,5vw,46px);font-weight:900;color:#fff;letter-spacing:3px;line-height:1.2}
+.book-sub{font-size:clamp(15px,2.4vw,20px);color:var(--gold);font-weight:700;letter-spacing:4px;margin-top:8px}
+.book-by{font-size:14.5px;color:rgba(255,255,255,.7);margin-top:14px;letter-spacing:.5px}
+.book-by b{color:#fff;font-weight:700}
+.book-lede{font-size:16.5px;line-height:1.94;color:rgba(255,255,255,.84);margin-top:18px;max-width:640px}
+.book-facts{display:flex;gap:34px;flex-wrap:wrap;margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.16)}
+.book-facts b{display:block;font-size:25px;font-weight:900;color:var(--gold);line-height:1.2}
+.book-facts span{font-size:12.5px;color:rgba(255,255,255,.62)}
+.book-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn-book{padding:14px 32px;border-radius:8px;font-size:15px;font-weight:700;letter-spacing:.5px;transition:all .2s;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;text-decoration:none}
+.btn-book-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#010133;box-shadow:0 6px 20px rgba(253,181,21,.32)}
+.btn-book-gold:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(253,181,21,.44)}
+.btn-book-line{background:rgba(255,255,255,.08);color:#fff;border:1.5px solid rgba(255,255,255,.36)}
+.btn-book-line:hover{background:rgba(255,255,255,.18);border-color:var(--gold);color:var(--gold)}
+.book-note{margin:18px 0 0;font-size:12.5px;line-height:1.75;color:rgba(240,228,205,.72)}
+@media(max-width:860px){.book-sec{padding:40px 18px 46px}.book-hero{grid-template-columns:1fr;justify-items:center;text-align:center}.book-lede{margin-left:auto;margin-right:auto}.book-facts,.book-cta{justify-content:center}}
+.ser-links{max-width:1080px;margin:0 auto;padding:22px 24px 4px;font-size:14px;color:var(--gray);line-height:2.1}
+.ser-links span{font-weight:800;letter-spacing:2px;color:var(--blue);margin-right:6px}
+.ser-links a{color:var(--gray);font-weight:600}
+.ser-links a:hover{color:var(--gold-dark)}
+</style>
+"""
 
-    全部輯按 order 一次排到底（主線輯在最前）。分組名（如「行記」）改為
-    顯示在卡片上的小標籤，不再切分區塊——否則分組邏輯會壓過 order，
-    讓行記排到主線前面。
+
+BOOK_SEC_HTML = """<section class="book-sec"><div class="book-in">
+<div class="book-kicker">BOOK</div>
+<div class="book-hero">
+  <a class="book-cover" href="/book/shou-deng-ren-ying-ji/" aria-label="《守燈人影記》—— 銀幕上的百年澳門，在線翻閱">
+    <img src="/assets/book/sy-deng-ren/cover.jpg" width="1344" height="1888" loading="lazy"
+         alt="《守燈人影記——銀幕上的百年澳門》封面：夜色中的東望洋燈塔，光束照亮騎樓屋頂與膠片帶，穿制服的守燈人坐在石牆上">
+  </a>
+  <div>
+    <div class="book-badge">📕 全新出版 · <b>定稿中</b> · 可在線試閱</div>
+    <h2 class="book-title">守燈人影記</h2>
+    <p class="book-sub">銀幕上的百年澳門</p>
+    <p class="book-by"><b>翁振軒 Sean Own</b> 著 ｜ 中華書局（澳門）有限公司 出版 ｜ 預計 2026 年 11 月上市</p>
+    <p class="book-lede">站在東望洋山頂，澳門在腳下攤開。燈塔不高，卻已亮了一百多年的光。<br>這本書收錄三十三部在澳門取景的電影，從最新的《捕風追影》往回走，一直走到 1923 年——我想做的是，藉著電影，把澳門的光照得再遠一點。</p>
+    <div class="book-facts">
+      <div><b>33</b><span>部電影</span></div>
+      <div><b>4</b><span>個篇章</span></div>
+      <div><b>274</b><span>頁全文</span></div>
+      <div><b>1923</b><span>年至今</span></div>
+    </div>
+    <div class="book-cta">
+      <a class="btn-book btn-book-gold" href="/book/shou-deng-ren-ying-ji/">📖 進入在線試閱 →</a>
+      <a class="btn-book btn-book-line" href="/book/shou-deng-ren-ying-ji/#sec-toc">查看完整目錄</a>
+    </div>
+    <p class="book-note">＊ 本書仍在編輯中，推薦序與書號（ISBN）待補；取得書號後始受理購買，屆時於本站公告。</p>
+  </div>
+</div>
+</div></section>
+"""
+
+def build_series_index(posts):
+    """產生「作品」頁 series/index.html
+
+    2026-10-14 起（軒哥拍板）：/series/ 不再羅列專輯卡，整頁只放《守燈人影記》
+    整刊（書封、導言、四項數字、試閱與目錄 CTA）。專輯入口收在書專區下方一行
+    低調文字連結，以及 /articles/ 的專輯晶片。
+    """
+    url = SITE + '/series/'
+    desc = '翁振軒作品頁：《守燈人影記——銀幕上的百年澳門》全書在線試閱，以及各專輯總覽。'
+    ld = {
+        "@context": "https://schema.org", "@type": "CollectionPage",
+        "name": "作品｜《守燈人影記》與專輯總覽｜翁振軒 Sean Own", "url": url, "description": desc,
+        "inLanguage": "zh-Hant",
+        "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
+    }
+    links = ' · '.join(
+        '<a href="%s/series/%s/">%s</a>' % (SITE, esc(s['id']), esc(s['name']))
+        for s in top_level_series()
+        if series_members(posts, s['id']) or children_of(s['id'])
+    )
+    rows = '<div class="ser-links"><span>專輯</span>%s</div>' % links if links else ''
+
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>作品｜《守燈人影記》與專輯總覽｜翁振軒 Sean Own</title>
+<meta name="description" content="{desc}">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="作品｜《守燈人影記》與專輯總覽｜翁振軒 Sean Own">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="https://seanown.org/assets/book/sy-deng-ren/og.jpg?v=20261007b">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:site_name" content="翁振軒 Sean Own">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="作品｜《守燈人影記》與專輯總覽｜翁振軒 Sean Own">
+<meta name="twitter:description" content="{desc}">
+<meta name="twitter:image" content="https://seanown.org/assets/book/sy-deng-ren/og.jpg?v=20261007b">
+<script type="application/ld+json">{ld}</script>
+<style>{css}</style>
+{bookcss}
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="mini-cta" href="{site}/articles/">專欄文章</a>
+</div></div>
+
+<div class="masthead"><div class="masthead-in">
+<div class="kicker">WORKS &amp; SERIES</div>
+<h1>作品</h1>
+<div class="sub">一本書，四個專輯。</div>
+</div></div>
+
+{bookhtml}
+
+{rows}
+
+<div class="foot">© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/articles/">全部文章</a></div>
+</body>
+</html>
+""".format(desc=esc(desc), url=url, ld=json.dumps(ld, ensure_ascii=False),
+           css=SERIES_PAGE_CSS, site=SITE, rows=rows,
+           bookcss=BOOK_SEC_CSS, bookhtml=BOOK_SEC_HTML)
+    d = os.path.join(ROOT, 'series')
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+
+
+def _unused_old_build_series_index(posts):
+    """（舊版，2026-10-14 起停用）四張專輯卡版的 /series/ 總覽頁。
+
+    新版 build_series_index() 已改為「作品頁＋書專輯整刊」，專輯入口改為一行文字連結。
+    此函式保留僅作歷史參考，main() 不再呼叫。
     """
     coll_name = {c['id']: c['name'] for c in SERIES.get('collections', [])}
     cards = ''
