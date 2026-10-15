@@ -237,7 +237,16 @@ PAGE_CSS = """
 .cp-hero .kick{letter-spacing:.4em;font-size:12px;color:#FDB515;margin-bottom:16px}
 .cp-hero h1{font-family:"Noto Serif TC",serif;font-size:clamp(30px,5vw,46px);font-weight:900;margin:0 0 12px}
 .cp-hero .sub{color:#c9d6ee;font-size:15px;max-width:640px;margin:0 auto}
-.place-banner img{width:100%;display:block}
+/* 取景地頁：橫長插畫當 hero 背景、標題壓在圖上（2026-10-16 軒哥指定，參考
+   gbaeca.org/services.html 的橫長背景帶）。原本是獨立大圖塊（2.33:1 全寬），
+   太大、還要往下滾才看到標題；改為 cover 橫長帶（約 4:1）＋漸層壓暗保字幕可讀。 */
+.cp-hero.hb{position:relative;min-height:300px;display:flex;flex-direction:column;justify-content:center;
+  padding:60px 24px 54px;background-color:#001a4d;background-size:cover;background-position:center 42%;background-repeat:no-repeat;
+  text-shadow:0 1px 14px rgba(2,10,26,.55)}
+.cp-hero.hb::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(3,12,30,.68),rgba(3,12,30,.44) 42%,rgba(3,12,30,.74))}
+.cp-hero.hb>*{position:relative;z-index:1}
+@media(max-width:720px){.cp-hero.hb{min-height:210px;padding:42px 18px 38px;background-position:center 40%}}
 .cp-wrap{max-width:1080px;margin:0 auto;padding:36px 24px 70px}
 .cp-sec{margin:0 0 40px}
 .cp-sec h2{font-family:"Noto Serif TC",serif;font-size:22px;font-weight:900;color:#002676;
@@ -293,7 +302,7 @@ REL_CSS = """
 
 
 # ── 合輯落地頁 ─────────────────────────────────────────────────
-def _shell(title, kicker, h1, sub, body, site='', og_img='', banner_html=''):
+def _shell(title, kicker, h1, sub, body, site='', og_img='', banner_img=''):
     # 頂欄連結一律用絕對路徑：collection/ 有 hub（深一層）與子頁（深兩層）兩種深度，
     # 相對連結必然有一邊寫錯（2026-10-15 上線當日被軒哥抓到：
     # '../macau-film/' 在 hub 解析成 /macau-film/、在子頁解析成 /collection/macau-film/，全 404）。
@@ -302,6 +311,12 @@ def _shell(title, kicker, h1, sub, body, site='', og_img='', banner_html=''):
     home = (site + '/') if site else '../../'
     favicon = (site + '/assets/favicon.svg') if site else '../../assets/favicon.svg'
     album = (site + '/series/macau-film/') if site else '../../series/macau-film/'
+    # 取景地頁橫長背景帶：banner_img 傳入時 hero 改用插畫當背景（hb 修飾類＋inline background-image）；
+    # 不傳（hub／年代／影人頁、place-25 無圖）就維持原本深藍 hero。
+    hb_cls, hb_style = '', ''
+    if banner_img:
+        hb_cls = ' hb'
+        hb_style = ' style="background-image:url(\'%s\')"' % banner_img
     return """<!DOCTYPE html>
 <html lang="zh-Hant" class="cpage">
 <head>
@@ -324,12 +339,11 @@ def _shell(title, kicker, h1, sub, body, site='', og_img='', banner_html=''):
 <a class="brand" href="%s">翁振軒 <span>SEAN OWN</span></a>
 <a class="lnk" href="%s">← 澳門電影專輯</a>
 </div></div>
-%s
-<div class="cp-hero"><div class="kick">%s</div><h1>%s</h1><div class="sub">%s</div></div>
+<div class="cp-hero%s"%s><div class="kick">%s</div><h1>%s</h1><div class="sub">%s</div></div>
 <div class="cp-wrap">%s</div>
 </body>
 </html>""" % (esc(title), esc(sub[:110]), esc(favicon), esc(title), esc(sub[:110]), og_tag, PAGE_CSS,
-               esc(home), esc(album), banner_html, esc(kicker), esc(h1), esc(sub), body)
+               esc(home), esc(album), hb_cls, hb_style, esc(kicker), esc(h1), esc(sub), body)
 
 
 def _write(relpath, html_str):
@@ -458,16 +472,14 @@ def build_collections(index, slugs, site, ov, og_img=''):
         body = ('<p class="d" style="font-size:15px;color:#5a534a;margin-bottom:8px">'
                 '「%s」這個澳門地標，出現在專輯裡 %d 部電影的取景中。</p>%s%s'
                 % (esc(nm), len(keys), gps_html, _film_grid(keys, index, slugs, site, ov)))
-        banner_html = ''
+        banner_img = ''
         banner_file = os.path.join(ROOT, 'assets', 'images', 'places', slug + '.jpg')
         if os.path.isfile(banner_file):
             # 資源路徑沿用 film_chip 慣例：collection 子頁恆用 ../../ 相對路徑
-            banner_html = ('<div class="place-banner"><img src="../../assets/images/places/%s.jpg" '
-                           'alt="%s · 澳門電影取景地" loading="lazy"></div>'
-                           % (slug, esc(nm)))
+            banner_img = '../../assets/images/places/%s.jpg' % slug
         _write('collection/%s/index.html' % slug,
                _shell('澳門電影地圖 · %s' % nm, '按取景地', nm, '在「%s」取景的澳門電影，共 %d 部。' % (nm, len(keys)), body, site, og_img,
-                      banner_html))
+                      banner_img))
         sitemap.append(('%s/collection/%s/' % (site, slug), today))
 
     # ── 影人頁 ──

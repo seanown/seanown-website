@@ -26,7 +26,16 @@
 .cp-hero .kick{letter-spacing:.4em;font-size:12px;color:#FDB515;margin-bottom:16px}
 .cp-hero h1{font-family:"Noto Serif TC",serif;font-size:clamp(30px,5vw,46px);font-weight:900;margin:0 0 12px}
 .cp-hero .sub{color:#c9d6ee;font-size:15px;max-width:640px;margin:0 auto}
-.place-banner img{width:100%;display:block}
+/* 取景地頁：橫長插畫當 hero 背景、標題壓在圖上（2026-10-16 軒哥指定，參考
+   gbaeca.org/services.html 的橫長背景帶）。原本是獨立大圖塊（2.33:1 全寬），
+   太大、還要往下滾才看到標題；改為 cover 橫長帶（約 4:1）＋漸層壓暗保字幕可讀。 */
+.cp-hero.hb{position:relative;min-height:300px;display:flex;flex-direction:column;justify-content:center;
+  padding:60px 24px 54px;background-color:#001a4d;background-size:cover;background-position:center 42%;background-repeat:no-repeat;
+  text-shadow:0 1px 14px rgba(2,10,26,.55)}
+.cp-hero.hb::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(3,12,30,.68),rgba(3,12,30,.44) 42%,rgba(3,12,30,.74))}
+.cp-hero.hb>*{position:relative;z-index:1}
+@media(max-width:720px){.cp-hero.hb{min-height:210px;padding:42px 18px 38px;background-position:center 40%}}
 .cp-wrap{max-width:1080px;margin:0 auto;padding:36px 24px 70px}
 .cp-sec{margin:0 0 40px}
 .cp-sec h2{font-family:"Noto Serif TC",serif;font-size:22px;font-weight:900;color:#002676;
@@ -68,8 +77,7 @@
 <a class="brand" href="https://seanown.org/">翁振軒 <span>SEAN OWN</span></a>
 <a class="lnk" href="https://seanown.org/series/macau-film/">← 澳門電影專輯</a>
 </div></div>
-<div class="place-banner"><img src="../../assets/images/places/place-06.jpg" alt="亞婆井前地 · 澳門電影取景地" loading="lazy"></div>
-<div class="cp-hero"><div class="kick">按取景地</div><h1>亞婆井前地</h1><div class="sub">在「亞婆井前地」取景的澳門電影，共 8 部。</div></div>
+<div class="cp-hero hb" style="background-image:url('../../assets/images/places/place-06.jpg')"><div class="kick">按取景地</div><h1>亞婆井前地</h1><div class="sub">在「亞婆井前地」取景的澳門電影，共 8 部。</div></div>
 <div class="cp-wrap"><p class="d" style="font-size:15px;color:#5a534a;margin-bottom:8px">「亞婆井前地」這個澳門地標，出現在專輯裡 8 部電影的取景中。</p><div class="cp-gps">📍 座標約 22.1884, 113.5352　<a href="https://www.google.com/maps/search/?api=1&query=22.1884,113.5352" target="_blank" rel="noopener">在 Google 地圖打開 →</a></div><div class="cp-grid"><a class="fc" href="https://seanown.org/article/isabella/"><img class="fc-img" src="../../assets/og/isabella-poster.jpg?v=20261001l" alt="伊莎貝拉" loading="lazy"><span class="fc-n">《伊莎貝拉》</span><span class="fc-yr">2006</span></a><a class="fc" href="https://seanown.org/article/exiled/"><img class="fc-img" src="../../assets/og/exiled-poster.jpg?v=20261001l" alt="放逐" loading="lazy"><span class="fc-n">《放逐》</span><span class="fc-yr">2006</span></a><a class="fc" href="https://seanown.org/article/man-with-the-golden-gun/"><img class="fc-img" src="../../assets/og/man-with-the-golden-gun-poster.jpg?v=20261001l" alt="鐵金剛大戰金槍客" loading="lazy"><span class="fc-n">《鐵金剛大戰金槍客》</span><span class="fc-yr">1974</span></a><a class="fc" href="https://seanown.org/article/amor-e-dedinhos-de-pe/"><img class="fc-img" src="../../assets/og/amor-e-dedinhos-de-pe-poster.jpg?v=20261001l" alt="愛情與小腳趾" loading="lazy"><span class="fc-n">《愛情與小腳趾》</span><span class="fc-yr">2001</span></a><a class="fc" href="https://seanown.org/article/last-time-i-saw-macao/"><img class="fc-img" src="../../assets/og/last-time-i-saw-macao-poster.jpg?v=20261001l" alt="我最後一次看見澳門" loading="lazy"><span class="fc-n">《我最後一次看見澳門》</span><span class="fc-yr">2012</span></a><a class="fc" href="https://seanown.org/article/rouge/"><img class="fc-img" src="../../assets/og/rouge-poster.jpg?v=20261001l" alt="胭脂扣" loading="lazy"><span class="fc-n">《胭脂扣》</span><span class="fc-yr">1987</span></a><a class="fc" href="https://seanown.org/article/flaming-brothers-1987/"><img class="fc-img" src="../../assets/og/flaming-brothers-1987-poster.jpg?v=20261001l" alt="江湖龍虎鬥" loading="lazy"><span class="fc-n">《江湖龍虎鬥》</span><span class="fc-yr">1987</span></a><a class="fc" href="https://seanown.org/article/b420-2005/"><img class="fc-img" src="../../assets/og/b420-2005-poster.jpg?v=20261001l" alt="b420" loading="lazy"><span class="fc-n">《b420》</span><span class="fc-yr">2005</span></a></div></div>
 </body>
 </html>

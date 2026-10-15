@@ -26,7 +26,16 @@
 .cp-hero .kick{letter-spacing:.4em;font-size:12px;color:#FDB515;margin-bottom:16px}
 .cp-hero h1{font-family:"Noto Serif TC",serif;font-size:clamp(30px,5vw,46px);font-weight:900;margin:0 0 12px}
 .cp-hero .sub{color:#c9d6ee;font-size:15px;max-width:640px;margin:0 auto}
-.place-banner img{width:100%;display:block}
+/* 取景地頁：橫長插畫當 hero 背景、標題壓在圖上（2026-10-16 軒哥指定，參考
+   gbaeca.org/services.html 的橫長背景帶）。原本是獨立大圖塊（2.33:1 全寬），
+   太大、還要往下滾才看到標題；改為 cover 橫長帶（約 4:1）＋漸層壓暗保字幕可讀。 */
+.cp-hero.hb{position:relative;min-height:300px;display:flex;flex-direction:column;justify-content:center;
+  padding:60px 24px 54px;background-color:#001a4d;background-size:cover;background-position:center 42%;background-repeat:no-repeat;
+  text-shadow:0 1px 14px rgba(2,10,26,.55)}
+.cp-hero.hb::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(3,12,30,.68),rgba(3,12,30,.44) 42%,rgba(3,12,30,.74))}
+.cp-hero.hb>*{position:relative;z-index:1}
+@media(max-width:720px){.cp-hero.hb{min-height:210px;padding:42px 18px 38px;background-position:center 40%}}
 .cp-wrap{max-width:1080px;margin:0 auto;padding:36px 24px 70px}
 .cp-sec{margin:0 0 40px}
 .cp-sec h2{font-family:"Noto Serif TC",serif;font-size:22px;font-weight:900;color:#002676;
@@ -68,8 +77,7 @@
 <a class="brand" href="https://seanown.org/">翁振軒 <span>SEAN OWN</span></a>
 <a class="lnk" href="https://seanown.org/series/macau-film/">← 澳門電影專輯</a>
 </div></div>
-<div class="place-banner"><img src="../../assets/images/places/place-07.jpg" alt="內港 · 澳門電影取景地" loading="lazy"></div>
-<div class="cp-hero"><div class="kick">按取景地</div><h1>內港</h1><div class="sub">在「內港」取景的澳門電影，共 6 部。</div></div>
+<div class="cp-hero hb" style="background-image:url('../../assets/images/places/place-07.jpg')"><div class="kick">按取景地</div><h1>內港</h1><div class="sub">在「內港」取景的澳門電影，共 6 部。</div></div>
 <div class="cp-wrap"><p class="d" style="font-size:15px;color:#5a534a;margin-bottom:8px">「內港」這個澳門地標，出現在專輯裡 6 部電影的取景中。</p><div class="cp-gps">📍 座標約 22.1954, 113.5328　<a href="https://www.google.com/maps/search/?api=1&query=22.1954,113.5328" target="_blank" rel="noopener">在 Google 地圖打開 →</a></div><div class="cp-grid"><a class="fc" href="https://seanown.org/article/sentenced-to-hang-1989/"><img class="fc-img" src="../../assets/og/sentenced-to-hang-1989-poster.jpg?v=20261001l" alt="三狼奇案" loading="lazy"><span class="fc-n">《三狼奇案》</span><span class="fc-yr">1989</span></a><a class="fc" href="https://seanown.org/article/love-is-a-many-splendored-thing-1955/"><img class="fc-img" src="../../assets/og/love-is-a-many-splendored-thing-1955-poster.jpg?v=20261001l" alt="生死戀" loading="lazy"><span class="fc-n">《生死戀》</span><span class="fc-yr">1955</span></a><a class="fc" href="https://seanown.org/article/via-macau-1966/"><img class="fc-img" src="../../assets/og/via-macau-1966-poster.jpg?v=20261001l" alt="Via Macau" loading="lazy"><span class="fc-n">《Via Macau》</span><span class="fc-yr">1966</span></a><a class="fc" href="https://seanown.org/article/a-night-in-hong-kong-1961/"><img class="fc-img" src="../../assets/og/a-night-in-hong-kong-1961-poster.jpg?v=20261001l" alt="香港之夜" loading="lazy"><span class="fc-n">《香港之夜》</span><span class="fc-yr">1961</span></a><a class="fc" href="https://seanown.org/article/flaming-brothers-1987/"><img class="fc-img" src="../../assets/og/flaming-brothers-1987-poster.jpg?v=20261001l" alt="江湖龍虎鬥" loading="lazy"><span class="fc-n">《江湖龍虎鬥》</span><span class="fc-yr">1987</span></a><a class="fc" href="https://seanown.org/article/o-regresso-1989/"><img class="fc-img" src="../../assets/og/o-regresso-1989-poster.jpg?v=20261001l" alt="O Regresso" loading="lazy"><span class="fc-n">《O Regresso》</span><span class="fc-yr">1988</span></a></div></div>
 </body>
 </html>
