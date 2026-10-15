@@ -9,6 +9,16 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POSTS = os.path.join(ROOT, 'data', 'posts.json')
 SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 
+# 澳門電影三軸合輯（年代／取景地／影人）：build 時從 movieInfo 派生，不動 posts.json。
+# 以檔案路徑載入——外部維護腳本用 spec_from_file_location 載入本模組時也能 import 到。
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import film_collections as FC
+
+# 三軸索引：main() 開跑時算一次，文章互導塊與合輯落地頁共用。
+# 外部腳本若直接呼叫 build()／build_series_page()，FILM_INDEX 為 None，
+# 行為與本功能上線前完全一致（不加互導塊、不加入口帶），不會炸。
+FILM_INDEX = None
+
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
 OG_VER = '20261001l'
 
@@ -1091,6 +1101,8 @@ def build_series_page(s, posts, all_series):
         sort_bar = ''
         grid_tag = 'timeline'
         film_js = ''
+    # 澳門電影專輯：三軸入口帶（按年代／取景地／影人 → /collection/ 各分節）
+    axes_out = FC.axes_html(FILM_INDEX, SITE) if (is_film and FILM_INDEX) else ''
     page = """<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -1129,7 +1141,7 @@ def build_series_page(s, posts, all_series):
 {crumb}
 <div class="wrap">
 <div class="intro"><div class="i-lab">專輯 序</div>{intro}</div>
-{sort_bar}
+{sort_bar}{axes}
 <div class="sec-lab">{sec_lab}</div>
 <ul class="{grid_tag}">{items}</ul>
 </div>
@@ -1143,11 +1155,11 @@ def build_series_page(s, posts, all_series):
 """.format(
         name=esc(name), desc=esc(desc), kw=esc('%s,%s,翁振軒,Sean Own,專欄' % (name, coll_name)),
         url=url, og=ov('%s/assets/og/%s.jpg' % (SITE, cover_slug)),
-        ld=json.dumps(ld, ensure_ascii=False), css=SERIES_PAGE_CSS, site=SITE,
+        ld=json.dumps(ld, ensure_ascii=False), css=SERIES_PAGE_CSS + (FC.AXES_CSS if axes_out else ''), site=SITE,
         kicker=esc(parent_name or coll_name or '專輯'),
         sub=esc(s.get('subtitle') or ''), period=esc(s.get('period') or ''),
         n=len(members), items=items, others=others,
-        sort_bar=sort_bar, grid_tag=grid_tag, film_js=film_js,
+        sort_bar=sort_bar, axes=axes_out, grid_tag=grid_tag, film_js=film_js,
         sec_lab=('按電影年份倒序 · 最新電影在前' if desc_order else '按電影年份順序')
                  if (SERIES_BY_ID.get(sid, {}) or {}).get('sort_by') == 'filmYear'
                  else ('按時間倒序 · 最新在前' if desc_order else '按時間順序'),
@@ -1953,6 +1965,11 @@ def build(post, allposts):
         body_html = kp_html + body_html
     if dk_html:
         body_html = body_html + dk_html
+    # 澳門電影：篇末三軸互導（同十年代／同取景地／同影人）——83 篇互相導流，不成孤島。
+    # 僅 macau-film 且 movieInfo 齊全者產生；FILM_INDEX 未建立（外部腳本直呼 build）時為空。
+    frel_html = FC.related_html(post, FILM_INDEX, SLUGS, SITE, ov) if FILM_INDEX else ''
+    if frel_html:
+        body_html = body_html + frel_html
     desc = plain((post.get('lead') or '').strip() or post.get('body') or title, 105) or title
     url = '%s/article/%s/' % (SITE, slug)
 
@@ -2062,7 +2079,7 @@ def build(post, allposts):
 
     att = ATTACHMENTS.get(slug)
     reader = build_reader(att) if att else ''
-    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '') + (SERIES_NAV_CSS if (series_nav or movie_nav).strip() else '') + (SJ_CSS if series_jump else '') + (DECK_CSS if (kp_html or dk_html) else '') + (SPEECH_CSS if spx_html else '')
+    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '') + (SERIES_NAV_CSS if (series_nav or movie_nav).strip() else '') + (SJ_CSS if series_jump else '') + (DECK_CSS if (kp_html or dk_html) else '') + (SPEECH_CSS if spx_html else '') + (FC.REL_CSS if frel_html else '')
 
     ld = {
         "@context": "https://schema.org",
@@ -2438,6 +2455,7 @@ def sanitize_outputs():
     targets = []
     targets += glob.glob(os.path.join(ROOT, 'article', '*', 'index.html'))
     targets += glob.glob(os.path.join(ROOT, 'series', '*', 'index.html'))
+    targets += glob.glob(os.path.join(ROOT, 'collection', '*', 'index.html'))
     targets += [os.path.join(ROOT, 'series', 'index.html'),
                 os.path.join(ROOT, 'articles', 'index.html')]
     total = 0
@@ -2490,6 +2508,30 @@ def build_home_films(published):
     return len(films)
 
 
+def _add_collection_urls(coll_urls):
+    """把 collection/ 三軸合輯頁補進 sitemap.xml（只補缺漏，不改既有條目）。
+
+    build_sitemap.py 只管 /article/；合輯頁是 build 時派生的二級落地頁，
+    沿用同一保守策略：保留全部既有條目，僅把缺漏的插到 </urlset> 之前。
+    """
+    path = os.path.join(ROOT, 'sitemap.xml')
+    if not os.path.exists(path):
+        return 0
+    txt = io.open(path, encoding='utf-8').read()
+    have = set(re.findall(r'<loc>\s*(.*?)\s*</loc>', txt, re.S))
+    add = [(u, lm) for u, lm in coll_urls if u not in have]
+    if not add:
+        return 0
+    block = '\n'.join(
+        '  <url><loc>%s</loc><lastmod>%s</lastmod>'
+        '<changefreq>monthly</changefreq><priority>0.6</priority></url>' % (u, lm)
+        for u, lm in add)
+    idx = txt.rindex('</urlset>')
+    new_txt = txt[:idx].rstrip('\n') + '\n' + block + '\n</urlset>\n'
+    io.open(path, 'w', encoding='utf-8', newline='\n').write(new_txt)
+    return len(add)
+
+
 def main():
     data = json.load(io.open(POSTS, encoding='utf-8'))
     posts = data['posts']
@@ -2497,6 +2539,9 @@ def main():
     for p in posts:
         p['slug'] = SLUGS.get(str(p.get('num', '')).strip(), '')
     load_series()
+    # 三軸索引（年代／取景地／影人）：算一次，文章互導塊與合輯落地頁共用
+    global FILM_INDEX
+    FILM_INDEX = FC.build_index(published, SLUGS)
     made = []
     for p in published:
         made.append(build(p, published))
@@ -2520,6 +2565,10 @@ def main():
                 print('  /movie/%s/  %s' % r)
     if nmovie:
         print('  電影資訊頁：%d 頁' % nmovie)
+    # 澳門電影三軸合輯落地頁：collection/（hub＋3 時代＋10 十年代＋地標＋影人）
+    coll_urls = FC.build_collections(FILM_INDEX, SLUGS, SITE, ov,
+                                     og_img=SITE + '/assets/og/seanown-home.jpg')
+    print('  三軸合輯頁：%d 頁（/collection/）' % len(coll_urls))
     sanitize_outputs()
     # sitemap 一併更新：新增文章後自動補進條目，避免手動維護漏掉
     # （2026-10-09 曾漏掉 6 篇已上線文章，搜尋引擎抓不到）
@@ -2536,6 +2585,13 @@ def main():
     except Exception as e:
         print('  [WARN] sitemap 自動更新失敗：%s（請手動執行 '
               'tools/build_sitemap.py）' % e)
+    # collection/ 合輯頁不在 build_sitemap.py 的 /article/ 規則內，於此補入（只補缺漏）
+    try:
+        n_coll = _add_collection_urls(coll_urls)
+        if n_coll:
+            print('  sitemap：補入 %d 條 /collection/ 合輯頁' % n_coll)
+    except Exception as e:
+        print('  [WARN] collection sitemap 補入失敗：%s' % e)
     io.open(POSTS, 'w', encoding='utf-8', newline='\n').write(
         json.dumps(data, ensure_ascii=False, indent=2) + '\n')
     print('generated %d article pages, %d series pages' % (len(made), nser))
