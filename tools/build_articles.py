@@ -280,6 +280,7 @@ SLUGS = {
     '128': 'dragon-ai-dual-platform',
     '129': 'huangpu-island-37373',
     '131': 'silver-light-film-origin',
+    '132': 'luminous-brilliance-zibo-liuli',
 }
 
 
