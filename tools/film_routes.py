@@ -143,8 +143,15 @@ PAGE_CSS = """
 
 
 def _shell(title, kicker, h1, sub, body, site='', og_img='', stat=''):
+    # 頂欄連結一律用絕對路徑：route/ 有 hub（深一層）與子頁（深兩層）兩種深度，
+    # 相對連結必然有一邊寫錯（2026-10-15 上線當日被軒哥抓到：
+    # '../macau-film/' 在 hub 解析成 /macau-film/、在子頁解析成 /route/macau-film/，全 404）。
     og = (og_img or (site + '/assets/og/seanown-home.jpg')) if site else ''
     og_tag = ('<meta property="og:image" content="%s">' % esc(og)) if og else ''
+    home = (site + '/') if site else '../../'
+    favicon = (site + '/assets/favicon.svg') if site else '../../assets/favicon.svg'
+    album = (site + '/series/macau-film/') if site else '../../series/macau-film/'
+    coll = (site + '/collection/') if site else '../collection/'
     stat_html = ('<div class="stat">%s</div>' % stat) if stat else ''
     return """<!DOCTYPE html>
 <html lang="zh-Hant" class="rpage">
@@ -153,7 +160,7 @@ def _shell(title, kicker, h1, sub, body, site='', og_img='', stat=''):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>%s｜翁振軒 Sean Own</title>
 <meta name="description" content="%s">
-<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="icon" type="image/svg+xml" href="%s">
 <meta name="theme-color" content="#002676">
 <meta property="og:type" content="website">
 <meta property="og:title" content="%s">
@@ -165,15 +172,15 @@ def _shell(title, kicker, h1, sub, body, site='', og_img='', stat=''):
 </head>
 <body>
 <div class="rp-top"><div class="in">
-<a class="brand" href="../../">翁振軒 <span>SEAN OWN</span></a>
-<a class="lnk" href="../macau-film/">← 澳門電影專輯</a>
-<a class="lnk" href="../collection/">主題合輯</a>
+<a class="brand" href="%s">翁振軒 <span>SEAN OWN</span></a>
+<a class="lnk" href="%s">← 澳門電影專輯</a>
+<a class="lnk" href="%s">主題合輯</a>
 </div></div>
 <div class="rp-hero"><div class="kick">%s</div><h1>%s</h1><div class="sub">%s</div>%s</div>
 <div class="rp-wrap">%s</div>
 </body>
-</html>""" % (esc(title), esc(sub[:110]), esc(title), esc(sub[:110]), og_tag, PAGE_CSS,
-               esc(kicker), esc(h1), esc(sub), stat_html, body)
+</html>""" % (esc(title), esc(sub[:110]), esc(favicon), esc(title), esc(sub[:110]), og_tag, PAGE_CSS,
+               esc(home), esc(album), esc(coll), esc(kicker), esc(h1), esc(sub), stat_html, body)
 
 
 def _write(relpath, html_str):
@@ -278,6 +285,7 @@ def build_routes(site, ov, data_path=None):
     today = date.today().isoformat()
     hub = site + '/route/'
     coll_hub = site + '/collection/'
+    album_url = site + '/series/macau-film/'
 
     # ── Hub 總覽 ──
     cards = ''
@@ -285,13 +293,13 @@ def build_routes(site, ov, data_path=None):
         n = len(r['stations'])
         g = sum(1 for s in r['stations'] if s.get('gps'))
         a = sum(1 for s in r['stations'] if s.get('article_slug'))
-        cards += ('<a class="rp-card" href="%s/">'
+        cards += ('<a class="rp-card" href="%s">'
                   '<div class="no">%s</div>'
                   '<div class="t">%s</div>'
                   '<div class="tag">%s</div>'
                   '<p class="c">%s</p>'
                   '<div class="n">%d 站 · %d 個實地座標 · %d 篇觀後感深鏈 <b>→</b></div></a>'
-                  % (esc(r['slug'] + '/'), esc(r['key']), esc(r['region']),
+                  % (esc(hub + r['slug'] + '/'), esc(r['key']), esc(r['region']),
                      esc(r['tag']), esc(r['desc']), n, g, a))
     n_st = sum(len(r['stations']) for r in routes)
     n_gps = sum(1 for r in routes for s in r['stations'] if s.get('gps'))
@@ -308,14 +316,14 @@ def build_routes(site, ov, data_path=None):
         '<div class="rp-x">'
         '<a href="%s"><div class="t">🗺 澳門電影地圖</div><div class="c">按取景地聚合——同一個地標，反覆出現在哪些電影裡。</div></a>'
         '<a href="%s"><div class="t">🕰 時光機</div><div class="c">按年代逛——三個時代、十個十年代的澳門銀幕。</div></a>'
-        '<a href="../macau-film/"><div class="t">🎬 澳門電影專輯</div><div class="c">83 篇觀後感全文，路線每一站都深鏈回這裡。</div></a>'
+        '<a href="%s"><div class="t">🎬 澳門電影專輯</div><div class="c">83 篇觀後感全文，路線每一站都深鏈回這裡。</div></a>'
         '</div></div>'
         '<div class="rp-sec"><h2>📖 關於這批路線</h2>'
         '<p class="d">路線與場景內容取自《跟著電影遊澳門》（63 場景）；'
         '座標、機位提示與文章深鏈，由本站澳門電影專輯的觀後感逐站比對生成。'
         '部分場景網站未收錄對應座標，頁面如實標注原因並給地址參考。'
         '地圖僅提供座標與 Google 地圖連結，步行顺序以現場為準。</p></div>'
-    ) % (n_gps, cards, coll_hub, coll_hub)
+    ) % (n_gps, cards, coll_hub, coll_hub, album_url)
     _write('route/index.html',
            _shell('跟著電影遊澳門 · 主題路線', '跟著電影遊澳門 · FOLLOW THE FILMS',
                   '八條路線，走一遍澳門的銀幕',
@@ -338,21 +346,22 @@ def build_routes(site, ov, data_path=None):
         next_r = routes[i + 1] if i < len(routes) - 1 else None
         nav = ''
         if prev_r:
-            nav += ('<a href="%s/"><div class="k">← 上一條</div><div class="t">%s・%s</div></a>'
-                    % (esc(prev_r['slug'] + '/'), esc(prev_r['key']), esc(prev_r['region'])))
+            nav += ('<a href="%s"><div class="k">← 上一條</div><div class="t">%s・%s</div></a>'
+                    % (esc(hub + prev_r['slug'] + '/'), esc(prev_r['key']), esc(prev_r['region'])))
         else:
-            nav += '<a href="../"><div class="k">← 返回</div><div class="t">全部八條路線</div></a>'
+            nav += ('<a href="%s"><div class="k">← 返回</div><div class="t">全部八條路線</div></a>'
+                    % esc(hub))
         if next_r:
-            nav += ('<a class="r" href="%s/"><div class="k">下一條 →</div><div class="t">%s・%s</div></a>'
-                    % (esc(next_r['slug'] + '/'), esc(next_r['key']), esc(next_r['region'])))
+            nav += ('<a class="r" href="%s"><div class="k">下一條 →</div><div class="t">%s・%s</div></a>'
+                    % (esc(hub + next_r['slug'] + '/'), esc(next_r['key']), esc(next_r['region'])))
         body = (
             '<div class="rp-jump">%s</div>'
             '%s'
             '<div class="rp-nav">%s</div>'
             '<div class="rp-foot">路線內容取自《跟著電影遊澳門》；座標與深鏈由澳門電影專輯比對生成，'
-            '未收錄座標的站如實標注。　<a href="../">← 全部路線</a>｜'
-            '<a href="%s">澳門電影地圖</a>｜<a href="../macau-film/">澳門電影專輯</a></div>'
-        ) % (jump, stations_html, nav, esc(coll_hub))
+            '未收錄座標的站如實標注。　<a href="%s">← 全部路線</a>｜'
+            '<a href="%s">澳門電影地圖</a>｜<a href="%s">澳門電影專輯</a></div>'
+        ) % (jump, stations_html, nav, esc(hub), esc(coll_hub), esc(album_url))
         _write('route/%s/index.html' % r['slug'],
                _shell('跟著電影遊澳門・%s' % r['key'], 'ROUTE · 跟著電影遊澳門',
                       r['key'], r['desc'], body, site,

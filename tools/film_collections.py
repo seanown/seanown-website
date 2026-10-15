@@ -293,8 +293,14 @@ REL_CSS = """
 
 # ── 合輯落地頁 ─────────────────────────────────────────────────
 def _shell(title, kicker, h1, sub, body, site='', og_img=''):
+    # 頂欄連結一律用絕對路徑：collection/ 有 hub（深一層）與子頁（深兩層）兩種深度，
+    # 相對連結必然有一邊寫錯（2026-10-15 上線當日被軒哥抓到：
+    # '../macau-film/' 在 hub 解析成 /macau-film/、在子頁解析成 /collection/macau-film/，全 404）。
     og = (og_img or (site + '/assets/og/seanown-home.jpg')) if site else ''
     og_tag = ('<meta property="og:image" content="%s">' % esc(og)) if og else ''
+    home = (site + '/') if site else '../../'
+    favicon = (site + '/assets/favicon.svg') if site else '../../assets/favicon.svg'
+    album = (site + '/series/macau-film/') if site else '../../series/macau-film/'
     return """<!DOCTYPE html>
 <html lang="zh-Hant" class="cpage">
 <head>
@@ -302,7 +308,7 @@ def _shell(title, kicker, h1, sub, body, site='', og_img=''):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>%s｜澳門電影專輯｜翁振軒 Sean Own</title>
 <meta name="description" content="%s">
-<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="icon" type="image/svg+xml" href="%s">
 <meta name="theme-color" content="#002676">
 <meta property="og:type" content="website">
 <meta property="og:title" content="%s">
@@ -314,14 +320,14 @@ def _shell(title, kicker, h1, sub, body, site='', og_img=''):
 </head>
 <body>
 <div class="cp-top"><div class="in">
-<a class="brand" href="../../">翁振軒 <span>SEAN OWN</span></a>
-<a class="lnk" href="../macau-film/">← 澳門電影專輯</a>
+<a class="brand" href="%s">翁振軒 <span>SEAN OWN</span></a>
+<a class="lnk" href="%s">← 澳門電影專輯</a>
 </div></div>
 <div class="cp-hero"><div class="kick">%s</div><h1>%s</h1><div class="sub">%s</div></div>
 <div class="cp-wrap">%s</div>
 </body>
-</html>""" % (esc(title), esc(sub[:110]), esc(title), esc(sub[:110]), og_tag, PAGE_CSS,
-               esc(kicker), esc(h1), esc(sub), body)
+</html>""" % (esc(title), esc(sub[:110]), esc(favicon), esc(title), esc(sub[:110]), og_tag, PAGE_CSS,
+               esc(home), esc(album), esc(kicker), esc(h1), esc(sub), body)
 
 
 def _write(relpath, html_str):
