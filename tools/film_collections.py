@@ -237,6 +237,7 @@ PAGE_CSS = """
 .cp-hero .kick{letter-spacing:.4em;font-size:12px;color:#FDB515;margin-bottom:16px}
 .cp-hero h1{font-family:"Noto Serif TC",serif;font-size:clamp(30px,5vw,46px);font-weight:900;margin:0 0 12px}
 .cp-hero .sub{color:#c9d6ee;font-size:15px;max-width:640px;margin:0 auto}
+.place-banner img{width:100%;display:block}
 .cp-wrap{max-width:1080px;margin:0 auto;padding:36px 24px 70px}
 .cp-sec{margin:0 0 40px}
 .cp-sec h2{font-family:"Noto Serif TC",serif;font-size:22px;font-weight:900;color:#002676;
@@ -292,7 +293,7 @@ REL_CSS = """
 
 
 # ── 合輯落地頁 ─────────────────────────────────────────────────
-def _shell(title, kicker, h1, sub, body, site='', og_img=''):
+def _shell(title, kicker, h1, sub, body, site='', og_img='', banner_html=''):
     # 頂欄連結一律用絕對路徑：collection/ 有 hub（深一層）與子頁（深兩層）兩種深度，
     # 相對連結必然有一邊寫錯（2026-10-15 上線當日被軒哥抓到：
     # '../macau-film/' 在 hub 解析成 /macau-film/、在子頁解析成 /collection/macau-film/，全 404）。
@@ -323,11 +324,12 @@ def _shell(title, kicker, h1, sub, body, site='', og_img=''):
 <a class="brand" href="%s">翁振軒 <span>SEAN OWN</span></a>
 <a class="lnk" href="%s">← 澳門電影專輯</a>
 </div></div>
+%s
 <div class="cp-hero"><div class="kick">%s</div><h1>%s</h1><div class="sub">%s</div></div>
 <div class="cp-wrap">%s</div>
 </body>
 </html>""" % (esc(title), esc(sub[:110]), esc(favicon), esc(title), esc(sub[:110]), og_tag, PAGE_CSS,
-               esc(home), esc(album), esc(kicker), esc(h1), esc(sub), body)
+               esc(home), esc(album), banner_html, esc(kicker), esc(h1), esc(sub), body)
 
 
 def _write(relpath, html_str):
@@ -443,6 +445,8 @@ def build_collections(index, slugs, site, ov, og_img=''):
         sitemap.append(('%s/collection/%s/' % (site, dslug), today))
 
     # ── 取景地頁 ──
+    # 軒哥 2026-10-16 提供 24 張取景地插畫（3128×1340 PNG，轉存 assets/images/places/place-NN.jpg，
+    # 編號對應 place-01…24；place-25 白鴿巢公園暫無圖）。有圖的頁面在頂欄與 hero 之間插全寬橫幅。
     for nm, slug in index['place_pages'].items():
         keys = index['by_place'][nm]
         gps = index['place_gps'].get(nm, '')
@@ -454,8 +458,16 @@ def build_collections(index, slugs, site, ov, og_img=''):
         body = ('<p class="d" style="font-size:15px;color:#5a534a;margin-bottom:8px">'
                 '「%s」這個澳門地標，出現在專輯裡 %d 部電影的取景中。</p>%s%s'
                 % (esc(nm), len(keys), gps_html, _film_grid(keys, index, slugs, site, ov)))
+        banner_html = ''
+        banner_file = os.path.join(ROOT, 'assets', 'images', 'places', slug + '.jpg')
+        if os.path.isfile(banner_file):
+            # 資源路徑沿用 film_chip 慣例：collection 子頁恆用 ../../ 相對路徑
+            banner_html = ('<div class="place-banner"><img src="../../assets/images/places/%s.jpg" '
+                           'alt="%s · 澳門電影取景地" loading="lazy"></div>'
+                           % (slug, esc(nm)))
         _write('collection/%s/index.html' % slug,
-               _shell('澳門電影地圖 · %s' % nm, '按取景地', nm, '在「%s」取景的澳門電影，共 %d 部。' % (nm, len(keys)), body, site, og_img))
+               _shell('澳門電影地圖 · %s' % nm, '按取景地', nm, '在「%s」取景的澳門電影，共 %d 部。' % (nm, len(keys)), body, site, og_img,
+                      banner_html))
         sitemap.append(('%s/collection/%s/' % (site, slug), today))
 
     # ── 影人頁 ──
