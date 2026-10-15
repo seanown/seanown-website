@@ -265,6 +265,12 @@ PAGE_CSS = """
 .cp-foot a{color:#002676}
 .cp-gps{font-size:12.5px;color:#8a8277;margin-top:4px}
 .cp-gps a{color:#002676}
+.cp-route{display:block;background:linear-gradient(150deg,#002676,#001a4d);border:1px solid #FDB515;
+  border-radius:14px;padding:22px 24px;text-decoration:none;color:#fff}
+.cp-route:hover{box-shadow:0 8px 26px rgba(0,20,70,.22)}
+.cp-route .t{font-family:"Noto Serif TC",serif;font-weight:900;font-size:19px;color:#FDB515}
+.cp-route .c{font-size:13.5px;color:#c9d6ee;margin-top:8px;line-height:1.9}
+.cp-route .go{margin-top:12px;font-size:13px;font-weight:700;color:#fff}
 """
 
 REL_CSS = """
@@ -374,6 +380,13 @@ def build_collections(index, slugs, site, ov, og_img=''):
         person_items += ('<a href="%s/">%s · %s<b>%d 部</b></a>' % (slug + '/', esc(nm), tag, n))
 
     hub_body = (
+        '<div class="cp-sec" id="by-route"><h2>🚶 跟著電影遊澳門</h2>'
+        '<p class="d">不想一部部逛？八條路線把 63 個場景按走法串起來——每站有座標、站位描寫與拍攝提示。</p>'
+        '<a class="cp-route" href="%s/route/">'
+        '<div class="t">🚶 跟著電影遊澳門 · 8 條主題路線</div>'
+        '<div class="c">半島中、內港、新口岸、路氹金光大道、氹仔舊城、路環、本地創作、世界眼中的澳門——'
+        '從「看一篇」變成「走一條線」，每站深鏈回對應的觀後感。</div>'
+        '<div class="go">進入路線總覽 →</div></a></div>'
         '<div class="cp-sec" id="by-era"><h2>🕰 時光機 · 按年代</h2>'
         '<p class="d">三個時代、十個十年代——從 1923 年的澳門看到 2025 年。</p>'
         '<div class="cp-era">%s</div></div>'
@@ -384,10 +397,10 @@ def build_collections(index, slugs, site, ov, og_img=''):
         '<div class="cp-sec" id="by-person"><h2>🎭 誰在澳門 · 按影人</h2>'
         '<p class="d">同一位導演或演員，一再回到澳門。出現 3 部以上者獨立成頁。</p>'
         '<div class="cp-chips">%s</div></div>'
-    ) % (era_cards, decade_chips, place_items, person_items)
+    ) % (site, era_cards, decade_chips, place_items, person_items)
     _write('collection/index.html',
            _shell('澳門電影 · 主題合輯', '澳門電影專輯 · MACAU FILM',
-                  '三種逛法，一座城的銀幕', '按年代、按取景地、按影人——把 83 篇觀後感編成一張網。',
+                  '四種逛法，一座城的銀幕', '按年代、按取景地、按影人、按路線——把 83 篇觀後感編成一張網。',
                   hub_body, site, og_img))
     sitemap.append((site + '/collection/', today))
 
@@ -535,13 +548,14 @@ def related_html(post, index, slugs, site, ov):
 # ── 專輯頁（/series/macau-film/）三軸入口帶 ─────────────────────
 AXES_CSS = """
 .axes{background:linear-gradient(160deg,#002676,#001a4d);border-radius:16px;padding:20px 22px 18px;
-  margin:0 0 26px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  margin:0 0 26px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .axes .ax-h{grid-column:1/-1;color:#FDB515;font-size:12px;letter-spacing:.32em;font-weight:700;margin-bottom:2px}
 .axes a{display:block;background:rgba(255,255,255,.06);border:1px solid rgba(253,181,21,.32);
   border-radius:12px;padding:13px 15px;text-decoration:none;color:#fff;transition:background .25s,border-color .25s}
 .axes a:hover{background:rgba(253,181,21,.13);border-color:#FDB515}
 .axes .t{font-family:"Noto Serif TC",serif;font-weight:900;font-size:16.5px;line-height:1.3}
 .axes .c{font-size:12.5px;color:#c9d6ee;margin-top:5px}
+@media(max-width:960px){.axes{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:720px){.axes{grid-template-columns:1fr}}
 """
 
@@ -549,7 +563,8 @@ AXES_CSS = """
 def axes_html(index, site):
     """澳門電影專輯頁頂部的三軸入口帶：深鏈到 /collection/ 各分節。
 
-    回傳值自带前導換行（貼在 sort_bar 之後）；非電影輯不呼叫本函式，
+    第四張卡深鏈到 /route/（跟著電影遊澳門）——同一個專輯的第四種逛法：
+    按路線走。回傳值自带前導換行（貼在 sort_bar 之後）；非電影輯不呼叫本函式，
     頁面上不會留下多餘空行。
     """
     n_era = len([e for e in ERA_ORDER if index['by_era'].get(e)])
@@ -561,6 +576,7 @@ def axes_html(index, site):
         ('🕰', '按年代', '%d 個時代 · %d 個十年代' % (n_era, n_dec), hub + '#by-era'),
         ('🗺', '按取景地', '%d 個澳門地標獨立成頁' % n_place, hub + '#by-place'),
         ('🎭', '按影人', '%d 位導演演員獨立成頁' % n_person, hub + '#by-person'),
+        ('🚶', '跟著電影遊澳門', '8 條路線 · 63 站可實地走', site + '/route/'),
     ]
     out = '\n<div class="axes"><div class="ax-h">%d 篇觀後感 · 換個逛法</div>' % len(index['meta'])
     for em, t, c, href in cards:

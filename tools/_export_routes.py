@@ -1,0 +1,332 @@
+# -*- coding: utf-8 -*-
+"""一次性匯出：旅遊書 63 場景 × 網站 83 篇（GPS／文章 slug／同地電影）→ data/routes.json。
+
+為什麼需要這個橋：
+  《跟著電影遊澳門》的內容生產線在另一個 repo（澳門旅遊攻略/content63.json），
+  網站 build 不跨 repo 依賴。此腳本把書的 63 站與網站的座標／文章資產對接一次，
+  落地成 data/routes.json；日後書更新，重跑本腳本即可。
+
+匹配規則（按序）：
+  1. STATION_ALIAS 人工校正表（逐站核對過，只收確定同指；站名先正規化再查一次）
+  2. norm_place 正規化後直接命中網站地名索引
+  3. movie 名匹配文章（MOVIE_ALIAS＋異體字＋多片拆分）→ 在該篇 places 內匹配站名
+  4. 網站地名索引模糊匹配（去「酒店」尾綴／雙向包含／前綴，≥3 字）
+  5. 仍無 → 無 GPS（頁面用 info.address 兜底，不造假座標）
+
+NO_GPS_NOTE 的站（全城型／書比網站全）直接短路：不配座標，如實呈現。
+
+article_slug 只看 movie 名是否匹配成功（含別名）——讀者點進去
+必須是該站講的那部片的文章，不是同地其他片的文章；與地點是否匹配無關。
+
+用法：python tools/_export_routes.py
+"""
+import io, os, re, json
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BOOK_JSON = r'C:\Users\user\WorkBuddy\澳門旅遊攻略\content63.json'
+OUT = os.path.join(ROOT, 'data', 'routes.json')
+
+# ── 地名正規化（與 tools/film_collections.py 同步；此處多剝證據等級符號與｜後分店描述）──
+_PAREN = re.compile(r'[（(][^）)]*[）)]')
+# 尾隨拉丁（英文／葡文名）——含拉丁擴展字符（á õ ç é í…），否則「嘉模斜巷 Calç」剝不掉
+_TRAIL_LATIN = re.compile(r'[\s]*[A-Za-z\u00C0-\u024F][A-Za-z\u00C0-\u024F\s\'’\.·\-]*$')
+_MARK = re.compile(r'[\s]*[⚠️✅]+[\s]*$')
+PLACE_ALIAS = {
+    '大三巴': '大三巴牌坊', '大三八': '大三巴牌坊',
+    '議事亭廣場': '議事亭前地', '議事亭前地廣場': '議事亭前地',
+    '亞美打利庇盧大馬路': '新馬路', '葡京': '葡京酒店',
+}
+
+
+def norm_place(name):
+    if not name:
+        return ''
+    s = str(name).strip()
+    s = _MARK.sub('', s)                     # 去尾隨 ⚠️／✅ 證據等級
+    s = _PAREN.sub('', s)                    # 去（Senado Square）/（Ruins of St. Paul's）等
+    s = re.sub(r'｜[^｜]*$', '', s)           # 去｜後的分店／地址描述
+    s = _TRAIL_LATIN.sub('', s)              # 去尾隨拉丁（含 á õ ç é）
+    s = re.sub(r'\s+', ' ', s).strip(' ，,、·.')
+    return PLACE_ALIAS.get(s, s)
+
+
+def norm_movie(name):
+    s = re.sub(r'[\s《》・·，,。.（）()\-—:：]', '', str(name or ''))
+    return s.replace('游', '遊')             # 游龍戲鳳＝遊龍戲鳳（異體字統一）
+
+
+# ── 人工校正表（2026-10-15 逐站核對）────────────────────────────
+# 書站名 → 網站地名。只收確定同指；書比網站全的站（倫敦人／路氹連貫公路…）
+# 與全城型站（澳門（全城）…）故意不收，如實呈現為無座標。
+STATION_ALIAS = {
+    '福隆新街騎樓': '福隆新街',        # 《伊莎貝拉》福隆新街・新華大旅店一帶
+    '亞婆井斜巷': '亞婆井前地',        # 《江湖龍虎門》網站無此片；座標用亞婆井前地
+    '西望洋聖堂': '西望洋山',          # 主教山小堂在西望洋山上
+    '舊廣州大酒店': '舊廣州大酒店',     # norm 去｜後即得（《群龍戲鳳》pedicab-driver-1989）
+    '東望洋山': '東望洋山燈塔',         # 《伊莎貝拉》松山燈塔
+    '新葡京酒店': '新葡京',            # 《撲克王》篇「新葡京 Grand Lisboa」
+    '澳門塔': '澳門旅遊塔',            # 同地異名
+    '婆仔屋': '仁慈堂婆仔屋',          # 婆仔屋＝仁慈堂婆仔屋
+    '威尼斯人酒店': '澳門威尼斯人',      # 《遊龍戲鳳》篇內無；全局配《驚天魔盜團2》
+    '倫敦人酒店': '澳門倫敦人酒店',      # 《驚天魔盜團2》篇內無；全局配《騙騙喜歡你》
+    '魔術店': '翁氏魔術專門店',         # Iong's Magic Shop＝翁氏魔術專門店（馬忌士街36號）
+    'MGM金殿': '澳門美高梅',           # 《遊龍戲鳳》篇「澳門美高梅・天幕廣場」
+    '嘉模聖堂': '嘉模聖母堂',          # 同樓異名（Igreja de Nossa Senhora do Carmo）
+    '路環漁村': '路環舊城區',          # 路環市區一帶
+    '路環市': '路環舊城區',            # 路環市＝路環舊城區
+    '澳門皇宮浮動賭場': '澳門皇宮畫舫',  # 浮動賭場故址＝畫舫原泊位（內港火船頭街）
+    '聖方濟各聖堂': '路環聖方濟各堂',    # 韓劇《宮》網站無此片；座標配路環聖方濟各堂
+}
+MOVIE_ALIAS = {
+    '007之金槍人': 'man-with-the-golden-gun',        # The Man with the Golden Gun 台譯＝鐵金剛大戰金槍客
+    '奪寶奇兵：魔域奇兵': 'indiana-jones-temple-of-doom',  # 台譯；網站用《奪寶奇兵之魔宮傳奇》
+    '憨豆特工': 'johnny-english-reborn-2011',        # 台譯；網站用《憨豆先生大戰特工》
+}
+# 書有、網站刻意不配座標的站（全城型／書比網站全）：站名 → 留空原因（寫入 routes.json 備註）
+NO_GPS_NOTE = {
+    '澳門（全城）': '全城型場景，無單一地點',
+    '澳門（短片合集）': '短片合集，無單一地點',
+    '澳門（70年代賭場）': '全城型場景，無單一地點',
+    '澳門（60年代）': '全城型場景，無單一地點',
+    '路環咀': '路環最南端；網站未收錄此精確地點',
+    '北安碼頭': '網站未收錄此地點',
+    '路氹連貫公路': '網站未收錄此道路場景',
+    '聖若望修院': '網站未收錄此地點',
+}
+
+
+def build_place_index(films):
+    """網站地名索引：norm_place -> {gps, films: [{slug, name, year}]}"""
+    idx = {}
+    for p in films:
+        mi = p.get('movieInfo') or {}
+        name = re.sub(r'^《|》觀後感$|》$', '', (mi.get('title') or p.get('title') or '')).strip()
+        try:
+            year = int(p.get('filmYear') or mi.get('year') or 0)
+        except (TypeError, ValueError):
+            year = 0
+        ms = mi.get('macauScenes')
+        if isinstance(ms, dict):
+            scenes = ms.get('scenes') or []
+        elif isinstance(ms, list):
+            scenes = ms
+        else:
+            scenes = []
+        for sec in scenes:
+            if not isinstance(sec, dict):
+                continue
+            for pl in (sec.get('places') or []):
+                nm = norm_place(pl.get('name'))
+                if not nm:
+                    continue
+                e = idx.setdefault(nm, {'gps': (pl.get('gps') or '').strip(), 'films': []})
+                if not e['gps'] and (pl.get('gps') or '').strip():
+                    e['gps'] = pl['gps'].strip()
+                if all(f['slug'] != p['slug'] for f in e['films']):
+                    e['films'].append({'slug': p['slug'], 'name': name, 'year': year})
+    return idx
+
+
+def film_places_of(p):
+    """一篇電影的正規化地名清單（保序）。"""
+    mi = p.get('movieInfo') or {}
+    ms = mi.get('macauScenes')
+    if isinstance(ms, dict):
+        scenes = ms.get('scenes') or []
+    elif isinstance(ms, list):
+        scenes = ms
+    else:
+        scenes = []
+    out = []
+    for sec in scenes:
+        if not isinstance(sec, dict):
+            continue
+        for pl in (sec.get('places') or []):
+            nm = norm_place(pl.get('name'))
+            if nm and nm not in out:
+                out.append(nm)
+    return out
+
+
+def match_in(keys, scene_norm):
+    """在一組地名 key 內匹配站名：相等 > 去『酒店』相等 > 雙向包含 > 前綴（≥3 字）。"""
+    if not keys or not scene_norm:
+        return ''
+    if scene_norm in keys:
+        return scene_norm
+    bare = re.sub(r'酒店$', '', scene_norm)
+    if bare and bare in keys:
+        return bare
+    cands = [k for k in keys if len(k) >= 3 and (bare in k or k in bare or scene_norm in k)]
+    if cands:
+        return max(cands, key=len)          # 取最具体的（最长）候选
+    pre = [k for k in keys if len(bare) >= 3 and (k.startswith(bare) or bare.startswith(k))]
+    if pre:
+        return max(pre, key=len)
+    return ''
+
+
+def main():
+    book = json.load(io.open(BOOK_JSON, encoding='utf-8'))
+    posts = json.load(io.open(os.path.join(ROOT, 'data', 'posts.json'), encoding='utf-8'))['posts']
+    films = [p for p in posts if p.get('series') == 'macau-film' and p.get('movieInfo')]
+
+    place_idx = build_place_index(films)
+    # movie 名 → 文章（含異體字正規化）
+    movie_idx = {}
+    for p in films:
+        mi = p.get('movieInfo') or {}
+        for raw in (mi.get('title'), p.get('title')):
+            k = norm_movie(raw)
+            if k and k not in movie_idx:
+                movie_idx[k] = p
+
+    stations = []
+    n_gps = n_art = n_alias = 0
+    for i, s in enumerate(book):
+        scene = (s.get('scene') or '').strip()
+        sn = norm_place(scene)
+        gps, article_slug, also, match, cand = '', [], [], '', ''
+        # movie 名匹配（含別名／異體字；「花樣年華》《2046」多片站逐部試，取首個命中）
+        post = None
+        mv_raw = (s.get('movie') or '').strip()
+        mv_parts = [x.strip() for x in mv_raw.split('》《')] if '》《' in mv_raw else [mv_raw]
+        for part in mv_parts:
+            post = movie_idx.get(norm_movie(part))
+            if post is None:
+                al = MOVIE_ALIAS.get(part)
+                if al:
+                    post = next((p for p in films if p.get('slug') == al), None)
+            if post:
+                break
+        # 全城型／網站刻意不配座標的站：直接短路，仍保留 movie 深链
+        note = NO_GPS_NOTE.get(scene) or NO_GPS_NOTE.get(sn)
+        if note:
+            match = note
+        else:
+            in_film_keys = film_places_of(post) if post else []
+            # 1) 人工校正表（站名帶括號的先用正規化名再查一次）
+            alias = STATION_ALIAS.get(scene) or STATION_ALIAS.get(sn)
+            if alias:
+                n_alias += 1
+                cand = alias if alias in place_idx else ''
+                if not cand:
+                    cand = match_in(list(place_idx), alias)
+                if cand:
+                    match = 'alias'
+            # 2) 正規化後直接命中（全站或本篇內）
+            if not match:
+                if sn in place_idx:
+                    cand, match = sn, 'exact'
+                elif in_film_keys and sn in in_film_keys:
+                    cand, match = sn, 'exact'
+            # 3) 本篇內模糊
+            if not match and in_film_keys:
+                cand = match_in(in_film_keys, sn)
+                if cand:
+                    match = 'in-film'
+            # 4) 全站模糊
+            if not match:
+                cand = match_in(list(place_idx), sn)
+                if cand:
+                    match = 'fuzzy'
+        if cand:
+            e = place_idx[cand]
+            gps = e['gps']
+            if post:
+                also = [f for f in e['films'] if f['slug'] != post['slug']]
+            else:
+                also = list(e['films'])
+        # 文章深鏈只認 movie 匹配，與地點匹配與否無關（讀者點進去必須是該站講的那部片）
+        if post:
+            article_slug = post['slug']
+        if gps:
+            n_gps += 1
+        if article_slug:
+            n_art += 1
+        body = s.get('body') or []
+        if isinstance(body, str):
+            body = [body]
+        pn = s.get('photo_notes') or []
+        if isinstance(pn, str):
+            pn = [pn]
+        stations.append({
+            'no': i + 1,
+            'scene': scene,
+            'movie': (s.get('movie') or '').strip(),
+            'year': s.get('year'),
+            'quote': (s.get('quote') or '').strip(),
+            'quote_author': (s.get('quote_author') or '').strip(),
+            'body': [x.strip() for x in body if x and x.strip()],
+            'photo_notes': [x.strip() for x in pn if x and x.strip()],
+            'fact': (s.get('fact') or '').strip(),
+            'info': s.get('info') or {},
+            'route': (s.get('route_final') or s.get('route') or '').strip(),
+            'gps': gps,
+            'match': match or (NO_GPS_NOTE.get(scene) if not gps else '') or ('網站未收錄此地點' if not gps else ''),
+            'article_slug': article_slug,
+            'also': also,
+        })
+
+    # 路線 = route_final 分組（保留書內順序）
+    order, groups = [], {}
+    for st in stations:
+        groups.setdefault(st['route'], [])
+        if st['route'] not in order:
+            order.append(st['route'])
+        groups[st['route']].append(st)
+
+    ROUTE_META = {
+        '路線一・半島中': ('r1-peninsula-central', '半島中區', '王家衛的宿命街區',
+                        '半島中區是澳門被拍得最密的舊城心臟。一條福隆新街承載了《花樣年華》的錯過，亞婆井前地被《胭脂扣》與《暗花》借走了舊夢與宿命。從新馬路的街頭宿命，走到亞婆井的黃昏長窗。'),
+        '路線二・半島西': ('r2-peninsula-west', '半島西區', '內港漁火與舊城巷戰',
+                        '內港一帶是澳門最老的漁人碼頭記憶，也是港片江湖的後巷。《十月初五的月光》的碼頭、《放・逐》的巷戰、媽閣的廟前階——這一線沿著海，走的全是被城市留住的舊時光。'),
+        '路線三・半島東': ('r3-peninsula-east', '半島東區', '新口岸的霓虹與身份',
+                        '新口岸與外港是澳門「新」的那張臉。賭場飯店的玻璃幕牆、東望洋的燈塔與賽道、深夜的街——霓虹燈下的身份與慾望，都在這一帶取景。'),
+        '路線四・路氹金光大道': ('r4-cotai', '路氹金光大道', '賭城動作片的舞台',
+                        '跨過橋來到路氹，這裡是澳門最「亮」的一塊。韓國盜寶片、香港懸疑、Netflix、好萊塢都在金光大道留過腳印。入夜後霓虹全開，是拍「賭城動作片」最好的舞台。'),
+        '路線五・氹仔舊城': ('r5-taipa', '氹仔舊城', '被電影留下來的生活感',
+                        '氹仔舊城是澳門為數不多還留著生活氣的地方。官也街的餅家、嘉模斜巷的舊宅、龍環葡韻的荷花——電影來這裡，拍的不是賭場，是日子。'),
+        '路線六・路環': ('r6-coloane', '路環', '澳門的盡頭與慢',
+                        '路環是澳門的盡頭。沒有賭場，有海、有聖方濟各聖堂、有安德魯餅店的總店。電影走到這裡都慢下來——《伊莎貝拉》的摩托車、《放・逐》的碼頭，都在這條慢線上。'),
+        '路線七・澳門人自己的澳門': ('r7-local-eyes', '澳門人自己的澳門', '本地創作者鏡頭裡的家',
+                        '這一線不收外地劇組的眼睛，收澳門人自己拍的澳門：本地短片、獨立製作、紀錄片。他們拍的不再是異域風情，是家。'),
+        '路線九・世界眼中的澳門': ('r9-world-eyes', '世界眼中的澳門', '好萊塢與亞洲名導的取景框',
+                        '從《奪寶奇兵》到 007，從韓國到好萊塢——世界透過澳門想像東方。這一線看好萊塢與國際名導選中了哪些角度。'),
+    }
+
+    routes = []
+    for key in order:
+        sts = groups[key]
+        slug, region, tag, desc = ROUTE_META.get(key, (re.sub(r'\W', '', key)[:20], key, '', ''))
+        routes.append({'key': key, 'slug': slug, 'region': region, 'tag': tag,
+                       'desc': desc, 'stations': sts})
+
+    data = {
+        'meta': {
+            'source': '澳門旅遊攻略/content63.json × Seanown.org/data/posts.json',
+            'exported': '2026-10-15',
+            'stations': len(stations),
+            'with_gps': n_gps,
+            'with_article': n_art,
+            'alias_used': n_alias,
+            'routes': len(routes),
+        },
+        'routes': routes,
+    }
+    os.makedirs(os.path.dirname(OUT), exist_ok=True)
+    with io.open(OUT, 'w', encoding='utf-8', newline='\n') as f:
+        f.write(json.dumps(data, ensure_ascii=False, indent=1) + '\n')
+
+    print('routes.json 已輸出：%d 條路線 / %d 站' % (len(routes), len(stations)))
+    print('  有 GPS：%d（%.0f%%）｜有文章深链：%d｜人工校正表用上：%d'
+          % (n_gps, 100.0 * n_gps / max(len(stations), 1), n_art, n_alias))
+    print()
+    for r in routes:
+        miss = ['%s（%s）' % (s['scene'], s['match']) for s in r['stations'] if not s['gps']]
+        print('  %s：%d 站%s' % (r['key'], len(r['stations']),
+                                  ('；無座標：%s' % '、'.join(miss)) if miss else ''))
+
+
+if __name__ == '__main__':
+    main()

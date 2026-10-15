@@ -13,6 +13,7 @@ SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 # 以檔案路徑載入——外部維護腳本用 spec_from_file_location 載入本模組時也能 import 到。
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import film_collections as FC
+import film_routes as FR
 
 # 三軸索引：main() 開跑時算一次，文章互導塊與合輯落地頁共用。
 # 外部腳本若直接呼叫 build()／build_series_page()，FILM_INDEX 為 None，
@@ -2456,8 +2457,11 @@ def sanitize_outputs():
     targets += glob.glob(os.path.join(ROOT, 'article', '*', 'index.html'))
     targets += glob.glob(os.path.join(ROOT, 'series', '*', 'index.html'))
     targets += glob.glob(os.path.join(ROOT, 'collection', '*', 'index.html'))
+    targets += glob.glob(os.path.join(ROOT, 'route', '*', 'index.html'))
     targets += [os.path.join(ROOT, 'series', 'index.html'),
-                os.path.join(ROOT, 'articles', 'index.html')]
+                os.path.join(ROOT, 'articles', 'index.html'),
+                os.path.join(ROOT, 'collection', 'index.html'),
+                os.path.join(ROOT, 'route', 'index.html')]
     total = 0
     for f in targets:
         if not os.path.exists(f):
@@ -2508,18 +2512,18 @@ def build_home_films(published):
     return len(films)
 
 
-def _add_collection_urls(coll_urls):
-    """把 collection/ 三軸合輯頁補進 sitemap.xml（只補缺漏，不改既有條目）。
+def _add_derived_urls(urls):
+    """把 build 時派生的二級落地頁（collection/ 合輯、route/ 路線）補進 sitemap.xml。
 
-    build_sitemap.py 只管 /article/；合輯頁是 build 時派生的二級落地頁，
-    沿用同一保守策略：保留全部既有條目，僅把缺漏的插到 </urlset> 之前。
+    只補缺漏，不改既有條目——保留全部既有條目，僅把缺漏的插到 </urlset> 之前。
+    build_sitemap.py 只管 /article/；這兩類頁面是從 movieInfo／routes.json 派生的。
     """
     path = os.path.join(ROOT, 'sitemap.xml')
     if not os.path.exists(path):
         return 0
     txt = io.open(path, encoding='utf-8').read()
     have = set(re.findall(r'<loc>\s*(.*?)\s*</loc>', txt, re.S))
-    add = [(u, lm) for u, lm in coll_urls if u not in have]
+    add = [(u, lm) for u, lm in urls if u not in have]
     if not add:
         return 0
     block = '\n'.join(
@@ -2569,6 +2573,10 @@ def main():
     coll_urls = FC.build_collections(FILM_INDEX, SLUGS, SITE, ov,
                                      og_img=SITE + '/assets/og/seanown-home.jpg')
     print('  三軸合輯頁：%d 頁（/collection/）' % len(coll_urls))
+    # 跟著電影遊澳門 · 數字路線頁：route/（hub＋8 路線，63 站深鏈回 83 篇）
+    route_urls = FR.build_routes(SITE, ov)
+    if route_urls:
+        print('  電影路線頁：%d 頁（/route/）' % len(route_urls))
     sanitize_outputs()
     # sitemap 一併更新：新增文章後自動補進條目，避免手動維護漏掉
     # （2026-10-09 曾漏掉 6 篇已上線文章，搜尋引擎抓不到）
@@ -2587,11 +2595,18 @@ def main():
               'tools/build_sitemap.py）' % e)
     # collection/ 合輯頁不在 build_sitemap.py 的 /article/ 規則內，於此補入（只補缺漏）
     try:
-        n_coll = _add_collection_urls(coll_urls)
+        n_coll = _add_derived_urls(coll_urls)
         if n_coll:
             print('  sitemap：補入 %d 條 /collection/ 合輯頁' % n_coll)
     except Exception as e:
         print('  [WARN] collection sitemap 補入失敗：%s' % e)
+    # route/ 路線頁同理補入
+    try:
+        n_route = _add_derived_urls(route_urls)
+        if n_route:
+            print('  sitemap：補入 %d 條 /route/ 路線頁' % n_route)
+    except Exception as e:
+        print('  [WARN] route sitemap 補入失敗：%s' % e)
     io.open(POSTS, 'w', encoding='utf-8', newline='\n').write(
         json.dumps(data, ensure_ascii=False, indent=2) + '\n')
     print('generated %d article pages, %d series pages' % (len(made), nser))
