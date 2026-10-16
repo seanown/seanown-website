@@ -104,30 +104,20 @@ def build_blocks(mf, n_role, n_col):
     cross = ('跨平台部分：%s 一則同時具備多個官方平台來源（官方網頁／Facebook／X／YouTube），'
              '全站合計 %d 個可點擊連結。' % (md, mf['clicks'])) if md else \
             '全站合計 %d 個可點擊連結。' % mf['clicks']
-    media_src = (
-        '佐證：本網站「媒體報導」頁逐則列出，共 %d 則、來源 %d 家。其中 %d 則附原文連結，'
-        '另 %d 則為現場紀錄、無公開原文（已如實標註，不計入附連結數）。%s'
-        % (mf['total'], mf['sources'], mf['with_url'], mf['no_url'], cross)
-    )
+    # 🔴 軒哥 2026-10-17 指示：各卡下方的「佐證：…」說明屬**對內部交代**，對外不顯示。
+    # 因此本區塊只輸出數字與標籤（n / l），不輸出 src。區塊副標亦已改為不提佐證。
     return (
         '<div class="n">%d 則</div>\n'
-        '<div class="l">公開媒體報導（%s–%s）</div>\n'
-        '<div class="src">%s</div>' % (mf['total'], y0, y1, media_src)
+        '<div class="l">公開媒體報導（%s–%s）</div>' % (mf['total'], y0, y1)
     ), (
         '<div class="n">%d 項</div>\n'
-        '<div class="l">現任企業與協會職務</div>\n'
-        '<div class="src">佐證：下方「企業職務與社會參與」點開標題即可逐項查看，'
-        '包含龍遊集團、東望洋集團、粵港澳大灣區電子商會等具名機構。</div>' % n_role
+        '<div class="l">現任企業與協會職務</div>' % n_role
     ), (
         '<div class="n">80+ 語種</div>\n'
-        '<div class="l">多語種內容生成能力</div>\n'
-        '<div class="src">佐證：平台技術規格（80 語種內容生成與全球投放）；'
-        '語言數量以平台實際支援清單為準，非市場成效數字。</div>'
+        '<div class="l">多語種內容生成能力</div>'
     ), (
         '<div class="n">%d 篇</div>\n'
-        '<div class="l">已發布文章（含 87 篇澳門電影專輯）</div>\n'
-        '<div class="src">佐證：本網站「專欄文章」與「澳門電影專輯」頁，逐篇標示日期與分類，'
-        '內容公開可讀。</div>' % n_col
+        '<div class="l">已發布文章（含 87 篇澳門電影專輯）</div>' % n_col
     )
 
 
@@ -144,22 +134,34 @@ def main():
     iv = invest_facts()
     if iv:
         yr = ('（%s）' % iv['years']) if iv['years'] else ''
-        lang_b = (
-            '<div class="n">%d 家</div>\n'
-            '<div class="l">已投資企業%s</div>\n'
-            '<div class="src">佐證：已投資企業名單逐家具名列出，可另行提供佐證文件；'
-            '目前含 %d 個領域。名單如有異動，以名單頁為準。</div>'
-            % (iv['n'], yr, iv['n_sector'])
-        )
-    new_block = '<div class="fact">\n%s\n</div>\n<div class="fact">\n%s\n</div>\n' \
-                '<div class="fact">\n%s\n</div>\n<div class="fact">\n%s\n</div>' \
-                % (media_b, role_b, lang_b, col_b)
+        lang_b = ('<div class="n">%d 項</div>\n'
+                  '<div class="l">投資過的項目%s</div>' % (iv['n'], yr))
+    cards_block = ('<div class="fact">\n%s\n</div>\n<div class="fact">\n%s\n</div>\n'
+                  '<div class="fact">\n%s\n</div>\n<div class="fact">\n%s\n</div>'
+                  % (media_b, role_b, lang_b, col_b))
 
-    # 定位舊的四個 fact 區塊：從第一個 <div class="fact"> 到 fact-note 之前
-    start = html.index('<div class="fact">')
-    end = html.index('<p class="fact-note">')
-    old_block = html[start:end]
-    new_html = html[:start] + new_block + html[end:]
+    # 定位並重建整個 <div class="facts"> 區塊。
+    # 🔴 結構固定（每張卡 4 行）：<div class="facts"> / 重複的 <div class="fact">…</div> /
+    #    最後一行 </div></div>。故取「<div class="facts"> 行」到「第一個含兩個 </div> 的行」之間整段替換。
+    lines = html.split('\n')
+    try:
+        i_open = next(i for i, l in enumerate(lines) if '<div class="facts">' in l)
+    except StopIteration:
+        print('[ERROR] about/index.html 找不到 <div class="facts"> 區塊，未改動')
+        return
+    i_close = None
+    for i in range(i_open + 1, len(lines)):
+        if lines[i].count('</div>') >= 2:
+            i_close = i
+            break
+    if i_close is None:
+        print('[ERROR] about/index.html 的 facts 區塊找不到容器收尾（</div></div>），未改動')
+        return
+
+    old_block = '\n'.join(lines[i_open:i_close + 1])
+    new_block = ('<div class="facts">\n' + cards_block
+                 + '\n' + lines[i_close])
+    new_html = '\n'.join(lines[:i_open] + [new_block] + lines[i_close + 1:])
 
     # 同步「展開其餘 13 項」這類帶數字的 UI 文案
     total_roles = n_role
@@ -187,16 +189,16 @@ def main():
           % (mf['total'], mf['with_url'], mf['sources'], mf['clicks'], len(mf['multi'])))
     print('  職務 %d 項（展開其餘 %d 項）／專欄文章 %d 篇' % (n_role, rest, n_col))
     if iv:
-        print('  已投資企業 %d 家（第三張卡已切換）' % iv['n'])
+        print('  投資過的項目 %d 項（第三張卡已切換）' % iv['n'])
     else:
         exists = os.path.exists(INVEST_JSON)
-        print('  ⚠️ 提醒：已投資企業名單尚未填入 → 第三張卡仍是「80+ 語種」。')
-        print('     軒哥 2026-10-17 指示要改成「已投資企業」（約 20–21 家），並說會另做完整名單。')
+        print('  ⚠️ 提醒：投資項目名單尚未填入 → 第三張卡仍是「80+ 語種」。')
+        print('     軒哥 2026-10-17 指示要改成「投資過的項目」，並說會另做完整名單。')
         print('     %s：把 %d 家企業逐家填進 investments 陣列，'
               % ('檔案已建立但 investments 為空' if exists else '檔案 data/investments.json 尚未建立',
                  21))
         print('     重跑本腳本即自動換卡（只需 name 必填，sector／year／stage 可選）。')
-        print('     ⚠️ 在拿到真實名單前不會填入任何推測的公司名——此區塊立點為「無法核實者不列」。')
+        print('     ⚠️ 在拿到真實名單前不會填入任何推測的名稱——此區塊立點為「無法核實者不列」。')
 
 
 if __name__ == '__main__':
