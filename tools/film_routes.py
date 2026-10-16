@@ -154,6 +154,22 @@ PAGE_CSS = """
 .rp-nav .r{text-align:right}
 .rp-foot{border-top:1px solid #e7e0d4;margin-top:44px;padding-top:18px;font-size:12.5px;color:#8a8277;line-height:1.9}
 .rp-foot a{color:#002676}
+/* 路線概览（2026-10-16：步行导览） */
+.rp-overview{background:linear-gradient(180deg,#fbf8f1,#f4eee2);border:1px solid #e7dcc6;
+  border-radius:14px;padding:18px 22px;margin:0 0 18px}
+.rp-overview .ov-h{font-family:"Noto Serif TC",serif;font-weight:900;font-size:16px;color:#002676}
+.rp-overview .ov-guide{font-size:14.5px;line-height:1.95;color:#3a352e;margin:8px 0 0}
+.rp-overview .ov-stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.rp-overview .ov-stats div{background:#fff;border:1px solid #e7e0d4;border-radius:10px;
+  padding:8px 14px;text-align:center;min-width:78px}
+.rp-overview .ov-stats b{display:block;font-family:"Noto Serif TC",serif;font-weight:900;
+  font-size:20px;color:#002676;line-height:1.2}
+.rp-overview .ov-stats span{font-size:11.5px;color:#8a8277}
+/* 每站「距上一站步行」 */
+.walk-from{font-size:12.5px;color:#002676;background:#eef3fb;border:1px solid #cdddf2;
+  border-radius:14px;padding:3px 12px;margin:10px 0 0;display:inline-block;line-height:1.7}
+.walk-from .rep{color:#b07a1a;font-weight:700}
+.walk-from .cross{color:#b07a1a;font-weight:700}
 """
 
 
@@ -236,6 +252,21 @@ def _station_html(st, idx, site, ov):
     parts.append('<div class="no">%d</div><div class="st-h">%s<div class="txt">'
                  '<div class="nm">%s</div><div class="mv">%s</div></div></div>'
                  % (idx, img, esc(st.get('scene') or ''), film_line))
+    # 距上一站步行（2026-10-16 步行導覽）；跨區段標「建議搭車」、全城代表點標 △、無座標斷鏈標「實地站」
+    wf = st.get('walk_from_prev')
+    if wf and idx > 1:
+        if wf.get('cross'):
+            parts.append('<div class="walk-from">距上一站約 %d 公里<span class="cross">（跨區・建議搭車）</span></div>'
+                         % (wf['m'] // 1000))
+        else:
+            rep = ' <span class="rep">△ 含全城代表點</span>' if wf.get('rep') else ''
+            if wf.get('gap'):
+                parts.append('<div class="walk-from">距上一實地站步行約 <b>%d</b> 分鐘 · %d 公尺'
+                             '<span class="rep">（中間含無座標站）</span>%s</div>'
+                             % (wf['min'], wf['m'], rep))
+            else:
+                parts.append('<div class="walk-from">距上一站步行約 <b>%d</b> 分鐘 · %d 公尺%s</div>'
+                             % (wf['min'], wf['m'], rep))
     # 金句框（兩行式：金句一行、署名一行）
     q = (st.get('quote') or '').strip()
     if q:
@@ -305,6 +336,20 @@ def _station_html(st, idx, site, ov):
     return ''.join(parts)
 
 
+# ── 每條線的「宣歌」導覽句（2026-10-16 軒哥拍板：頂部用導覽口吻講這條線）──
+# 風格對齊旅遊書《跟著電影遊澳門》的敘事語氣；步行總距／總時間由 routes.json 動態接在句尾。
+ROUTE_GUIDE = {
+    'r1-peninsula-central': '半島中區這一線，把王家衛的宿命街區走成一條黃昏路線——從新馬路的舊夢出發，沿福隆新街、亞婆井一路走到長窗。',
+    'r2-peninsula-west': '沿著內港的海，把港片江湖的後巷與碼頭串成一線；這一線慢，適合留一個下午。',
+    'r3-peninsula-east': '新口岸與外港是澳門「新」的那張臉——玻璃幕牆、東望洋燈塔與深夜的街，霓虹下的身份與慾望。',
+    'r4-cotai': '跨過橋來到路氹金光大道，入夜後霓虹全開，是這座城最「亮」的一塊賭城舞台。',
+    'r5-taipa': '氹仔舊城還留著生活氣——官也街的餅家、嘉模斜巷的舊宅、龍環葡韻的荷花，電影拍的是日子。',
+    'r6-coloane': '路環是澳門的盡頭，沒有賭場，有海、有聖方濟各聖堂、有安德魯餅店——電影走到這裡都慢下來。',
+    'r7-local-eyes': '這一線收澳門人自己拍的澳門：本地短片、獨立製作、紀錄片，鏡頭裡的家。',
+    'r9-world-eyes': '從《奪寶奇兵》到 007，好萊塢與亞洲名導透過澳門想像東方，這一線看被選中的角度。',
+}
+
+
 def build_routes(site, ov, data_path=None):
     """產生 route/ 全部頁面，回傳 [(url, lastmod)] 供 sitemap。"""
     data_path = data_path or os.path.join(ROOT, 'data', 'routes.json')
@@ -372,6 +417,24 @@ def build_routes(site, ov, data_path=None):
         n = len(sts)
         g = sum(1 for s in sts if s.get('gps'))
         a = sum(1 for s in sts if s.get('article_slug'))
+        # ── 路線概览卡（2026-10-16：步行導覽）──
+        tot_km = r.get('total_walk_km') or 0
+        tot_min = r.get('total_walk_min') or 0
+        rep = r.get('walk_rep')
+        cross = r.get('walk_cross')
+        guide = ROUTE_GUIDE.get(r['slug'], '')
+        note = '（含全城型代表點估算）' if rep else ('（含跨區段・另計）' if cross else '')
+        overview = (
+            '<div class="rp-overview">'
+            '<div class="ov-h">🚶 這條線怎麼走</div>'
+            '<p class="ov-guide">%s 全程約 %.1f 公里，慢走約 %d 分鐘%s。</p>'
+            '<div class="ov-stats">'
+            '<div><b>%d</b><span>站</span></div>'
+            '<div><b>%.1f</b><span>公里（步行）</span></div>'
+            '<div><b>%d</b><span>分鐘（步行）</span></div>'
+            '<div><b>%d</b><span>篇深鏈</span></div>'
+            '</div></div>'
+        ) % (esc(guide), tot_km, tot_min, note, n, tot_km, tot_min, a)
         jump = ''.join('<a href="#st-%d"><b>%02d</b>%s<span class="m">%s</span></a>'
                        % (j + 1, j + 1, esc(s.get('scene') or ''), esc(s.get('movie') or ''))
                        for j, s in enumerate(sts))
@@ -389,13 +452,14 @@ def build_routes(site, ov, data_path=None):
             nav += ('<a class="r" href="%s"><div class="k">下一條 →</div><div class="t">%s・%s</div></a>'
                     % (esc(hub + next_r['slug'] + '/'), esc(next_r['key']), esc(next_r['region'])))
         body = (
+            '%s'
             '<div class="rp-jump">%s</div>'
             '%s'
             '<div class="rp-nav">%s</div>'
             '<div class="rp-foot">路線內容取自《跟著電影遊澳門》；座標與深鏈由澳門電影專輯比對生成，'
             '未收錄座標的站如實標注。　<a href="%s">← 全部路線</a>｜'
             '<a href="%s">澳門電影地圖</a>｜<a href="%s">澳門電影專輯</a></div>'
-        ) % (jump, stations_html, nav, esc(hub), esc(coll_hub), esc(album_url))
+        ) % (overview, jump, stations_html, nav, esc(hub), esc(coll_hub), esc(album_url))
         _write('route/%s/index.html' % r['slug'],
                _shell('跟著電影遊澳門・%s' % r['key'], 'ROUTE · 跟著電影遊澳門',
                       r['key'], r['desc'], body, site,

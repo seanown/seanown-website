@@ -20,7 +20,7 @@ article_slug 只看 movie 名是否匹配成功（含別名）——讀者點進
 
 用法：python tools/_export_routes.py
 """
-import io, os, re, json
+import io, os, re, json, time, math
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOOK_JSON = r'C:\Users\user\WorkBuddy\澳門旅遊攻略\content63.json'
@@ -110,6 +110,117 @@ FACT_FIXES = {
     '亞婆井前地': {'quote': '一噸夢想，值多少錢？',
                    'quote_author': '《放・逐》對白（英文字幕回譯）'},
 }
+
+# ── 全城型／年代型虛擬站的代表座標（2026-10-16 軒哥拍板「補代表座標」）──
+# 這些站無單一實拍地點，給一個中心區代表點，讓步行段可算、未來地圖可釘中心。
+# 注意：代表點「只」用於算步行（_eff_gps），不寫入 station 的 gps 字段，
+# 因此 n_gps（實地座標統計）不被污染；渲染時標「代表點」以示區別。
+REP_GPS = {
+    '澳門（全城）': '22.1938,113.5429',       # 議事亭前地
+    '澳門（短片合集）': '22.1880,113.5460',   # 南灣
+    '澳門（70年代賭場）': '22.1885,113.5500', # 葡京一帶
+    '澳門（60年代）': '22.1925,113.5435',     # 崗頂前地
+}
+
+
+def _eff_gps(st):
+    """有效座標：實拍 gps 優先（剝「約」等中文與空白，與 merge_and_order._gps_of 一致）；
+    無則取代表點；皆無則 (None, False)。回傳 (gps, is_rep)。"""
+    g = (st.get('gps') or '').strip()
+    if g:
+        g = re.sub(r'[^0-9.,\-]', '', g)  # 去「約」等中文／空白，僅留數字與分隔符
+        if g:
+            return g, False
+    rep = REP_GPS.get((st.get('scene') or '').strip())
+    if rep:
+        return rep, True
+    return None, False
+
+
+def _haversine_m(a, b):
+    """a,b = 'lat,lon'（與 routes.json 座標格式一致）；回傳球面距離（公尺）。OSRM 離線備援用。"""
+    try:
+        alat, alon = [float(x) for x in a.split(',')]
+        blat, blon = [float(x) for x in b.split(',')]
+    except (ValueError, AttributeError):
+        return None
+    R = 6371000.0
+    p1, p2 = math.radians(alat), math.radians(blat)
+    dp = math.radians(blat - alat)
+    dl = math.radians(blon - alon)
+    h = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
+    return 2 * R * math.asin(min(1, math.sqrt(h)))
+
+
+def _osrm_foot(a, b):
+    """a,b = 'lat,lon'（與 routes.json 座標格式一致）；回傳 (dist_m, dur_min) 或 None。
+    優先真實路網（OSRM 需 'lon,lat'，內部互換），失敗回 haversine×1.4。"""
+    import json as _json, urllib.request as _ur
+    time.sleep(0.12)  # 節流，避免觸發 OSRM 公共服務限額
+    try:
+        alat, alon = [float(x) for x in a.split(',')]
+        blat, blon = [float(x) for x in b.split(',')]
+    except (ValueError, AttributeError):
+        return None
+    url = ('https://router.project-osrm.org/route/v1/foot/%s,%s;%s,%s?overview=false'
+           % (alon, alat, blon, blat))
+    try:
+        with _ur.urlopen(url, timeout=12) as r:
+            d = _json.load(r)
+        if d.get('code') == 'Ok' and d.get('routes'):
+            rt = d['routes'][0]
+            # 距離用真實路網（可靠）；時間按步行速度推算——OSRM 公共服 duration 偏車速不可靠
+            return rt['distance'], rt['distance'] / 59.5  # 5km/h ×1.4 坡道彎道係數 → 約 59.5 m/min
+    except Exception:
+        pass
+    h = _haversine_m(a, b)
+    if h is None:
+        return None
+    return h, h / 59.5  # 5km/h ×1.4 坡道彎道係數 → 約 59.5 m/min
+
+
+def compute_walks(routes):
+    """為每條線算「距上一站步行」並累加總距離／總時間；寫入 station.walk_from_prev 與 route.total_*。
+    虛擬全城站經 _eff_gps 取代表點參與計算；跨區（>5km，如路環↔半島）標 cross，不計入可步行總距。
+    無座標站本身不標步行；其「下一站」向前回溯到最近的有座標站計算，並標 gap（中間含無座標站）。"""
+    CROSS_M = 5000  # 跨區閾值：超過視為不可步行，標「建議搭車」並不計入可步行總距
+    for r in routes:
+        sts = r['stations']
+        tot_m, tot_min, rep_touch, cross = 0.0, 0.0, False, False
+        last_gps = None  # 最近一個有有效座標的站序（向前回溯用）
+        for j in range(len(sts)):
+            st = sts[j]
+            ga, ra = _eff_gps(st)
+            if not ga:
+                st['walk_from_prev'] = None  # 無座標站本身不標步行
+                continue
+            if last_gps is not None:
+                gb, rb = _eff_gps(sts[last_gps])
+                res = _osrm_foot(gb, ga)
+                if res:
+                    dm, dmin = res
+                    is_rep = bool(ra or rb)
+                    gap = (last_gps != j - 1)  # 中間隔了無座標站
+                    if dm > CROSS_M:
+                        st['walk_from_prev'] = {'m': int(round(dm)), 'min': int(round(dmin)),
+                                                'rep': is_rep, 'cross': True, 'gap': gap}
+                        cross = True
+                    else:
+                        st['walk_from_prev'] = {'m': int(round(dm)), 'min': int(round(dmin)),
+                                                'rep': is_rep, 'cross': False, 'gap': gap}
+                        tot_m += dm
+                        tot_min += dmin
+                        if is_rep:
+                            rep_touch = True
+                else:
+                    st['walk_from_prev'] = None
+            else:
+                st['walk_from_prev'] = None  # 本線第一個有座標的站，無「上一站」
+            last_gps = j
+        r['total_walk_km'] = round(tot_m / 1000.0, 1)
+        r['total_walk_min'] = int(round(tot_min))
+        r['walk_rep'] = rep_touch
+        r['walk_cross'] = cross
 
 
 def build_place_index(films):
@@ -412,16 +523,21 @@ def main():
         routes.append({'key': key, 'slug': slug, 'region': region, 'tag': tag,
                        'desc': desc, 'stations': sts})
 
+    # 步行數據：真實路網（OSRM）算每站「距上一站」＋ 線路總步行（虛擬站取代表點）
+    compute_walks(routes)
+
     data = {
         'meta': {
             'source': '澳門旅遊攻略/content63.json × Seanown.org/data/posts.json',
-            'exported': '2026-10-15（2026-10-16 並站重排）',
+            'exported': '2026-10-15（2026-10-16 並站重排＋步行導覽）',
             'stations': len(stations),
             'merged_stations': sum(len(r['stations']) for r in routes),
             'with_gps': n_gps,
             'with_article': n_art,
             'alias_used': n_alias,
             'routes': len(routes),
+            'total_walk_min': sum(r.get('total_walk_min', 0) for r in routes),
+            'total_walk_km': round(sum(r.get('total_walk_km', 0.0) for r in routes), 1),
         },
         'routes': routes,
     }
@@ -438,6 +554,13 @@ def main():
         miss = ['%s（%s）' % (s['scene'], s['match']) for s in r['stations'] if not s['gps']]
         print('  %s：%d 站%s' % (r['key'], len(r['stations']),
                                   ('；無座標：%s' % '、'.join(miss)) if miss else ''))
+    print()
+    for r in routes:
+        flag = '（含全城代表點）' if r.get('walk_rep') else ''
+        if r.get('walk_cross'):
+            flag = '（含跨區段・另計）'
+        print('  %s 步行：約 %d 分鐘 / %.1f 公里%s'
+              % (r['key'], r.get('total_walk_min', 0), r.get('total_walk_km', 0.0), flag))
 
 
 if __name__ == '__main__':

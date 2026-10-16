@@ -1,13 +1,15 @@
 {
  "meta": {
   "source": "澳門旅遊攻略/content63.json × Seanown.org/data/posts.json",
-  "exported": "2026-10-15（2026-10-16 並站重排）",
+  "exported": "2026-10-15（2026-10-16 並站重排＋步行導覽）",
   "stations": 63,
   "merged_stations": 51,
   "with_gps": 55,
   "with_article": 48,
   "alias_used": 18,
-  "routes": 8
+  "routes": 8,
+  "total_walk_min": 837,
+  "total_walk_km": 49.8
  },
  "routes": [
   {
@@ -129,7 +131,8 @@
        "quote_author": "",
        "article_slug": "isabella"
       }
-     ]
+     ],
+     "walk_from_prev": null
     },
     {
      "no": 2,
@@ -201,7 +204,14 @@
        "name": "李小龍傳",
        "year": 1993
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 882,
+      "min": 15,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 3,
@@ -238,7 +248,14 @@
        "name": "媽閣是座城",
        "year": 2019
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 930,
+      "min": 16,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 4,
@@ -295,7 +312,14 @@
        "name": "辣警霸王花 2 不義之戰",
        "year": 2019
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 1758,
+      "min": 30,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 5,
@@ -422,7 +446,14 @@
        "quote_author": "洪金寶 飾 人力車夫",
        "article_slug": "pedicab-driver-1989"
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 1439,
+      "min": 24,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 6,
@@ -459,7 +490,14 @@
        "name": "愛情與小腳趾",
        "year": 2001
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 2984,
+      "min": 50,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 7,
@@ -490,7 +528,8 @@
      "gps": "",
      "match": "網站未收錄此地點",
      "article_slug": "isabella",
-     "also": []
+     "also": [],
+     "walk_from_prev": null
     },
     {
      "no": 8,
@@ -527,9 +566,20 @@
        "name": "熱唱吧",
        "year": 2021
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 946,
+      "min": 16,
+      "rep": false,
+      "cross": false,
+      "gap": true
+     }
     }
-   ]
+   ],
+   "total_walk_km": 8.9,
+   "total_walk_min": 150,
+   "walk_rep": false,
+   "walk_cross": false
   },
   {
    "key": "路線二・半島西",
@@ -618,7 +668,8 @@
        "quote_author": "",
        "article_slug": "flaming-brothers-1987"
       }
-     ]
+     ],
+     "walk_from_prev": null
     },
     {
      "no": 2,
@@ -655,7 +706,14 @@
        "name": "那一年，我17",
        "year": 2017
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 1573,
+      "min": 26,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 3,
@@ -686,7 +744,14 @@
      "gps": "22.1890520, 113.5331997",
      "match": "exact",
      "article_slug": "our-17-2017",
-     "also": []
+     "also": [],
+     "walk_from_prev": {
+      "m": 150,
+      "min": 3,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 4,
@@ -728,7 +793,14 @@
        "name": "賭城大亨之新哥傳奇",
        "year": 1992
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 1849,
+      "min": 31,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 5,
@@ -785,7 +857,14 @@
        "name": "O Regresso",
        "year": 1988
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 848,
+      "min": 14,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 6,
@@ -822,7 +901,14 @@
        "name": "傾城之戀",
        "year": 1984
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 2860,
+      "min": 48,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 7,
@@ -853,7 +939,14 @@
      "gps": "22.1968127, 113.5373158",
      "match": "alias",
      "article_slug": "pedicab-driver-1989",
-     "also": []
+     "also": [],
+     "walk_from_prev": {
+      "m": 960,
+      "min": 16,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 8,
@@ -884,7 +977,14 @@
      "gps": "22.1971067, 113.5385725",
      "match": "exact",
      "article_slug": "crash-2016",
-     "also": []
+     "also": [],
+     "walk_from_prev": {
+      "m": 258,
+      "min": 4,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 9,
@@ -936,9 +1036,20 @@
        "name": "賭城大亨之新哥傳奇",
        "year": 1992
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 573,
+      "min": 10,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     }
-   ]
+   ],
+   "total_walk_km": 9.1,
+   "total_walk_min": 152,
+   "walk_rep": false,
+   "walk_cross": false
   },
   {
    "key": "路線三・半島東",
@@ -1007,7 +1118,8 @@
        "quote_author": "",
        "article_slug": "isabella"
       }
-     ]
+     ],
+     "walk_from_prev": null
     },
     {
      "no": 2,
@@ -1074,7 +1186,14 @@
        "quote_author": "",
        "article_slug": "look-for-a-star"
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 1173,
+      "min": 20,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 3,
@@ -1116,7 +1235,14 @@
        "name": "尚氣與十環幫傳奇",
        "year": 2021
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 1315,
+      "min": 22,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 4,
@@ -1178,7 +1304,14 @@
        "name": "騎自行車的人",
        "year": 1997
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 679,
+      "min": 11,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 5,
@@ -1225,9 +1358,20 @@
        "name": "德哈瑪2",
        "year": 2011
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 2743,
+      "min": 46,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     }
-   ]
+   ],
+   "total_walk_km": 5.9,
+   "total_walk_min": 99,
+   "walk_rep": false,
+   "walk_cross": false
   },
   {
    "key": "路線四・路氹金光大道",
@@ -1286,7 +1430,8 @@
        "quote_author": "",
        "article_slug": []
       }
-     ]
+     ],
+     "walk_from_prev": null
     },
     {
      "no": 2,
@@ -1323,7 +1468,14 @@
        "name": "赤道",
        "year": 2015
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 2710,
+      "min": 46,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 3,
@@ -1365,7 +1517,14 @@
        "name": "德哈瑪2",
        "year": 2011
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 653,
+      "min": 11,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 4,
@@ -1402,7 +1561,14 @@
        "name": "驚天魔盜團2",
        "year": 2016
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 9024,
+      "min": 152,
+      "rep": false,
+      "cross": true,
+      "gap": false
+     }
     },
     {
      "no": 5,
@@ -1433,7 +1599,8 @@
      "gps": "",
      "match": "網站未收錄此道路場景",
      "article_slug": "ji-zhan",
-     "also": []
+     "also": [],
+     "walk_from_prev": null
     },
     {
      "no": 6,
@@ -1464,7 +1631,14 @@
      "gps": "22.1856, 113.5483",
      "match": "alias",
      "article_slug": "look-for-a-star",
-     "also": []
+     "also": [],
+     "walk_from_prev": {
+      "m": 1518,
+      "min": 26,
+      "rep": false,
+      "cross": false,
+      "gap": true
+     }
     },
     {
      "no": 7,
@@ -1506,7 +1680,14 @@
        "name": "古惑仔之人在江湖",
        "year": 1996
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 1243,
+      "min": 21,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 8,
@@ -1537,9 +1718,20 @@
      "gps": "22.1912,113.5432",
      "match": "alias",
      "article_slug": "jingtian-modaotuan-2",
-     "also": []
+     "also": [],
+     "walk_from_prev": {
+      "m": 1099,
+      "min": 18,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     }
-   ]
+   ],
+   "total_walk_km": 7.2,
+   "total_walk_min": 121,
+   "walk_rep": false,
+   "walk_cross": true
   },
   {
    "key": "路線五・氹仔舊城",
@@ -1583,7 +1775,8 @@
        "name": "海上花",
        "year": 1986
       }
-     ]
+     ],
+     "walk_from_prev": null
     },
     {
      "no": 2,
@@ -1620,7 +1813,14 @@
        "name": "奇蹟",
        "year": 1989
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 782,
+      "min": 13,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 3,
@@ -1651,7 +1851,14 @@
      "gps": "22.1539325, 113.5587473",
      "match": "exact",
      "article_slug": "miracles-1989",
-     "also": []
+     "also": [],
+     "walk_from_prev": {
+      "m": 428,
+      "min": 7,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 4,
@@ -1698,9 +1905,20 @@
        "quote_author": "",
        "article_slug": "project-a-1983"
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 532,
+      "min": 9,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     }
-   ]
+   ],
+   "total_walk_km": 1.7,
+   "total_walk_min": 29,
+   "walk_rep": false,
+   "walk_cross": false
   },
   {
    "key": "路線六・路環",
@@ -1770,7 +1988,8 @@
        "quote_author": "",
        "article_slug": "fulltime-killer"
       }
-     ]
+     ],
+     "walk_from_prev": null
     },
     {
      "no": 2,
@@ -1801,7 +2020,8 @@
      "gps": "",
      "match": "網站未收錄此地點",
      "article_slug": "exiled",
-     "also": []
+     "also": [],
+     "walk_from_prev": null
     },
     {
      "no": 3,
@@ -1832,7 +2052,8 @@
      "gps": "",
      "match": "路環最南端；網站未收錄此精確地點",
      "article_slug": "ji-zhan",
-     "also": []
+     "also": [],
+     "walk_from_prev": null
     },
     {
      "no": 4,
@@ -1879,7 +2100,14 @@
        "name": "A計劃",
        "year": 1983
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 216,
+      "min": 4,
+      "rep": false,
+      "cross": false,
+      "gap": true
+     }
     },
     {
      "no": 5,
@@ -1926,9 +2154,20 @@
        "name": "力王",
        "year": 1991
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 4302,
+      "min": 72,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     }
-   ]
+   ],
+   "total_walk_km": 4.5,
+   "total_walk_min": 76,
+   "walk_rep": false,
+   "walk_cross": false
   },
   {
    "key": "路線七・澳門人自己的澳門",
@@ -1966,7 +2205,8 @@
      "gps": "",
      "match": "全城型場景，無單一地點",
      "article_slug": [],
-     "also": []
+     "also": [],
+     "walk_from_prev": null
     },
     {
      "no": 2,
@@ -1997,9 +2237,20 @@
      "gps": "",
      "match": "短片合集，無單一地點",
      "article_slug": [],
-     "also": []
+     "also": [],
+     "walk_from_prev": {
+      "m": 2388,
+      "min": 40,
+      "rep": true,
+      "cross": false,
+      "gap": false
+     }
     }
-   ]
+   ],
+   "total_walk_km": 2.4,
+   "total_walk_min": 40,
+   "walk_rep": true,
+   "walk_cross": false
   },
   {
    "key": "路線九・世界眼中的澳門",
@@ -2037,7 +2288,8 @@
      "gps": "22.1955, 113.5362",
      "match": "alias",
      "article_slug": "man-with-the-golden-gun",
-     "also": []
+     "also": [],
+     "walk_from_prev": null
     },
     {
      "no": 2,
@@ -2124,7 +2376,14 @@
        "name": "賭城大亨之新哥傳奇",
        "year": 1992
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 1582,
+      "min": 27,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 3,
@@ -2201,7 +2460,14 @@
        "name": "李小龍傳",
        "year": 1993
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 882,
+      "min": 15,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 4,
@@ -2323,7 +2589,14 @@
        "name": "O Regresso",
        "year": 1988
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 1933,
+      "min": 32,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 5,
@@ -2354,7 +2627,14 @@
      "gps": "22.2005, 113.5479",
      "match": "exact",
      "article_slug": "amor-e-dedinhos-de-pe",
-     "also": []
+     "also": [],
+     "walk_from_prev": {
+      "m": 2053,
+      "min": 35,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 6,
@@ -2391,7 +2671,14 @@
        "name": "復仇",
        "year": 2009
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 2313,
+      "min": 39,
+      "rep": false,
+      "cross": false,
+      "gap": false
+     }
     },
     {
      "no": 7,
@@ -2433,7 +2720,14 @@
        "name": "德哈瑪2",
        "year": 2011
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 8870,
+      "min": 149,
+      "rep": false,
+      "cross": true,
+      "gap": false
+     }
     },
     {
      "no": 8,
@@ -2470,7 +2764,14 @@
        "name": "遊龍戲鳳",
        "year": 2009
       }
-     ]
+     ],
+     "walk_from_prev": {
+      "m": 5725,
+      "min": 96,
+      "rep": false,
+      "cross": true,
+      "gap": false
+     }
     },
     {
      "no": 9,
@@ -2502,7 +2803,14 @@
      "gps": "",
      "match": "全城型場景，無單一地點",
      "article_slug": [],
-     "also": []
+     "also": [],
+     "walk_from_prev": {
+      "m": 11821,
+      "min": 199,
+      "rep": true,
+      "cross": true,
+      "gap": false
+     }
     },
     {
      "no": 10,
@@ -2534,9 +2842,20 @@
      "gps": "",
      "match": "全城型場景，無單一地點",
      "article_slug": "a-night-in-hong-kong-1961",
-     "also": []
+     "also": [],
+     "walk_from_prev": {
+      "m": 1336,
+      "min": 22,
+      "rep": true,
+      "cross": false,
+      "gap": false
+     }
     }
-   ]
+   ],
+   "total_walk_km": 10.1,
+   "total_walk_min": 170,
+   "walk_rep": true,
+   "walk_cross": true
   }
  ]
 }
