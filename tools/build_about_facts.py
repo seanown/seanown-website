@@ -187,9 +187,14 @@ def main():
     if iv:
         print('  已投資企業 %d 家（第三張卡已切換）' % iv['n'])
     else:
-        print('  ⚠️ 提醒：data/investments.json 尚未建立 → 第三張卡仍是「80+ 語種」。')
-        print('     軒哥 2026-10-17 指示要改成「已投資企業」（約 20–21 家），')
-        print('     並說會另做完整名單。名單備妥後存成 investments.json 重跑本腳本即自動換卡。')
+        exists = os.path.exists(INVEST_JSON)
+        print('  ⚠️ 提醒：已投資企業名單尚未填入 → 第三張卡仍是「80+ 語種」。')
+        print('     軒哥 2026-10-17 指示要改成「已投資企業」（約 20–21 家），並說會另做完整名單。')
+        print('     %s：把 %d 家企業逐家填進 investments 陣列，'
+              % ('檔案已建立但 investments 為空' if exists else '檔案 data/investments.json 尚未建立',
+                 21))
+        print('     重跑本腳本即自動換卡（只需 name 必填，sector／year／stage 可選）。')
+        print('     ⚠️ 在拿到真實名單前不會填入任何推測的公司名——此區塊立點為「無法核實者不列」。')
 
 
 if __name__ == '__main__':

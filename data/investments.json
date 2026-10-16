@@ -1,0 +1,4 @@
+{
+  "_說明": "已投資企業名單（軒哥提供）。build_about_facts.py 讀此檔，把 about「可以核實的數字」第三張卡由「80+ 語種」換成「已投資企業 N 家」。欄位：name 公司名（必填）／sector 領域／year 投資年份／stage 輪次（天使／Pre-A／A…）／note 備註。任選填寫 sector 與 year，腳本會自動算領域數與年份區間；只有 name 必填。本檔存在且 investments 非空時該卡才會切換——避免誤填半套資料。",
+  "investments": []
+}
