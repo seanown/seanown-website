@@ -165,6 +165,12 @@ PAGE_CSS = """
 .rp-overview .ov-stats b{display:block;font-family:"Noto Serif TC",serif;font-weight:900;
   font-size:20px;color:#002676;line-height:1.2}
 .rp-overview .ov-stats span{font-size:11.5px;color:#8a8277}
+/* 跨區線警示（r9：電影主題線，非旅遊路線）2026-10-17 */
+.rp-overview .ov-warn{background:#fff8e8;border:1px solid #e8c98a;border-left:4px solid #b07a1a;
+  border-radius:10px;padding:12px 16px;margin:12px 0 0}
+.rp-overview .ov-warn b{display:block;font-family:"Noto Serif TC",serif;font-weight:900;
+  font-size:14px;color:#8a5a10;line-height:1.6}
+.rp-overview .ov-warn span{display:block;font-size:13px;color:#5c5346;line-height:1.85;margin-top:4px}
 /* 每站「距上一站步行」 */
 .walk-from{font-size:12.5px;color:#002676;background:#eef3fb;border:1px solid #cdddf2;
   border-radius:14px;padding:3px 12px;margin:10px 0 0;display:inline-block;line-height:1.7}
@@ -424,17 +430,38 @@ def build_routes(site, ov, data_path=None):
         cross = r.get('walk_cross')
         guide = ROUTE_GUIDE.get(r['slug'], '')
         note = '（含全城型代表點估算）' if rep else ('（含跨區段・另計）' if cross else '')
+        # ── 跨區線警示（2026-10-17 軒哥拍板：r9 不做真正的旅遊路線）──
+        # r9「世界眼中的澳門」本質是電影主題線（與書裡「建議去哪」同一層的資訊層），
+        # 按外國片取景地串站，半島／路氹／路環跳跨數公里，無法步行走完。
+        # 明確標示避免讀者誤當成可步行的旅遊路線。
+        cross_banner = ''
+        if cross:
+            cross_banner = (
+                '<div class="ov-warn">'
+                '<b>📍 本線是跨區看景清單，不是步行旅遊路線</b>'
+                '<span>這一線按外國電影的取景地串起來的，點與點之間跨著半島、路氹、路環，'
+                '動輒數公里，需要搭公交、巴士或的士前往，無法全程步行走完。'
+                '它比較像一份「看過這些片、可以順路去的地點」清單；'
+                '要真正能走完的旅行路線，請看同頁其他分區線。'
+                '下方各站標的「步行分鐘」只計算區內那一段。</span>'
+                '</div>'
+            )
+        # 跨區線：標題與統計改為跨區語意，不寫「步行」，避免讀者誤以為能走完
+        ov_title = '📍 這條線怎麼看' if cross else '🚶 這條線怎麼走'
+        lbl_km = '公里（區內步行）' if cross else '公里（步行）'
+        lbl_min = '分鐘（區內步行）' if cross else '分鐘（步行）'
         overview = (
             '<div class="rp-overview">'
-            '<div class="ov-h">🚶 這條線怎麼走</div>'
+            '<div class="ov-h">%s</div>' % ov_title
+            + cross_banner +
             '<p class="ov-guide">%s 全程約 %.1f 公里，慢走約 %d 分鐘%s。</p>'
             '<div class="ov-stats">'
             '<div><b>%d</b><span>站</span></div>'
-            '<div><b>%.1f</b><span>公里（步行）</span></div>'
-            '<div><b>%d</b><span>分鐘（步行）</span></div>'
+            '<div><b>%.1f</b><span>%s</span></div>'
+            '<div><b>%d</b><span>%s</span></div>'
             '<div><b>%d</b><span>篇深鏈</span></div>'
             '</div></div>'
-        ) % (esc(guide), tot_km, tot_min, note, n, tot_km, tot_min, a)
+        ) % (esc(guide), tot_km, tot_min, note, n, tot_km, lbl_km, tot_min, lbl_min, a)
         jump = ''.join('<a href="#st-%d"><b>%02d</b>%s<span class="m">%s</span></a>'
                        % (j + 1, j + 1, esc(s.get('scene') or ''), esc(s.get('movie') or ''))
                        for j, s in enumerate(sts))
