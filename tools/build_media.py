@@ -60,6 +60,16 @@ def build():
                           f'原文<span class="ext" aria-hidden="true">↗</span>'
                           f'<span class="sr-only">（在新視窗開啟：{title}）</span></a>')
                 tgt = ' _blank rel="noopener nofollow"'
+                # 同一条目有多個官方平台連結時（例：CGTN 官網／Facebook／X／YouTube）
+                ex = m.get('extra_urls') or []
+                if ex:
+                    labels = ['Facebook', 'X', 'YouTube', '官方網頁', '影片']
+                    links = ''.join(
+                        f'<a class="m-alt" href="{esc(u)}" target="_blank" rel="noopener nofollow">'
+                        f'{esc(labels[k] if k < len(labels) else "其他")}'
+                        f'<span class="ext" aria-hidden="true">↗</span></a>'
+                        for k, u in enumerate(ex))
+                    action += f'<span class="m-alts">{links}</span>'
             else:
                 action = '<span class="m-link is-none">現場紀錄・無公開原文</span>'
                 tgt = ''
@@ -230,6 +240,12 @@ img{{max-width:100%;display:block}}
 .m-link{{display:inline-flex;align-items:center;gap:4px;font-size:13.5px;font-weight:700;color:var(--blue);border:1.5px solid var(--blue);border-radius:999px;padding:7px 16px;white-space:nowrap;transition:all .2s}}
 .m-link:hover{{background:var(--blue);color:#fff}}
 .m-link.is-none{{border-color:var(--line);color:var(--gray);font-weight:600;cursor:default}}
+/* 同條目多平台官方連結（CGTN 官網／Facebook／X／YouTube）2026-10-17 軒哥提供 */
+.m-alts{{display:inline-flex;flex-wrap:wrap;gap:6px;margin-left:8px}}
+.m-alt{{display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:600;
+  color:var(--gray);border:1px solid var(--line);border-radius:999px;padding:5px 11px;
+  white-space:nowrap;transition:all .2s}}
+.m-alt:hover{{color:var(--blue);border-color:var(--blue);background:rgba(0,38,118,.05)}}
 .ext{{font-size:12px}}
 
 .yr{{margin-bottom:26px}}
