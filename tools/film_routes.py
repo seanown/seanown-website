@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""跟著電影遊澳門 · 數字路線頁（hub + 8 條路線）。
+"""跟著電影遊澳門 · 數字路線頁（hub + N 條路線；路線數由 routes.json 決定，勿硬編碼）。
 
 與 film_collections.py 的分工：
   - collection/ 按「電影」聚合（一部片裡有哪些地標）——橫向看城；
@@ -394,12 +394,16 @@ def build_routes(site, ov, data_path=None):
     n_st = sum(len(r['stations']) for r in routes)
     n_gps = sum(1 for r in routes for s in r['stations'] if s.get('gps'))
     n_art = sum(1 for r in routes for s in r['stations'] if s.get('article_slug'))
+    # 路線數動態（2026-10-17 拆線後 8→12；再增減也不會與統計數字不一致）
+    n_route = len(routes)
+    n_walk = sum(1 for r in routes if not r.get('walk_cross'))
     hub_body = (
-        '<div class="rp-sec"><h2>🚶 八條路線，把 83 篇觀後感走成一條線</h2>'
+        '<div class="rp-sec"><h2>🚶 %d 條路線，把 83 篇觀後感走成一條線</h2>'
         '<p class="d">澳門電影專輯的 83 篇觀後感裡，藏著 %d 個可實地重訪的場景。'
-        '我們把它編成八條路線：每一站都有電影、座標、現場站位描寫與拍攝提示，'
+        '我們把它編成 %d 條路線：每一站都有電影、座標、現場站位描寫與拍攝提示，'
         '並深鏈回對應的觀後感——從「看一篇」變成「走一條線」。'
-        '沒有座標的場景（全城型／網站未收錄）如實標注，不造假。</p>'
+        '其中 %d 條是可以真正走完的步行路線，每條步行總量控制在 90 分鐘以內；'
+        '沒有的座標場景（全城型／網站未收錄）如實標注，不造假。</p>'
         '<div class="rp-grid">%s</div></div>'
         '<div class="rp-sec"><h2>🧭 兩種逛法，自由切換</h2>'
         '<p class="d">想按電影查，去主題合輯；想按路線走，留在這裡。</p>'
@@ -413,13 +417,13 @@ def build_routes(site, ov, data_path=None):
         '座標、機位提示與文章深鏈，由本站澳門電影專輯的觀後感逐站比對生成。'
         '部分場景網站未收錄對應座標，頁面如實標注原因並給地址參考。'
         '地圖僅提供座標與 Google 地圖連結，步行顺序以現場為準。</p></div>'
-    ) % (n_gps, cards, coll_hub, coll_hub, album_url)
+    ) % (n_route, n_gps, n_route, n_walk, cards, coll_hub, coll_hub, album_url)
     _write('route/index.html',
            _shell('跟著電影遊澳門 · 主題路線', '跟著電影遊澳門 · FOLLOW THE FILMS',
-                  '八條路線，走一遍澳門的銀幕',
-                  '把 83 篇電影觀後感編成八條可實地走的路線：每站有電影、座標、站位描寫與拍攝提示。',
+                  '%d 條路線，走一遍澳門的銀幕' % n_route,
+                  '把 83 篇電影觀後感編成 %d 條可實地走的路線：每站有電影、座標、站位描寫與拍攝提示。' % n_route,
                   hub_body, site, stat='<span>%d 條路線</span><span>%d 站</span><span>%d 個座標</span><span>%d 篇深鏈</span>'
-                  % (len(routes), n_st, n_gps, n_art)))
+                  % (n_route, n_st, n_gps, n_art)))
     sitemap.append((hub, today))
 
     # ── 每條路線頁 ──
@@ -478,7 +482,7 @@ def build_routes(site, ov, data_path=None):
             nav += ('<a href="%s"><div class="k">← 上一條</div><div class="t">%s・%s</div></a>'
                     % (esc(hub + prev_r['slug'] + '/'), esc(prev_r['key']), esc(prev_r['region'])))
         else:
-            nav += ('<a href="%s"><div class="k">← 返回</div><div class="t">全部八條路線</div></a>'
+            nav += ('<a href="%s"><div class="k">← 返回</div><div class="t">全部路線</div></a>'
                     % esc(hub))
         if next_r:
             nav += ('<a class="r" href="%s"><div class="k">下一條 →</div><div class="t">%s・%s</div></a>'
