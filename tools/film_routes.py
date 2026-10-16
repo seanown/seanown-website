@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
-"""跟著電影遊澳門 · 數字路線頁（hub + N 條路線；路線數由 routes.json 決定，勿硬編碼）。
+"""跟著電影遊澳門 · 數字路線頁（hub + N 條路線）。
+
+🔴 文案裡的路線數與專輯篇數**一律動態取數據**（路線數＝len(routes)；
+專輯篇數＝_count_album_posts() 讀 posts.json），勿再硬編碼——
+2026-10-17 兩度被軒哥抓包：統計顯示 12 條但文案寫「八條」、篇數寫 83 但實際已 87。
 
 與 film_collections.py 的分工：
   - collection/ 按「電影」聚合（一部片裡有哪些地標）——橫向看城；
   - route/      按「走法」串聯（一條線裡有哪些站）——縱向走路。
-兩者互鏈，讓 83 篇觀後感從孤島變成網，再從網變成可走的路線。
+兩者互鏈，讓專輯的觀後感從孤島變成網，再從網變成可走的路線。
 
 資料來源 data/routes.json（由 tools/_export_routes.py 一次性橋接生成）：
   書的 63 站 × 網站的 GPS／文章 slug／同地電影。本模組只負責渲染，
@@ -361,6 +365,19 @@ ROUTE_GUIDE = {
 }
 
 
+def _count_album_posts():
+    """澳門電影專輯實際篇數（2026-10-17 軒哥指正：篇數須動態，勿硬編碼 83）。
+    專輯已增至 87 篇，寫死會與實際不符。讀不到就回傳 0，文案自動省略數字。"""
+    p = os.path.join(ROOT, 'data', 'posts.json')
+    if not os.path.exists(p):
+        return 0
+    try:
+        posts = json.load(io.open(p, encoding='utf-8'))['posts']
+    except (ValueError, KeyError, IOError):
+        return 0
+    return sum(1 for x in posts if x.get('series') == 'macau-film')
+
+
 def build_routes(site, ov, data_path=None):
     """產生 route/ 全部頁面，回傳 [(url, lastmod)] 供 sitemap。"""
     data_path = data_path or os.path.join(ROOT, 'data', 'routes.json')
@@ -397,9 +414,12 @@ def build_routes(site, ov, data_path=None):
     # 路線數動態（2026-10-17 拆線後 8→12；再增減也不會與統計數字不一致）
     n_route = len(routes)
     n_walk = sum(1 for r in routes if not r.get('walk_cross'))
+    # 專輯篇數動態（2026-10-17 軒哥指正：83 已過時，實際 87 篇）
+    n_album = _count_album_posts()
+    album_txt = ('%d 篇' % n_album) if n_album else '這些'
     hub_body = (
-        '<div class="rp-sec"><h2>🚶 %d 條路線，把 83 篇觀後感走成一條線</h2>'
-        '<p class="d">澳門電影專輯的 83 篇觀後感裡，藏著 %d 個可實地重訪的場景。'
+        '<div class="rp-sec"><h2>🚶 %d 條路線，把%s觀後感走成一條線</h2>'
+        '<p class="d">澳門電影專輯的%s觀後感裡，藏著 %d 個可實地重訪的場景。'
         '我們把它編成 %d 條路線：每一站都有電影、座標、現場站位描寫與拍攝提示，'
         '並深鏈回對應的觀後感——從「看一篇」變成「走一條線」。'
         '其中 %d 條是可以真正走完的步行路線，每條步行總量控制在 90 分鐘以內；'
@@ -410,18 +430,18 @@ def build_routes(site, ov, data_path=None):
         '<div class="rp-x">'
         '<a href="%s"><div class="t">🗺 澳門電影地圖</div><div class="c">按取景地聚合——同一個地標，反覆出現在哪些電影裡。</div></a>'
         '<a href="%s"><div class="t">🕰 時光機</div><div class="c">按年代逛——三個時代、十個十年代的澳門銀幕。</div></a>'
-        '<a href="%s"><div class="t">🎬 澳門電影專輯</div><div class="c">83 篇觀後感全文，路線每一站都深鏈回這裡。</div></a>'
+        '<a href="%s"><div class="t">🎬 澳門電影專輯</div><div class="c">%s觀後感全文，路線每一站都深鏈回這裡。</div></a>'
         '</div></div>'
         '<div class="rp-sec"><h2>📖 關於這批路線</h2>'
         '<p class="d">路線與場景內容取自《跟著電影遊澳門》（63 場景）；'
         '座標、機位提示與文章深鏈，由本站澳門電影專輯的觀後感逐站比對生成。'
         '部分場景網站未收錄對應座標，頁面如實標注原因並給地址參考。'
         '地圖僅提供座標與 Google 地圖連結，步行顺序以現場為準。</p></div>'
-    ) % (n_route, n_gps, n_route, n_walk, cards, coll_hub, coll_hub, album_url)
+    ) % (n_route, album_txt, album_txt, n_gps, n_route, n_walk, cards, coll_hub, coll_hub, album_url, album_txt)
     _write('route/index.html',
            _shell('跟著電影遊澳門 · 主題路線', '跟著電影遊澳門 · FOLLOW THE FILMS',
                   '%d 條路線，走一遍澳門的銀幕' % n_route,
-                  '把 83 篇電影觀後感編成 %d 條可實地走的路線：每站有電影、座標、站位描寫與拍攝提示。' % n_route,
+                  '把%s電影觀後感編成 %d 條可實地走的路線：每站有電影、座標、站位描寫與拍攝提示。' % (album_txt, n_route),
                   hub_body, site, stat='<span>%d 條路線</span><span>%d 站</span><span>%d 個座標</span><span>%d 篇深鏈</span>'
                   % (n_route, n_st, n_gps, n_art)))
     sitemap.append((hub, today))
