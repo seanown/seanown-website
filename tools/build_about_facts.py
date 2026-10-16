@@ -154,14 +154,14 @@ def main():
         # 故對外用中性表述「曾參與的項目」，不宣稱成功、也不公開明細；
         # 實際成功的部分會出現在「現任職務」與「公開媒體報導」兩張可核實的卡。
         lang_b = ('<div class="n">%d 項</div>\n'
-                  '<div class="l">曾參與的項目（部分未公開）</div>' % iv['n'])
+                  '<div class="l">曾參與的項目</div>' % iv['n'])
     # 第四張卡：若 cities.json 已備妥，改為「已去過的城市」，否則維持「已發布文章」
     # （必須在組 cards_block 之前覆寫 col_b，否則覆寫不生效）
     cv = city_facts()
     if cv:
         # 🔴 同理：城市明細＝行動足跡，不對外公開，只顯示概略數字。
         col_b = ('<div class="n">%d 個</div>\n'
-                 '<div class="l">足跡遍及的城市（明細未公開）</div>' % cv['n'])
+                 '<div class="l">足跡遍及的城市</div>' % cv['n'])
     cards_block = ('<div class="fact">\n%s\n</div>\n<div class="fact">\n%s\n</div>\n'
                   '<div class="fact">\n%s\n</div>\n<div class="fact">\n%s\n</div>'
                   % (media_b, role_b, lang_b, col_b))
