@@ -311,8 +311,8 @@ def _shell(title, kicker, h1, sub, body, site='', og_img='', banner_img=''):
     home = (site + '/') if site else '../../'
     favicon = (site + '/assets/favicon.svg') if site else '../../assets/favicon.svg'
     album = (site + '/series/macau-film/') if site else '../../series/macau-film/'
-    # 取景地頁橫長背景帶：banner_img 傳入時 hero 改用插畫當背景（hb 修飾類＋inline background-image）；
-    # 不傳（hub／年代／影人頁、place-25 無圖）就維持原本深藍 hero。
+    # 橫長背景帶：banner_img 傳入時 hero 改用插畫當背景（hb 修飾類＋inline background-image）；
+    # 不傳（place-25 無圖等）就維持原本深藍 hero。
     hb_cls, hb_style = '', ''
     if banner_img:
         hb_cls = ' hb'
@@ -362,6 +362,14 @@ def _write(relpath, html_str):
 def _film_grid(keys, index, slugs, site, ov):
     return '<div class="cp-grid">' + ''.join(
         film_chip(index['meta'][k], slugs, site, ov) for k in keys) + '</div>'
+
+
+def _banner_img(slug, depth='../../'):
+    """assets/images/places/<slug>.jpg 存在才回傳相對路徑；hub 頁深一層傳 '../'，其餘子頁 '../../'。
+    圖源：2026-10-16 多寶交付 30 張（tools/_bake_banners.py 烘焙，含去焦 QC）。"""
+    if os.path.isfile(os.path.join(ROOT, 'assets', 'images', 'places', slug + '.jpg')):
+        return depth + 'assets/images/places/%s.jpg' % slug
+    return ''
 
 
 def build_collections(index, slugs, site, ov, og_img=''):
@@ -423,7 +431,7 @@ def build_collections(index, slugs, site, ov, og_img=''):
     _write('collection/index.html',
            _shell('澳門電影 · 主題合輯', '澳門電影專輯 · MACAU FILM',
                   '四種逛法，一座城的銀幕', '按年代、按取景地、按影人、按路線——把 83 篇觀後感編成一張網。',
-                  hub_body, site, og_img))
+                  hub_body, site, og_img, _banner_img('hub', '../')))
     sitemap.append((site + '/collection/', today))
 
     # ── 時代頁 ──
@@ -443,7 +451,8 @@ def build_collections(index, slugs, site, ov, og_img=''):
         body = ('<p class="d" style="font-size:15px;color:#5a534a;margin-bottom:24px">%s　共 %d 部。</p>%s'
                 % (esc(desc), len(keys), inner))
         _write('collection/%s/index.html' % era_slug(e),
-               _shell('澳門電影 · %s' % lab, '按年代', lab, '%s（%d 部）' % (desc, len(keys)), body, site, og_img))
+               _shell('澳門電影 · %s' % lab, '按年代', lab, '%s（%d 部）' % (desc, len(keys)), body, site, og_img,
+                      _banner_img(era_slug(e))))
         sitemap.append(('%s/collection/%s/' % (site, era_slug(e)), today))
 
     # ── 十年代頁 ──
@@ -455,12 +464,14 @@ def build_collections(index, slugs, site, ov, og_img=''):
                 % (esc(ERA_META.get(era, ('', ''))[0]), len(keys),
                    _film_grid(keys, index, slugs, site, ov)))
         _write('collection/%s/index.html' % dslug,
-               _shell('澳門電影 · %s' % label, '按年代', label, '%s在澳門取景的電影，共 %d 部。' % (label, len(keys)), body, site, og_img))
+               _shell('澳門電影 · %s' % label, '按年代', label, '%s在澳門取景的電影，共 %d 部。' % (label, len(keys)), body, site, og_img,
+                      _banner_img(dslug)))
         sitemap.append(('%s/collection/%s/' % (site, dslug), today))
 
     # ── 取景地頁 ──
-    # 軒哥 2026-10-16 提供 24 張取景地插畫（3128×1340 PNG，轉存 assets/images/places/place-NN.jpg，
-    # 編號對應 place-01…24；place-25 白鴿巢公園暫無圖）。有圖的頁面在頂欄與 hero 之間插全寬橫幅。
+    # 橫幅插畫兩批：① 2026-10-15 軒哥交付 24 張取景地（place-01…24，place-25 白鴿巢公園暫無圖）；
+    # ② 2026-10-16 多寶交付 30 張（hub／era／decade／person，tools/_bake_banners.py 烘焙含去焦 QC）。
+    # 有圖的頁面在頂欄與 hero 之間插全寬橫長背景帶，無圖維持深藍 hero。
     for nm, slug in index['place_pages'].items():
         keys = index['by_place'][nm]
         gps = index['place_gps'].get(nm, '')
@@ -472,14 +483,9 @@ def build_collections(index, slugs, site, ov, og_img=''):
         body = ('<p class="d" style="font-size:15px;color:#5a534a;margin-bottom:8px">'
                 '「%s」這個澳門地標，出現在專輯裡 %d 部電影的取景中。</p>%s%s'
                 % (esc(nm), len(keys), gps_html, _film_grid(keys, index, slugs, site, ov)))
-        banner_img = ''
-        banner_file = os.path.join(ROOT, 'assets', 'images', 'places', slug + '.jpg')
-        if os.path.isfile(banner_file):
-            # 資源路徑沿用 film_chip 慣例：collection 子頁恆用 ../../ 相對路徑
-            banner_img = '../../assets/images/places/%s.jpg' % slug
         _write('collection/%s/index.html' % slug,
                _shell('澳門電影地圖 · %s' % nm, '按取景地', nm, '在「%s」取景的澳門電影，共 %d 部。' % (nm, len(keys)), body, site, og_img,
-                      banner_img))
+                      _banner_img(slug)))
         sitemap.append(('%s/collection/%s/' % (site, slug), today))
 
     # ── 影人頁 ──
@@ -498,7 +504,8 @@ def build_collections(index, slugs, site, ov, og_img=''):
                 '%s在澳門電影專輯裡：%s。</p>%s'
                 % (esc(nm), esc(role_txt), _film_grid(keys, index, slugs, site, ov)))
         _write('collection/%s/index.html' % slug,
-               _shell('誰在澳門 · %s' % nm, '按影人', nm, '%s與澳門電影（%s）。' % (nm, role_txt), body, site, og_img))
+               _shell('誰在澳門 · %s' % nm, '按影人', nm, '%s與澳門電影（%s）。' % (nm, role_txt), body, site, og_img,
+                      _banner_img(slug)))
         sitemap.append(('%s/collection/%s/' % (site, slug), today))
 
     return sitemap
