@@ -1993,8 +1993,6 @@ def build(post, allposts):
     # 澳門電影：篇末三軸互導（同十年代／同取景地／同影人）——83 篇互相導流，不成孤島。
     # 僅 macau-film 且 movieInfo 齊全者產生；FILM_INDEX 未建立（外部腳本直呼 build）時為空。
     frel_html = FC.related_html(post, FILM_INDEX, SLUGS, SITE, ov) if FILM_INDEX else ''
-    if frel_html:
-        body_html = body_html + frel_html
     desc = plain((post.get('lead') or '').strip() or post.get('body') or title, 105) or title
     url = '%s/article/%s/' % (SITE, slug)
 
@@ -2185,7 +2183,7 @@ def build(post, allposts):
 {cover}
 <div class="abody{abody_cls}">{body}</div>
 {gallery}
-</article>{spx_html}{movie_nav}{series_nav}
+</article>{spx_html}{movie_nav}{frel_html}{series_nav}
 
 <div class="author">
 <img class="a-img" src="../../assets/images/avatar-1x1.jpg" alt="翁振軒 Sean Own 大頭照" loading="lazy">
@@ -2261,6 +2259,7 @@ function spxToggle(btn){{
         spx_html=spx_html,
         series_nav=series_nav,
         movie_nav=movie_nav,
+        frel_html=frel_html,
         share_widget=load_share_widget(),
     )
 
