@@ -257,7 +257,34 @@
       "date": "2023-06-15",
       "url": "http://www.macaucee.com.mo:50101/content.asp?id=92624",
       "image": "",
+      "category": "產業動態",
+      "extra_urls": [
+        "https://www.macaotourism.gov.mo/zh-hant/events/whatson/9393/?month=202305"
+      ]
+    },
+    {
+      "title": "翁振軒：GoAirborne室內跳傘致力推廣文旅體育",
+      "source": "華人頭條（52hrtt）",
+      "date": "2023-06-17",
+      "url": "https://www.52hrtt.com/zjg/n/w/info/G1685710646307",
+      "image": "",
       "category": "產業動態"
+    },
+    {
+      "title": "FAI室內跳傘世界盃下週三舉辦 逾200運動員雲集澳門同場競技",
+      "source": "澳門力報",
+      "date": "2024-04-12",
+      "url": "https://www.exmoo.com/article/232466.html",
+      "image": "",
+      "category": "文化盛事"
+    },
+    {
+      "title": "FAI室內跳傘世界盃下周三在澳門舉辦 逾200位運動員雲集澳門同場競技",
+      "source": "大眾報",
+      "date": "2024-04-12",
+      "url": "https://taichungdaily.com/instantNews/5409",
+      "image": "",
+      "category": "文化盛事"
     }
   ]
 }
