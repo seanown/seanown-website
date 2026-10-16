@@ -122,12 +122,48 @@ FACT_FIXES = {
     #    路線三・半島東，故魔術店歸半島東，非早先誤判的「半島中（近新馬路）」。
     #    🔴 另查出既有 700m GPS 錯誤：站內座標 22.1912,113.5432 指向新葡京一帶，
     #    真實位置在馬忌士街（約 22.197,113.544，近瘋堂斜巷）。此為《驚天魔盜團2》
-    #    文章地點座標錯，屬文章內容修正，另行處理（先不動，路線歸屬 r3 不受影響）。
+    #    文章地點座標錯，於此一併覆寫（見下一條 gps 覆寫）。
     '澳門科學館': {'route': '路線三・半島東'},
     'MGM金殿（澳門美高梅）': {'route': '路線三・半島東'},
     '嘉樂庇總督大橋': {'route': '路線三・半島東'},
-    "魔術店（Iong's Magic Shop）": {'route': '路線三・半島東'},
+    # ④ 魔術店：GPS 700m 誤差覆寫（2026-10-17 Nominatim 雙查）：站內《驚天魔盜團2》座標
+    #    22.1912,113.5432 指向新葡京一帶；真實位置為馬忌士街 36 號＝22.1976484,113.5448780
+    #    （塔石、望德堂區，Nominatim「Rua de Eduardo Marques, Macau」雙查一致）。
+    #    修此誤差後，魔術店與瘋堂斜巷僅 454m／8min，r3 貪心重排會自然把它排到外港三站之外。
+    "魔術店（Iong's Magic Shop）": {'route': '路線三・半島東',
+                                  'gps': '22.1976484,113.5448780'},
 }
+
+# ── 本地補站表（2026-10-17 軒哥拍板「漁人碼頭加入路線」）──
+# 書源《跟著電影遊澳門》63 站未收漁人碼頭，但《激戰》(ji-zhan) 篇已有完整場景資料與 GPS，
+# 且它與澳門科學館、MGM 美高梅同屬外港／新口岸一片、步行可達（814m+1518m，實測 OSRM），
+# 符合「一個區塊一條線」。故在此本地補站（不動書源），欄位格式對齊 content63.json 的站。
+LOCAL_STATIONS = [
+    {
+        'scene': '漁人碼頭・羅馬競技場',
+        'movie': '激戰',
+        'year': '2013',
+        'quote': '',
+        'quote_author': '',
+        'body': [
+            '仿古羅馬圓形競技場，環形石階層層環繞中央擂台。《激戰》把全片最高潮的綜合格鬥放在這裡，燈光聚焦擂台，台下萬眾矚目。',
+            '它就在外港海邊，與澳門科學館、MGM 美高梅同一片海濱綠帶，走路十分鐘內可串成一線——白天石造結構光影分明，最宜拍照。',
+            '一部電影讓一處仿古建築成了格鬥聖地；但澳門人更常在這裡散步、看海、跑馬拉，這座城把喧騰與平靜放在同一段海岸上。',
+        ],
+        'photo_notes': ['最佳時段：黃昏或藍調', '構圖：環形石階向上收', '地點：中央擂台', '動作：站上擂台或看海'],
+        'fact': '漁人碼頭・羅馬競技場位於澳門外港，環形石階可容數千觀眾，是《激戰》重要取景地。',
+        'info': {
+            'address': '澳門外港漁人碼頭（勵駿大道）',
+            'transport': '外港碼頭步行約 10 分鐘；或由漁人碼頭渡輪',
+            'open_time': '全日開放',
+            'fee': '免費',
+        },
+        'route': '路線三・半島東',
+        'route_final': '路線三・半島東',
+        'gps': '22.1931,113.5556',
+        '_gps_override': '22.1931,113.5556',
+    },
+]
 
 # ── 全城型／年代型虛擬站的代表座標（2026-10-16 軒哥拍板「補代表座標」）──
 # 這些站無單一實拍地點，給一個中心區代表點，讓步行段可算、未來地圖可釘中心。
@@ -138,6 +174,15 @@ REP_GPS = {
     '澳門（短片合集）': '22.1880,113.5460',   # 南灣
     '澳門（70年代賭場）': '22.1885,113.5500', # 葡京一帶
     '澳門（60年代）': '22.1925,113.5435',     # 崗頂前地
+}
+
+# ── 路線頭站錨點（2026-10-17 軒哥拍板「固定外港三站直覺順序」）──
+# 路線三・半島東 的外港三站（漁人碼頭→科學館→美高梅）同屬外港海濱一片、步行可達，
+# 但書源首站是東望洋燈塔，純貪心重排會把三站排成「從美高梅倒走回漁人碼頭」，
+# 且大橋→美高梅段 39min 偏長。這裡指定該線頭站按直覺順序（漁人碼頭出發順路走），
+# 其餘 GPS 站再貪心最近鄰接在後面。值＝「路線名 → 頭站 scene 清單（依序）」。
+ROUTE_ANCHORS = {
+    '路線三・半島東': ['漁人碼頭・羅馬競技場', '澳門科學館', 'MGM金殿（澳門美高梅）'],
 }
 
 
@@ -329,7 +374,10 @@ def main():
 
     stations = []
     n_gps = n_art = n_alias = 0
-    for i, s in enumerate(book):
+    # 本地補站併入（不動書源 book）：漁人碼頭等書源未收但路線需要的站。
+    # 欄位對齊 content63.json，故下游 movie 匹配／gps／分組／重排流程完全一致。
+    book_all = list(book) + [dict(s) for s in LOCAL_STATIONS]
+    for i, s in enumerate(book_all):
         s = dict(s)  # 拷貝，不污染書源
         _fix = FACT_FIXES.get((s.get('scene') or '').strip())
         if _fix:
@@ -392,6 +440,10 @@ def main():
                 also = [f for f in e['films'] if f['slug'] != post['slug']]
             else:
                 also = list(e['films'])
+        # FACT_FIXES 若明確提供 gps（如魔術店 700m 誤差覆寫），以修正值優先，
+        # 否則會被上面 place_idx 的站內舊座標蓋掉。
+        if _fix and _fix.get('gps'):
+            gps = _fix['gps']
         # 文章深鏈只認 movie 匹配，與地點匹配與否無關（讀者點進去必須是該站講的那部片）
         if post:
             article_slug = post['slug']
@@ -475,7 +527,7 @@ def main():
             return 9e9
         return math.hypot(ax - bx, (ay - by) * 0.93)  # 澳門緯度經度加權，僅用於比大小
 
-    def merge_and_order(sts):
+    def merge_and_order(sts, anchors=None):
         # 1) 同 GPS 並站：主站＝組內首個有深鏈者（無則取首個）；其餘片收進 extra_films
         #    （保留片名／年份／深鏈／金句；body 不重複堆疊，書源仍在）
         gps_buckets = []  # [{'rep': gps, 'idx': […]}] 近鄰聚類
@@ -518,12 +570,24 @@ def main():
                 skip.update(grp_idx)
             else:
                 merged.append(st)
-        # 2) GPS 最近鄰重排：無 GPS 站保持原槽位，有 GPS 站從原首站貪心最近鄰回填
+        # 2) GPS 最近鄰重排：無 GPS 站保持原槽位，有 GPS 站依序排。
+        #    若該路線在 ROUTE_ANCHORS 指定了頭站，頭站按指定順序排在最前，
+        #    其餘 GPS 站再從最後一個頭站起貪心最近鄰回填（外港三站直覺順序用）。
         slots = [j for j, s in enumerate(merged) if _gps_of(s)]
         if len(slots) > 2:
-            seq = [slots[0]]
+            seq = []
+            # 先放錨點頭站（依 ROUTE_ANCHORS 指定順序，取其在 merged 中的實際槽位）
+            for want in (anchors or []):
+                hit = next((j for j in slots if merged[j].get('scene') == want), None)
+                if hit is not None and hit not in seq:
+                    seq.append(hit)
+            # 再從 seq 末站（或原首站）起貪心最近鄰補齊其餘
             while len(seq) < len(slots):
-                cur = _gps_of(merged[seq[-1]])
+                if seq:
+                    cur = _gps_of(merged[seq[-1]])
+                else:
+                    seq.append(slots[0])
+                    continue
                 nxt = min((x for x in slots if x not in seq),
                           key=lambda x: _dist(cur, _gps_of(merged[x])))
                 seq.append(nxt)
@@ -537,7 +601,7 @@ def main():
         return merged
 
     for k in groups:
-        groups[k] = merge_and_order(groups[k])
+        groups[k] = merge_and_order(groups[k], ROUTE_ANCHORS.get(k))
 
     routes = []
     for key in order:
