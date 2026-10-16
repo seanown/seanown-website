@@ -47,18 +47,14 @@ def invest_facts():
         d = json.load(io.open(INVEST_JSON, encoding='utf-8'))
     except (ValueError, IOError):
         return None
-    items = d.get('investments') or []
-    if not items:
+    # 🔴 軒哥 2026-10-17 指示：投資項目屬內部明細，對外**只顯示數字、不逐項列出**。
+    # 故此處只讀計數欄位 _n_investments，不再展開 investments 清單。
+    n = int(d.get('_n_investments') or 0)
+    if not n:
+        n = len(d.get('investments') or [])
+    if not n:
         return None
-    sectors = [x.get('sector') for x in items if (x.get('sector') or '').strip()]
-    years = sorted({(x.get('year') or '')[:4] for x in items if (x.get('year') or '')[:4].isdigit()})
-    return {
-        'n': len(items),
-        # 領域分佈：同一大類（如「食品製造」）可能多家，取前綴分組後統計，避免每家自成一類
-        'n_sector': len({(s or '').split('（')[0].strip() for s in sectors}) or 1,
-        'sectors': sorted({(s or '').split('（')[0].strip() for s in sectors}),
-        'years': ('%s–%s' % (years[0], years[-1])) if years else '',
-    }
+    return {'n': n}
 
 
 def city_facts():
@@ -69,11 +65,13 @@ def city_facts():
         d = json.load(io.open(CITIES_JSON, encoding='utf-8'))
     except (ValueError, IOError):
         return None
-    items = d.get('cities') or []
-    names = [(x.get('city') or '').strip() for x in items if (x.get('city') or '').strip()]
-    if not names:
+    # 🔴 同上：城市明細屬內部，對外只顯示數字。
+    n = int(d.get('_n_cities') or 0)
+    if not n:
+        n = len([x for x in (d.get('cities') or []) if (x.get('city') or '').strip()])
+    if not n:
         return None
-    return {'n': len(names), 'names': names}
+    return {'n': n, 'n_prov': int(d.get('_n_provinces') or 0)}
 
 
 def media_facts():
@@ -152,15 +150,15 @@ def main():
     # 第三張卡：若 investments.json 已備妥，改為「已投資企業」，否則維持「80+ 語種」
     iv = invest_facts()
     if iv:
-        yr = ('（%s）' % iv['years']) if iv['years'] else ''
         lang_b = ('<div class="n">%d 項</div>\n'
-                  '<div class="l">投資過的項目%s</div>' % (iv['n'], yr))
+                  '<div class="l">投資過的項目</div>' % iv['n'])
     # 第四張卡：若 cities.json 已備妥，改為「已去過的城市」，否則維持「已發布文章」
     # （必須在組 cards_block 之前覆寫 col_b，否則覆寫不生效）
     cv = city_facts()
     if cv:
+        lbl = '已去過的城市（%d 省）' % cv['n_prov'] if cv.get('n_prov') else '已去過的城市'
         col_b = ('<div class="n">%d 個</div>\n'
-                 '<div class="l">已去過的城市</div>' % cv['n'])
+                 '<div class="l">%s</div>' % (cv['n'], lbl))
     cards_block = ('<div class="fact">\n%s\n</div>\n<div class="fact">\n%s\n</div>\n'
                   '<div class="fact">\n%s\n</div>\n<div class="fact">\n%s\n</div>'
                   % (media_b, role_b, lang_b, col_b))
