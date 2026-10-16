@@ -32,6 +32,25 @@ def ov(src):
     return s
 
 
+# 海報待生成時的佔位框行內樣式（避免 <img> 404 破圖；不依賴 format 轉義的 CSS 字串）。
+_POSTER_PH_STYLE = (
+    "width:100%;height:100%;min-height:240px;display:flex;align-items:center;"
+    "justify-content:center;text-align:center;padding:12px;box-sizing:border-box;"
+    "color:var(--gray);font-size:13px;font-weight:700;line-height:1.5;"
+    "background:repeating-linear-gradient(135deg,#f3f1fb,#f3f1fb 9px,#ece7f8 9px,#ece7f8 18px)"
+)
+
+
+def film_poster_block(slug, alt, prefix):
+    """電影海報區塊：海報實體檔存在則出 <img>，否則出佔位框（避免破圖）。
+    prefix 為頁面相對 assets 的路徑前綴，如 '../../'（專輯頁）或 '../'（文章索引頁）。"""
+    disk = os.path.join(ROOT, 'assets', 'og', '%s-poster.jpg' % slug)
+    if os.path.exists(disk):
+        rel = '%sassets/og/%s-poster.jpg' % (prefix, slug)
+        return '<img src="%s" alt="%s" loading="lazy">' % (ov(rel), esc(alt))
+    return '<div class="poster-ph" style="%s">%s</div>' % (_POSTER_PH_STYLE, esc(alt))
+
+
 SHARE_WIDGET = os.path.join(ROOT, 'assets', 'share-widget.js')
 
 
@@ -1029,10 +1048,10 @@ def build_series_page(s, posts, all_series):
                 info_link = '<a class="p-info" href="%s/movie/%s/">電影資訊</a>' % (SITE, pslug)
             items += (
                 '<li class="poster-card" data-fy="%d"><a href="%s/article/%s/">'
-                '<div class="p-img"><img src="%s" alt="%s" loading="lazy"></div>'
+                '<div class="p-img">%s</div>'
                 '<div class="p-cap"><div class="p-title">%s</div>'
                 '<div class="p-year">%s</div></div></a>%s</li>'
-            ) % (fy, SITE, pslug, ov('../../assets/og/%s-poster.jpg' % pslug), esc(name),
+            ) % (fy, SITE, pslug, film_poster_block(pslug, name, '../../'),
                  esc(name), esc(str(fy)), info_link)
         else:
             loc = (p.get('location') or '').strip()
@@ -2271,7 +2290,6 @@ def build_list(posts):
         date = (p.get('date') or '').strip()
         is_film = 'macau-film' in _series_list(p)
         cover = ov('../assets/og/%s.jpg' % slug)
-        poster = ov('../assets/og/%s-poster.jpg' % slug)
         if is_film:
             # 電影卡：直海報（2:3）＋片名＋年份，與專輯頁統一風格
             fy = p.get('filmYear')
@@ -2283,10 +2301,10 @@ def build_list(posts):
             name = re.sub(r'》觀後感$', '', name) or title
             cards += (
                 '<a class="lc-card poster" href="%s/article/%s/" data-cat="%s" data-fy="%d">'
-                '<div class="lc-img"><img src="%s" alt="%s" loading="lazy"></div>'
+                '<div class="lc-img">%s</div>'
                 '<div class="lc-body"><div class="lc-top"><span class="lc-date">%s</span></div>'
                 '<h2>%s</h2><div class="lc-year">%s</div></div></a>'
-            ) % (SITE, slug, esc(cat), fy, poster, esc(name),
+            ) % (SITE, slug, esc(cat), fy, film_poster_block(slug, name, '../'),
                  date.replace('-', '.'), esc(name), esc(str(fy)))
         else:
             lead = plain(p.get('body') or title, 62)
