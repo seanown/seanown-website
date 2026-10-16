@@ -24,6 +24,35 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ABOUT = os.path.join(ROOT, 'about', 'index.html')
 MEDIA_JSON = os.path.join(ROOT, 'data', 'media.json')
 POSTS_JSON = os.path.join(ROOT, 'data', 'posts.json')
+# 🔴 投資企業名單：軒哥 2026-10-17 指示「投資過的企業」要取代「80+ 語種」那張卡，
+# 並說會另做一份完整清單。**在軒哥提供真實名單之前，此處留空——絕不填假數字或假公司名**，
+# 因為「可以核實的數字」區塊的立點就是無法核實者不列。此檔存在即表示名單已備妥。
+INVEST_JSON = os.path.join(ROOT, 'data', 'investments.json')
+
+
+def invest_facts():
+    """已投資企業：讀 data/investments.json。
+
+    🔴 檔案不存在 → 回傳 None，代表「名單尚未提供」，此時第三張卡維持「80+ 語種」原樣，
+    不做任何猜測或填補。檔案格式：
+      {"investments": [{"name": "公司名", "sector": "領域", "year": "年份", "note": "備註"}]}
+    """
+    if not os.path.exists(INVEST_JSON):
+        return None
+    try:
+        d = json.load(io.open(INVEST_JSON, encoding='utf-8'))
+    except (ValueError, IOError):
+        return None
+    items = d.get('investments') or []
+    if not items:
+        return None
+    sectors = [x.get('sector') for x in items if (x.get('sector') or '').strip()]
+    years = sorted({(x.get('year') or '')[:4] for x in items if (x.get('year') or '')[:4].isdigit()})
+    return {
+        'n': len(items),
+        'n_sector': len(set(sectors)),
+        'years': ('%s–%s' % (years[0], years[-1])) if years else '',
+    }
 
 
 def media_facts():
@@ -109,6 +138,17 @@ def main():
     n_col = column_count()
 
     media_b, role_b, lang_b, col_b = build_blocks(mf, n_role, n_col)
+    # 第三張卡：若 investments.json 已備妥，改為「已投資企業」，否則維持「80+ 語種」
+    iv = invest_facts()
+    if iv:
+        yr = ('（%s）' % iv['years']) if iv['years'] else ''
+        lang_b = (
+            '<div class="n">%d 家</div>\n'
+            '<div class="l">已投資企業%s</div>\n'
+            '<div class="src">佐證：已投資企業名單逐家具名列出，可另行提供佐證文件；'
+            '目前含 %d 個領域。名單如有異動，以名單頁為準。</div>'
+            % (iv['n'], yr, iv['n_sector'])
+        )
     new_block = '<div class="fact">\n%s\n</div>\n<div class="fact">\n%s\n</div>\n' \
                 '<div class="fact">\n%s\n</div>\n<div class="fact">\n%s\n</div>' \
                 % (media_b, role_b, lang_b, col_b)
@@ -144,6 +184,12 @@ def main():
     print('  媒體 %d 則／附連結 %d／來源 %d 家／可點擊連結 %d／跨平台條目 %d'
           % (mf['total'], mf['with_url'], mf['sources'], mf['clicks'], len(mf['multi'])))
     print('  職務 %d 項（展開其餘 %d 項）／專欄文章 %d 篇' % (n_role, rest, n_col))
+    if iv:
+        print('  已投資企業 %d 家（第三張卡已切換）' % iv['n'])
+    else:
+        print('  ⚠️ 提醒：data/investments.json 尚未建立 → 第三張卡仍是「80+ 語種」。')
+        print('     軒哥 2026-10-17 指示要改成「已投資企業」（約 20–21 家），')
+        print('     並說會另做完整名單。名單備妥後存成 investments.json 重跑本腳本即自動換卡。')
 
 
 if __name__ == '__main__':
