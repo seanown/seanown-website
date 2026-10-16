@@ -64,9 +64,14 @@
 .rp-jump a:hover b{color:#FDB515}
 .rp-jump .m{color:#8a8277;font-weight:400;font-size:12px;margin-left:5px}
 /* 站點卡 */
-.st{display:grid;grid-template-columns:58px 1fr;gap:18px;padding:28px 0;border-top:1px dashed #e0d9cc}
+.st{display:grid;grid-template-columns:58px 1fr;column-gap:18px;row-gap:0;padding:28px 0;border-top:1px dashed #e0d9cc}
 .st:first-of-type{border-top:none}
-@media(max-width:720px){.st{grid-template-columns:1fr;gap:10px}}
+/* 🔴 修版面塌縮：.st 是兩列網格，但只有 .no 與 .st-h 該並排——
+   其餘子元素（金句框／正文／提示／資訊格）若不強制進第 2 列，
+   會被 grid 自動換行輪流塞進 58px 窄列，造成「一字一行」（2026-10-16 軒哥抓到） */
+.st>*:not(.no){grid-column:2}
+.st .no{align-self:start}
+@media(max-width:720px){.st{grid-template-columns:1fr;gap:10px}.st>*:not(.no){grid-column:1}}
 .st .no{width:52px;height:52px;border-radius:50%;background:#002676;color:#FDB515;
   font-family:"Noto Serif TC",serif;font-weight:900;font-size:22px;
   display:flex;align-items:center;justify-content:center}
