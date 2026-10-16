@@ -13,7 +13,7 @@
 本模組自包含 esc / CSS，不 import build_articles（避免循環依賴）；
 og 快取版號 ov() 由 build_articles 傳入，SLUGS 亦外部傳入。
 """
-import io, os, re, html
+import io, json, os, re, html
 from datetime import date
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -55,6 +55,19 @@ def era_slug(era):
 
 def esc(t):
     return html.escape(t or '', quote=False)
+
+
+def route_stats():
+    """從 data/routes.json 取實際路線數／站數（2026-10-17 軒哥指正：數字須動態）。
+    回傳 (n_route, n_station)；檔案不存在回傳 (0, 0)，呼叫端須準備退化文案。"""
+    p = os.path.join(ROOT, 'data', 'routes.json')
+    if not os.path.exists(p):
+        return 0, 0
+    try:
+        routes = json.load(io.open(p, encoding='utf-8')).get('routes') or []
+    except (ValueError, IOError):
+        return 0, 0
+    return len(routes), sum(len(r.get('stations') or []) for r in routes)
 
 
 # ── 地名正規化 ─────────────────────────────────────────────────
@@ -413,12 +426,26 @@ def build_collections(index, slugs, site, ov, og_img=''):
         tag = '導演' if '導演' in roles else '演員'
         person_items += ('<a href="%s/">%s · %s<b>%d 部</b></a>' % (slug + '/', esc(nm), tag, n))
 
+    # 路線數／站數／區名一律動態（2026-10-17 軒哥指正：數字勿硬編碼）
+    n_route, n_station = route_stats()
+    route_names = ''
+    _rp = os.path.join(ROOT, 'data', 'routes.json')
+    if os.path.exists(_rp):
+        try:
+            route_names = '、'.join(
+                (r.get('region') or '') for r in
+                (json.load(io.open(_rp, encoding='utf-8')).get('routes') or []))
+        except (ValueError, IOError):
+            route_names = ''
+    n_route_s = ('%d ' % n_route) if n_route else ''
+    n_station_s = ('%d' % n_station) if n_station else '數十個'
+
     hub_body = (
         '<div class="cp-sec" id="by-route"><h2>🚶 跟著電影遊澳門</h2>'
-        '<p class="d">不想一部部逛？八條路線把 63 個場景按走法串起來——每站有座標、站位描寫與拍攝提示。</p>'
+        '<p class="d">不想一部部逛？%s條路線把 %s 個場景按走法串起來——每站有座標、站位描寫與拍攝提示。</p>'
         '<a class="cp-route" href="%s/route/">'
-        '<div class="t">🚶 跟著電影遊澳門 · 8 條主題路線</div>'
-        '<div class="c">半島中、內港、新口岸、路氹金光大道、氹仔舊城、路環、本地創作、世界眼中的澳門——'
+        '<div class="t">🚶 跟著電影遊澳門 · %s條主題路線</div>'
+        '<div class="c">%s——'
         '從「看一篇」變成「走一條線」，每站深鏈回對應的觀後感。</div>'
         '<div class="go">進入路線總覽 →</div></a></div>'
         '<div class="cp-sec" id="by-era"><h2>🕰 時光機 · 按年代</h2>'
@@ -431,10 +458,12 @@ def build_collections(index, slugs, site, ov, og_img=''):
         '<div class="cp-sec" id="by-person"><h2>🎭 誰在澳門 · 按影人</h2>'
         '<p class="d">同一位導演或演員，一再回到澳門。出現 3 部以上者獨立成頁。</p>'
         '<div class="cp-chips">%s</div></div>'
-    ) % (site, era_cards, decade_chips, place_items, person_items)
+    ) % (n_route_s, n_station_s, site, n_route_s, route_names or '各區路線',
+         era_cards, decade_chips, place_items, person_items)
     _write('collection/index.html',
            _shell('澳門電影 · 主題合輯', '澳門電影專輯 · MACAU FILM',
-                  '四種逛法，一座城的銀幕', '按年代、按取景地、按影人、按路線——把 83 篇觀後感編成一張網。',
+                  '四種逛法，一座城的銀幕',
+                  '按年代、按取景地、按影人、按路線——把 %d 篇觀後感編成一張網。' % len(meta),
                   hub_body, site, og_img, _banner_img('hub', '../')))
     sitemap.append((site + '/collection/', today))
 
@@ -582,8 +611,8 @@ def related_html(post, index, slugs, site, ov):
     if not rows:
         return ''
     return ('<div class="frel"><div class="fr-h">順手再看 · 這部片在專輯裡的鄰居</div>'
-            '<div class="fr-s">83 篇觀後感，按年代、取景地、影人互相串聯——不必一座座孤島地讀。</div>'
-            '%s</div>' % rows)
+            '<div class="fr-s">%d 篇觀後感，按年代、取景地、影人互相串聯——不必一座座孤島地讀。</div>'
+            '%s</div>' % (len(index['meta']), rows))
 
 
 # ── 專輯頁（/series/macau-film/）三軸入口帶 ─────────────────────
@@ -612,12 +641,15 @@ def axes_html(index, site):
     n_dec = len(index['by_decade'])
     n_place = len(index['place_pages'])
     n_person = len(index['person_pages'])
+    # 路線數／站數動態（2026-10-17 軒哥指正：勿硬編碼「8 條路線 · 63 站」）
+    n_route, n_station = route_stats()
+    route_chip = ('%d 條路線 · %d 站可實地走' % (n_route, n_station)) if n_route else '按走法串起來的路線'
     hub = site + '/collection/'
     cards = [
         ('🕰', '按年代', '%d 個時代 · %d 個十年代' % (n_era, n_dec), hub + '#by-era'),
         ('🗺', '按取景地', '%d 個澳門地標獨立成頁' % n_place, hub + '#by-place'),
         ('🎭', '按影人', '%d 位導演演員獨立成頁' % n_person, hub + '#by-person'),
-        ('🚶', '跟著電影遊澳門', '8 條路線 · 63 站可實地走', site + '/route/'),
+        ('🚶', '跟著電影遊澳門', route_chip, site + '/route/'),
     ]
     out = '\n<div class="axes"><div class="ax-h">%d 篇觀後感 · 換個逛法</div>' % len(index['meta'])
     for em, t, c, href in cards:
