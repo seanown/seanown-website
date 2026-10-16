@@ -364,11 +364,15 @@ def _film_grid(keys, index, slugs, site, ov):
         film_chip(index['meta'][k], slugs, site, ov) for k in keys) + '</div>'
 
 
+_BANNER_VER = 'b'   # 2026-10-17 橫幅重排歸位＋3 張補生成，升版破 /assets/* 一年 immutable 快取
+
 def _banner_img(slug, depth='../../'):
-    """assets/images/places/<slug>.jpg 存在才回傳相對路徑；hub 頁深一層傳 '../'，其餘子頁 '../../'。
-    圖源：2026-10-16 多寶交付 30 張（tools/_bake_banners.py 烘焙，含去焦 QC）。"""
+    """assets/images/places/<slug>.jpg 存在才回傳相對路徑（帶 ?v= 破快取）；
+    hub 頁深一層傳 '../'，其餘子頁 '../../'。
+    圖源：2026-10-16 多寶交付 30 張（tools/_bake_banners.py 烘焙，含去焦 QC）
+    ＋2026-10-17 重排歸位（place-15/23/24 補生成）。"""
     if os.path.isfile(os.path.join(ROOT, 'assets', 'images', 'places', slug + '.jpg')):
-        return depth + 'assets/images/places/%s.jpg' % slug
+        return depth + 'assets/images/places/%s.jpg?v=%s' % (slug, _BANNER_VER)
     return ''
 
 
