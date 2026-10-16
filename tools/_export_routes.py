@@ -94,6 +94,23 @@ NO_GPS_NOTE = {
     '聖若望修院': '網站未收錄此地點',
 }
 
+# ── 事實修正表（2026-10-16 軒哥核可）：源書錯字／偽台詞，導出層修正，不動書源 ──
+FACT_FIXES = {
+    # 原片名「花樣年華》《2046」畸形（漏了片名號配對）
+    '新華大旅店': {'movie': '花樣年華・2046'},
+    # 原片名「江湖龍虎門」錯字，應為《江湖龍虎鬥》(1987, Flaming Brothers)；
+    # 「出來混的，遲早要還」查無出處（《無間道II》名句變體），且周潤發角色是
+    # Cheung Ho-tin 並非「阿勇」→ 偽台詞清空（WebSearch 核實 2026-10-16）
+    '亞婆井斜巷': {'movie': '江湖龍虎鬥', 'quote': '', 'quote_author': ''},
+    # 「賭俠的傳說，從澳門開始。」係宣傳語非台詞；高進＝賭神＝周潤發飾，
+    # 《賭俠》裡周星馳演刀仔 → 張冠李戴，偽台詞清空
+    '葡京酒店': {'quote': '', 'quote_author': ''},
+    # 「我們出來跑江湖的，遲早要還。」＝《無間道II》「出嚟行，預咗要還」變體（雙源確認），
+    # 非《放・逐》台詞 → 換成 Subzin 字幕核實的真對白（01:18:25 "How much is a ton of dreams?"）
+    '亞婆井前地': {'quote': '一噸夢想，值多少錢？',
+                   'quote_author': '《放・逐》對白（英文字幕回譯）'},
+}
+
 
 def build_place_index(films):
     """網站地名索引：norm_place -> {gps, films: [{slug, name, year}]}"""
@@ -184,6 +201,10 @@ def main():
     stations = []
     n_gps = n_art = n_alias = 0
     for i, s in enumerate(book):
+        s = dict(s)  # 拷貝，不污染書源
+        _fix = FACT_FIXES.get((s.get('scene') or '').strip())
+        if _fix:
+            s.update(_fix)
         scene = (s.get('scene') or '').strip()
         sn = norm_place(scene)
         gps, article_slug, also, match, cand = '', [], [], '', ''
@@ -295,6 +316,95 @@ def main():
                         '從《奪寶奇兵》到 007，從韓國到好萊塢——世界透過澳門想像東方。這一線看好萊塢與國際名導選中了哪些角度。'),
     }
 
+    # ── 2026-10-16 方案A（軒哥拍板）：同座標並站（一站多片）＋ GPS 最近鄰重排（消折返）──
+    import math
+
+    def _gps_of(st):
+        return (st.get('gps') or '').replace('約', '').replace(' ', '')
+
+    def _near(a, b):
+        """並站近鄰判定：經緯各差 ≤0.00015（≈17m）視為同址。
+        兩次獨立查證的座標常有末位微差（如聖方濟各堂 113.5514/113.5515）；
+        閾值同時保證相距 ≈33m 的不同景點（大三巴牌坊 vs 戀愛巷）不會誤併。"""
+        try:
+            ax, ay = [float(x) for x in a.split(',')]
+            bx, by = [float(x) for x in b.split(',')]
+        except (ValueError, AttributeError):
+            return False
+        return abs(ax - bx) <= 0.00015 and abs(ay - by) <= 0.00015
+
+    def _dist(a, b):
+        try:
+            ax, ay = [float(x) for x in a.split(',')]
+            bx, by = [float(x) for x in b.split(',')]
+        except (ValueError, AttributeError):
+            return 9e9
+        return math.hypot(ax - bx, (ay - by) * 0.93)  # 澳門緯度經度加權，僅用於比大小
+
+    def merge_and_order(sts):
+        # 1) 同 GPS 並站：主站＝組內首個有深鏈者（無則取首個）；其餘片收進 extra_films
+        #    （保留片名／年份／深鏈／金句；body 不重複堆疊，書源仍在）
+        gps_buckets = []  # [{'rep': gps, 'idx': […]}] 近鄰聚類
+        for j, st in enumerate(sts):
+            g = _gps_of(st)
+            if not g:
+                continue
+            for b in gps_buckets:
+                if _near(b['rep'], g):
+                    b['idx'].append(j)
+                    break
+            else:
+                gps_buckets.append({'rep': g, 'idx': [j]})
+        skip, merged = set(), []
+        for j, st in enumerate(sts):
+            if j in skip:
+                continue
+            g = _gps_of(st)
+            grp_idx = next((b['idx'] for b in gps_buckets if g and j in b['idx']), [])
+            if len(grp_idx) > 1:
+                grp = [sts[x] for x in grp_idx]
+                host_src = next((x for x in grp if x.get('article_slug')), grp[0])
+                host = dict(host_src)
+                host['extra_films'] = [
+                    {'scene': x['scene'], 'movie': x['movie'], 'year': x.get('year'),
+                     'quote': (x.get('quote') or '').strip(),
+                     'quote_author': (x.get('quote_author') or '').strip(),
+                     'article_slug': x.get('article_slug', '')}
+                    for x in grp if x is not host_src and (x.get('movie') or '').strip()]
+                seen = {host.get('article_slug', '')} | {
+                    f.get('article_slug', '') for f in host['extra_films'] if f.get('article_slug')}
+                also = []
+                for x in grp:
+                    for f in (x.get('also') or []):
+                        if f['slug'] not in seen:
+                            also.append(f)
+                            seen.add(f['slug'])
+                host['also'] = also
+                merged.append(host)
+                skip.update(grp_idx)
+            else:
+                merged.append(st)
+        # 2) GPS 最近鄰重排：無 GPS 站保持原槽位，有 GPS 站從原首站貪心最近鄰回填
+        slots = [j for j, s in enumerate(merged) if _gps_of(s)]
+        if len(slots) > 2:
+            seq = [slots[0]]
+            while len(seq) < len(slots):
+                cur = _gps_of(merged[seq[-1]])
+                nxt = min((x for x in slots if x not in seq),
+                          key=lambda x: _dist(cur, _gps_of(merged[x])))
+                seq.append(nxt)
+            out = list(merged)
+            for slot, src in zip(slots, seq):
+                out[slot] = merged[src]
+            merged = out
+        # 3) 路線內重編站號
+        for j, s in enumerate(merged):
+            s['no'] = j + 1
+        return merged
+
+    for k in groups:
+        groups[k] = merge_and_order(groups[k])
+
     routes = []
     for key in order:
         sts = groups[key]
@@ -305,8 +415,9 @@ def main():
     data = {
         'meta': {
             'source': '澳門旅遊攻略/content63.json × Seanown.org/data/posts.json',
-            'exported': '2026-10-15',
+            'exported': '2026-10-15（2026-10-16 並站重排）',
             'stations': len(stations),
+            'merged_stations': sum(len(r['stations']) for r in routes),
             'with_gps': n_gps,
             'with_article': n_art,
             'alias_used': n_alias,
@@ -318,7 +429,8 @@ def main():
     with io.open(OUT, 'w', encoding='utf-8', newline='\n') as f:
         f.write(json.dumps(data, ensure_ascii=False, indent=1) + '\n')
 
-    print('routes.json 已輸出：%d 條路線 / %d 站' % (len(routes), len(stations)))
+    print('routes.json 已輸出：%d 條路線 / 書原 %d 站 → 並站後 %d 站'
+          % (len(routes), len(stations), sum(len(r['stations']) for r in routes)))
     print('  有 GPS：%d（%.0f%%）｜有文章深链：%d｜人工校正表用上：%d'
           % (n_gps, 100.0 * n_gps / max(len(stations), 1), n_art, n_alias))
     print()

@@ -134,6 +134,16 @@ PAGE_CSS = """
   border-radius:16px;padding:3px 12px;margin-right:6px;white-space:nowrap}
 .st-also a:hover{border-color:#002676}
 .st-also .yr{color:#8a8277;font-size:12px;margin-left:3px}
+/* 同址快照（並站後的多片列） */
+.st-extra{margin:14px 0 0;background:#fff;border:1px dashed #d8cfbe;border-radius:12px;padding:12px 16px}
+.st-extra .lab{font-size:12.5px;font-weight:700;color:#002676}
+.st-extra .ef{display:flex;gap:10px;align-items:flex-start;padding:9px 0 0;margin-top:9px;border-top:1px dashed #efe9dd}
+.st-extra .ef:first-of-type{border-top:none;padding-top:6px;margin-top:6px}
+.st-extra .thumb.xs{width:34px;height:51px;box-shadow:0 1px 5px rgba(0,20,70,.14)}
+.st-extra .ef-t{font-size:13.5px;color:#5a534a;line-height:1.7;padding-top:2px}
+.st-extra .ef-t a{color:#002676;font-weight:700;text-decoration:none;border-bottom:1px solid #FDB515}
+.st-extra .ef-t a:hover{background:#FDB515;color:#002676}
+.st-extra .eq{font-size:12.5px;color:#8a8277;margin-top:3px;line-height:1.7}
 /* 上下線導航 */
 .rp-nav{display:flex;justify-content:space-between;gap:12px;margin:44px 0 0;flex-wrap:wrap}
 .rp-nav a{flex:1;min-width:200px;background:#fff;border:1px solid #e7e0d4;border-radius:12px;
@@ -264,6 +274,25 @@ def _station_html(st, idx, site, ov):
     fact = (st.get('fact') or '').strip()
     if fact:
         parts.append('<div class="st-fact"><b>💡 冷知識</b>　%s</div>' % esc(fact))
+    # 同址快照（2026-10-16 並站：同座標多片站，主站講第一部，其餘片列此）
+    extras = st.get('extra_films') or []
+    if extras:
+        rows = []
+        for f in extras:
+            fslug = f.get('article_slug') or ''
+            fyr = str(f.get('year') or '')
+            fthumb = ('<img class="thumb xs" src="%s" alt="%s" loading="lazy">'
+                      % (ov('../../assets/og/%s-poster.jpg' % fslug), esc(f.get('movie') or ''))) if fslug else ''
+            ftitle = ('<a href="%s/article/%s/">《%s》</a><span class="yr">%s</span>'
+                      % (site, fslug, esc(f.get('movie') or ''), esc(fyr))) if fslug \
+                     else ('<span class="nolink">《%s》</span><span class="yr">%s</span>'
+                           % (esc(f.get('movie') or ''), esc(fyr)))
+            fq = (f.get('quote') or '').strip()
+            fql = ('<div class="eq">「%s」%s</div>' % (esc(fq), ('—— %s' % esc(f.get('quote_author')))
+                  if (f.get('quote_author') or '').strip() else '')) if fq else ''
+            rows.append('<div class="ef">%s<div class="ef-t">%s%s</div></div>' % (fthumb, ftitle, fql))
+        parts.append('<div class="st-extra"><div class="lab">🎬 同址快照・這個地點還有這些電影</div>%s</div>'
+                     % ''.join(rows))
     # 同地其他電影
     also = st.get('also') or []
     if also:
