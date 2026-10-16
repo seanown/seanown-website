@@ -127,9 +127,24 @@ section{padding-top:56px}
 .tl-d{font-size:15px;color:var(--text)}
 
 /* 學歷 / 榮譽 */
-.honor-links{display:block;margin-top:6px;font-size:12px;color:var(--gray);line-height:1.9}
-.honor-links a{color:var(--blue);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(0,38,118,.28)}
-.honor-links a:hover{color:var(--gold);border-bottom-color:var(--gold)}
+/* 榮譽卡內可展開的佐證連結（2026-10-17 軒哥指示：卡片不堆字，點三角才展開） */
+.honor-item{margin-bottom:4px}
+.honor-fold{margin-top:2px}
+.honor-sum{display:flex;align-items:flex-start;gap:8px;cursor:pointer;list-style:none;line-height:1.75}
+.honor-sum::-webkit-details-marker{display:none}
+.honor-t{flex:1}
+.honor-tag{flex:none;font-size:11px;font-weight:600;color:#8a6d12;background:#fdf9f0;
+  border:1px solid rgba(201,162,39,.3);border-radius:5px;padding:2px 8px;align-self:center;white-space:nowrap}
+.honor-cue{flex:none;font-size:11px;color:var(--gold);align-self:center;transition:transform .2s}
+.honor-fold[open] .honor-cue{transform:rotate(180deg)}
+.honor-body{margin-top:8px;padding-left:12px;border-left:2px solid rgba(201,162,39,.3);
+  display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.honor-lead{font-size:11.5px;color:var(--gray);width:100%;margin-bottom:2px}
+.honor-body a{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;
+  color:var(--blue);border:1px solid var(--line);border-radius:999px;padding:4px 11px;
+  white-space:nowrap;transition:all .2s}
+.honor-body a:hover{border-color:var(--gold);background:var(--gold-light);color:#1a1a1a}
+.honor-body .ext{font-size:9.5px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .box{background:var(--white);border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
 .box h3{font-size:19px;font-weight:800;color:var(--blue);margin-bottom:14px}
@@ -352,7 +367,7 @@ section{padding-top:56px}
 <h3>榮譽與認證</h3>
 <ul>
 <li>ECI 2025 年度數位創新影響力人物</li>
-<li>第十一至十三屆「贏在廣州」大學生創業大賽專家評委（榮譽職，非現任）<br><span class="honor-links"><a href="https://rsj.gz.gov.cn/ywzt/jycy/gxbys/cyds/content/post_9996177.html" target="_blank" rel="noopener">廣州市人社局：第十三屆評委名單</a>・<a href="https://finance.sina.com.cn/tech/roll/2023-08-12/doc-imzfwfim5319439.shtml" target="_blank" rel="noopener">新浪科技：第十二屆開始評審</a>・<a href="https://news.scnu.edu.cn/65677" target="_blank" rel="noopener">華南師大：第十二屆一等獎</a>・<a href="https://www.gz.gov.cn/zwgk/zdly/jycy/gzdt/content/post_8751388.html" target="_blank" rel="noopener">廣州市政府：第十一屆決賽收官</a></span></li>
+<li class="honor-item"><details class="honor-fold"><summary class="honor-sum"><span class="honor-t">第十一至十三屆「贏在廣州」大學生創業大賽專家評委</span><span class="honor-tag">榮譽職・非現任</span><span class="honor-cue" aria-hidden="true">▾</span></summary><div class="honor-body"><span class="honor-lead">相關報導</span><a href="https://rsj.gz.gov.cn/ywzt/jycy/gxbys/cyds/content/post_9996177.html" target="_blank" rel="noopener">廣州市人社局：第十三屆評委名單<span class="ext" aria-hidden="true">↗</span></a><a href="https://finance.sina.com.cn/tech/roll/2023-08-12/doc-imzfwfim5319439.shtml" target="_blank" rel="noopener">新浪科技：第十二屆開始評審<span class="ext" aria-hidden="true">↗</span></a><a href="https://news.scnu.edu.cn/65677" target="_blank" rel="noopener">華南師大：第十二屆一等獎<span class="ext" aria-hidden="true">↗</span></a><a href="https://www.gz.gov.cn/zwgk/zdly/jycy/gzdt/content/post_8751388.html" target="_blank" rel="noopener">廣州市政府：第十一屆決賽收官<span class="ext" aria-hidden="true">↗</span></a></div></details></li>
 </ul>
 </div>
 </div>
