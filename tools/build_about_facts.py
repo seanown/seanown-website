@@ -28,6 +28,10 @@ POSTS_JSON = os.path.join(ROOT, 'data', 'posts.json')
 # 並說會另做一份完整清單。**在軒哥提供真實名單之前，此處留空——絕不填假數字或假公司名**，
 # 因為「可以核實的數字」區塊的立點就是無法核實者不列。此檔存在即表示名單已備妥。
 INVEST_JSON = os.path.join(ROOT, 'data', 'investments.json')
+# 🔴 已去過的城市：軒哥 2026-10-17 指示第四張卡改為「已去過的城市」。
+# ⚠️ 這裡要放**真實足跡**，不是 posts.json 的 location（那是文章主題地，如「澳門」115 篇、
+#    「灣區論壇」等場合名稱，會嚴重低估）。名單未提供前回傳 None，維持「已發布文章」卡。
+CITIES_JSON = os.path.join(ROOT, 'data', 'cities.json')
 
 
 def invest_facts():
@@ -55,6 +59,21 @@ def invest_facts():
         'sectors': sorted({(s or '').split('（')[0].strip() for s in sectors}),
         'years': ('%s–%s' % (years[0], years[-1])) if years else '',
     }
+
+
+def city_facts():
+    """已去過的城市：讀 data/cities.json。檔案不存在或為空 → 回傳 None（維持原卡）。"""
+    if not os.path.exists(CITIES_JSON):
+        return None
+    try:
+        d = json.load(io.open(CITIES_JSON, encoding='utf-8'))
+    except (ValueError, IOError):
+        return None
+    items = d.get('cities') or []
+    names = [(x.get('city') or '').strip() for x in items if (x.get('city') or '').strip()]
+    if not names:
+        return None
+    return {'n': len(names), 'names': names}
 
 
 def media_facts():
@@ -136,6 +155,12 @@ def main():
         yr = ('（%s）' % iv['years']) if iv['years'] else ''
         lang_b = ('<div class="n">%d 項</div>\n'
                   '<div class="l">投資過的項目%s</div>' % (iv['n'], yr))
+    # 第四張卡：若 cities.json 已備妥，改為「已去過的城市」，否則維持「已發布文章」
+    # （必須在組 cards_block 之前覆寫 col_b，否則覆寫不生效）
+    cv = city_facts()
+    if cv:
+        col_b = ('<div class="n">%d 個</div>\n'
+                 '<div class="l">已去過的城市</div>' % cv['n'])
     cards_block = ('<div class="fact">\n%s\n</div>\n<div class="fact">\n%s\n</div>\n'
                   '<div class="fact">\n%s\n</div>\n<div class="fact">\n%s\n</div>'
                   % (media_b, role_b, lang_b, col_b))
