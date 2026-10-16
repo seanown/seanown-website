@@ -2276,6 +2276,21 @@ CATS = ['澳門電影', '影評', '澳門觀察', '生活隨筆', '文化隨筆'
 
 def build_list(posts):
     """雜誌目錄式專欄列表頁：articles/index.html（靜態卡片 + JS 分類過濾）"""
+    # 一般卡與直式海報卡（2:3）混排於同一 3 欄 grid，海報卡高約 1.5 倍會撐高同列一般卡，
+    # 造成摘要下方大片留白（2026-10-17 軒哥指出）。做法：一般卡底部補 meta 區（分類＋閱讀全文），
+    # 摘要字數由 62 放寬至 92，讓留白轉為有內容的呼吸空間。
+    # ⚠️ 此段獨立於 page 模板（用 {lc_css} 引入），因模板以 .format() 渲染，
+    #    CSS 若直接寫在模板內，含 % 的值（如寬度百分比）會被當成格式佔位符而報錯。
+    LC_CSS = """
+.lc-card:not(.poster) .lc-body{justify-content:flex-start}
+.lc-card:not(.poster) p{flex:0 0 auto}
+.lc-card:not(.poster) .lc-foot{margin-top:auto;padding-top:12px;font-size:11.5px;color:var(--gray);
+  border-top:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.lc-card:not(.poster) .lc-foot .lc-tag{font-size:11px;padding:2px 9px}
+.lc-card:not(.poster) .lc-more{margin-left:auto;font-weight:700;color:var(--gold-dark);opacity:.85}
+.lc-card:hover:not(.poster) .lc-more{opacity:1}
+@media(max-width:900px){.lc-card:not(.poster) .lc-foot{padding-top:10px}}
+"""
     items = sorted(posts, key=lambda p: str(p.get('date', '')), reverse=True)
     cards = ''
     for p in items:
@@ -2307,14 +2322,19 @@ def build_list(posts):
             ) % (SITE, slug, esc(cat), fy, film_poster_block(slug, name, '../'),
                  date.replace('-', '.'), esc(name), esc(str(fy)))
         else:
-            lead = plain(p.get('body') or title, 62)
+            # 一般卡（非 poster）：摘要放寬至 92 字，底部補 meta 區（分類＋閱讀全文），
+            # 避免被同列海報卡撐高後留下大片空白（2026-10-17 軒哥指示）
+            lead = plain(p.get('body') or title, 92)
             cards += (
                 '<a class="lc-card" href="%s/article/%s/" data-cat="%s">'
                 '<div class="lc-img"><img src="%s" alt="%s — %s 封面" loading="lazy"></div>'
                 '<div class="lc-body"><div class="lc-top"><span class="lc-date">%s</span></div>'
-                '<h2>%s</h2><p>%s</p></div></a>'
+                '<h2>%s</h2><p>%s</p>'
+                '<div class="lc-foot"><span class="lc-tag">%s</span>'
+                '<span class="lc-more">閱讀全文 →</span></div>'
+                '</div></a>'
             ) % (SITE, slug, esc(cat), cover, esc(title), esc(cat),
-                 date.replace('-', '.'), esc(title), esc(lead))
+                 date.replace('-', '.'), esc(title), esc(lead), esc(cat))
 
     # 輯資料：全部輯清單 + 欄目 → 輯（以該輯成員最多的分類歸屬）
     all_ser = []
@@ -2429,7 +2449,7 @@ html{{scroll-behavior:smooth}}
 .sj-chip:hover{{background:var(--blue);border-color:var(--blue);color:#fff}}
 .sj-chip.sj-all{{border-color:var(--line);color:var(--gray);font-weight:600}}
 @media(max-width:620px){{.ser-jump{{padding:0 16px}}}}
-</style>
+</style><style>{lc_css}</style>
 </head>
 <body>
 <div class="topbar"><div class="topbar-in">
@@ -2458,7 +2478,7 @@ html{{scroll-behavior:smooth}}
 </html>
 """.format(desc=esc(desc), url=url, og='%s/assets/og/articles.jpg' % SITE,
            ld=json.dumps(ld, ensure_ascii=False), site=SITE,
-           n=len(items), cards=cards, ser_chips=ser_chips)
+           n=len(items), cards=cards, ser_chips=ser_chips, lc_css=LC_CSS)
     d = os.path.join(ROOT, 'articles')
     os.makedirs(d, exist_ok=True)
     with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
