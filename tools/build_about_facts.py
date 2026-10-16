@@ -50,7 +50,9 @@ def invest_facts():
     years = sorted({(x.get('year') or '')[:4] for x in items if (x.get('year') or '')[:4].isdigit()})
     return {
         'n': len(items),
-        'n_sector': len(set(sectors)),
+        # 領域分佈：同一大類（如「食品製造」）可能多家，取前綴分組後統計，避免每家自成一類
+        'n_sector': len({(s or '').split('（')[0].strip() for s in sectors}) or 1,
+        'sectors': sorted({(s or '').split('（')[0].strip() for s in sectors}),
         'years': ('%s–%s' % (years[0], years[-1])) if years else '',
     }
 
