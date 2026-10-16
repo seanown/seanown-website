@@ -14,6 +14,7 @@ SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import film_collections as FC
 import film_routes as FR
+import _geo_guard as GEO  # 地理座標預檢硬閘（敏感地標 GPS 容差檢查）
 
 # 三軸索引：main() 開跑時算一次，文章互導塊與合輯落地頁共用。
 # 外部腳本若直接呼叫 build()／build_series_page()，FILM_INDEX 為 None，
@@ -2565,6 +2566,15 @@ def main():
     for p in posts:
         p['slug'] = SLUGS.get(str(p.get('num', '')).strip(), '')
     load_series()
+    # ── 地理座標預檢硬閘 ──
+    # 敏感地標 GPS 若錯置（張冠李戴/錯釘），直接中斷重建，避免帶病上線。
+    # 修法：先把 data/posts.json 中標記的場地 GPS 改回核證座標（見 tools/_geo_guard.py
+    # 的 LANDMARKS），再重跑 build。
+    _geo_n = GEO.run_guard(posts=posts, verbose=False)
+    if _geo_n:
+        print('\n❌ 地理座標預檢未過：%d 處疑似錯置，已中斷重建。' % _geo_n)
+        print('   請先修正 data/posts.json 中上方標記的場地座標，再重跑 build_articles.py。')
+        sys.exit(1)
     # 三軸索引（年代／取景地／影人）：算一次，文章互導塊與合輯落地頁共用
     global FILM_INDEX
     FILM_INDEX = FC.build_index(published, SLUGS)
