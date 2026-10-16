@@ -21,7 +21,7 @@ import film_routes as FR
 FILM_INDEX = None
 
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
-OG_VER = '20261001m'
+OG_VER = '20261001n'
 
 
 def ov(src):
