@@ -195,7 +195,22 @@ def main():
     rest = total_roles - 1 if first_is_summary else total_roles
     new_html = re.sub(r'展開其餘 \d+ 項', '展開其餘 %d 項' % rest, new_html)
 
-    changed = (new_block != old_block)
+    # 🔴 2026-10-18：條目頁區塊的佔位符由 wiki.json 取值（避免手寫數字過期）
+    wp = os.path.join(ROOT, 'data', 'wiki.json')
+    if os.path.exists(wp):
+        w = json.load(io.open(wp, encoding='utf-8'))
+        pos = w['person']['positions']
+        n_ver = sum(1 for x in pos if x.get('evidence') == 'verified')
+        for k, v in (('N_POS', len(pos)), ('N_VER', n_ver),
+                     ('N_ORG', len(w['organizations'])), ('N_FAQ', len(w['faq'])),
+                     ('N_MEDIA', mf['total'])):
+            new_html = new_html.replace('{{%s}}' % k, str(v))
+        left = re.findall(r'\{\{[A-Z_]+\}\}', new_html)
+        if left:
+            print('[WARN] about/index.html 仍有未替換佔位符：', set(left))
+
+    # 🔴 佔位符替換也算變更（否則首次插入 {{N_*}} 時會被判為「無需改動」而永不落地）
+    changed = (new_block != old_block) or (new_html != html)
     if check:
         if changed:
             print('[CHANGED] about/index.html 的數字需更新（跑 python tools/build_about_facts.py）')

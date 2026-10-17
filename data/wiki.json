@@ -1,0 +1,239 @@
+{
+  "_說明": "自建維基的資料層。每個事實必須附可查證來源（source_url），無來源者不寫入。facts 分 verified（外部可查）與 stated（本人自述，僅站內）。",
+  "version": "1.0",
+  "updated": "2026-10-18",
+  "person": {
+    "name_zh": "翁振軒",
+    "name_en": "Sean Own",
+    "birth_year": 1978,
+    "birth_place": "台北",
+    "ancestral_home": "浙江龍遊",
+    "residence": "澳門",
+    "summary": "澳門商人、台商與產業顧問，粵港澳大灣區電子商會創會理事長。從事數位服務出海、文化旅遊與 AI 產業服務，創辦澳門龍遊集團。",
+    "education": [
+      {
+        "item": "加州大學柏克萊分校（UC Berkeley）",
+        "detail": "交叉學科研究（Interdisciplinary Studies），1997–2001",
+        "source_url": "",
+        "evidence": "stated"
+      }
+    ],
+    "positions": [
+      {
+        "title": "創辦人暨董事總經理",
+        "org": "澳門龍遊集團",
+        "source_url": "",
+        "evidence": "stated",
+        "note": "澳門日報 2023-11-16 稱其為「龍遊集團董事總經理」"
+      },
+      {
+        "title": "會長／創會理事長",
+        "org": "粵港澳大灣區電子商會",
+        "source_url": "https://www.houkongdailynews.com/sectionNews/117858",
+        "evidence": "verified",
+        "note": "濠江日報 2024 年報導稱「粵港澳大灣區電子商會理事長翁振軒」；2025-12 亞洲經濟報稱「會長」"
+      },
+      {
+        "title": "聯合創始人",
+        "org": "龍遊數字服務出海平台",
+        "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=852",
+        "evidence": "verified",
+        "note": "亞洲經濟報 2025-12-05 明確稱「澳門龍遊數字服務出海平台聯合創始人」"
+      },
+      {
+        "title": "監事長",
+        "org": "澳門台商聯誼會",
+        "source_url": "",
+        "evidence": "stated"
+      },
+      {
+        "title": "部長（文化產業發展部）",
+        "org": "澳門經濟民生聯盟",
+        "source_url": "https://hkdaily-app.bpprojects.com/sectionNews/129928",
+        "evidence": "verified",
+        "note": "濠江日報 2025-05-27 稱「澳門經濟民生聯盟文化產業發展部部長翁振軒」"
+      },
+      {
+        "title": "董事",
+        "org": "東望洋集團",
+        "source_url": "",
+        "evidence": "stated"
+      },
+      {
+        "title": "館長",
+        "org": "澳門龍遊絲綢文化藝術中心",
+        "source_url": "",
+        "evidence": "stated"
+      },
+      {
+        "title": "理事長",
+        "org": "ECI@澳門創新專委會",
+        "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=1074",
+        "evidence": "verified",
+        "note": "亞洲經濟報 2026-01-22 ECI 澳門站報導"
+      },
+      {
+        "title": "會長",
+        "org": "澳門台灣青年企業家協會",
+        "source_url": "https://www.modaily.cn/app/szb/pc/content/202512/20/content_452863.html",
+        "evidence": "verified",
+        "note": "澳門日報 2025-12-20 稱「澳門台灣青年企業家協會理事長翁振軒」"
+      },
+      {
+        "title": "電子商務專委會主任",
+        "org": "澳門網絡視聽協會",
+        "source_url": "",
+        "evidence": "stated"
+      },
+      {
+        "title": "常務副理事長",
+        "org": "澳門休閒旅遊服務創新協會",
+        "source_url": "https://www.exmoo.com/article/246940.html",
+        "evidence": "verified",
+        "note": "澳門力報 2025 年報導"
+      },
+      {
+        "title": "副會長",
+        "org": "澳門中華文化發展促進會",
+        "source_url": "https://www.ccdpam.com/",
+        "evidence": "stated"
+      },
+      {
+        "title": "聯絡部委員",
+        "org": "澳門中華總商會",
+        "source_url": "https://www.acm.org.mo/index.php/",
+        "evidence": "stated"
+      },
+      {
+        "title": "董事",
+        "org": "澳門室內跳傘中心 GoAirborne",
+        "source_url": "https://www.52hrtt.com/zjg/n/w/info/G1685710646307",
+        "evidence": "verified",
+        "note": "華人頭條 2023-06-17 專訪；澳門力報 2023-06-15 同題"
+      }
+    ],
+    "not_verified": [
+      {
+        "item": "ECI 2025 年度數位創新影響力人物",
+        "reason": "站內宣稱，但未找到可查證的外部來源（ECI 官網或第三方報導），故不寫入維基條目"
+      }
+    ]
+  },
+  "organizations": [
+    {
+      "name": "澳門龍遊集團",
+      "role": "創辦人暨董事總經理",
+      "url": "",
+      "desc": "澳門本地集團，涵蓋數位服務、文化旅遊與絲綢文化藝術事業。",
+      "evidence": "stated"
+    },
+    {
+      "name": "龍遊數字服務出海平台",
+      "role": "聯合創始人",
+      "url": "",
+      "desc": "以澳門與台灣雙伺服器、雙算力中心架構，提供中文企業數位服務出海服務。",
+      "evidence": "verified",
+      "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=852"
+    },
+    {
+      "name": "粵港澳大灣區電子商會",
+      "role": "會長",
+      "url": "https://gbaeca.org/",
+      "desc": "粵港澳大灣區電子商務領域的商會組織，軒哥為創會理事長。",
+      "evidence": "verified",
+      "source_url": "https://www.houkongdailynews.com/sectionNews/117858"
+    },
+    {
+      "name": "澳門中華文化發展促進會",
+      "role": "副會長",
+      "url": "https://www.ccdpam.com/",
+      "desc": "推動中華文化在澳門的傳承與兩岸文化交流的非牟利組織。",
+      "evidence": "stated"
+    },
+    {
+      "name": "澳門網絡視聽協會",
+      "role": "電子商務專委會主任",
+      "url": "/miaa/",
+      "desc": "澳門網絡視聽行業協會，協辦澳門國際網絡視聽節。",
+      "evidence": "stated"
+    },
+    {
+      "name": "澳門龍遊絲綢文化藝術中心",
+      "role": "館長",
+      "url": "/silk-art/",
+      "desc": "以絲綢為媒介的藝術機構，推動絲綢文化的當代轉譯與展示。",
+      "evidence": "stated"
+    },
+    {
+      "name": "ECI@澳門創新專委會",
+      "role": "理事長",
+      "url": "https://www.eciawards.org.cn/index",
+      "desc": "ECI 數位創新獎項體系在澳門的落地機構。",
+      "evidence": "verified",
+      "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=1074"
+    },
+    {
+      "name": "澳門台灣青年企業家協會",
+      "role": "會長",
+      "url": "",
+      "desc": "連結澳門與台灣青年企業家的協會，推動兩岸青年經貿與文化交流。",
+      "evidence": "verified",
+      "source_url": "https://www.modaily.cn/app/szb/pc/content/202512/20/content_452863.html"
+    },
+    {
+      "name": "澳門經濟民生聯盟",
+      "role": "文化產業發展部部長",
+      "url": "",
+      "desc": "澳門主要社團聯盟之一，設有文化產業發展部。",
+      "evidence": "verified",
+      "source_url": "https://hkdaily-app.bpprojects.com/sectionNews/129928"
+    }
+  ],
+  "glossary": [
+    {
+      "term": "數位服務出海",
+      "definition": "協助中國的企業把產品與內容翻譯為多國語言，在海外平台投放與銷售的服務。",
+      "evidence": "stated"
+    },
+    {
+      "term": "澳台雙算力",
+      "definition": "同時使用澳門與台灣兩地的伺服器與 AI 算力資源，兼顧成本與跨境合規需求。",
+      "evidence": "verified",
+      "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=852"
+    },
+    {
+      "term": "ECI",
+      "definition": "Effective Creative Intelligence，數位創新領域的評選與認證體系，在澳門設有落地機構。",
+      "evidence": "verified",
+      "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=1074"
+    }
+  ],
+  "faq": [
+    {
+      "q": "翁振軒是誰？",
+      "a": "澳門商人與產業顧問，1978 年生於台北，祖籍浙江龍遊，現居澳門。為粵港澳大灣區電子商會創會理事長，並創辦澳門龍遊集團。",
+      "evidence": "verified"
+    },
+    {
+      "q": "龍遊集團是什麼？",
+      "a": "澳門本地集團，涵蓋數位服務出海、文化旅遊與絲綢文化藝術三個方向，軒哥為創辦人暨董事總經理。",
+      "evidence": "stated"
+    },
+    {
+      "q": "什麼是「澳台雙算力」？",
+      "a": "同時使用澳門與台灣兩地的伺服器與 AI 算力資源。目的是兼顧成本與跨境數據合規，避免單一地區的限制。",
+      "evidence": "verified",
+      "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=852"
+    },
+    {
+      "q": "怎麼合作？",
+      "a": "可透過聯絡頁表單說明機構名稱、議題與方便聯絡的時間。合作方向包括 AI 數位服務出海、文化旅遊規劃、AI 科普教育與融媒體 IP 運營。",
+      "evidence": "stated"
+    },
+    {
+      "q": "有什麼媒體報導可以查？",
+      "a": "本站媒體報導頁收錄 45 則公開可查的報導，每則均附媒體來源、日期與原文連結，可直接點擊查核。",
+      "evidence": "verified"
+    }
+  ]
+}

@@ -351,7 +351,7 @@ img{{max-width:100%;display:block}}
 </div>
 
 <footer class="foot">
-© 2026 翁振軒 Sean Own · <a href="/">返回首頁</a> · <a href="/about/">關於我</a> · <a href="/articles/">專欄文章</a> · <a href="/contact/">聯絡</a><br>
+© 2026 翁振軒 Sean Own · <a href="/">返回首頁</a> · <a href="/about/">關於我</a> · <a href="/wiki/">條目頁</a> · <a href="/articles/">專欄文章</a> · <a href="/contact/">聯絡</a><br>
 報導標題與內容版權屬原媒體所有，本頁僅作索引與連結。
 </footer>
 </main>

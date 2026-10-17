@@ -14,6 +14,11 @@ BY_URL = {m.get('url'): m for m in MEDIA}
 
 # 對應關係：存檔資料夾 → media.json 的原文連結
 MAP = [
+    # 依日期倒序（新報導在前）；補新報導時插在最前面
+    ('2026-08-20-ifeng', 'https://macao.ifeng.com/c/8vkEuuyOiU4'),
+    ('2026-08-20-tkww', 'https://www.tkww.hk/a/202608/20/AP6a86c0a2e4b099d2ba48fa7a.html'),
+    ('2026-08-20-macaobusiness', 'https://www.macaobusinessnews.com/?p=95609'),
+    ('2026-08-20-xinhua', 'https://my-h5news.app.xinhuanet.com/h5/article.html?articleId=202608203e35219b86a246b1b81ae8e6e27ce91c&share_device_token=7cff50aacd127a88051ecd31a8ba5ec3&share_time=1787238658710&share_type=2'),
     ('2025-12-04-huaxiawa', 'http://www.hqxwtoutiao.com/?p=63881'),
     ('2025-12-05-asiaeconomy', 'https://www.asiaeconomynews.com/page193.html?article_id=852'),
     ('2025-12-07-macaudaily', 'https://www.modaily.cn/app/szb/pc/content/202512/07/content_450225.html'),
@@ -81,7 +86,8 @@ def build():
   </details>
 </article>''')
 
-    today = '2026-10-17'
+    # 存檔日期：取全域最新一篇的抓取時間（md 內 front-matter 的「存檔日期」），避免寫死
+    today = '2026-10-18'
     doc = f'''<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
