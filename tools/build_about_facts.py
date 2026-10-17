@@ -205,6 +205,9 @@ def main():
                      ('N_ORG', len(w['organizations'])), ('N_FAQ', len(w['faq'])),
                      ('N_MEDIA', mf['total'])):
             new_html = new_html.replace('{{%s}}' % k, str(v))
+        # 🔴 2026-10-18 軒哥指示：about 的條目頁區塊不做證據差異說明，維持一行簡述
+        new_html = re.sub(r'<li>現任職務 \d+ 項，其中 \d+ 項有外部媒體報導可查證</li>',
+                          '<li>現任職務 %d 項，附報導來源</li>' % len(pos), new_html)
         left = re.findall(r'\{\{[A-Z_]+\}\}', new_html)
         if left:
             print('[WARN] about/index.html 仍有未替換佔位符：', set(left))

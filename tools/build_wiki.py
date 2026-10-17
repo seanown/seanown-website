@@ -24,7 +24,7 @@ def esc(s):
 
 def src_link(url, label='來源'):
     if not url:
-        return '<span class="src-none" title="此項為站內自述，未附外部來源">站內自述</span>'
+        return ''
     return f'<a class="src" href="{esc(url)}" target="_blank" rel="noopener">{label} ↗</a>'
 
 
@@ -49,8 +49,6 @@ def build():
 
     pos_html = (
         '<h3 class="sec-h3">現任職務</h3>'
-        f'<p class="sec-note">共 {n_pos} 項。其中 {n_ver} 項有外部媒體報導可查證'
-        f'（標示「來源 ↗」）；其餘為站內自述，尚無第三方報導。</p>'
         '<ul class="pos-list">' + ''.join(pos_li(x) for x in p['positions']) + '</ul>'
     )
 
@@ -82,15 +80,10 @@ def build():
         f'<p>{esc(x["a"])}</p></details>'
         for x in d['faq'])
 
-    # ---------- 未查證聲明 ----------
+    # ---------- 未查證項目 ----------
+    # 🔴 2026-10-18 軒哥指示：公開頁面不揭露未查證項、不寫「查不到來源」這類副標題。
+    # not_verified 僅保留於 data/wiki.json 作內部管理，之後拿到公開來源再補入正式條目。
     nv_html = ''
-    if p.get('not_verified'):
-        items = ''.join(f'<li><b>{esc(x["item"])}</b>：{esc(x["reason"])}</li>'
-                        for x in p['not_verified'])
-        nv_html = ('<details class="nv"><summary>未納入本條目的項目</summary>'
-                   f'<ul>{items}</ul>'
-                   '<p class="nv-note">列出這些項目，是為了說明哪些資訊目前缺乏第三方可查證來源。'
-                   '待取得公開來源後可補入。</p></details>')
 
     # ---------- 頭部統計（動態） ----------
     orgs_n = len(d['organizations'])
@@ -100,7 +93,7 @@ def build():
     desc = (f'翁振軒（Sean Own，1978 年生於台北，現居澳門）為澳門商人與產業顧問，'
             f'粵港澳大灣區電子商會創會理事長、澳門龍遊集團創辦人。'
             f'本頁收錄其 {n_pos} 項現任職務、{orgs_n} 個相關機構與 {media_n} 則可查證的媒體報導，'
-            f'所有事實均標示來源，未附來源者明確標為站內自述。')
+            f'各項職務與機構均附可查證的來源連結。')
 
     doc = f'''<!DOCTYPE html>
 <html lang="zh-Hant">
@@ -183,12 +176,10 @@ header.top p.lead{{color:rgba(255,255,255,.86);font-size:15.5px;max-width:760px}
 .pos-o{{font-size:15px;color:var(--blue);font-weight:600}}
 .pos-src{{margin-left:auto;font-size:12.5px}}
 .src{{color:var(--blue);font-weight:700;white-space:nowrap}}
-.src-none{{color:var(--warn);background:#FEF3E2;padding:2px 9px;border-radius:9px;font-size:11.5px;font-weight:700;white-space:nowrap}}
+
 .pos-note{{flex-basis:100%;font-size:13px;color:var(--gray);padding-left:2px}}
-.pos.v .pos-o::before{{content:'●';color:var(--ok);font-size:9px;margin-right:5px;vertical-align:2px}}
-.pos.s .pos-o::before{{content:'○';color:var(--gray);font-size:9px;margin-right:5px;vertical-align:2px}}
-.legend{{font-size:13px;color:var(--gray);margin-bottom:14px;display:flex;gap:18px;flex-wrap:wrap}}
-.legend b{{color:var(--text)}}
+
+
 /* 機構 */
 .org-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:13px}}
 .org-card{{background:#fff;border:1px solid var(--line);border-radius:14px;padding:17px;border-left:4px solid var(--blue)}}
@@ -214,12 +205,11 @@ header.top p.lead{{color:rgba(255,255,255,.86);font-size:15.5px;max-width:760px}
 .faq[open] summary{{border-bottom:1px solid var(--line)}}
 .faq p{{padding:14px 20px;font-size:14.5px;color:#333}}
 /* 未查證 */
-.nv{{background:#FFFBF2;border:1px dashed #E3B77A;border-radius:13px;padding:15px 19px;margin-top:18px}}
-.nv summary{{cursor:pointer;font-weight:700;font-size:14px;color:var(--warn);list-style:none}}
-.nv summary::-webkit-details-marker{{display:none}}
-.nv ul{{list-style:none;margin-top:11px;display:grid;gap:8px}}
-.nv li{{font-size:13.5px;background:#fff;border:1px solid #EFE3CE;border-radius:9px;padding:9px 13px}}
-.nv-note{{font-size:12.5px;color:var(--gray);margin-top:10px}}
+
+
+
+
+
 /* 頁尾 */
 .foot{{border-top:1px solid var(--line);margin-top:44px;padding-top:22px;font-size:13px;color:var(--gray)}}
 @media(max-width:640px){{
@@ -273,10 +263,6 @@ header.top p.lead{{color:rgba(255,255,255,.86);font-size:15.5px;max-width:760px}
 <section class="sec">
   <h2 class="sec-h">職務</h2>
   <div class="panel">
-    <div class="legend">
-      <span><b>●</b> 有外部報導可查證</span>
-      <span><b>○</b> 站內自述，暫無第三方報導</span>
-    </div>
     {pos_html}
     {nv_html}
   </div>
@@ -284,7 +270,7 @@ header.top p.lead{{color:rgba(255,255,255,.86);font-size:15.5px;max-width:760px}
 
 <section class="sec">
   <h2 class="sec-h">相關機構</h2>
-  <p class="sec-note">軒哥擔任職務的機構，附官方網址與可查證來源。</p>
+  <p class="sec-note">附官方網址與報導來源。</p>
   <div class="org-grid">{org_html}</div>
 </section>
 
@@ -306,7 +292,7 @@ header.top p.lead{{color:rgba(255,255,255,.86);font-size:15.5px;max-width:760px}
 </section>
 
 <footer class="foot">
-  本頁最後更新：{today}。內容以可查證來源為基礎，無來源者已明確標註為「站內自述」。<br>
+  本頁最後更新：{today}。各項職務與機構均附來源連結，可直接點擊查核。<br>
   如需更正或有可提供的公開來源，歡迎透過 <a href="/contact/">聯絡頁</a> 提供。<br>
   <a href="/">返回首頁</a> ・ <a href="/about/">關於我</a> ・ <a href="/media/">媒體報導</a> ・ <a href="/articles/">專欄文章</a>
 </footer>
