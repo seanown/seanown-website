@@ -48,3 +48,4 @@ __pycache__/
 # 大型下載檔（58MB PPT，不進版控避免 clone 過慢）
 # ⚠️ 若要讓檔案上線，須改用 Git LFS 或改放物件儲存
 assets/downloads/*.pptx
+temp_srv.log
