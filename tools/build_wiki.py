@@ -28,6 +28,25 @@ def src_link(url, label='來源'):
     return f'<a class="src" href="{esc(url)}" target="_blank" rel="noopener">{label} ↗</a>'
 
 
+def honor_block(honors):
+    """榮譽區：每項列出獎項、頒發單位、日期與文件出處。"""
+    if not honors:
+        return ''
+    rows = []
+    for h in honors:
+        src = h.get('source_url', '')
+        link = (f'<a class="src" href="{esc(src)}" target="_blank" rel="noopener">來源 ↗</a>'
+                if src else f'<span class="h-src">{esc(h.get("source_doc", ""))}</span>')
+        note = f'<span class="pos-note">{esc(h["note"])}</span>' if h.get('note') else ''
+        rows.append(f'<li class="honor"><span class="honor-t">{esc(h["item"])}</span>'
+                    f'<span class="honor-o">{esc(h["issuer"])}　{esc(h["date"])}</span>'
+                    f'<span class="pos-src">{link}</span>{note}</li>')
+    return ('<h3 class="sec-h3">榮譽</h3>'
+            '<ul class="pos-list honor-list">' + ''.join(rows) + '</ul>'
+            '<p class="sec-note" style="margin-top:10px">'
+            '文件原件存放於站內 <code>assets/docs/</code>，可依原始出處核對。</p>')
+
+
 def build():
     d = json.load(io.open(SRC, encoding='utf-8'))
     p = d['person']
@@ -51,6 +70,9 @@ def build():
         '<h3 class="sec-h3">現任職務</h3>'
         '<ul class="pos-list">' + ''.join(pos_li(x) for x in p['positions']) + '</ul>'
     )
+
+    # ---------- 榮譽 ----------
+    honor_html = honor_block(p.get('honors') or [])
 
     # ---------- 機構 ----------
     def org_card(x):
@@ -88,6 +110,7 @@ def build():
     # ---------- 頭部統計（動態） ----------
     orgs_n = len(d['organizations'])
     media_n = len(media)
+    n_honor = len(p.get('honors') or [])
     media_with_url = sum(1 for m in media if m.get('url'))
 
     desc = (f'翁振軒（Sean Own，1978 年生於台北，現居澳門）為澳門商人與產業顧問，'
@@ -178,6 +201,12 @@ header.top p.lead{{color:rgba(255,255,255,.86);font-size:15.5px;max-width:760px}
 .src{{color:var(--blue);font-weight:700;white-space:nowrap}}
 
 .pos-note{{flex-basis:100%;font-size:13px;color:var(--gray);padding-left:2px}}
+.honor{{align-items:flex-start}}
+.honor-t{{font-weight:700;font-size:15px;min-width:100%;display:block}}
+.honor-o{{font-size:14px;color:var(--blue);font-weight:600;display:block}}
+.h-src{{font-size:12.5px;color:var(--gray);line-height:1.65}}
+.honor-list{{margin-bottom:4px}}
+code{{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#F0F4F8;padding:1px 6px;border-radius:5px;color:var(--blue)}}
 
 
 /* 機構 */
@@ -258,6 +287,7 @@ header.top p.lead{{color:rgba(255,255,255,.86);font-size:15.5px;max-width:760px}
     <tr><th>學歷</th><td>{''.join(f'{esc(x["item"])}｜{esc(x["detail"])} {src_link(x.get("source_url"))}' for x in p['education'])}</td></tr>
     <tr><th>主要職務</th><td>粵港澳大灣區電子商會會長、澳門龍遊集團創辦人暨董事總經理</td></tr>
   </table>
+  {honor_html}
 </section>
 
 <section class="sec">

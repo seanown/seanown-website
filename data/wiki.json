@@ -112,12 +112,20 @@
         "note": "華人頭條 2023-06-17 專訪；澳門力報 2023-06-15 同題"
       }
     ],
-    "not_verified": [
+    "honors": [
       {
-        "item": "ECI 2025 年度數位創新影響力人物",
-        "reason": "站內宣稱，但未找到可查證的外部來源（ECI 官網或第三方報導），故不寫入維基條目"
+        "item": "ECI AWARDS 2025 年度數字創新影響力人物",
+        "issuer": "IECIA 國際數字創新組織／ECI AWARDS 國際艾奇獎組委會",
+        "date": "2026-01-04",
+        "document": "入選通知函（評審委員會評議後發出）",
+        "doc_path": "assets/docs/ECI-Awards-2025-年度数字创新影响力人物-入选通知函.pdf",
+        "note": "第11屆 ECI FESTIVAL 國際數字創新節（2026-01-14至17，廣州）年度頒獎盛典頒發",
+        "evidence": "verified",
+        "source_url": "",
+        "source_doc": "IECIA／ECI AWARDS 組委會《ECI AWARDS 2025 年度創新人物入選通知函》，2026年1月4日，署名「馮思延 Faye，ECI 組委會秘書長」"
       }
-    ]
+    ],
+    "not_verified": []
   },
   "organizations": [
     {
