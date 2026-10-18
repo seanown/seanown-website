@@ -281,7 +281,7 @@ code{{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;b
   <h2 class="sec-h">基本資料</h2>
   <table class="infobox">
     <tr><th>姓名</th><td>{esc(p['name_zh'])}（{esc(p['name_en'])}）</td></tr>
-    <tr><th>出生</th><td>{p['birth_year']} 年，{esc(p['birth_place'])}</td></tr>
+    <tr><th>出生</th><td>{p['birth_year']} 年，{esc(p['birth_place'])} {src_link(p.get('birth_source_url'))}</td></tr>
     <tr><th>祖籍</th><td>{esc(p['ancestral_home'])}</td></tr>
     <tr><th>現居</th><td>{esc(p['residence'])}</td></tr>
     <tr><th>學歷</th><td>{''.join(f'{esc(x["item"])}｜{esc(x["detail"])} {src_link(x.get("source_url"))}' for x in p['education'])}</td></tr>

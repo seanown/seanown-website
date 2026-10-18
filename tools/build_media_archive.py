@@ -15,6 +15,8 @@ BY_URL = {m.get('url'): m for m in MEDIA}
 # 對應關係：存檔資料夾 → media.json 的原文連結
 MAP = [
     # 依日期倒序（新報導在前）；補新報導時插在最前面
+    ('2026-10-10-longyou-xunbao', 'https://mp.weixin.qq.com/s?__biz=Mzg5Mzc0OTAwNQ==&mid=2247634784&idx=1&sn=0e4fc349a98bcba12138333f78c88f1b'),
+    ('2026-06-15-longyou-roots', 'https://mp.weixin.qq.com/s?__biz=MzA5NzQ5OTE3NA==&mid=2247583487&idx=1&sn=9255f63d4a19c6a7439f638a251098cb'),
     ('2026-08-20-ifeng', 'https://macao.ifeng.com/c/8vkEuuyOiU4'),
     ('2026-08-20-tkww', 'https://www.tkww.hk/a/202608/20/AP6a86c0a2e4b099d2ba48fa7a.html'),
     ('2026-08-20-macaobusiness', 'https://www.macaobusinessnews.com/?p=95609'),

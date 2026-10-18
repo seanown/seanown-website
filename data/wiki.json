@@ -14,24 +14,25 @@
       {
         "item": "加州大學柏克萊分校（UC Berkeley）",
         "detail": "交叉學科研究（Interdisciplinary Studies），1997–2001",
-        "source_url": "",
-        "evidence": "stated"
+        "source_url": "https://mp.weixin.qq.com/s?__biz=MzA5NzQ5OTE3NA==&mid=2247583487&idx=1&sn=9255f63d4a19c6a7439f638a251098cb",
+        "evidence": "verified",
+        "note": "龍遊縣官方媒體《龙游传媒》刊載之作者簡介（三審三校確認）載明「畢業於美國加州大學伯克利分校，獲交叉學科研究學士學位」；軒哥另持有畢業證書與 Parchment 官方成績單"
       }
     ],
     "positions": [
       {
         "title": "創辦人暨董事總經理",
         "org": "澳門龍遊集團",
-        "source_url": "",
-        "evidence": "stated",
-        "note": "澳門日報 2023-11-16 稱其為「龍遊集團董事總經理」"
+        "source_url": "https://mp.weixin.qq.com/s?__biz=MzA5NzQ5OTE3NA==&mid=2247583487&idx=1&sn=9255f63d4a19c6a7439f638a251098cb",
+        "evidence": "verified",
+        "note": "《龙游传媒》作者简介列明「現任澳門龍遊集團創辦人暨董事總經理」（三審三校確認）"
       },
       {
         "title": "會長／創會理事長",
         "org": "粵港澳大灣區電子商會",
         "source_url": "https://www.houkongdailynews.com/sectionNews/117858",
         "evidence": "verified",
-        "note": "濠江日報 2024 年報導稱「粵港澳大灣區電子商會理事長翁振軒」；2025-12 亞洲經濟報稱「會長」"
+        "note": "濠江日報 2024 年報導稱「粵港澳大灣區電子商會理事長翁振軒」；2025-12 亞洲經濟報稱「會長」；另見《龙游传媒》作者簡介列明「粵港澳大灣區電子商會會長」（三審三校確認）"
       },
       {
         "title": "聯合創始人",
@@ -77,7 +78,7 @@
         "org": "澳門台灣青年企業家協會",
         "source_url": "https://www.modaily.cn/app/szb/pc/content/202512/20/content_452863.html",
         "evidence": "verified",
-        "note": "澳門日報 2025-12-20 稱「澳門台灣青年企業家協會理事長翁振軒」"
+        "note": "澳門日報 2025-12-20 稱「澳門台灣青年企業家協會理事長翁振軒」；《龙游传媒》作者簡介亦列明「澳門台灣青年企業家協會理事長」，與澳門日報 2025-12-20 報導一致"
       },
       {
         "title": "電子商務專委會主任",
@@ -125,7 +126,10 @@
         "source_doc": "IECIA／ECI AWARDS 組委會《ECI AWARDS 2025 年度創新人物入選通知函》，2026年1月4日，署名「馮思延 Faye，ECI 組委會秘書長」"
       }
     ],
-    "not_verified": []
+    "not_verified": [],
+    "birth_source_url": "https://mp.weixin.qq.com/s?__biz=MzA5NzQ5OTE3NA==&mid=2247583487&idx=1&sn=9255f63d4a19c6a7439f638a251098cb",
+    "birth_note": "龍遊縣官方媒體《龙游传媒》刊載之作者簡介（三審三校確認）載明「1978年生於台灣台北，祖籍浙江衢州龍遊，現居澳門」",
+    "ancestral_note": "祖籍經當地查證：2026 年 6 月應邀參加第三屆長三角·大灣區百位台商走進衢州暨衢台經貿交流活動，回祖籍地龍遊；龍遊縣官方媒體以〈風雅龍遊〉專題刊載其返鄉隨筆與作者簡介"
   },
   "organizations": [
     {
