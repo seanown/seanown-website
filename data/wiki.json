@@ -109,6 +109,13 @@
         "source_url": "https://www.52hrtt.com/zjg/n/w/info/G1685710646307",
         "evidence": "verified",
         "note": "華人頭條 2023-06-17 專訪、澳門力報 2023-06-15 同題報導"
+      },
+      {
+        "title": "監事長",
+        "org": "粵港澳大灣區數字產業協會",
+        "source_url": "https://www.modaily.cn/app/szb/pc/content/202303/14/content_250034.html",
+        "evidence": "verified",
+        "note": "澳門日報 2023-03-14、2023-03-17 兩度載其名為該會監事長，並引述其「今年是 AI 時代爆發的一年」等發言"
       }
     ],
     "honors": [
@@ -118,10 +125,11 @@
         "date": "2026-01-04",
         "document": "入選通知函（評審委員會評議後發出）",
         "doc_path": "assets/docs/ECI-Awards-2025-年度数字创新影响力人物-入选通知函.pdf",
-        "note": "第11屆 ECI FESTIVAL 國際數字創新節（2026-01-14至17，廣州）年度頒獎盛典頒發",
+        "note": "入選通知函由 IECIA／ECI AWARDS 組委會於 2026-01-04 發出。當日未親赴廣州頒獎現場。",
         "evidence": "verified",
         "source_url": "",
-        "source_doc": "IECIA／ECI AWARDS 組委會《ECI AWARDS 2025 年度創新人物入選通知函》，2026年1月4日，署名「馮思延 Faye，ECI 組委會秘書長」"
+        "source_doc": "IECIA／ECI AWARDS 組委會《ECI AWARDS 2025 年度創新人物入選通知函》，2026年1月4日",
+        "attended": false
       }
     ],
     "not_verified": [],
@@ -135,6 +143,24 @@
         "term": "第一、二屆",
         "status": "暫不對外顯示",
         "reason": "站上原掛的澳門日報2025-06-29與力報同期報導，經查證均為第三屆理監事就職典禮報導（會長黃輝、理事長陸連金），全文未提及本人，不構成佐證，已移除。軒哥確認任第一、二屆，第三屆名單不含其名，與屆次相符。目前無第三方佐證，待日後向會長反映並取得公開報導後再上架。"
+      }
+    ],
+    "portrait": {
+      "status": "ready",
+      "owner": "本人所有，本人同意釋出",
+      "license": "CC BY-SA 4.0",
+      "primary": "assets/portraits/portrait-1x1.jpg",
+      "alt": "assets/portraits/portrait-4x5.jpg",
+      "original": "assets/portraits/portrait-original.jpg",
+      "note": "米色背景版本；維基頭像以淺色中性背景為主",
+      "confirmed": "2026-10-18 軒哥確認"
+    },
+    "honors_internal": [
+      {
+        "item": "ECI AWARDS 2025 年度數字創新影響力人物",
+        "status": "站內保留、不對外展示於榮譽區",
+        "reason": "① 官網公開名單（dateils?id=2019356284420243456，七類別 29 位）未列其名，係當日未親赴現場領獎所致；官方稱評出 34 位、海報列出 29 位，差額可能即含未出席者。② 維基百科不接受未公開發布之私人文件作為來源。③ 站上條目頁公開展示此榮譽，等同邀請查核；一旦與官網名單落差，將連帶影響其餘 13 項已查證職務之可信度。",
+        "restore_condition": "取得 IECIA／ECI 官方出具之補發證明，或官網名單更正／增列。"
       }
     ]
   },
@@ -206,6 +232,14 @@
       "desc": "澳門主要社團聯盟之一，設有文化產業發展部。",
       "evidence": "verified",
       "source_url": "https://hkdaily-app.bpprojects.com/sectionNews/129928"
+    },
+    {
+      "name": "粵港澳大灣區數字產業協會",
+      "role": "監事長",
+      "url": "",
+      "desc": "澳門推廣數據智能與數字產業的協會組織，推動澳門企業「走出去」參與大灣區發展。",
+      "evidence": "verified",
+      "source_url": "https://www.modaily.cn/app/szb/pc/content/202303/14/content_250034.html"
     }
   ],
   "glossary": [
