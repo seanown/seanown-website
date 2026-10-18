@@ -11,6 +11,8 @@ SRC = os.path.join(ROOT, 'data', 'wiki.json')
 OUT = os.path.join(ROOT, 'wiki', 'index.html')
 MEDIA = os.path.join(ROOT, 'data', 'media.json')
 
+import media_links
+
 e = html.escape
 
 
@@ -53,13 +55,34 @@ def build():
     media = json.load(io.open(MEDIA, encoding='utf-8'))['media']
     today = datetime.date.today().isoformat()
 
+    # 相關報道連結樣式（以普通字串注入，避免 f-string 雙括號轉義問題）
+    REL_CSS = ('.pos-rel{flex-basis:100%;font-size:12px;color:var(--gray);margin-top:4px}'
+               '.rel-link{display:inline-block;margin-right:8px;color:var(--blue);'
+               'text-decoration:none;border-bottom:1px dotted var(--blue)}'
+               '.rel-link:hover{color:var(--gold);border-bottom-color:var(--gold)}'
+               '.rel-more{color:var(--gray)}')
+
     # ---------- 職務（verified 優先，其餘依原順序） ----------
+    # 報道→機構對照（由 tools/media_links.py 維護）
+    m2org = media_links.media_org_map()
+
     def pos_li(x):
         cls = 'v' if x.get('evidence') == 'verified' else 's'
         note = f'<span class="pos-note">{esc(x["note"])}</span>' if x.get('note') else ''
-        return (f'<li class="pos {cls}"><span class="pos-t">{esc(x["title"])}</span>'
+        sid = media_links.org_slug(x['org'])
+        # 反向：找出所有相關報道（連到媒體頁錨點）
+        rel = ''
+        hits = [m for m in media if m.get('title') and
+                m2org.get(m['title'], '') == sid]
+        if hits:
+            items = ''.join(
+                f'<a class="rel-link" href="/media/#m-{esc(media_links.org_slug(m["title"]))}">'
+                f'{esc(m["source"])} {esc(m["date"])}</a>' for m in hits[:4])
+            more = f'<span class="rel-more">等 {len(hits)} 則</span>' if len(hits) > 4 else ''
+            rel = f'<span class="pos-rel">相關報道：{items}{more}</span>'
+        return (f'<li class="pos {cls}" id="pos-{sid}"><span class="pos-t">{esc(x["title"])}</span>'
                 f'<span class="pos-o">{esc(x["org"])}</span>'
-                f'<span class="pos-src">{src_link(x.get("source_url"))}</span>{note}</li>')
+                f'<span class="pos-src">{src_link(x.get("source_url"))}</span>{note}{rel}</li>')
 
     verified = [x for x in p['positions'] if x.get('evidence') == 'verified']
     stated = [x for x in p['positions'] if x.get('evidence') != 'verified']
@@ -248,6 +271,7 @@ code{{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;b
   .infobox th{{width:auto}}
   .pos-src{{margin-left:0;flex-basis:100%}}
 }}
+{REL_CSS}
 </style>
 </head>
 <body>

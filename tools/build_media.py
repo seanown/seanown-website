@@ -5,13 +5,23 @@
 原因：原本 /media/ 內容全靠 JS fetch，SEO 爬蟲抓不到任何報導標題／來源／連結。
 做法：Python 生成靜態 HTML（保留 media.json 為唯一資料源，之後重跑此腳本即可更新）。
 """
-import json, os, html, datetime
+import json, os, html, datetime, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import media_links
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'data', 'media.json')
 OUT = os.path.join(ROOT, 'media', 'index.html')
 
 ORDER = ['論壇盛會', '文化盛事', '考察交流', '專訪報導', '產業動態', '其他']
+
+M2ORG = media_links.media_org_map()
+# 相關職務標籤樣式（普通字串，避開 f-string 雙括號）
+MREL_CSS = ('.m-rel{margin:6px 0 2px}'
+            '.m-pos{display:inline-block;font-size:11.5px;color:var(--blue);'
+            'background:#EEF3FA;border:1px solid #D6E2F2;border-radius:10px;'
+            'padding:2px 9px;text-decoration:none;transition:all .2s}'
+            '.m-pos:hover{background:var(--blue);color:#fff;border-color:var(--blue)}')
 
 
 def esc(s):
@@ -73,11 +83,17 @@ def build():
             else:
                 action = '<span class="m-link is-none">現場紀錄・無公開原文</span>'
                 tgt = ''
+            mid = media_links.org_slug(m.get('title', ''))
+            org = M2ORG.get(m.get('title', ''), '')
+            pos_tag = (f'<a class="m-pos" href="/wiki/#pos-{esc(org)}">{esc(org)}</a>'
+                       if org else '')
+            rel_div = f'<div class="m-rel">{pos_tag}</div>' if pos_tag else ''
             cards.append(
-                f'<li class="m-item">'
+                f'<li class="m-item" id="m-{esc(mid)}">'
                 f'<div class="m-meta"><time datetime="{esc(m.get("date"))}">{date}</time>'
                 f'<span class="m-src">{src}</span></div>'
                 f'<h3 class="m-title">{title}{tgt and "" or ""}</h3>'
+                + rel_div +
                 f'<div class="m-cta">{action}</div>'
                 f'</li>'
             )
@@ -300,6 +316,7 @@ img{{max-width:100%;display:block}}
 @media(max-width:860px){{
 }}
 @media(min-width:861px){{}}
+{MREL_CSS}
 </style>
 </head>
 <body>
