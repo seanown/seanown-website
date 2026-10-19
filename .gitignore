@@ -52,3 +52,10 @@ temp_srv.log
 
 # 維基上條目準備文件（內部，不公開、不入庫）
 wiki/_prep/
+
+# 驗收用草稿副本（正式稿已入 data/posts.json，outputs/ 僅供對照用）
+# ⚠️ 勿用 outputs/*.md 之類寬泛規則
+outputs/
+
+# 維基條目人物肖像素材（無頁面引用，屬內部準備資料）
+assets/portraits/
