@@ -2279,25 +2279,86 @@ CATS = ['澳門電影', '影評', '澳門觀察', '生活隨筆', '文化隨筆'
 
 
 def build_list(posts):
-    """雜誌目錄式專欄列表頁：articles/index.html（靜態卡片 + JS 分類過濾）"""
-    # 一般卡與直式海報卡（2:3）混排於同一 3 欄 grid，海報卡高約 1.5 倍會撐高同列一般卡，
-    # 造成摘要下方大片留白（2026-10-17 軒哥指出）。做法：一般卡底部補 meta 區（分類＋閱讀全文），
-    # 摘要字數由 62 放寬至 92，讓留白轉為有內容的呼吸空間。
-    # ⚠️ 此段獨立於 page 模板（用 {lc_css} 引入），因模板以 .format() 渲染，
-    #    CSS 若直接寫在模板內，含 % 的值（如寬度百分比）會被當成格式佔位符而報錯。
+    """雜誌目錄式專欄列表頁：articles/index.html
+
+    🔴 2026-10-24 軒哥指示：電影觀後感與其他專欄文章「不要放在一起」。
+    原因（技術根因）：CSS Grid 預設 align-items:stretch，混排時 2:3 直式海報卡
+    會把同列的 16:9 橫幅卡撐到等高，橫幅卡摘要下方就留出一大片空白。
+    舊解法（2026-10-17）只在一般卡底部補 meta 區「把留白轉成呼吸空間」，
+    治標不治本——兩種版式（2:3 海報 vs 16:9 橫幅）混在一個 grid 裡，
+    視覺永遠不可能整齊。
+
+    新結構（上下兩區，各用各的網格）：
+      ① 專欄文章 COLUMNS  → 16:9 橫幅卡，自然高度（align-items:start），摘要統一字數
+      ② 電影觀後感 REVIEWS → 2:3 直式海報卡，最新 12 部 ＋「看全部」按鈕
+    電影區卡片樣式沿用電影專輯頁的 poster-card（auto-fill 自適應欄數）。
+
+    ⚠️ 此段獨立於 page 模板（用 {lc_css} 引入），因模板以 .format() 渲染，
+       CSS 若直接寫在模板內，含 % 的值（如寬度百分比）會被當成格式佔位符而報錯。
+    """
     LC_CSS = """
-.lc-card:not(.poster) .lc-body{justify-content:flex-start}
-.lc-card:not(.poster) p{flex:0 0 auto}
-.lc-card:not(.poster) .lc-foot{margin-top:auto;padding-top:12px;font-size:11.5px;color:var(--gray);
+/* ---- 區塊骨架 ---- */
+.sec-block{max-width:1180px;margin:0 auto;padding:0 24px}
+.sec-head{margin:52px 0 4px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.sec-head .sh-l{min-width:0}
+.sec-head .sh-kicker{font-size:12px;letter-spacing:4px;color:var(--gold-dark);font-weight:800;margin-bottom:8px}
+.sec-head h2{font-size:28px;color:var(--blue);font-weight:800;letter-spacing:1px;line-height:1.3}
+.sec-head .sh-sub{font-size:13.5px;color:var(--gray);margin-top:6px}
+.sec-head .sh-all{display:inline-block;background:var(--blue);color:#fff;font-size:13.5px;font-weight:700;
+  padding:9px 18px;border-radius:999px;white-space:nowrap;transition:background .2s}
+.sec-head .sh-all:hover{background:var(--blue-dark)}
+.rule{height:2px;background:linear-gradient(90deg,var(--gold),rgba(253,181,21,0) 62%);margin:16px 0 26px;border-radius:2px}
+
+/* ---- 區塊一：專欄文章（16:9 橫幅，自然高度） ---- */
+.col-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:start}
+.lc-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;color:inherit}
+.lc-card:hover{transform:translateY(-5px);box-shadow:0 18px 44px rgba(0,38,118,.13)}
+.lc-img{aspect-ratio:16/9;overflow:hidden}
+.lc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.lc-card:hover .lc-img img{transform:scale(1.04)}
+.lc-body{padding:20px 22px 22px;flex:1;display:flex;flex-direction:column}
+.lc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.lc-tag{font-size:12px;font-weight:700;color:var(--blue);background:var(--gold-light);padding:3px 11px;border-radius:10px}
+.lc-date{font-size:12px;color:var(--gray)}
+.lc-card h2{font-size:17.5px;line-height:1.5;color:var(--blue);margin-bottom:8px;font-weight:800;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lc-card p{font-size:13.5px;color:var(--gray);line-height:1.7;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.lc-card .lc-foot{margin-top:16px;padding-top:12px;font-size:11.5px;color:var(--gray);
   border-top:1px solid var(--line);display:flex;align-items:center;gap:8px}
-.lc-card:not(.poster) .lc-foot .lc-tag{font-size:11px;padding:2px 9px}
-.lc-card:not(.poster) .lc-more{margin-left:auto;font-weight:700;color:var(--gold-dark);opacity:.85}
-.lc-card:hover:not(.poster) .lc-more{opacity:1}
-@media(max-width:900px){.lc-card:not(.poster) .lc-foot{padding-top:10px}}
+.lc-card .lc-foot .lc-tag{font-size:11px;padding:2px 9px}
+.lc-card .lc-more{margin-left:auto;font-weight:700;color:var(--gold-dark);opacity:.85}
+.lc-card:hover .lc-more{opacity:1}
+
+/* ---- 區塊二：電影觀後感（2:3 直式海報） ---- */
+.rev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:22px}
+.rev-card{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:all .22s;color:inherit}
+.rev-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,8,32,.12);border-color:var(--gold)}
+.rev-card .r-img{aspect-ratio:2/3;overflow:hidden;background:var(--bg)}
+.rev-card .r-img img{width:100%;height:100%;object-fit:contain;display:block;transition:transform .3s}
+.rev-card:hover .r-img img{transform:scale(1.04)}
+.rev-card .r-cap{padding:10px 12px 13px}
+.rev-card .r-title{font-size:15px;font-weight:800;color:var(--text);line-height:1.4}
+.rev-card .r-year{font-size:12px;color:var(--gray);margin-top:3px;letter-spacing:.5px}
+.rev-card .r-info{display:block;text-align:center;font-size:12px;font-weight:700;color:var(--blue);padding:8px 0 2px;letter-spacing:1px}
+.rev-card:hover .r-info{color:var(--gold-dark)}
+
+@media(max-width:960px){.col-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.col-grid{grid-template-columns:1fr}.sec-block{padding:0 16px}
+  .sec-head{margin:40px 0 2px}.sec-head h2{font-size:22px}
+  .rev-grid{grid-template-columns:repeat(3,1fr);gap:14px}}
+@media(max-width:420px){.rev-grid{grid-template-columns:repeat(2,1fr)}}
 """
     items = sorted(posts, key=lambda p: str(p.get('date', '')), reverse=True)
-    cards = ''
-    for p in items:
+    # 2026-10-24 軒哥指示：電影觀後感與其他專欄文章分區，不混排。
+    # 電影依年份倒序（最新上映的先），非電影依上線日期倒序。
+    col_items = [p for p in items if 'macau-film' not in _series_list(p)]
+    rev_items = [p for p in items if 'macau-film' in _series_list(p)]
+    rev_items.sort(key=lambda p: (int(p.get('filmYear') or 0), str(p.get('date', ''))), reverse=True)
+    REV_SHOW = 12
+
+    col_cards = ''
+    for p in col_items:
         num = str(p.get('num', '')).strip()
         slug = SLUGS.get(num) or ('post-' + num)
         title = (p.get('title') or '').strip()
@@ -2307,38 +2368,39 @@ def build_list(posts):
         _ser = _ser if isinstance(_ser, list) else ([_ser] if _ser else [])
         cat = (SERIES_BY_ID.get(top_series_id(_ser[0]), {}) or {}).get('name', '') if _ser else ''
         date = (p.get('date') or '').strip()
-        is_film = 'macau-film' in _series_list(p)
         cover = ov('../assets/og/%s.jpg' % slug)
-        if is_film:
-            # 電影卡：直海報（2:3）＋片名＋年份，與專輯頁統一風格
-            fy = p.get('filmYear')
-            try:
-                fy = int(fy)
-            except (TypeError, ValueError):
-                fy = 0
-            name = re.sub(r'^《', '', title)
-            name = re.sub(r'》觀後感$', '', name) or title
-            cards += (
-                '<a class="lc-card poster" href="%s/article/%s/" data-cat="%s" data-fy="%d">'
-                '<div class="lc-img">%s</div>'
-                '<div class="lc-body"><div class="lc-top"><span class="lc-date">%s</span></div>'
-                '<h2>%s</h2><div class="lc-year">%s</div></div></a>'
-            ) % (SITE, slug, esc(cat), fy, film_poster_block(slug, name, '../'),
-                 date.replace('-', '.'), esc(name), esc(str(fy)))
-        else:
-            # 一般卡（非 poster）：摘要放寬至 92 字，底部補 meta 區（分類＋閱讀全文），
-            # 避免被同列海報卡撐高後留下大片空白（2026-10-17 軒哥指示）
-            lead = plain(p.get('body') or title, 92)
-            cards += (
-                '<a class="lc-card" href="%s/article/%s/" data-cat="%s">'
-                '<div class="lc-img"><img src="%s" alt="%s — %s 封面" loading="lazy"></div>'
-                '<div class="lc-body"><div class="lc-top"><span class="lc-date">%s</span></div>'
-                '<h2>%s</h2><p>%s</p>'
-                '<div class="lc-foot"><span class="lc-tag">%s</span>'
-                '<span class="lc-more">閱讀全文 →</span></div>'
-                '</div></a>'
-            ) % (SITE, slug, esc(cat), cover, esc(title), esc(cat),
-                 date.replace('-', '.'), esc(title), esc(lead), esc(cat))
+        # 摘要統一 78 字（軒哥 2026-10-24 指示：統一字數，視覺整齊）
+        lead = plain(p.get('body') or title, 78)
+        col_cards += (
+            '<a class="lc-card" href="%s/article/%s/" data-cat="%s">'
+            '<div class="lc-img"><img src="%s" alt="%s — %s 封面" loading="lazy"></div>'
+            '<div class="lc-body"><div class="lc-top"><span class="lc-date">%s</span></div>'
+            '<h2>%s</h2><p>%s</p>'
+            '<div class="lc-foot"><span class="lc-tag">%s</span>'
+            '<span class="lc-more">閱讀全文 →</span></div>'
+            '</div></a>'
+        ) % (SITE, slug, esc(cat), cover, esc(title), esc(cat),
+             date.replace('-', '.'), esc(title), esc(lead), esc(cat))
+
+    rev_cards = ''
+    for p in rev_items[:REV_SHOW]:
+        num = str(p.get('num', '')).strip()
+        slug = SLUGS.get(num) or ('post-' + num)
+        title = (p.get('title') or '').strip()
+        fy = p.get('filmYear')
+        try:
+            fy = int(fy)
+        except (TypeError, ValueError):
+            fy = 0
+        name = re.sub(r'^《', '', title)
+        name = re.sub(r'》觀後感$', '', name) or title
+        rev_cards += (
+            '<a class="rev-card" href="%s/article/%s/">'
+            '<div class="r-img">%s</div>'
+            '<div class="r-cap"><div class="r-title">%s</div>'
+            '<div class="r-year">%s</div>'
+            '<span class="r-info">觀後感 →</span></div></a>'
+        ) % (SITE, slug, film_poster_block(slug, name, '../'), esc(name), esc(str(fy)))
 
     # 輯資料：全部輯清單 + 欄目 → 輯（以該輯成員最多的分類歸屬）
     all_ser = []
@@ -2425,22 +2487,6 @@ html{{scroll-behavior:smooth}}
 .ser-panel a:hover span{{color:var(--gold)}}
 .ser-panel .sp-all{{border-color:var(--line);color:var(--gray);font-weight:600}}
 .grid{{max-width:1180px;margin:0 auto;padding:44px 24px 60px;display:grid;grid-template-columns:repeat(3,1fr);gap:26px}}
-.lc-card{{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;color:inherit}}
-.lc-card:hover{{transform:translateY(-5px);box-shadow:0 18px 44px rgba(0,38,118,.13)}}
-.lc-img{{aspect-ratio:16/9;overflow:hidden}}
-.lc-img img{{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}}
-.lc-card:hover .lc-img img{{transform:scale(1.04)}}
-.lc-body{{padding:20px 22px 22px;flex:1;display:flex;flex-direction:column}}
-.lc-top{{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}}
-.lc-tag{{font-size:12px;font-weight:700;color:var(--blue);background:var(--gold-light);padding:3px 11px;border-radius:10px}}
-.lc-date{{font-size:12px;color:var(--gray)}}
-.lc-card h2{{font-size:17.5px;line-height:1.5;color:var(--blue);margin-bottom:8px;font-weight:800}}
-.lc-card p{{font-size:13.5px;color:var(--gray);line-height:1.7;flex:1}}
-.lc-card.poster .lc-img{{aspect-ratio:2/3}}
-.lc-card.poster h2{{font-size:16px;margin-bottom:4px}}
-.lc-card.poster .lc-year{{font-size:12px;color:var(--gray);font-weight:700;letter-spacing:.5px}}
-.lc-card.poster .lc-img{{background:var(--bg)}}
-.lc-card.poster .lc-img img{{object-fit:contain}}
 .foot{{border-top:1px solid var(--line);padding:30px 24px 44px;text-align:center;font-size:13px;color:var(--gray);line-height:1.9}}
 .foot a{{color:var(--blue)}}
 .float-cta{{display:none;position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);font-size:14px;transition:transform .2s,box-shadow .2s}}
@@ -2470,7 +2516,32 @@ html{{scroll-behavior:smooth}}
 
 <div class="ser-jump" id="serjump">{ser_chips}</div>
 
-<main class="grid" id="grid">{cards}</main>
+<!-- ① 專欄文章（16:9 橫幅卡，自然高度） -->
+<section class="sec-block" id="sec-columns">
+<div class="sec-head">
+<div class="sh-l">
+<div class="sh-kicker">COLUMNS</div>
+<h2>專欄文章</h2>
+<div class="sh-sub">澳門產業觀察 · 數位經濟趨勢 · 商道與文化隨筆 — 共 {n_col} 篇</div>
+</div>
+</div>
+<div class="rule"></div>
+<div class="col-grid" id="colgrid">{col_cards}</div>
+</section>
+
+<!-- ② 電影觀後感（2:3 直式海報卡，獨立網格，不與上方混排） -->
+<section class="sec-block" id="sec-reviews">
+<div class="sec-head">
+<div class="sh-l">
+<div class="sh-kicker">FILM REVIEWS</div>
+<h2>電影觀後感</h2>
+<div class="sh-sub">一篇一部在澳門取景的電影：影評、澳門連接與生活在澳門 — 共 {n_rev} 篇</div>
+</div>
+<a class="sh-all" href="{site}/series/macau-film/">看全部 {n_rev} 部電影觀後感 →</a>
+</div>
+<div class="rule"></div>
+<div class="rev-grid" id="revgrid">{rev_cards}</div>
+</section>
 
 <footer class="foot">
 © 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/contact/">洽談合作</a><br>
@@ -2482,12 +2553,15 @@ html{{scroll-behavior:smooth}}
 </html>
 """.format(desc=esc(desc), url=url, og='%s/assets/og/articles.jpg' % SITE,
            ld=json.dumps(ld, ensure_ascii=False), site=SITE,
-           n=len(items), cards=cards, ser_chips=ser_chips, lc_css=LC_CSS)
+           n=len(items), n_col=len(col_items), n_rev=len(rev_items),
+           col_cards=col_cards, rev_cards=rev_cards,
+           ser_chips=ser_chips, lc_css=LC_CSS)
     d = os.path.join(ROOT, 'articles')
     os.makedirs(d, exist_ok=True)
     with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
         f.write(page)
-    print('generated /articles/ list page (%d cards)' % len(items))
+    print('generated /articles/ list page (專欄 %d + 電影 %d，電影區顯示 %d)' % (
+        len(col_items), len(rev_items), min(REV_SHOW, len(rev_items))))
 
 
 PAGE_NODE_RE = re.compile(r'\s+data-page-node-id="[A-Za-z0-9_-]+"')
