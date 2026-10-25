@@ -310,6 +310,7 @@ SLUGS = {
     '139': 'dancing-in-the-sea-breeze-2024',
     '140': 'france-social-unrest-deep-analysis',
     '141': 'macau-decode-hainan-dual-port',
+    '142': 'macau-decode-changchun',
 }
 
 
