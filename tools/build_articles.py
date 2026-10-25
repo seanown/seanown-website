@@ -1817,8 +1817,7 @@ def build_keypoints(kps):
     return ('\n\n<div class="kp"><p class="kp-kicker">KEY POINTS</p>'
             '<h2 class="kp-title">本堂重點（三句話）</h2>'
             '<ol class="kp-list">%s</ol>'
-            '<p class="kp-note">以下三句話是整堂課的骨架；正文把它們拆開講，'
-            '附錄則是可以直接印出來貼在會議室牆上的操作手冊。</p></div>' % li)
+            '</div>' % li)
 
 
 def build_speeches(slug):
