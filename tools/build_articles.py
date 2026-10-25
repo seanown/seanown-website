@@ -311,6 +311,7 @@ SLUGS = {
     '140': 'france-social-unrest-deep-analysis',
     '141': 'macau-decode-hainan-dual-port',
     '142': 'macau-decode-changchun',
+    '143': 'ai-zhongju',
 }
 
 
