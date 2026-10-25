@@ -69,6 +69,9 @@ h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bott
 .rule{width:56px;height:4px;background:var(--gold);border-radius:2px;margin:0 0 26px}
 .cover{margin:0 0 26px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10)}
 .cover img{width:100%;display:block}
+/* 2026-10-25 修圖片溢出：內文圖（.abody img）原無尺寸約束，1600px 圖會撐破 720px 欄、比例失真。
+   加 max-width:100%+height:auto 限制欄寬內並保原始比例，圓角+輕投影與封面視覺一致。*/
+.abody img{max-width:100%;height:auto;display:block;margin:18px auto 8px;border-radius:10px;box-shadow:0 4px 16px rgba(1,1,51,.08)}
 .vposter{margin:0 auto 28px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10);max-width:380px}
 .vposter img{width:100%;display:block}
 .article p{margin:0 0 20px;font-size:17px;text-align:justify}
