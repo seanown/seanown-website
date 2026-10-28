@@ -1,0 +1,3955 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>澳門新聞週報 10.19 — 10.25</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #F5F2EC;
+    --surface: #FFFFFF;
+    --ink: #1A1A1A;
+    --ink-2: #4A4A4A;
+    --ink-3: #888;
+    --line: #E0DDD5;
+    --brand: #0B3D2E;
+    --brand-light: #1A6B52;
+    --accent: #C75B12;
+    --accent-light: #F0A050;
+    --gold: #B8860B;
+    --c1: #2E5C8A;
+    --c2: #1A6B52;
+    --c3: #8B4513;
+    --c4: #6B2D8C;
+    --c5: #B8860B;
+    --c6: #A0333E;
+    --c7: #4A6B82;
+    --c8: #2A6B4A;
+    --c9: #6B1A4A;
+    --c10: #1A4A5C;
+  }
+  body {
+    font-family: 'Noto Serif TC', 'Source Han Serif', 'PingFang TC', 'Microsoft JhengHei', serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: var(--brand);
+    color: #fff;
+    padding: 48px 0 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+  }
+  .header-tag {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    border: 1px solid var(--accent-light);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .header .date {
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 1px;
+  }
+  .header .week-range {
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 6px;
+  }
+
+  /* ===== SECTION ===== */
+  .section { padding: 40px 0; border-bottom: 1px solid var(--line); }
+  .section:last-child { border-bottom: none; }
+  .section-num {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 22px;
+    padding-left: 16px;
+    border-left: 5px solid var(--accent);
+  }
+
+  /* ===== OVERVIEW ===== */
+  .overview {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 28px 32px;
+    border: 1px solid var(--line);
+  }
+  .overview p {
+    font-size: 17px;
+    line-height: 2;
+    color: var(--ink-2);
+  }
+  .overview strong { color: var(--brand); font-weight: 600; }
+  .overview-highlights {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .highlight-chip {
+    flex: 1;
+    min-width: 200px;
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 18px 20px;
+    border-left: 4px solid var(--accent);
+  }
+  .highlight-chip .num {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'Georgia', serif;
+  }
+  .highlight-chip .label {
+    font-size: 14px;
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+  .highlight-chip .desc {
+    font-size: 15px;
+    color: var(--ink-2);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* ===== 軒哥視角（總覽分析） ===== */
+  .overview-analysis {
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px dashed var(--line);
+  }
+  .analysis-lead {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+  }
+  .analysis-byline {
+    font-size: 12.5px;
+    color: var(--ink-3);
+    margin-bottom: 18px;
+  }
+  .analysis-item { margin-bottom: 18px; }
+  .analysis-item:last-child { margin-bottom: 0; }
+  .analysis-tag {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    padding: 3px 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .analysis-item p {
+    font-size: 16.5px;
+    line-height: 2;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  /* ===== DATA DASHBOARD ===== */
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .data-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+  .data-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .data-card .icon {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-size: 20px;
+    opacity: 0.3;
+  }
+  .data-card .label {
+    font-size: 14px;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .data-card .value {
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--brand);
+    font-family: 'Georgia', serif;
+    line-height: 1.2;
+  }
+  .data-card .change {
+    font-size: 15px;
+    margin-top: 6px;
+  }
+  .data-card .change.pos { color: var(--c8); }
+  .data-card .change.neg { color: var(--c6); }
+  .data-card .change.neu { color: var(--ink-3); }
+  .data-card .period {
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-top: 6px;
+  }
+  .data-bar {
+    margin-top: 12px;
+    height: 4px;
+    background: var(--bg);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .data-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+  }
+
+  /* SVG chart */
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 28px 16px;
+    margin-top: 16px;
+  }
+  .chart-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--brand);
+  }
+  .chart-unit {
+    font-size: 13px;
+    color: var(--ink-3);
+    float: right;
+    margin-top: 4px;
+  }
+  .chart-card svg { width: 100%; height: auto; display: block; }
+
+  /* GDP dual bar */
+  .gdp-compare {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .gdp-item { text-align: center; }
+  .gdp-bar-wrap {
+    display: flex;
+    gap: 6px;
+    align-items: flex-end;
+    height: 80px;
+  }
+  .gdp-bar {
+    width: 36px;
+    border-radius: 4px 4px 0 0;
+  }
+  .gdp-label { font-size: 14px; color: var(--ink-3); margin-top: 6px; }
+  .gdp-value { font-size: 20px; font-weight: 600; color: var(--brand); }
+
+  /* ===== NEWS CATEGORIES ===== */
+  .category {
+    margin-bottom: 32px;
+    background: var(--surface);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .category-header {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+  }
+  .category-header .cat-num {
+    font-size: 30px;
+    font-weight: 700;
+    font-family: 'Georgia', serif;
+    opacity: 0.5;
+  }
+  .category-header .cat-title {
+    font-size: 19px;
+    font-weight: 600;
+    flex: 1;
+  }
+  .category-header .cat-count {
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  .category-body { padding: 20px 24px; }
+  .news-item {
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--line);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .news-item:last-child { border-bottom: none; }
+  .news-item .bullet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+  .news-item .content { flex: 1; }
+  .news-item .title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .news-item .desc {
+    font-size: 15.5px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .news-item .source {
+    font-size: 13.5px;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+  .category-summary {
+    margin-top: 16px;
+    padding: 16px 18px;
+    background: var(--bg);
+    border-radius: 8px;
+    border-left: 4px solid;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-2);
+  }
+  .category-summary strong { font-weight: 600; }
+
+  /* ===== CONCERT TABLE ===== */
+  .concert-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    margin-top: 12px;
+  }
+  .concert-table th {
+    background: var(--brand);
+    color: #fff;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .concert-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .concert-table tr:hover { background: var(--bg); }
+  .concert-table .free { color: var(--c8); font-weight: 600; }
+  .concert-table .past { opacity: 0.5; }
+  .badge {
+    display: inline-block;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  .badge.kpop { background: #FCE4EC; color: #AD1457; }
+  .badge.cantonese { background: #E8F5E9; color: #2E7D32; }
+  .badge.mando { background: #E3F2FD; color: #1565C0; }
+  .badge.event { background: #FFF3E0; color: #E65100; }
+  .badge.free { background: #E0F2F1; color: #00695C; }
+
+  /* ===== AI CARDS ===== */
+  .ai-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .ai-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 24px;
+    border-top: 4px solid var(--c10);
+    position: relative;
+  }
+  .ai-card .ai-tag {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c10);
+    margin-bottom: 8px;
+  }
+  .ai-card .ai-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .ai-card .ai-desc {
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .ai-card .ai-num {
+    position: absolute;
+    top: 16px; right: 20px;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--bg);
+    font-family: 'Georgia', serif;
+    line-height: 1;
+  }
+
+  /* ===== SOURCES ===== */
+  .source-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .source-list {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .source-list h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .source-list ul { list-style: none; }
+  .source-list li {
+    font-size: 15px;
+    color: var(--ink-2);
+    padding: 6px 0;
+    display: flex;
+    gap: 10px;
+  }
+  .source-list li .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    margin-top: 8px; flex-shrink: 0;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: var(--brand);
+    color: rgba(255,255,255,0.7);
+    padding: 28px 0;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .footer .brand-mark {
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  /* ===== 其他期數導覽 ===== */
+  .other-issues-bar {
+    text-align: center;
+    padding: 30px 0 10px;
+  }
+  .other-issues-btn {
+    display: inline-block;
+    padding: 13px 32px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 26px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    box-shadow: 0 2px 12px rgba(199,91,18,0.25);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .other-issues-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(199,91,18,0.35);
+  }
+  .other-issues-btn::after { content: " →"; opacity: .85; }
+
+  /* ===== NAV TABS ===== */
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav-tab {
+    padding: 14px 18px;
+    font-size: 14.5px;
+    color: var(--ink-3);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+  @media (max-width: 768px) {
+    .data-grid { grid-template-columns: 1fr; }
+    .ai-grid { grid-template-columns: 1fr; }
+    .source-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 24px; }
+    .overview-highlights { flex-direction: column; }
+  }
+
+  /* ===== 微信分享 ===== */
+  .wk-share-fab {
+    position: fixed;
+    top: 14px; right: 14px;
+    z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 15px;
+    background: #07C160;
+    color: #fff;
+    border: none;
+    border-radius: 22px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(7,193,96,0.35);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .wk-share-fab:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(7,193,96,0.45); }
+  .wk-share-fab svg { width: 18px; height: 18px; fill: #fff; }
+  .wk-share-mask {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 200; padding: 20px;
+  }
+  .wk-share-mask.open { display: flex; }
+  .wk-share-card {
+    background: #fff; border-radius: 16px;
+    max-width: 340px; width: 100%;
+    padding: 26px 24px 22px; text-align: center;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+  }
+  .wk-share-card .wk-close {
+    position: absolute; top: 12px; right: 14px;
+    border: none; background: none;
+    font-size: 22px; line-height: 1; color: #999; cursor: pointer;
+  }
+  .wk-share-card h3 { font-size: 18px; color: #0B3D2E; margin-bottom: 4px; font-weight: 700; }
+  .wk-share-card .wk-sub { font-size: 13px; color: #888; margin-bottom: 16px; }
+  .wk-qr {
+    width: 220px; height: 220px; margin: 0 auto 14px;
+    border: 1px solid #E0DDD5; border-radius: 10px;
+    display: block; background: #fff;
+  }
+  .wk-share-tip { font-size: 13.5px; color: #4A4A4A; line-height: 1.7; margin-bottom: 14px; }
+  .wk-share-tip b { color: #07C160; }
+  .wk-copy-btn {
+    display: inline-block; padding: 9px 18px;
+    background: #0B3D2E; color: #fff;
+    border: none; border-radius: 8px;
+    font-family: inherit; font-size: 14px; cursor: pointer;
+  }
+  .wk-copy-btn.done { background: #1A6B52; }
+
+  /* 內嵌於索引頁 iframe 時：隱藏與外層重複的版頭與分享鈕（外層已有） */
+  html.embedded .header { display: none !important; }
+  html.embedded .wk-share-fab, html.embedded .wk-share-mask { display: none !important; }
+</style>
+</head>
+<body>
+<script>
+//---------------------------------------------------------------------
+//
+// QR Code Generator for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//  http://www.opensource.org/licenses/mit-license.php
+//
+// The word 'QR Code' is registered trademark of
+// DENSO WAVE INCORPORATED
+//  http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+
+var qrcode = function() {
+
+  //---------------------------------------------------------------------
+  // qrcode
+  //---------------------------------------------------------------------
+
+  /**
+   * qrcode
+   * @param typeNumber 1 to 40
+   * @param errorCorrectionLevel 'L','M','Q','H'
+   */
+  var qrcode = function(typeNumber, errorCorrectionLevel) {
+
+    var PAD0 = 0xEC;
+    var PAD1 = 0x11;
+
+    var _typeNumber = typeNumber;
+    var _errorCorrectionLevel = QRErrorCorrectionLevel[errorCorrectionLevel];
+    var _modules = null;
+    var _moduleCount = 0;
+    var _dataCache = null;
+    var _dataList = [];
+
+    var _this = {};
+
+    var makeImpl = function(test, maskPattern) {
+
+      _moduleCount = _typeNumber * 4 + 17;
+      _modules = function(moduleCount) {
+        var modules = new Array(moduleCount);
+        for (var row = 0; row < moduleCount; row += 1) {
+          modules[row] = new Array(moduleCount);
+          for (var col = 0; col < moduleCount; col += 1) {
+            modules[row][col] = null;
+          }
+        }
+        return modules;
+      }(_moduleCount);
+
+      setupPositionProbePattern(0, 0);
+      setupPositionProbePattern(_moduleCount - 7, 0);
+      setupPositionProbePattern(0, _moduleCount - 7);
+      setupPositionAdjustPattern();
+      setupTimingPattern();
+      setupTypeInfo(test, maskPattern);
+
+      if (_typeNumber >= 7) {
+        setupTypeNumber(test);
+      }
+
+      if (_dataCache == null) {
+        _dataCache = createData(_typeNumber, _errorCorrectionLevel, _dataList);
+      }
+
+      mapData(_dataCache, maskPattern);
+    };
+
+    var setupPositionProbePattern = function(row, col) {
+
+      for (var r = -1; r <= 7; r += 1) {
+
+        if (row + r <= -1 || _moduleCount <= row + r) continue;
+
+        for (var c = -1; c <= 7; c += 1) {
+
+          if (col + c <= -1 || _moduleCount <= col + c) continue;
+
+          if ( (0 <= r && r <= 6 && (c == 0 || c == 6) )
+              || (0 <= c && c <= 6 && (r == 0 || r == 6) )
+              || (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+            _modules[row + r][col + c] = true;
+          } else {
+            _modules[row + r][col + c] = false;
+          }
+        }
+      }
+    };
+
+    var getBestMaskPattern = function() {
+
+      var minLostPoint = 0;
+      var pattern = 0;
+
+      for (var i = 0; i < 8; i += 1) {
+
+        makeImpl(true, i);
+
+        var lostPoint = QRUtil.getLostPoint(_this);
+
+        if (i == 0 || minLostPoint > lostPoint) {
+          minLostPoint = lostPoint;
+          pattern = i;
+        }
+      }
+
+      return pattern;
+    };
+
+    var setupTimingPattern = function() {
+
+      for (var r = 8; r < _moduleCount - 8; r += 1) {
+        if (_modules[r][6] != null) {
+          continue;
+        }
+        _modules[r][6] = (r % 2 == 0);
+      }
+
+      for (var c = 8; c < _moduleCount - 8; c += 1) {
+        if (_modules[6][c] != null) {
+          continue;
+        }
+        _modules[6][c] = (c % 2 == 0);
+      }
+    };
+
+    var setupPositionAdjustPattern = function() {
+
+      var pos = QRUtil.getPatternPosition(_typeNumber);
+
+      for (var i = 0; i < pos.length; i += 1) {
+
+        for (var j = 0; j < pos.length; j += 1) {
+
+          var row = pos[i];
+          var col = pos[j];
+
+          if (_modules[row][col] != null) {
+            continue;
+          }
+
+          for (var r = -2; r <= 2; r += 1) {
+
+            for (var c = -2; c <= 2; c += 1) {
+
+              if (r == -2 || r == 2 || c == -2 || c == 2
+                  || (r == 0 && c == 0) ) {
+                _modules[row + r][col + c] = true;
+              } else {
+                _modules[row + r][col + c] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+
+    var setupTypeNumber = function(test) {
+
+      var bits = QRUtil.getBCHTypeNumber(_typeNumber);
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[Math.floor(i / 3)][i % 3 + _moduleCount - 8 - 3] = mod;
+      }
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[i % 3 + _moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
+      }
+    };
+
+    var setupTypeInfo = function(test, maskPattern) {
+
+      var data = (_errorCorrectionLevel << 3) | maskPattern;
+      var bits = QRUtil.getBCHTypeInfo(data);
+
+      // vertical
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 6) {
+          _modules[i][8] = mod;
+        } else if (i < 8) {
+          _modules[i + 1][8] = mod;
+        } else {
+          _modules[_moduleCount - 15 + i][8] = mod;
+        }
+      }
+
+      // horizontal
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 8) {
+          _modules[8][_moduleCount - i - 1] = mod;
+        } else if (i < 9) {
+          _modules[8][15 - i - 1 + 1] = mod;
+        } else {
+          _modules[8][15 - i - 1] = mod;
+        }
+      }
+
+      // fixed module
+      _modules[_moduleCount - 8][8] = (!test);
+    };
+
+    var mapData = function(data, maskPattern) {
+
+      var inc = -1;
+      var row = _moduleCount - 1;
+      var bitIndex = 7;
+      var byteIndex = 0;
+      var maskFunc = QRUtil.getMaskFunction(maskPattern);
+
+      for (var col = _moduleCount - 1; col > 0; col -= 2) {
+
+        if (col == 6) col -= 1;
+
+        while (true) {
+
+          for (var c = 0; c < 2; c += 1) {
+
+            if (_modules[row][col - c] == null) {
+
+              var dark = false;
+
+              if (byteIndex < data.length) {
+                dark = ( ( (data[byteIndex] >>> bitIndex) & 1) == 1);
+              }
+
+              var mask = maskFunc(row, col - c);
+
+              if (mask) {
+                dark = !dark;
+              }
+
+              _modules[row][col - c] = dark;
+              bitIndex -= 1;
+
+              if (bitIndex == -1) {
+                byteIndex += 1;
+                bitIndex = 7;
+              }
+            }
+          }
+
+          row += inc;
+
+          if (row < 0 || _moduleCount <= row) {
+            row -= inc;
+            inc = -inc;
+            break;
+          }
+        }
+      }
+    };
+
+    var createBytes = function(buffer, rsBlocks) {
+
+      var offset = 0;
+
+      var maxDcCount = 0;
+      var maxEcCount = 0;
+
+      var dcdata = new Array(rsBlocks.length);
+      var ecdata = new Array(rsBlocks.length);
+
+      for (var r = 0; r < rsBlocks.length; r += 1) {
+
+        var dcCount = rsBlocks[r].dataCount;
+        var ecCount = rsBlocks[r].totalCount - dcCount;
+
+        maxDcCount = Math.max(maxDcCount, dcCount);
+        maxEcCount = Math.max(maxEcCount, ecCount);
+
+        dcdata[r] = new Array(dcCount);
+
+        for (var i = 0; i < dcdata[r].length; i += 1) {
+          dcdata[r][i] = 0xff & buffer.getBuffer()[i + offset];
+        }
+        offset += dcCount;
+
+        var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+        var rawPoly = qrPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+        var modPoly = rawPoly.mod(rsPoly);
+        ecdata[r] = new Array(rsPoly.getLength() - 1);
+        for (var i = 0; i < ecdata[r].length; i += 1) {
+          var modIndex = i + modPoly.getLength() - ecdata[r].length;
+          ecdata[r][i] = (modIndex >= 0)? modPoly.getAt(modIndex) : 0;
+        }
+      }
+
+      var totalCodeCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalCodeCount += rsBlocks[i].totalCount;
+      }
+
+      var data = new Array(totalCodeCount);
+      var index = 0;
+
+      for (var i = 0; i < maxDcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < dcdata[r].length) {
+            data[index] = dcdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      for (var i = 0; i < maxEcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < ecdata[r].length) {
+            data[index] = ecdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      return data;
+    };
+
+    var createData = function(typeNumber, errorCorrectionLevel, dataList) {
+
+      var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectionLevel);
+
+      var buffer = qrBitBuffer();
+
+      for (var i = 0; i < dataList.length; i += 1) {
+        var data = dataList[i];
+        buffer.put(data.getMode(), 4);
+        buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+        data.write(buffer);
+      }
+
+      // calc num max data.
+      var totalDataCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalDataCount += rsBlocks[i].dataCount;
+      }
+
+      if (buffer.getLengthInBits() > totalDataCount * 8) {
+        throw 'code length overflow. ('
+          + buffer.getLengthInBits()
+          + '>'
+          + totalDataCount * 8
+          + ')';
+      }
+
+      // end code
+      if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+        buffer.put(0, 4);
+      }
+
+      // padding
+      while (buffer.getLengthInBits() % 8 != 0) {
+        buffer.putBit(false);
+      }
+
+      // padding
+      while (true) {
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD0, 8);
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD1, 8);
+      }
+
+      return createBytes(buffer, rsBlocks);
+    };
+
+    _this.addData = function(data, mode) {
+
+      mode = mode || 'Byte';
+
+      var newData = null;
+
+      switch(mode) {
+      case 'Numeric' :
+        newData = qrNumber(data);
+        break;
+      case 'Alphanumeric' :
+        newData = qrAlphaNum(data);
+        break;
+      case 'Byte' :
+        newData = qr8BitByte(data);
+        break;
+      case 'Kanji' :
+        newData = qrKanji(data);
+        break;
+      default :
+        throw 'mode:' + mode;
+      }
+
+      _dataList.push(newData);
+      _dataCache = null;
+    };
+
+    _this.isDark = function(row, col) {
+      if (row < 0 || _moduleCount <= row || col < 0 || _moduleCount <= col) {
+        throw row + ',' + col;
+      }
+      return _modules[row][col];
+    };
+
+    _this.getModuleCount = function() {
+      return _moduleCount;
+    };
+
+    _this.make = function() {
+      if (_typeNumber < 1) {
+        var typeNumber = 1;
+
+        for (; typeNumber < 40; typeNumber++) {
+          var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, _errorCorrectionLevel);
+          var buffer = qrBitBuffer();
+
+          for (var i = 0; i < _dataList.length; i++) {
+            var data = _dataList[i];
+            buffer.put(data.getMode(), 4);
+            buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+            data.write(buffer);
+          }
+
+          var totalDataCount = 0;
+          for (var i = 0; i < rsBlocks.length; i++) {
+            totalDataCount += rsBlocks[i].dataCount;
+          }
+
+          if (buffer.getLengthInBits() <= totalDataCount * 8) {
+            break;
+          }
+        }
+
+        _typeNumber = typeNumber;
+      }
+
+      makeImpl(false, getBestMaskPattern() );
+    };
+
+    _this.createTableTag = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var qrHtml = '';
+
+      qrHtml += '<table style="';
+      qrHtml += ' border-width: 0px; border-style: none;';
+      qrHtml += ' border-collapse: collapse;';
+      qrHtml += ' padding: 0px; margin: ' + margin + 'px;';
+      qrHtml += '">';
+      qrHtml += '<tbody>';
+
+      for (var r = 0; r < _this.getModuleCount(); r += 1) {
+
+        qrHtml += '<tr>';
+
+        for (var c = 0; c < _this.getModuleCount(); c += 1) {
+          qrHtml += '<td style="';
+          qrHtml += ' border-width: 0px; border-style: none;';
+          qrHtml += ' border-collapse: collapse;';
+          qrHtml += ' padding: 0px; margin: 0px;';
+          qrHtml += ' width: ' + cellSize + 'px;';
+          qrHtml += ' height: ' + cellSize + 'px;';
+          qrHtml += ' background-color: ';
+          qrHtml += _this.isDark(r, c)? '#000000' : '#ffffff';
+          qrHtml += ';';
+          qrHtml += '"/>';
+        }
+
+        qrHtml += '</tr>';
+      }
+
+      qrHtml += '</tbody>';
+      qrHtml += '</table>';
+
+      return qrHtml;
+    };
+
+    _this.createSvgTag = function(cellSize, margin, alt, title) {
+
+      var opts = {};
+      if (typeof arguments[0] == 'object') {
+        // Called by options.
+        opts = arguments[0];
+        // overwrite cellSize and margin.
+        cellSize = opts.cellSize;
+        margin = opts.margin;
+        alt = opts.alt;
+        title = opts.title;
+      }
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      // Compose alt property surrogate
+      alt = (typeof alt === 'string') ? {text: alt} : alt || {};
+      alt.text = alt.text || null;
+      alt.id = (alt.text) ? alt.id || 'qrcode-description' : null;
+
+      // Compose title property surrogate
+      title = (typeof title === 'string') ? {text: title} : title || {};
+      title.text = title.text || null;
+      title.id = (title.text) ? title.id || 'qrcode-title' : null;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var c, mc, r, mr, qrSvg='', rect;
+
+      rect = 'l' + cellSize + ',0 0,' + cellSize +
+        ' -' + cellSize + ',0 0,-' + cellSize + 'z ';
+
+      qrSvg += '<svg version="1.1" xmlns="http://www.w3.org/2000/svg"';
+      qrSvg += !opts.scalable ? ' width="' + size + 'px" height="' + size + 'px"' : '';
+      qrSvg += ' viewBox="0 0 ' + size + ' ' + size + '" ';
+      qrSvg += ' preserveAspectRatio="xMinYMin meet"';
+      qrSvg += (title.text || alt.text) ? ' role="img" aria-labelledby="' +
+          escapeXml([title.id, alt.id].join(' ').trim() ) + '"' : '';
+      qrSvg += '>';
+      qrSvg += (title.text) ? '<title id="' + escapeXml(title.id) + '">' +
+          escapeXml(title.text) + '</title>' : '';
+      qrSvg += (alt.text) ? '<description id="' + escapeXml(alt.id) + '">' +
+          escapeXml(alt.text) + '</description>' : '';
+      qrSvg += '<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>';
+      qrSvg += '<path d="';
+
+      for (r = 0; r < _this.getModuleCount(); r += 1) {
+        mr = r * cellSize + margin;
+        for (c = 0; c < _this.getModuleCount(); c += 1) {
+          if (_this.isDark(r, c) ) {
+            mc = c*cellSize+margin;
+            qrSvg += 'M' + mc + ',' + mr + rect;
+          }
+        }
+      }
+
+      qrSvg += '" stroke="transparent" fill="black"/>';
+      qrSvg += '</svg>';
+
+      return qrSvg;
+    };
+
+    _this.createDataURL = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      return createDataURL(size, size, function(x, y) {
+        if (min <= x && x < max && min <= y && y < max) {
+          var c = Math.floor( (x - min) / cellSize);
+          var r = Math.floor( (y - min) / cellSize);
+          return _this.isDark(r, c)? 0 : 1;
+        } else {
+          return 1;
+        }
+      } );
+    };
+
+    _this.createImgTag = function(cellSize, margin, alt) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+
+      var img = '';
+      img += '<img';
+      img += '\u0020src="';
+      img += _this.createDataURL(cellSize, margin);
+      img += '"';
+      img += '\u0020width="';
+      img += size;
+      img += '"';
+      img += '\u0020height="';
+      img += size;
+      img += '"';
+      if (alt) {
+        img += '\u0020alt="';
+        img += escapeXml(alt);
+        img += '"';
+      }
+      img += '/>';
+
+      return img;
+    };
+
+    var escapeXml = function(s) {
+      var escaped = '';
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charAt(i);
+        switch(c) {
+        case '<': escaped += '&lt;'; break;
+        case '>': escaped += '&gt;'; break;
+        case '&': escaped += '&amp;'; break;
+        case '"': escaped += '&quot;'; break;
+        default : escaped += c; break;
+        }
+      }
+      return escaped;
+    };
+
+    var _createHalfASCII = function(margin) {
+      var cellSize = 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r1, r2, p;
+
+      var blocks = {
+        '██': '█',
+        '█ ': '▀',
+        ' █': '▄',
+        '  ': ' '
+      };
+
+      var blocksLastLineNoMargin = {
+        '██': '▀',
+        '█ ': '▀',
+        ' █': ' ',
+        '  ': ' '
+      };
+
+      var ascii = '';
+      for (y = 0; y < size; y += 2) {
+        r1 = Math.floor((y - min) / cellSize);
+        r2 = Math.floor((y + 1 - min) / cellSize);
+        for (x = 0; x < size; x += 1) {
+          p = '█';
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r1, Math.floor((x - min) / cellSize))) {
+            p = ' ';
+          }
+
+          if (min <= x && x < max && min <= y+1 && y+1 < max && _this.isDark(r2, Math.floor((x - min) / cellSize))) {
+            p += ' ';
+          }
+          else {
+            p += '█';
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          ascii += (margin < 1 && y+1 >= max) ? blocksLastLineNoMargin[p] : blocks[p];
+        }
+
+        ascii += '\n';
+      }
+
+      if (size % 2 && margin > 0) {
+        return ascii.substring(0, ascii.length - size - 1) + Array(size+1).join('▀');
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.createASCII = function(cellSize, margin) {
+      cellSize = cellSize || 1;
+
+      if (cellSize < 2) {
+        return _createHalfASCII(margin);
+      }
+
+      cellSize -= 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r, p;
+
+      var white = Array(cellSize+1).join('██');
+      var black = Array(cellSize+1).join('  ');
+
+      var ascii = '';
+      var line = '';
+      for (y = 0; y < size; y += 1) {
+        r = Math.floor( (y - min) / cellSize);
+        line = '';
+        for (x = 0; x < size; x += 1) {
+          p = 1;
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r, Math.floor((x - min) / cellSize))) {
+            p = 0;
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          line += p ? white : black;
+        }
+
+        for (r = 0; r < cellSize; r += 1) {
+          ascii += line + '\n';
+        }
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.renderTo2dContext = function(context, cellSize) {
+      cellSize = cellSize || 2;
+      var length = _this.getModuleCount();
+      for (var row = 0; row < length; row++) {
+        for (var col = 0; col < length; col++) {
+          context.fillStyle = _this.isDark(row, col) ? 'black' : 'white';
+          context.fillRect(row * cellSize, col * cellSize, cellSize, cellSize);
+        }
+      }
+    }
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrcode.stringToBytes
+  //---------------------------------------------------------------------
+
+  qrcode.stringToBytesFuncs = {
+    'default' : function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        bytes.push(c & 0xff);
+      }
+      return bytes;
+    }
+  };
+
+  qrcode.stringToBytes = qrcode.stringToBytesFuncs['default'];
+
+  //---------------------------------------------------------------------
+  // qrcode.createStringToBytes
+  //---------------------------------------------------------------------
+
+  /**
+   * @param unicodeData base64 string of byte array.
+   * [16bit Unicode],[16bit Bytes], ...
+   * @param numChars
+   */
+  qrcode.createStringToBytes = function(unicodeData, numChars) {
+
+    // create conversion map.
+
+    var unicodeMap = function() {
+
+      var bin = base64DecodeInputStream(unicodeData);
+      var read = function() {
+        var b = bin.read();
+        if (b == -1) throw 'eof';
+        return b;
+      };
+
+      var count = 0;
+      var unicodeMap = {};
+      while (true) {
+        var b0 = bin.read();
+        if (b0 == -1) break;
+        var b1 = read();
+        var b2 = read();
+        var b3 = read();
+        var k = String.fromCharCode( (b0 << 8) | b1);
+        var v = (b2 << 8) | b3;
+        unicodeMap[k] = v;
+        count += 1;
+      }
+      if (count != numChars) {
+        throw count + ' != ' + numChars;
+      }
+
+      return unicodeMap;
+    }();
+
+    var unknownChar = '?'.charCodeAt(0);
+
+    return function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        if (c < 128) {
+          bytes.push(c);
+        } else {
+          var b = unicodeMap[s.charAt(i)];
+          if (typeof b == 'number') {
+            if ( (b & 0xff) == b) {
+              // 1byte
+              bytes.push(b);
+            } else {
+              // 2bytes
+              bytes.push(b >>> 8);
+              bytes.push(b & 0xff);
+            }
+          } else {
+            bytes.push(unknownChar);
+          }
+        }
+      }
+      return bytes;
+    };
+  };
+
+  //---------------------------------------------------------------------
+  // QRMode
+  //---------------------------------------------------------------------
+
+  var QRMode = {
+    MODE_NUMBER :    1 << 0,
+    MODE_ALPHA_NUM : 1 << 1,
+    MODE_8BIT_BYTE : 1 << 2,
+    MODE_KANJI :     1 << 3
+  };
+
+  //---------------------------------------------------------------------
+  // QRErrorCorrectionLevel
+  //---------------------------------------------------------------------
+
+  var QRErrorCorrectionLevel = {
+    L : 1,
+    M : 0,
+    Q : 3,
+    H : 2
+  };
+
+  //---------------------------------------------------------------------
+  // QRMaskPattern
+  //---------------------------------------------------------------------
+
+  var QRMaskPattern = {
+    PATTERN000 : 0,
+    PATTERN001 : 1,
+    PATTERN010 : 2,
+    PATTERN011 : 3,
+    PATTERN100 : 4,
+    PATTERN101 : 5,
+    PATTERN110 : 6,
+    PATTERN111 : 7
+  };
+
+  //---------------------------------------------------------------------
+  // QRUtil
+  //---------------------------------------------------------------------
+
+  var QRUtil = function() {
+
+    var PATTERN_POSITION_TABLE = [
+      [],
+      [6, 18],
+      [6, 22],
+      [6, 26],
+      [6, 30],
+      [6, 34],
+      [6, 22, 38],
+      [6, 24, 42],
+      [6, 26, 46],
+      [6, 28, 50],
+      [6, 30, 54],
+      [6, 32, 58],
+      [6, 34, 62],
+      [6, 26, 46, 66],
+      [6, 26, 48, 70],
+      [6, 26, 50, 74],
+      [6, 30, 54, 78],
+      [6, 30, 56, 82],
+      [6, 30, 58, 86],
+      [6, 34, 62, 90],
+      [6, 28, 50, 72, 94],
+      [6, 26, 50, 74, 98],
+      [6, 30, 54, 78, 102],
+      [6, 28, 54, 80, 106],
+      [6, 32, 58, 84, 110],
+      [6, 30, 58, 86, 114],
+      [6, 34, 62, 90, 118],
+      [6, 26, 50, 74, 98, 122],
+      [6, 30, 54, 78, 102, 126],
+      [6, 26, 52, 78, 104, 130],
+      [6, 30, 56, 82, 108, 134],
+      [6, 34, 60, 86, 112, 138],
+      [6, 30, 58, 86, 114, 142],
+      [6, 34, 62, 90, 118, 146],
+      [6, 30, 54, 78, 102, 126, 150],
+      [6, 24, 50, 76, 102, 128, 154],
+      [6, 28, 54, 80, 106, 132, 158],
+      [6, 32, 58, 84, 110, 136, 162],
+      [6, 26, 54, 82, 110, 138, 166],
+      [6, 30, 58, 86, 114, 142, 170]
+    ];
+    var G15 = (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0);
+    var G18 = (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0);
+    var G15_MASK = (1 << 14) | (1 << 12) | (1 << 10) | (1 << 4) | (1 << 1);
+
+    var _this = {};
+
+    var getBCHDigit = function(data) {
+      var digit = 0;
+      while (data != 0) {
+        digit += 1;
+        data >>>= 1;
+      }
+      return digit;
+    };
+
+    _this.getBCHTypeInfo = function(data) {
+      var d = data << 10;
+      while (getBCHDigit(d) - getBCHDigit(G15) >= 0) {
+        d ^= (G15 << (getBCHDigit(d) - getBCHDigit(G15) ) );
+      }
+      return ( (data << 10) | d) ^ G15_MASK;
+    };
+
+    _this.getBCHTypeNumber = function(data) {
+      var d = data << 12;
+      while (getBCHDigit(d) - getBCHDigit(G18) >= 0) {
+        d ^= (G18 << (getBCHDigit(d) - getBCHDigit(G18) ) );
+      }
+      return (data << 12) | d;
+    };
+
+    _this.getPatternPosition = function(typeNumber) {
+      return PATTERN_POSITION_TABLE[typeNumber - 1];
+    };
+
+    _this.getMaskFunction = function(maskPattern) {
+
+      switch (maskPattern) {
+
+      case QRMaskPattern.PATTERN000 :
+        return function(i, j) { return (i + j) % 2 == 0; };
+      case QRMaskPattern.PATTERN001 :
+        return function(i, j) { return i % 2 == 0; };
+      case QRMaskPattern.PATTERN010 :
+        return function(i, j) { return j % 3 == 0; };
+      case QRMaskPattern.PATTERN011 :
+        return function(i, j) { return (i + j) % 3 == 0; };
+      case QRMaskPattern.PATTERN100 :
+        return function(i, j) { return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 == 0; };
+      case QRMaskPattern.PATTERN101 :
+        return function(i, j) { return (i * j) % 2 + (i * j) % 3 == 0; };
+      case QRMaskPattern.PATTERN110 :
+        return function(i, j) { return ( (i * j) % 2 + (i * j) % 3) % 2 == 0; };
+      case QRMaskPattern.PATTERN111 :
+        return function(i, j) { return ( (i * j) % 3 + (i + j) % 2) % 2 == 0; };
+
+      default :
+        throw 'bad maskPattern:' + maskPattern;
+      }
+    };
+
+    _this.getErrorCorrectPolynomial = function(errorCorrectLength) {
+      var a = qrPolynomial([1], 0);
+      for (var i = 0; i < errorCorrectLength; i += 1) {
+        a = a.multiply(qrPolynomial([1, QRMath.gexp(i)], 0) );
+      }
+      return a;
+    };
+
+    _this.getLengthInBits = function(mode, type) {
+
+      if (1 <= type && type < 10) {
+
+        // 1 - 9
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 10;
+        case QRMode.MODE_ALPHA_NUM : return 9;
+        case QRMode.MODE_8BIT_BYTE : return 8;
+        case QRMode.MODE_KANJI     : return 8;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 27) {
+
+        // 10 - 26
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 12;
+        case QRMode.MODE_ALPHA_NUM : return 11;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 10;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 41) {
+
+        // 27 - 40
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 14;
+        case QRMode.MODE_ALPHA_NUM : return 13;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 12;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else {
+        throw 'type:' + type;
+      }
+    };
+
+    _this.getLostPoint = function(qrcode) {
+
+      var moduleCount = qrcode.getModuleCount();
+
+      var lostPoint = 0;
+
+      // LEVEL1
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount; col += 1) {
+
+          var sameCount = 0;
+          var dark = qrcode.isDark(row, col);
+
+          for (var r = -1; r <= 1; r += 1) {
+
+            if (row + r < 0 || moduleCount <= row + r) {
+              continue;
+            }
+
+            for (var c = -1; c <= 1; c += 1) {
+
+              if (col + c < 0 || moduleCount <= col + c) {
+                continue;
+              }
+
+              if (r == 0 && c == 0) {
+                continue;
+              }
+
+              if (dark == qrcode.isDark(row + r, col + c) ) {
+                sameCount += 1;
+              }
+            }
+          }
+
+          if (sameCount > 5) {
+            lostPoint += (3 + sameCount - 5);
+          }
+        }
+      };
+
+      // LEVEL2
+
+      for (var row = 0; row < moduleCount - 1; row += 1) {
+        for (var col = 0; col < moduleCount - 1; col += 1) {
+          var count = 0;
+          if (qrcode.isDark(row, col) ) count += 1;
+          if (qrcode.isDark(row + 1, col) ) count += 1;
+          if (qrcode.isDark(row, col + 1) ) count += 1;
+          if (qrcode.isDark(row + 1, col + 1) ) count += 1;
+          if (count == 0 || count == 4) {
+            lostPoint += 3;
+          }
+        }
+      }
+
+      // LEVEL3
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount - 6; col += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row, col + 1)
+              &&  qrcode.isDark(row, col + 2)
+              &&  qrcode.isDark(row, col + 3)
+              &&  qrcode.isDark(row, col + 4)
+              && !qrcode.isDark(row, col + 5)
+              &&  qrcode.isDark(row, col + 6) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount - 6; row += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row + 1, col)
+              &&  qrcode.isDark(row + 2, col)
+              &&  qrcode.isDark(row + 3, col)
+              &&  qrcode.isDark(row + 4, col)
+              && !qrcode.isDark(row + 5, col)
+              &&  qrcode.isDark(row + 6, col) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      // LEVEL4
+
+      var darkCount = 0;
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount; row += 1) {
+          if (qrcode.isDark(row, col) ) {
+            darkCount += 1;
+          }
+        }
+      }
+
+      var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+      lostPoint += ratio * 10;
+
+      return lostPoint;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // QRMath
+  //---------------------------------------------------------------------
+
+  var QRMath = function() {
+
+    var EXP_TABLE = new Array(256);
+    var LOG_TABLE = new Array(256);
+
+    // initialize tables
+    for (var i = 0; i < 8; i += 1) {
+      EXP_TABLE[i] = 1 << i;
+    }
+    for (var i = 8; i < 256; i += 1) {
+      EXP_TABLE[i] = EXP_TABLE[i - 4]
+        ^ EXP_TABLE[i - 5]
+        ^ EXP_TABLE[i - 6]
+        ^ EXP_TABLE[i - 8];
+    }
+    for (var i = 0; i < 255; i += 1) {
+      LOG_TABLE[EXP_TABLE[i] ] = i;
+    }
+
+    var _this = {};
+
+    _this.glog = function(n) {
+
+      if (n < 1) {
+        throw 'glog(' + n + ')';
+      }
+
+      return LOG_TABLE[n];
+    };
+
+    _this.gexp = function(n) {
+
+      while (n < 0) {
+        n += 255;
+      }
+
+      while (n >= 256) {
+        n -= 255;
+      }
+
+      return EXP_TABLE[n];
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrPolynomial
+  //---------------------------------------------------------------------
+
+  function qrPolynomial(num, shift) {
+
+    if (typeof num.length == 'undefined') {
+      throw num.length + '/' + shift;
+    }
+
+    var _num = function() {
+      var offset = 0;
+      while (offset < num.length && num[offset] == 0) {
+        offset += 1;
+      }
+      var _num = new Array(num.length - offset + shift);
+      for (var i = 0; i < num.length - offset; i += 1) {
+        _num[i] = num[i + offset];
+      }
+      return _num;
+    }();
+
+    var _this = {};
+
+    _this.getAt = function(index) {
+      return _num[index];
+    };
+
+    _this.getLength = function() {
+      return _num.length;
+    };
+
+    _this.multiply = function(e) {
+
+      var num = new Array(_this.getLength() + e.getLength() - 1);
+
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        for (var j = 0; j < e.getLength(); j += 1) {
+          num[i + j] ^= QRMath.gexp(QRMath.glog(_this.getAt(i) ) + QRMath.glog(e.getAt(j) ) );
+        }
+      }
+
+      return qrPolynomial(num, 0);
+    };
+
+    _this.mod = function(e) {
+
+      if (_this.getLength() - e.getLength() < 0) {
+        return _this;
+      }
+
+      var ratio = QRMath.glog(_this.getAt(0) ) - QRMath.glog(e.getAt(0) );
+
+      var num = new Array(_this.getLength() );
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        num[i] = _this.getAt(i);
+      }
+
+      for (var i = 0; i < e.getLength(); i += 1) {
+        num[i] ^= QRMath.gexp(QRMath.glog(e.getAt(i) ) + ratio);
+      }
+
+      // recursive call
+      return qrPolynomial(num, 0).mod(e);
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // QRRSBlock
+  //---------------------------------------------------------------------
+
+  var QRRSBlock = function() {
+
+    var RS_BLOCK_TABLE = [
+
+      // L
+      // M
+      // Q
+      // H
+
+      // 1
+      [1, 26, 19],
+      [1, 26, 16],
+      [1, 26, 13],
+      [1, 26, 9],
+
+      // 2
+      [1, 44, 34],
+      [1, 44, 28],
+      [1, 44, 22],
+      [1, 44, 16],
+
+      // 3
+      [1, 70, 55],
+      [1, 70, 44],
+      [2, 35, 17],
+      [2, 35, 13],
+
+      // 4
+      [1, 100, 80],
+      [2, 50, 32],
+      [2, 50, 24],
+      [4, 25, 9],
+
+      // 5
+      [1, 134, 108],
+      [2, 67, 43],
+      [2, 33, 15, 2, 34, 16],
+      [2, 33, 11, 2, 34, 12],
+
+      // 6
+      [2, 86, 68],
+      [4, 43, 27],
+      [4, 43, 19],
+      [4, 43, 15],
+
+      // 7
+      [2, 98, 78],
+      [4, 49, 31],
+      [2, 32, 14, 4, 33, 15],
+      [4, 39, 13, 1, 40, 14],
+
+      // 8
+      [2, 121, 97],
+      [2, 60, 38, 2, 61, 39],
+      [4, 40, 18, 2, 41, 19],
+      [4, 40, 14, 2, 41, 15],
+
+      // 9
+      [2, 146, 116],
+      [3, 58, 36, 2, 59, 37],
+      [4, 36, 16, 4, 37, 17],
+      [4, 36, 12, 4, 37, 13],
+
+      // 10
+      [2, 86, 68, 2, 87, 69],
+      [4, 69, 43, 1, 70, 44],
+      [6, 43, 19, 2, 44, 20],
+      [6, 43, 15, 2, 44, 16],
+
+      // 11
+      [4, 101, 81],
+      [1, 80, 50, 4, 81, 51],
+      [4, 50, 22, 4, 51, 23],
+      [3, 36, 12, 8, 37, 13],
+
+      // 12
+      [2, 116, 92, 2, 117, 93],
+      [6, 58, 36, 2, 59, 37],
+      [4, 46, 20, 6, 47, 21],
+      [7, 42, 14, 4, 43, 15],
+
+      // 13
+      [4, 133, 107],
+      [8, 59, 37, 1, 60, 38],
+      [8, 44, 20, 4, 45, 21],
+      [12, 33, 11, 4, 34, 12],
+
+      // 14
+      [3, 145, 115, 1, 146, 116],
+      [4, 64, 40, 5, 65, 41],
+      [11, 36, 16, 5, 37, 17],
+      [11, 36, 12, 5, 37, 13],
+
+      // 15
+      [5, 109, 87, 1, 110, 88],
+      [5, 65, 41, 5, 66, 42],
+      [5, 54, 24, 7, 55, 25],
+      [11, 36, 12, 7, 37, 13],
+
+      // 16
+      [5, 122, 98, 1, 123, 99],
+      [7, 73, 45, 3, 74, 46],
+      [15, 43, 19, 2, 44, 20],
+      [3, 45, 15, 13, 46, 16],
+
+      // 17
+      [1, 135, 107, 5, 136, 108],
+      [10, 74, 46, 1, 75, 47],
+      [1, 50, 22, 15, 51, 23],
+      [2, 42, 14, 17, 43, 15],
+
+      // 18
+      [5, 150, 120, 1, 151, 121],
+      [9, 69, 43, 4, 70, 44],
+      [17, 50, 22, 1, 51, 23],
+      [2, 42, 14, 19, 43, 15],
+
+      // 19
+      [3, 141, 113, 4, 142, 114],
+      [3, 70, 44, 11, 71, 45],
+      [17, 47, 21, 4, 48, 22],
+      [9, 39, 13, 16, 40, 14],
+
+      // 20
+      [3, 135, 107, 5, 136, 108],
+      [3, 67, 41, 13, 68, 42],
+      [15, 54, 24, 5, 55, 25],
+      [15, 43, 15, 10, 44, 16],
+
+      // 21
+      [4, 144, 116, 4, 145, 117],
+      [17, 68, 42],
+      [17, 50, 22, 6, 51, 23],
+      [19, 46, 16, 6, 47, 17],
+
+      // 22
+      [2, 139, 111, 7, 140, 112],
+      [17, 74, 46],
+      [7, 54, 24, 16, 55, 25],
+      [34, 37, 13],
+
+      // 23
+      [4, 151, 121, 5, 152, 122],
+      [4, 75, 47, 14, 76, 48],
+      [11, 54, 24, 14, 55, 25],
+      [16, 45, 15, 14, 46, 16],
+
+      // 24
+      [6, 147, 117, 4, 148, 118],
+      [6, 73, 45, 14, 74, 46],
+      [11, 54, 24, 16, 55, 25],
+      [30, 46, 16, 2, 47, 17],
+
+      // 25
+      [8, 132, 106, 4, 133, 107],
+      [8, 75, 47, 13, 76, 48],
+      [7, 54, 24, 22, 55, 25],
+      [22, 45, 15, 13, 46, 16],
+
+      // 26
+      [10, 142, 114, 2, 143, 115],
+      [19, 74, 46, 4, 75, 47],
+      [28, 50, 22, 6, 51, 23],
+      [33, 46, 16, 4, 47, 17],
+
+      // 27
+      [8, 152, 122, 4, 153, 123],
+      [22, 73, 45, 3, 74, 46],
+      [8, 53, 23, 26, 54, 24],
+      [12, 45, 15, 28, 46, 16],
+
+      // 28
+      [3, 147, 117, 10, 148, 118],
+      [3, 73, 45, 23, 74, 46],
+      [4, 54, 24, 31, 55, 25],
+      [11, 45, 15, 31, 46, 16],
+
+      // 29
+      [7, 146, 116, 7, 147, 117],
+      [21, 73, 45, 7, 74, 46],
+      [1, 53, 23, 37, 54, 24],
+      [19, 45, 15, 26, 46, 16],
+
+      // 30
+      [5, 145, 115, 10, 146, 116],
+      [19, 75, 47, 10, 76, 48],
+      [15, 54, 24, 25, 55, 25],
+      [23, 45, 15, 25, 46, 16],
+
+      // 31
+      [13, 145, 115, 3, 146, 116],
+      [2, 74, 46, 29, 75, 47],
+      [42, 54, 24, 1, 55, 25],
+      [23, 45, 15, 28, 46, 16],
+
+      // 32
+      [17, 145, 115],
+      [10, 74, 46, 23, 75, 47],
+      [10, 54, 24, 35, 55, 25],
+      [19, 45, 15, 35, 46, 16],
+
+      // 33
+      [17, 145, 115, 1, 146, 116],
+      [14, 74, 46, 21, 75, 47],
+      [29, 54, 24, 19, 55, 25],
+      [11, 45, 15, 46, 46, 16],
+
+      // 34
+      [13, 145, 115, 6, 146, 116],
+      [14, 74, 46, 23, 75, 47],
+      [44, 54, 24, 7, 55, 25],
+      [59, 46, 16, 1, 47, 17],
+
+      // 35
+      [12, 151, 121, 7, 152, 122],
+      [12, 75, 47, 26, 76, 48],
+      [39, 54, 24, 14, 55, 25],
+      [22, 45, 15, 41, 46, 16],
+
+      // 36
+      [6, 151, 121, 14, 152, 122],
+      [6, 75, 47, 34, 76, 48],
+      [46, 54, 24, 10, 55, 25],
+      [2, 45, 15, 64, 46, 16],
+
+      // 37
+      [17, 152, 122, 4, 153, 123],
+      [29, 74, 46, 14, 75, 47],
+      [49, 54, 24, 10, 55, 25],
+      [24, 45, 15, 46, 46, 16],
+
+      // 38
+      [4, 152, 122, 18, 153, 123],
+      [13, 74, 46, 32, 75, 47],
+      [48, 54, 24, 14, 55, 25],
+      [42, 45, 15, 32, 46, 16],
+
+      // 39
+      [20, 147, 117, 4, 148, 118],
+      [40, 75, 47, 7, 76, 48],
+      [43, 54, 24, 22, 55, 25],
+      [10, 45, 15, 67, 46, 16],
+
+      // 40
+      [19, 148, 118, 6, 149, 119],
+      [18, 75, 47, 31, 76, 48],
+      [34, 54, 24, 34, 55, 25],
+      [20, 45, 15, 61, 46, 16]
+    ];
+
+    var qrRSBlock = function(totalCount, dataCount) {
+      var _this = {};
+      _this.totalCount = totalCount;
+      _this.dataCount = dataCount;
+      return _this;
+    };
+
+    var _this = {};
+
+    var getRsBlockTable = function(typeNumber, errorCorrectionLevel) {
+
+      switch(errorCorrectionLevel) {
+      case QRErrorCorrectionLevel.L :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+      case QRErrorCorrectionLevel.M :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+      case QRErrorCorrectionLevel.Q :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+      case QRErrorCorrectionLevel.H :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+      default :
+        return undefined;
+      }
+    };
+
+    _this.getRSBlocks = function(typeNumber, errorCorrectionLevel) {
+
+      var rsBlock = getRsBlockTable(typeNumber, errorCorrectionLevel);
+
+      if (typeof rsBlock == 'undefined') {
+        throw 'bad rs block @ typeNumber:' + typeNumber +
+            '/errorCorrectionLevel:' + errorCorrectionLevel;
+      }
+
+      var length = rsBlock.length / 3;
+
+      var list = [];
+
+      for (var i = 0; i < length; i += 1) {
+
+        var count = rsBlock[i * 3 + 0];
+        var totalCount = rsBlock[i * 3 + 1];
+        var dataCount = rsBlock[i * 3 + 2];
+
+        for (var j = 0; j < count; j += 1) {
+          list.push(qrRSBlock(totalCount, dataCount) );
+        }
+      }
+
+      return list;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrBitBuffer
+  //---------------------------------------------------------------------
+
+  var qrBitBuffer = function() {
+
+    var _buffer = [];
+    var _length = 0;
+
+    var _this = {};
+
+    _this.getBuffer = function() {
+      return _buffer;
+    };
+
+    _this.getAt = function(index) {
+      var bufIndex = Math.floor(index / 8);
+      return ( (_buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+    };
+
+    _this.put = function(num, length) {
+      for (var i = 0; i < length; i += 1) {
+        _this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+      }
+    };
+
+    _this.getLengthInBits = function() {
+      return _length;
+    };
+
+    _this.putBit = function(bit) {
+
+      var bufIndex = Math.floor(_length / 8);
+      if (_buffer.length <= bufIndex) {
+        _buffer.push(0);
+      }
+
+      if (bit) {
+        _buffer[bufIndex] |= (0x80 >>> (_length % 8) );
+      }
+
+      _length += 1;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrNumber
+  //---------------------------------------------------------------------
+
+  var qrNumber = function(data) {
+
+    var _mode = QRMode.MODE_NUMBER;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _data;
+
+      var i = 0;
+
+      while (i + 2 < data.length) {
+        buffer.put(strToNum(data.substring(i, i + 3) ), 10);
+        i += 3;
+      }
+
+      if (i < data.length) {
+        if (data.length - i == 1) {
+          buffer.put(strToNum(data.substring(i, i + 1) ), 4);
+        } else if (data.length - i == 2) {
+          buffer.put(strToNum(data.substring(i, i + 2) ), 7);
+        }
+      }
+    };
+
+    var strToNum = function(s) {
+      var num = 0;
+      for (var i = 0; i < s.length; i += 1) {
+        num = num * 10 + chatToNum(s.charAt(i) );
+      }
+      return num;
+    };
+
+    var chatToNum = function(c) {
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      }
+      throw 'illegal char :' + c;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrAlphaNum
+  //---------------------------------------------------------------------
+
+  var qrAlphaNum = function(data) {
+
+    var _mode = QRMode.MODE_ALPHA_NUM;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var s = _data;
+
+      var i = 0;
+
+      while (i + 1 < s.length) {
+        buffer.put(
+          getCode(s.charAt(i) ) * 45 +
+          getCode(s.charAt(i + 1) ), 11);
+        i += 2;
+      }
+
+      if (i < s.length) {
+        buffer.put(getCode(s.charAt(i) ), 6);
+      }
+    };
+
+    var getCode = function(c) {
+
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      } else if ('A' <= c && c <= 'Z') {
+        return c.charCodeAt(0) - 'A'.charCodeAt(0) + 10;
+      } else {
+        switch (c) {
+        case ' ' : return 36;
+        case '$' : return 37;
+        case '%' : return 38;
+        case '*' : return 39;
+        case '+' : return 40;
+        case '-' : return 41;
+        case '.' : return 42;
+        case '/' : return 43;
+        case ':' : return 44;
+        default :
+          throw 'illegal char :' + c;
+        }
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qr8BitByte
+  //---------------------------------------------------------------------
+
+  var qr8BitByte = function(data) {
+
+    var _mode = QRMode.MODE_8BIT_BYTE;
+    var _data = data;
+    var _bytes = qrcode.stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _bytes.length;
+    };
+
+    _this.write = function(buffer) {
+      for (var i = 0; i < _bytes.length; i += 1) {
+        buffer.put(_bytes[i], 8);
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrKanji
+  //---------------------------------------------------------------------
+
+  var qrKanji = function(data) {
+
+    var _mode = QRMode.MODE_KANJI;
+    var _data = data;
+
+    var stringToBytes = qrcode.stringToBytesFuncs['SJIS'];
+    if (!stringToBytes) {
+      throw 'sjis not supported.';
+    }
+    !function(c, code) {
+      // self test for sjis support.
+      var test = stringToBytes(c);
+      if (test.length != 2 || ( (test[0] << 8) | test[1]) != code) {
+        throw 'sjis not supported.';
+      }
+    }('\u53cb', 0x9746);
+
+    var _bytes = stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return ~~(_bytes.length / 2);
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _bytes;
+
+      var i = 0;
+
+      while (i + 1 < data.length) {
+
+        var c = ( (0xff & data[i]) << 8) | (0xff & data[i + 1]);
+
+        if (0x8140 <= c && c <= 0x9FFC) {
+          c -= 0x8140;
+        } else if (0xE040 <= c && c <= 0xEBBF) {
+          c -= 0xC140;
+        } else {
+          throw 'illegal char at ' + (i + 1) + '/' + c;
+        }
+
+        c = ( (c >>> 8) & 0xff) * 0xC0 + (c & 0xff);
+
+        buffer.put(c, 13);
+
+        i += 2;
+      }
+
+      if (i < data.length) {
+        throw 'illegal char at ' + (i + 1);
+      }
+    };
+
+    return _this;
+  };
+
+  //=====================================================================
+  // GIF Support etc.
+  //
+
+  //---------------------------------------------------------------------
+  // byteArrayOutputStream
+  //---------------------------------------------------------------------
+
+  var byteArrayOutputStream = function() {
+
+    var _bytes = [];
+
+    var _this = {};
+
+    _this.writeByte = function(b) {
+      _bytes.push(b & 0xff);
+    };
+
+    _this.writeShort = function(i) {
+      _this.writeByte(i);
+      _this.writeByte(i >>> 8);
+    };
+
+    _this.writeBytes = function(b, off, len) {
+      off = off || 0;
+      len = len || b.length;
+      for (var i = 0; i < len; i += 1) {
+        _this.writeByte(b[i + off]);
+      }
+    };
+
+    _this.writeString = function(s) {
+      for (var i = 0; i < s.length; i += 1) {
+        _this.writeByte(s.charCodeAt(i) );
+      }
+    };
+
+    _this.toByteArray = function() {
+      return _bytes;
+    };
+
+    _this.toString = function() {
+      var s = '';
+      s += '[';
+      for (var i = 0; i < _bytes.length; i += 1) {
+        if (i > 0) {
+          s += ',';
+        }
+        s += _bytes[i];
+      }
+      s += ']';
+      return s;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64EncodeOutputStream
+  //---------------------------------------------------------------------
+
+  var base64EncodeOutputStream = function() {
+
+    var _buffer = 0;
+    var _buflen = 0;
+    var _length = 0;
+    var _base64 = '';
+
+    var _this = {};
+
+    var writeEncoded = function(b) {
+      _base64 += String.fromCharCode(encode(b & 0x3f) );
+    };
+
+    var encode = function(n) {
+      if (n < 0) {
+        // error.
+      } else if (n < 26) {
+        return 0x41 + n;
+      } else if (n < 52) {
+        return 0x61 + (n - 26);
+      } else if (n < 62) {
+        return 0x30 + (n - 52);
+      } else if (n == 62) {
+        return 0x2b;
+      } else if (n == 63) {
+        return 0x2f;
+      }
+      throw 'n:' + n;
+    };
+
+    _this.writeByte = function(n) {
+
+      _buffer = (_buffer << 8) | (n & 0xff);
+      _buflen += 8;
+      _length += 1;
+
+      while (_buflen >= 6) {
+        writeEncoded(_buffer >>> (_buflen - 6) );
+        _buflen -= 6;
+      }
+    };
+
+    _this.flush = function() {
+
+      if (_buflen > 0) {
+        writeEncoded(_buffer << (6 - _buflen) );
+        _buffer = 0;
+        _buflen = 0;
+      }
+
+      if (_length % 3 != 0) {
+        // padding
+        var padlen = 3 - _length % 3;
+        for (var i = 0; i < padlen; i += 1) {
+          _base64 += '=';
+        }
+      }
+    };
+
+    _this.toString = function() {
+      return _base64;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64DecodeInputStream
+  //---------------------------------------------------------------------
+
+  var base64DecodeInputStream = function(str) {
+
+    var _str = str;
+    var _pos = 0;
+    var _buffer = 0;
+    var _buflen = 0;
+
+    var _this = {};
+
+    _this.read = function() {
+
+      while (_buflen < 8) {
+
+        if (_pos >= _str.length) {
+          if (_buflen == 0) {
+            return -1;
+          }
+          throw 'unexpected end of file./' + _buflen;
+        }
+
+        var c = _str.charAt(_pos);
+        _pos += 1;
+
+        if (c == '=') {
+          _buflen = 0;
+          return -1;
+        } else if (c.match(/^\s$/) ) {
+          // ignore if whitespace.
+          continue;
+        }
+
+        _buffer = (_buffer << 6) | decode(c.charCodeAt(0) );
+        _buflen += 6;
+      }
+
+      var n = (_buffer >>> (_buflen - 8) ) & 0xff;
+      _buflen -= 8;
+      return n;
+    };
+
+    var decode = function(c) {
+      if (0x41 <= c && c <= 0x5a) {
+        return c - 0x41;
+      } else if (0x61 <= c && c <= 0x7a) {
+        return c - 0x61 + 26;
+      } else if (0x30 <= c && c <= 0x39) {
+        return c - 0x30 + 52;
+      } else if (c == 0x2b) {
+        return 62;
+      } else if (c == 0x2f) {
+        return 63;
+      } else {
+        throw 'c:' + c;
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // gifImage (B/W)
+  //---------------------------------------------------------------------
+
+  var gifImage = function(width, height) {
+
+    var _width = width;
+    var _height = height;
+    var _data = new Array(width * height);
+
+    var _this = {};
+
+    _this.setPixel = function(x, y, pixel) {
+      _data[y * _width + x] = pixel;
+    };
+
+    _this.write = function(out) {
+
+      //---------------------------------
+      // GIF Signature
+
+      out.writeString('GIF87a');
+
+      //---------------------------------
+      // Screen Descriptor
+
+      out.writeShort(_width);
+      out.writeShort(_height);
+
+      out.writeByte(0x80); // 2bit
+      out.writeByte(0);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Global Color Map
+
+      // black
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+
+      // white
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+
+      //---------------------------------
+      // Image Descriptor
+
+      out.writeString(',');
+      out.writeShort(0);
+      out.writeShort(0);
+      out.writeShort(_width);
+      out.writeShort(_height);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Local Color Map
+
+      //---------------------------------
+      // Raster Data
+
+      var lzwMinCodeSize = 2;
+      var raster = getLZWRaster(lzwMinCodeSize);
+
+      out.writeByte(lzwMinCodeSize);
+
+      var offset = 0;
+
+      while (raster.length - offset > 255) {
+        out.writeByte(255);
+        out.writeBytes(raster, offset, 255);
+        offset += 255;
+      }
+
+      out.writeByte(raster.length - offset);
+      out.writeBytes(raster, offset, raster.length - offset);
+      out.writeByte(0x00);
+
+      //---------------------------------
+      // GIF Terminator
+      out.writeString(';');
+    };
+
+    var bitOutputStream = function(out) {
+
+      var _out = out;
+      var _bitLength = 0;
+      var _bitBuffer = 0;
+
+      var _this = {};
+
+      _this.write = function(data, length) {
+
+        if ( (data >>> length) != 0) {
+          throw 'length over';
+        }
+
+        while (_bitLength + length >= 8) {
+          _out.writeByte(0xff & ( (data << _bitLength) | _bitBuffer) );
+          length -= (8 - _bitLength);
+          data >>>= (8 - _bitLength);
+          _bitBuffer = 0;
+          _bitLength = 0;
+        }
+
+        _bitBuffer = (data << _bitLength) | _bitBuffer;
+        _bitLength = _bitLength + length;
+      };
+
+      _this.flush = function() {
+        if (_bitLength > 0) {
+          _out.writeByte(_bitBuffer);
+        }
+      };
+
+      return _this;
+    };
+
+    var getLZWRaster = function(lzwMinCodeSize) {
+
+      var clearCode = 1 << lzwMinCodeSize;
+      var endCode = (1 << lzwMinCodeSize) + 1;
+      var bitLength = lzwMinCodeSize + 1;
+
+      // Setup LZWTable
+      var table = lzwTable();
+
+      for (var i = 0; i < clearCode; i += 1) {
+        table.add(String.fromCharCode(i) );
+      }
+      table.add(String.fromCharCode(clearCode) );
+      table.add(String.fromCharCode(endCode) );
+
+      var byteOut = byteArrayOutputStream();
+      var bitOut = bitOutputStream(byteOut);
+
+      // clear code
+      bitOut.write(clearCode, bitLength);
+
+      var dataIndex = 0;
+
+      var s = String.fromCharCode(_data[dataIndex]);
+      dataIndex += 1;
+
+      while (dataIndex < _data.length) {
+
+        var c = String.fromCharCode(_data[dataIndex]);
+        dataIndex += 1;
+
+        if (table.contains(s + c) ) {
+
+          s = s + c;
+
+        } else {
+
+          bitOut.write(table.indexOf(s), bitLength);
+
+          if (table.size() < 0xfff) {
+
+            if (table.size() == (1 << bitLength) ) {
+              bitLength += 1;
+            }
+
+            table.add(s + c);
+          }
+
+          s = c;
+        }
+      }
+
+      bitOut.write(table.indexOf(s), bitLength);
+
+      // end code
+      bitOut.write(endCode, bitLength);
+
+      bitOut.flush();
+
+      return byteOut.toByteArray();
+    };
+
+    var lzwTable = function() {
+
+      var _map = {};
+      var _size = 0;
+
+      var _this = {};
+
+      _this.add = function(key) {
+        if (_this.contains(key) ) {
+          throw 'dup key:' + key;
+        }
+        _map[key] = _size;
+        _size += 1;
+      };
+
+      _this.size = function() {
+        return _size;
+      };
+
+      _this.indexOf = function(key) {
+        return _map[key];
+      };
+
+      _this.contains = function(key) {
+        return typeof _map[key] != 'undefined';
+      };
+
+      return _this;
+    };
+
+    return _this;
+  };
+
+  var createDataURL = function(width, height, getPixel) {
+    var gif = gifImage(width, height);
+    for (var y = 0; y < height; y += 1) {
+      for (var x = 0; x < width; x += 1) {
+        gif.setPixel(x, y, getPixel(x, y) );
+      }
+    }
+
+    var b = byteArrayOutputStream();
+    gif.write(b);
+
+    var base64 = base64EncodeOutputStream();
+    var bytes = b.toByteArray();
+    for (var i = 0; i < bytes.length; i += 1) {
+      base64.writeByte(bytes[i]);
+    }
+    base64.flush();
+
+    return 'data:image/gif;base64,' + base64;
+  };
+
+  //---------------------------------------------------------------------
+  // returns qrcode function.
+
+  return qrcode;
+}();
+
+// multibyte support
+!function() {
+
+  qrcode.stringToBytesFuncs['UTF-8'] = function(s) {
+    // http://stackoverflow.com/questions/18729405/how-to-convert-utf8-string-to-byte-array
+    function toUTF8Array(str) {
+      var utf8 = [];
+      for (var i=0; i < str.length; i++) {
+        var charcode = str.charCodeAt(i);
+        if (charcode < 0x80) utf8.push(charcode);
+        else if (charcode < 0x800) {
+          utf8.push(0xc0 | (charcode >> 6),
+              0x80 | (charcode & 0x3f));
+        }
+        else if (charcode < 0xd800 || charcode >= 0xe000) {
+          utf8.push(0xe0 | (charcode >> 12),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+        // surrogate pair
+        else {
+          i++;
+          // UTF-16 encodes 0x10000-0x10FFFF by
+          // subtracting 0x10000 and splitting the
+          // 20 bits of 0x0-0xFFFFF into two halves
+          charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+            | (str.charCodeAt(i) & 0x3ff));
+          utf8.push(0xf0 | (charcode >>18),
+              0x80 | ((charcode>>12) & 0x3f),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+      }
+      return utf8;
+    }
+    return toUTF8Array(s);
+  };
+
+}();
+
+(function (factory) {
+  if (typeof define === 'function' && define.amd) {
+      define([], factory);
+  } else if (typeof exports === 'object') {
+      module.exports = factory();
+  }
+}(function () {
+    return qrcode;
+}));
+
+</script>
+
+
+<button class="wk-share-fab" id="wkShareFab" type="button" aria-label="分享給微信朋友">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.7 3C4.9 3 1.8 5.7 1.8 9c0 1.9 1.1 3.6 2.8 4.7L3.7 15.8l2.3-1.2c.9.3 1.9.4 2.7.4h.6c-.2-.6-.3-1.2-.3-1.9 0-3 2.7-5.3 6.1-5.3h.5C14.7 5.3 12 3 8.7 3zM6.2 8.1c.6 0 1 .5 1 1s-.4 1-1 1-1-.5-1-1.1.4-1 1-1zm5 0c.6 0 1 .5 1 1s-.4 1-1 1-1-.5-1-1.1.4-1 1z"/><path d="M22.2 13.9c0-2.7-2.5-4.9-5.5-4.9s-5.5 2.2-5.5 4.9 2.5 4.9 5.5 4.9c.7 0 1.3-.1 1.9-.3l1.9 1-.5-1.7c1.4-.9 2.2-2.2 2.2-3.9zm-7.3-.9c.5 0 .8.4.8.8s-.3.8-.8.8-.8-.4-.8-.8.3-.8.8-.8zm3.8 0c.5 0 .8.4.8.8s-.3.8-.8.8-.8-.4-.8-.8.3-.8.8-.8z"/></svg>
+  微信分享
+</button>
+<div class="wk-share-mask" id="wkShareMask">
+  <div class="wk-share-card">
+    <button class="wk-close" id="wkShareClose" type="button" aria-label="關閉">×</button>
+    <h3>分享給微信朋友</h3>
+    <div class="wk-sub">澳門新聞週報 · 掃碼分享</div>
+    <img class="wk-qr" id="wkQr" alt="微信掃碼分享二維碼">
+    <div class="wk-share-tip">用手機微信「掃一掃」上方二維碼，<br>在微信中打開本文，點右上角 <b>···</b> 即可「發送給朋友」。</div>
+    <button class="wk-copy-btn" id="wkCopyBtn" type="button">複製連結</button>
+  </div>
+</div>
+<script>
+  /* 內嵌偵測：在 iframe 內時加上 .embedded，隱藏重複版頭與分享鈕 */
+  try { if (window.self !== window.top) { document.documentElement.classList.add('embedded'); } } catch (e) { document.documentElement.classList.add('embedded'); }
+(function () {
+  var fab = document.getElementById('wkShareFab');
+  var mask = document.getElementById('wkShareMask');
+  var closeBtn = document.getElementById('wkShareClose');
+  var qr = document.getElementById('wkQr');
+  var copyBtn = document.getElementById('wkCopyBtn');
+
+  function shareUrl() {
+    if (window.location.pathname.indexOf('macau-weekly.html') > -1) {
+      try {
+        var p = new URLSearchParams(window.location.search).get('p');
+        if (p) return 'https://seanown.org/macau-weekly/' + p + '.html';
+      } catch (e) {}
+      return 'https://seanown.org/macau-weekly.html';
+    }
+    return window.location.href;
+  }
+  function openShare() {
+    var u = shareUrl();
+    var qrObj = qrcode(0, 'M');
+    qrObj.addData(u);
+    qrObj.make();
+    qr.src = qrObj.createDataURL(6, 4);
+    mask.classList.add('open');
+  }
+  function closeShare() { mask.classList.remove('open'); }
+
+  if (fab) fab.addEventListener('click', openShare);
+  if (closeBtn) closeBtn.addEventListener('click', closeShare);
+  if (mask) mask.addEventListener('click', function (e) { if (e.target === mask) closeShare(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeShare(); });
+
+  if (copyBtn) copyBtn.addEventListener('click', function () {
+    var u = shareUrl();
+    var done = function () {
+      copyBtn.textContent = '已複製連結';
+      copyBtn.classList.add('done');
+      setTimeout(function () { copyBtn.textContent = '複製連結'; copyBtn.classList.remove('done'); }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(u).then(done, function () { fallbackCopy(u, done); });
+    } else { fallbackCopy(u, done); }
+  });
+  function fallbackCopy(u, done) {
+    var t = document.createElement('textarea');
+    t.value = u; t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.focus(); t.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(t);
+  }
+})();
+</script>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="container">
+    <span class="header-tag">Macau Weekly Digest</span>
+    <h1>澳門新聞週報</h1>
+    <div class="date">第 44 期 · 2026年10月26日（週一）出報</div>
+    <div class="week-range">10.19 — 10.25</div>
+  </div>
+</div>
+
+<!-- ===== NAV TABS ===== -->
+<div class="nav-tabs">
+  <div class="container" style="display: flex; gap: 0; padding: 0;">
+    <a class="nav-tab active" href="#overview">總覽</a>
+    <a class="nav-tab" href="#data">數據看板</a>
+    <a class="nav-tab" href="#cat1">時政</a>
+    <a class="nav-tab" href="#cat2">經濟民生</a>
+    <a class="nav-tab" href="#cat3">社會文化</a>
+    <a class="nav-tab" href="#cat4">旅遊盛事</a>
+    <a class="nav-tab" href="#cat5">中葡平台</a>
+    <a class="nav-tab" href="#cat6">中華文化</a>
+    <a class="nav-tab" href="#cat7">社團社區</a>
+    <a class="nav-tab" href="#cat8">大灣區</a>
+    <a class="nav-tab" href="#cat9">演唱會</a>
+    <a class="nav-tab" href="#cat10">AI 精選</a>
+    <a class="nav-tab" href="#sources">來源</a>
+  </div>
+</div>
+
+<div class="container">
+<!-- ===== 一、本週總覽 ===== -->
+  <div class="section" id="overview">
+    <div class="section-num">PART 01</div>
+    <h2 class="section-title">本週總覽</h2>
+    <div class="overview">
+      <p>上週澳門最重要的一件事，是首期規模 200 億澳門元的政府引導基金正式簽署設立——特區政府出資 110 億、六大綜合旅遊休閒企業合資 90 億，以「引導基金—母基金—子基金」三層架構投向新興產業與科技成果轉化，是「1+4」產業佈局落地的標誌性一步。同期，MIF、PLPEX、MFE「三展聯動」與第四屆粵港澳大灣區發展工商大會接力舉行，四天吸引逾 9 萬人次入場、逾 1,100 場商業配對、約 140 份簽約，澳門全球服務貿易指數排名躋身第 6。數據面上，首三季入境旅客 3,218.1 萬人次按年增 8.5%，9 月物價升幅溫和（1.33%）。</p>
+      <div class="overview-analysis">
+        <div class="analysis-lead">軒哥視角｜澳門三個群體怎麼看</div>
+        <div class="analysis-byline">翁振軒（軒哥）· 粵港澳大灣區電子商會會長</div>
+        <div class="analysis-item">
+          <span class="analysis-tag">澳門社團怎麼看？</span>
+          <p>上週有兩組數字值得社團朋友認真讀一遍：勞工局首三季協助 8,535 人次成功就業配對、青年佔 52%；「綜合職業培訓平台」正式版上線，首批 38 個訂單式崗位由五家大型休企與公用事業提供，學員培訓期間每月可獲 5,000 元津貼。這說明政府與大企業已經把「先培訓、後應聘」做成了制度化管道，社團的角色要從「辦講座、發資訊」升級為「精準帶人進管道」——特別是 34 歲以下青年與殘疾人士（12 月 3 日的配對會提供 97 個職缺），社團接觸面比政府更貼地，應主動把基層會員的技能短板與職位需求做雙向盤點，再對接培訓平台；同時露天茶座延長營業至晚上十時、媽閣塘東南亞文化周三十八攤夜市等夜經濟措施，直接關係小商號的生存空間，社團應持續向政府反映執行層面的噪音管理、人流引導等真實難點。政府建議：社會文化司（轄教青局、社工局）可聯同經濟財政司（轄勞工局）在社區層面設「培訓直通車」對接點，把綜合職業培訓平台的報名入口下沉到社團；配合經濟及科技發展局現正與消費者委員會、科學技術發展基金合併重組的進度，中小企支援與職業培訓的政策窗口宜一次理順。</p>
+        </div>
+        <div class="analysis-item">
+          <span class="analysis-tag">澳門青年企業家怎麼看？</span>
+          <p>200 億政府引導基金是本週最值得青年創業者研究的一份文件。三層架構之下，子基金投向新興產業、科技成果轉化與初創科企，這意味著澳門第一次有了制度化的耐心資本——過去青年團隊做數位化、做大健康、做文創出海，最缺的不是點子而是本地化的股權資金，現在通道打開了，關鍵是把自己的商業計劃寫成引導基金子基金看得懂的語言。同一週，澳門國際科技產業中心首批 19 間企業進駐、勞工局推出人工智能實訓計劃，加上三展期間直播板塊全平台觀看逾 580 萬次、首屆「澳門品牌」直播帶貨達人獲選，可以看到一條清晰的鏈路：資金（引導基金）—載體（科產中心）—人才（AI 實訓）—市場（直播出海）。青年企業家的功課，是把人流轉成訂單的能力系統化——比如借「高德掃街榜」192 間上榜商戶的流量邏輯，把線上曝光沉澱為會員制與複購。政府建議：經濟財政司（轄經濟及科技發展局、招商局）可為引導基金設立青年初創快速通道與路演常態機制；社會文化司轄教青局宜把 AI 實訓計劃延伸至在職青年創業者，配合科學技術發展基金併入經科局的重組進度，統一科研資助與產業資金的申報介面。</p>
+        </div>
+        <div class="analysis-item">
+          <span class="analysis-tag">澳門文化旅遊業者怎麼看？</span>
+          <p>本週澳門的文化旅遊供給側非常密集：第八屆中葡文化藝術節串聯葡韻嘉年華、約 50 場節目走進社區；第三十八屆澳門國際音樂節主題「絲．韻」持續上演，郎朗 10 月 25 日的《伊比利亞狂想》獨奏會更是一票難求；週末單日六場演唱會（任賢齊、草蜢、陳卓賢、tripleS、蘇志燮等）把全月客流推到高峰。對業者的啟示是：大型活動已經不缺客流，缺的是把人流轉化為深度體驗的產品設計——世遺導賞、中葡藝術年展、音樂節周邊與社區夜市，完全可以打包成「兩小時＋兩天」的分層產品，讓一日遊客變過夜客。澳琴露營節首日近一萬人、世旅經濟論壇宣告海南接棒並簽瓊澳合作備忘錄，說明區域聯動產品的需求真實存在，本地旅行社應主動設計「澳門世遺＋琴澳生態」的聯程產品，提前鎖定大賽車（11 月 19–22 日）與美食節客流。政府建議：社會文化司（轄旅遊局、文化局）可設立跨部門的「盛事產品化」對接機制，把演唱會、體育賽事、文化節的檔期與旅行社產品開發前置聯動；配合文化局現正合併體育局、文化發展基金的重組進度，場地檔期協調與文創資助申請宜統一入口，降低業者的制度性成本。</p>
+        </div>
+      </div>
+      <div class="overview-highlights">
+        <div class="highlight-chip">
+          <div class="num">200億</div>
+          <div class="label">澳門元</div>
+          <div class="desc">政府引導基金首期規模（政府110億＋六大休企90億）</div>
+        </div>
+        <div class="highlight-chip">
+          <div class="num">逾9萬</div>
+          <div class="label">入場人次</div>
+          <div class="desc">三展聯動四天（專業觀眾逾1.7萬）</div>
+        </div>
+        <div class="highlight-chip">
+          <div class="num">3,218萬</div>
+          <div class="label">首三季旅客</div>
+          <div class="desc">入境旅客按年增8.5%（1–9月）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===== 二、一週數據看板 ===== -->
+  <div class="section" id="data">
+    <div class="section-num">PART 02</div>
+    <h2 class="section-title">一週數據看板</h2>
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="label">入境旅客（首三季）</div>
+        <div class="value">3,218.1萬</div>
+        <div class="change pos">按年 +8.5%</div>
+        <div class="period">2026 年 1–9 月 · DSEC</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:64%;background:var(--c8)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">其中：中國內地旅客</div>
+        <div class="value">2,388.5萬</div>
+        <div class="change pos">按年 +10.7%</div>
+        <div class="period">2026 年 1–9 月 · DSEC</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:70%;background:var(--c8)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">其中：國際旅客</div>
+        <div class="value">194.9萬</div>
+        <div class="change pos">按年 +3.4%</div>
+        <div class="period">2026 年 1–9 月 · DSEC</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:30%;background:var(--c8)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">入境旅客（9 月）</div>
+        <div class="value">321.7萬</div>
+        <div class="change pos">按年 +15.9%</div>
+        <div class="period">2026 年 9 月 · DSEC</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:40%;background:var(--c8)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">綜合消費物價指數</div>
+        <div class="value">+1.33%</div>
+        <div class="change neu">按年・溫和</div>
+        <div class="period">2026 年 9 月 · DSEC</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:18%;background:var(--c2)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">幸運博彩毛收入</div>
+        <div class="value">180.63億</div>
+        <div class="change neu">2026 年 9 月</div>
+        <div class="period">2026-09 · DSEC 指標</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:62%;background:var(--c2)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">總體失業率</div>
+        <div class="value">2.0%</div>
+        <div class="change neu">較上期 +0.1 百分點</div>
+        <div class="period">2026 年 6–8 月 · DSEC</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:20%;background:var(--c2)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">本地居民失業率</div>
+        <div class="value">2.5%</div>
+        <div class="change neu">較上期 +0.1 百分點</div>
+        <div class="period">2026 年 6–8 月 · DSEC</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:25%;background:var(--c2)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">外來直接投資</div>
+        <div class="value">62.0億</div>
+        <div class="change neg">按年 −43.5%</div>
+        <div class="period">2025 年全年 · DSEC</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:30%;background:var(--c6)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">出口貨值</div>
+        <div class="value">14.27億</div>
+        <div class="change pos">按年 +11%</div>
+        <div class="period">2026 年 8 月 · DSEC</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:26%;background:var(--c8)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">三展入場人次</div>
+        <div class="value">逾 9 萬</div>
+        <div class="change neu">專業觀眾逾 1.7 萬</div>
+        <div class="period">10/21–10/24 · 招商局</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:60%;background:var(--c2)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">三展配對／簽約</div>
+        <div class="value">1,100／140</div>
+        <div class="change neu">場次／份</div>
+        <div class="period">10/21–10/24 · 招商局</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:55%;background:var(--c2)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">首三季就業配對</div>
+        <div class="value">8,535</div>
+        <div class="change neu">青年佔 52%</div>
+        <div class="period">2026 年 1–9 月 · 勞工局</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:40%;background:var(--c2)"></div></div>
+      </div>
+      <div class="data-card">
+        <div class="label">政府引導基金首期</div>
+        <div class="value">200億</div>
+        <div class="change neu">政府110億＋休企90億</div>
+        <div class="period">10/23 設立 · 新聞局</div>
+        <div class="data-bar"><div class="data-bar-fill" style="width:80%;background:var(--c2)"></div></div>
+      </div>
+    </div>
+    <div class="chart-card">
+  <h3>政府引導基金首期 200 億澳門元組成</h3>
+  <div class="chart-unit">單位：億澳門元 · 設立日：2026-10-23 · 來源：政府新聞局</div>
+  <svg viewBox="0 0 680 230" width="100%" role="img" aria-label="政府引導基金首期組成長條圖">
+    <line x1="80" y1="175" x2="650" y2="175" stroke="#E0DDD5" stroke-width="1"/>
+    <rect x="120" y="65" width="300" height="110" fill="#0B3D2E" rx="3"/>
+    <text x="270" y="55" text-anchor="middle" font-size="15" font-weight="700" fill="#0B3D2E">110 億</text>
+    <text x="270" y="197" text-anchor="middle" font-size="13" fill="#4A4A4A">政府出資（55%）</text>
+    <rect x="440" y="85" width="200" height="90" fill="#C75B12" rx="3"/>
+    <text x="540" y="75" text-anchor="middle" font-size="15" font-weight="700" fill="#C75B12">90 億</text>
+    <text x="540" y="197" text-anchor="middle" font-size="13" fill="#4A4A4A">六大休企合資（45%）</text>
+  </svg>
+</div>
+    <div class="overview" style="margin-top:16px">
+      <p><strong>數據解讀：</strong>首三季入境旅客 3,218.1 萬人次、按年增 8.5%，9 月單月更增 15.9%，訪澳動能延續強勢；物價升幅温和（CPI +1.33%），居民失業率微升至 2.5%，就業市場整體仍穩。值得留意的是，外來直接投資 2025 年全年 62.0 億澳門元、按年減 43.5%，反映外部資金觀望——這正是 200 億政府引導基金「以財儲撬動社會資本」的政策語境：用本地耐心資本補位跨境投資缺口，把「1+4」產業政策從口號落到資產負債表。</p>
+    </div>
+  </div>
+  <!-- ===== 三、分類新聞 ===== -->
+  <div class="section">
+    <div class="category" id="cat1">
+      <div class="category-header" style="background:var(--c1)">
+        <span class="cat-num">01</span>
+        <span class="cat-title">時政與政府政策</span>
+        <span class="cat-count">8 則</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c1)"></div>
+          <div class="content">
+            <div class="title">★★★ 政府引導基金設立文件簽署，首期 200 億元</div>
+            <div class="desc">政府以財儲滾存收益出資 110 億、六家綜合旅遊休閒企業合資 90 億，依《投資基金法》及第 26/2026 號行政法規設立，澳門投資管理公司管理，重點投向新興產業、科技成果轉化與初創科企。</div>
+            <div class="source">新聞局，10/23</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c1)"></div>
+          <div class="content">
+            <div class="title">★★★ 行政長官視察澳門國際科技產業中心</div>
+            <div class="desc">今年 6 月揭牌的科技研發產業園先導項目，首批 19 間企業進駐，涵蓋數字科技、集成電路、生物醫藥、航天科技。</div>
+            <div class="source">新聞局，10/23</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c1)"></div>
+          <div class="content">
+            <div class="title">金管局過渡至新組織架構，主席黃善文等新領導層就職</div>
+            <div class="desc">配合第 29/2026 號行政法規改組，強化監管並推動特色金融新業態。</div>
+            <div class="source">金管局／經財司辦，10/22</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c1)"></div>
+          <div class="content">
+            <div class="title">修改《行政程序法典》第二場公眾諮詢專場</div>
+            <div class="desc">約 140 名市民出席，公共行政現代化立法進入密集聽證階段。</div>
+            <div class="source">法務局，10/23</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c1)"></div>
+          <div class="content">
+            <div class="title">立法會審議《私立進修中心的法律制度》；三常會首審《電信法》</div>
+            <div class="desc">二常會完成審議進修中心法案（立法會，10/20）；華僑報報道三常會首審《電信法》法案，關注平抑價格與地下電信管道聯營安排（華僑報，10/23）。</div>
+            <div class="source">立法會／華僑報</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c1)"></div>
+          <div class="content">
+            <div class="title">行政會完成討論兩項法規草案</div>
+            <div class="desc">《非道路移動柴油發動機機械尾氣排放標準》（2028/1/1 生效）及《修改建築廢料管理制度》（2027/4/1 生效）。</div>
+            <div class="source">行政會，10/22</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c1)"></div>
+          <div class="content">
+            <div class="title">城規會 10/28 討論《城市總體規劃（2020-2040）》第一次修改草案</div>
+            <div class="desc">城市長遠發展藍圖啟動首次檢討程序。</div>
+            <div class="source">城規會，10/23</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c1)"></div>
+          <div class="content">
+            <div class="title">「一國兩制」成功實踐歐洲巡展葡萄牙站</div>
+            <div class="desc">累計觀展逾 3,000 人次，後續赴西班牙、比利時、瑞士。</div>
+            <div class="source">新聞局，10/25</div>
+          </div>
+        </div>
+        <div class="category-summary" style="border-color:var(--c1)">
+          <strong>本週小結：</strong>財政工具與機構改革同步推進——引導基金把「1+4」產業政策從口號變成資產負債表，金管局新架構與經科局、文化局的重組（合併消委會／科發基金、體育局／文發基金）則是機構層面的配套；《行政程序法典》與《電信法》修法顯示治理現代化仍在提速。
+        </div>
+      </div>
+    </div>
+    <div class="category" id="cat2">
+      <div class="category-header" style="background:var(--c2)">
+        <span class="cat-num">02</span>
+        <span class="cat-title">經濟與民生</span>
+        <span class="cat-count">8 則</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c2)"></div>
+          <div class="content">
+            <div class="title">★★★ 勞工局首三季協助 8,535 人次就業配對，第四季推三大培訓</div>
+            <div class="desc">人工智慧實訓計劃、文體產業人才、橫琴影視城研修三大計劃同步推出，青年佔配對人次 52%。</div>
+            <div class="source">勞工局，10/22</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c2)"></div>
+          <div class="content">
+            <div class="title">「綜合職業培訓平台」正式版上線，推「訂單式培訓」</div>
+            <div class="desc">首批 38 個崗位、5,000 元培訓津貼；11/3 起「一戶通」增設橫琴職位空缺專區。</div>
+            <div class="source">勞工局，10/22</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c2)"></div>
+          <div class="content">
+            <div class="title">首批「澳門品牌 Macao Signature」名單公布</div>
+            <div class="desc">20 家品牌企業及 10 位直播帶貨達人獲選，標誌本地品牌出海與直播經濟新動能。</div>
+            <div class="source">經科局，10/23</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c2)"></div>
+          <div class="content">
+            <div class="title">輕軌分批更換多元電子支付閘機；新城 A 區停車場開放</div>
+            <div class="desc">多元支付閘機力爭年底試運（交通局等，10/23）；新城 A 區東強大廈停車場開放，A 區合共 4,900 泊位。</div>
+            <div class="source">10/23</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c2)"></div>
+          <div class="content">
+            <div class="title">露天茶座營業時間延長至晚上十時</div>
+            <div class="desc">配合夜間經濟（市政署，10/21）；餐飲協會稱惠民惠商（澳門日報，10/21）。</div>
+            <div class="source">市政署／澳門日報</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c2)"></div>
+          <div class="content">
+            <div class="title">2025 年度多繳職業稅約 5.7 萬名納稅人 10/27 起有序退還</div>
+            <div class="desc">延續還富於民慣例，有欠債者退款 11 月下旬處理。</div>
+            <div class="source">財政局，10/19</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c2)"></div>
+          <div class="content">
+            <div class="title">偽冒 MPay 釣魚短訊警示；「雷霆 2026」粵港澳聯合行動</div>
+            <div class="desc">司警與金管局接連警示釣魚短訊（10/21–23）；「雷霆 2026」派出逾 370 名警力跨三地聯合打擊（警察總局，10/25）。</div>
+            <div class="source">金管局／司警局／警察總局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c2)"></div>
+          <div class="content">
+            <div class="title">綜合消費物價 9 月按年 +1.33%</div>
+            <div class="desc">食物 +1.25%、運輸 +4.39%，整體升幅溫和。</div>
+            <div class="source">DSEC，10/23</div>
+          </div>
+        </div>
+        <div class="category-summary" style="border-color:var(--c2)">
+          <strong>本週小結：</strong>就業市場整體平穩但居民失業率微升至 2.5%，政府以「訂單式培訓＋AI 技能」回應結構轉型；夜經濟與電子支付基建同步加碼，民生面物價溫和、退稅有序，消費環境穩中偏暖。
+        </div>
+      </div>
+    </div>
+    <div class="category" id="cat3">
+      <div class="category-header" style="background:var(--c3)">
+        <span class="cat-num">03</span>
+        <span class="cat-title">社會與文化</span>
+        <span class="cat-count">7 則</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c3)"></div>
+          <div class="content">
+            <div class="title">★★ 第八屆中葡文化藝術節暨第 29 屆葡韻嘉年華開幕</div>
+            <div class="desc">近 690 位藝術家、約 50 場節目走進社區，中葡文化交流年度旗艦登場。</div>
+            <div class="source">文化局，10/23</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c3)"></div>
+          <div class="content">
+            <div class="title">★★ 澳門服裝節 2026 閉幕</div>
+            <div class="desc">逾 80 位設計師、逾 400 套作品、逾 4,000 人次入場，新疆艾德萊斯非遺與澳門時尚融合。</div>
+            <div class="source">生產力中心，10/24</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c3)"></div>
+          <div class="content">
+            <div class="title">學童健康數據：近三成近視、小三小五逾四成疑似蛀牙</div>
+            <div class="desc">26/27 學年保健摘要電子化（醴務委員會／澳門日報，10/22–25）。</div>
+            <div class="source">澳門日報</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c3)"></div>
+          <div class="content">
+            <div class="title">「守護心晴」跨部門工作組累計接收逾 600 宗個案</div>
+            <div class="desc">「心晴熱線」一年服務逾 8,000 人次（衛生局，10/21–22）。</div>
+            <div class="source">衛生局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c3)"></div>
+          <div class="content">
+            <div class="title">上半年登記吸毒 88 人升 3.5%</div>
+            <div class="desc">近八成在住所等隱蔽場所，防毒宣傳須更貼地（禁毒委員會，10/23）。</div>
+            <div class="source">禁毒委員會</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c3)"></div>
+          <div class="content">
+            <div class="title">輕軌東線首度引入頂管工法「無感」施工</div>
+            <div class="desc">公共建設局以非開挖工法降低對周邊影響（10/25）。</div>
+            <div class="source">公共建設局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c3)"></div>
+          <div class="content">
+            <div class="title">「澳門城市文化節」招募攤位；「澳門記憶」離島圖片徵集 197 張入選</div>
+            <div class="desc">城市文化節 11/14–22 協同大賽車；離島圖片開放投票（文化局／澳基會，10/23）。</div>
+            <div class="source">文化局／澳基會</div>
+          </div>
+        </div>
+        <div class="category-summary" style="border-color:var(--c3)">
+          <strong>本週小結：</strong>文化活動進入密集檔期，非遺與時尚、古典與社區的跨界組合成為主流敘事；公共衛生方面則在學童視力、心理健康兩端加碼監測與服務。
+        </div>
+      </div>
+    </div>
+    <div class="category" id="cat4">
+      <div class="category-header" style="background:var(--c4)">
+        <span class="cat-num">04</span>
+        <span class="cat-title">旅遊、大型活動與會展盛事</span>
+        <span class="cat-count">7 則</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c4)"></div>
+          <div class="content">
+            <div class="title">★★★ 三展聯動閉幕：逾 9 萬人次、逾 1,100 場配對、約 140 份簽約</div>
+            <div class="desc">MIF＋PLPEX＋MFE 同期共振，逾 2,000 個就業崗位、78 家企業提交投資立項表，「1+4」產業簽約佔比逾 80%。</div>
+            <div class="source">招商局，10/24</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c4)"></div>
+          <div class="content">
+            <div class="title">★★ 第四屆粵港澳大灣區發展工商大會閉幕</div>
+            <div class="desc">25 國逾 1,000 人、逾 70 場商務配對、50 位客商赴橫琴考察，「融通灣區 鏈動世界」。</div>
+            <div class="source">招商局，10/22–23</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c4)"></div>
+          <div class="content">
+            <div class="title">★★ 第十二屆世界旅遊經濟論壇收官</div>
+            <div class="desc">20 國約 1,300 人、28 場活動、逾 1,000 組有效配對，海南接棒 2027（經財司辦，10/21）。</div>
+            <div class="source">經財司辦</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c4)"></div>
+          <div class="content">
+            <div class="title">2026 揚帆啟航海事節開幕</div>
+            <div class="desc">「海事同樂日」吸引逾 4,500 人（海事局，10/25）。</div>
+            <div class="source">海事局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c4)"></div>
+          <div class="content">
+            <div class="title">旅遊局對法國發出第一級旅遊警示；熱帶氣旋「薔琵」影響航班</div>
+            <div class="desc">旅遊局 10/24 發警示；民航局 10/22 提醒旅客查詢航班（民航局）。</div>
+            <div class="source">旅遊局／民航局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c4)"></div>
+          <div class="content">
+            <div class="title">體育賽事密集：3×3 籃球、世界大學生盃、舞獅、曲棍球</div>
+            <div class="desc">大灣區 3×3 籃球巡迴賽澳門總決賽（10/19–21 大三巴＋塔石）、世界大學生三人籃球世界盃（10/23–25）、全澳舞獅公開賽（10/24–25）、澳門盃曲棍球賽（10/19–25）。</div>
+            <div class="source">體育局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c4)"></div>
+          <div class="content">
+            <div class="title">銀河推機場預辦登機及行李託運；媽閣塘東南亞文化周夜市</div>
+            <div class="desc">銀河機場預辦登機服務（TDM，10/23）；媽閣塘東南亞文化周 40 攤夜市開鑼（力報，10/24）。</div>
+            <div class="source">TDM／力報</div>
+          </div>
+        </div>
+        <div class="category-summary" style="border-color:var(--c4)">
+          <strong>本週小結：</strong>會展是本週絕對主角，MIF 體系的「以展招商」已能量化到簽約與投資立項；體育賽事持續「旅遊＋體育」融合，大三巴前辦 3×3 總決賽的做法值得複製到更多社區場景。
+        </div>
+      </div>
+    </div>
+    <div class="category" id="cat5">
+      <div class="category-header" style="background:var(--c5)">
+        <span class="cat-num">05</span>
+        <span class="cat-title">中葡商貿合作平台</span>
+        <span class="cat-count">7 則</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c5)"></div>
+          <div class="content">
+            <div class="title">★★ 2026 PLPEX 匯聚九個葡語國家；MIF 首設「西語國家產業館」</div>
+            <div class="desc">葡語國家產品及服務展匯聚特色產業，西語館開拓十億人口新市場（10/21–24）。</div>
+            <div class="source">招商局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c5)"></div>
+          <div class="content">
+            <div class="title">★★ 內地—澳門商會聯席會議：以中葡平台共建灣區經貿新格局</div>
+            <div class="desc">逾 50 名貿促機構與商會代表聚澳，商會網絡跨境合作空間擴大（招商局，10/21）。</div>
+            <div class="source">招商局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c5)"></div>
+          <div class="content">
+            <div class="title">★★ 《全球服務貿易發展指數報告 2026》：中國澳門全球排名第 6</div>
+            <div class="desc">澳門服務貿易競爭力獲量化認可，對中葡平台招商敘事有直接支撐（招商局）。</div>
+            <div class="source">招商局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c5)"></div>
+          <div class="content">
+            <div class="title">中葡論壇常設秘書處設「經貿合作成果展」參與 MIF</div>
+            <div class="desc">「中國—葡語國家經貿合作成果展」展位亮相（10/23）。</div>
+            <div class="source">中葡論壇</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c5)"></div>
+          <div class="content">
+            <div class="title">「校企桃源共育才，語通葡西築未來」葡西語人才論壇</div>
+            <div class="desc">葡西語人才培養論壇在橫琴舉行（中葡經貿中心，10/23）。</div>
+            <div class="source">中葡經貿中心</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c5)"></div>
+          <div class="content">
+            <div class="title">澳大與葡萄牙科英布拉大學合辦行政訴訟裁判執行研討會</div>
+            <div class="desc">10/27 舉行、10/21 預告，深化中葡法治交流（澳大）。</div>
+            <div class="source">澳大</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c5)"></div>
+          <div class="content">
+            <div class="title">第二屆澳門中葡農業國際博覽會同期舉行</div>
+            <div class="desc">農博會與三展聯動，平台角色從「窗口」走向「運營商」（力報，10/21）。</div>
+            <div class="source">力報</div>
+          </div>
+        </div>
+        <div class="category-summary" style="border-color:var(--c5)">
+          <strong>本週小結：</strong>中葡平台本週「實體化」跡象明顯——從展會成交、農博會到葡西語人才聯合培養，平台角色正從「窗口」走向「運營商」，橫琴中葡經貿中心成為新的承載點。
+        </div>
+      </div>
+    </div>
+    <div class="category" id="cat6">
+      <div class="category-header" style="background:var(--c6)">
+        <span class="cat-num">06</span>
+        <span class="cat-title">中華文化交流合作基地</span>
+        <span class="cat-count">6 則</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c6)"></div>
+          <div class="content">
+            <div class="title">★★ 「一國兩制」成功實踐歐洲巡展葡萄牙站逾 3,000 人次觀展</div>
+            <div class="desc">葡萄牙三所高校巡展，後續赴西班牙、比利時、瑞士（新聞局，10/25）。</div>
+            <div class="source">新聞局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c6)"></div>
+          <div class="content">
+            <div class="title">★★ 2026 年「澳門社區工作者陝西體驗式研修計劃」圓滿</div>
+            <div class="desc">20 名社服界學員赴延安研修（澳基會，10/24）。</div>
+            <div class="source">澳基會</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c6)"></div>
+          <div class="content">
+            <div class="title">媽閣塘東南亞文化周展示澳門多元文化底蘊</div>
+            <div class="desc">多元族群文化展示走進社區（力報，10/24）。</div>
+            <div class="source">力報</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c6)"></div>
+          <div class="content">
+            <div class="title">文化局「10 分鐘閱讀角」設置逾 40 個</div>
+            <div class="desc">已於澳門各區及橫琴深合區佈點（文化局，10/20）。</div>
+            <div class="source">文化局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c6)"></div>
+          <div class="content">
+            <div class="title">「城市浪漫——澳門作家作品展」於澳門文學館揭幕</div>
+            <div class="desc">新生代文學創作力量集中展示（文化局，10/20）。</div>
+            <div class="source">文化局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c6)"></div>
+          <div class="content">
+            <div class="title">澳門科協與愛爾蘭高校簽署協議擴大科研合作</div>
+            <div class="desc">國際科研合作網絡再拓展（正報，10/19）。</div>
+            <div class="source">正報</div>
+          </div>
+        </div>
+        <div class="category-summary" style="border-color:var(--c6)">
+          <strong>本週小結：</strong>中華文化基地的敘事本週同時向「向外傳播」（歐洲巡展）與「向內扎根」（閱讀角、作家展、社區文化周）兩端延展，橫琴首次成為閱讀網絡的延伸點。
+        </div>
+      </div>
+    </div>
+    <div class="category" id="cat7">
+      <div class="category-header" style="background:var(--c7)">
+        <span class="cat-num">07</span>
+        <span class="cat-title">社團與社區活動</span>
+        <span class="cat-count">6 則</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c7)"></div>
+          <div class="content">
+            <div class="title">★ 2026 年澳門社區工作者陝西研修計劃結業</div>
+            <div class="desc">20 名社服界學員參與，社區治理經驗跨境交流（澳基會，10/24）。</div>
+            <div class="source">澳基會</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c7)"></div>
+          <div class="content">
+            <div class="title">司警局邀街總、工聯、婦聯等 8 個社團參觀報案中心氹仔分站</div>
+            <div class="desc">新啟用分站向社團開放，強化防罪合作（司警局，10/22）。</div>
+            <div class="source">司警局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c7)"></div>
+          <div class="content">
+            <div class="title">荔枝碗海島節 10/30–11/1 開鑼，六大表演區</div>
+            <div class="desc">社區文化活動進入週末檔期（街總片區發展中心／現代澳門日報，10/23）。</div>
+            <div class="source">現代澳門日報</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c7)"></div>
+          <div class="content">
+            <div class="title">學界辯論比賽：23 所中學逾 340 名學生參加</div>
+            <div class="desc">複賽 10/24；高等院校組 7 校逾 180 名辯手（大眾報，10 月）。</div>
+            <div class="source">大眾報</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c7)"></div>
+          <div class="content">
+            <div class="title">體育界慶國慶暨體聯成立 17 周年聯歡</div>
+            <div class="desc">亞運 1 金 4 銀 1 銅創最佳（正報，10 月）。</div>
+            <div class="source">正報</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c7)"></div>
+          <div class="content">
+            <div class="title">市容美化工作組排查 2,137 幢低層樓宇、清理近 6 噸垃圾</div>
+            <div class="desc">跨部門與社團合力，社區環境持續優化（市政署，10/22）。</div>
+            <div class="source">市政署</div>
+          </div>
+        </div>
+        <div class="category-summary" style="border-color:var(--c7)">
+          <strong>本週小結：</strong>社團活動與政府治理的結合度提高——從社區衛生排查到防罪參觀，社團正成為跨部門政策的「末梢執行網」；青年培育類活動（辯論、研修）持續高密度。
+        </div>
+      </div>
+    </div>
+    <div class="category" id="cat8">
+      <div class="category-header" style="background:var(--c8)">
+        <span class="cat-num">08</span>
+        <span class="cat-title">大灣區・橫琴</span>
+        <span class="cat-count">7 則</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c8)"></div>
+          <div class="content">
+            <div class="title">★★★ 何厚鏵調研橫琴合作區：大學城、中葡經貿中心、國際影視城</div>
+            <div class="desc">走訪澳琴國際教育（大學）城、中葡（西語）經貿服務中心、橫琴國際影視城，跨境產業佈局風向標（執委會，10/21）。</div>
+            <div class="source">橫琴執委會</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c8)"></div>
+          <div class="content">
+            <div class="title">★★★ 2026 澳琴露營節首日近一萬人參與</div>
+            <div class="desc">橫琴產業發展局與澳門旅遊局聯合主辦，澳琴聯合文旅產品進入常態化（10/24–25）。</div>
+            <div class="source">橫琴產業發展局／旅遊局</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c8)"></div>
+          <div class="content">
+            <div class="title">橫琴合作區召開澳區人大政協年終交流會</div>
+            <div class="desc">逐項反饋意見建議，跨境治理機制常態化（執委會，10/23）。</div>
+            <div class="source">橫琴執委會</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c8)"></div>
+          <div class="content">
+            <div class="title">第四屆灣區工商大會組織 50 位客商赴橫琴考察</div>
+            <div class="desc">琴珠澳應急管理第一次聯席會議在橫琴舉行（10/22）。</div>
+            <div class="source">橫琴執委會</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c8)"></div>
+          <div class="content">
+            <div class="title">第三期「澳琴公務人員交流研討班」：29 名公務員參加</div>
+            <div class="desc">主題對接「三五」規劃（執委會，10/23）。</div>
+            <div class="source">橫琴執委會</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c8)"></div>
+          <div class="content">
+            <div class="title">市政署聯同拱北海關講解澳門食品輸琴新政策</div>
+            <div class="desc">「琴澳共治・食安同行」，民生融合再深化（市政署，10/21）。</div>
+            <div class="source">市政署</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c8)"></div>
+          <div class="content">
+            <div class="title">人才委赴東莞出席灣區人才大會，大學城納入「十五五」規劃</div>
+            <div class="desc">澳琴國際教育（大學）城已納入國家「十五五」規劃（人才委，10/25）。</div>
+            <div class="source">人才委</div>
+          </div>
+        </div>
+        <div class="category-summary" style="border-color:var(--c8)">
+          <strong>本週小結：</strong>澳琴一體化本週多點開花——頂層背書（何厚鏵調研）、民生融合（食品輸琴、露營節）、制度對接（公務員研討班、人大政協交流）三線並進，大學城納入「十五五」規劃是長期利好。
+        </div>
+      </div>
+    </div>
+    <div class="category" id="cat9">
+      <div class="category-header" style="background:var(--c9)">
+        <span class="cat-num">09</span>
+        <span class="cat-title">文化娛樂演唱會</span>
+        <span class="cat-count">本週重點＋整月</span>
+      </div>
+      <div class="category-body">
+        <h4 style="font-size:16px;font-weight:600;margin:4px 0 10px;color:var(--brand)">本週重點（10/19–10/25）</h4>
+        <table class="concert-table"><thead><tr><th>日期</th><th>活動／藝人</th><th>場地</th><th>類型</th></tr></thead><tbody>
+          <tr><td>10/19–21</td><td>大灣區 3×3 籃球巡迴賽澳門總決賽</td><td>大三巴牌坊／塔石</td><td><span class="badge event">體育</span></td></tr>
+          <tr><td>10/19–22</td><td>檔期間隙（無大型演唱會，重心轉向三展與體育）</td><td>—</td><td><span class="badge event">間隙</span></td></tr>
+          <tr><td>10/23–25</td><td>世界大學生三人籃球世界盃</td><td>體育場館</td><td><span class="badge event">體育</span></td></tr>
+          <tr><td>10/24</td><td>任賢齊「齊跡」、草蜢、IAN CHAN 陳卓賢、tripleS、蘇志燮見面會（六場同日）</td><td>銀河／威尼斯人／倫敦人／百老匯</td><td><span class="badge kpop">多館齊發</span></td></tr>
+          <tr><td>10/25</td><td>草蜢第二場、MODYSSEY、RU×IdG Bubbles；郎朗《伊比利亞狂想》</td><td>上葡京／葡京人 H853／澳門文化中心</td><td><span class="badge mando">古典＋K-pop</span></td></tr>
+        </tbody></table>
+        <h4 style="font-size:16px;font-weight:600;margin:22px 0 10px;color:var(--brand)">2026 年 10 月整月月曆</h4>
+        <table class="concert-table"><thead><tr><th>日期</th><th>活動或藝人</th><th>場地</th><th>類型</th></tr></thead><tbody>
+          <tr><td>10/1、10/4</td><td>第 34 屆澳門國際煙花比賽匯演（壓軸）</td><td>旅遊塔對出海面</td><td><span class="badge event">節慶</span></td></tr>
+          <tr><td>10/2–3</td><td>越劇《我的大觀園》（音樂節開幕）</td><td>澳門文化中心</td><td><span class="badge mando">戲曲</span></td></tr>
+          <tr><td>10/3</td><td>劉若英［飛行日］巡迴演唱會</td><td>銀河綜藝館</td><td><span class="badge mando">華語</span></td></tr>
+          <tr><td>10/4</td><td>TEETEEPOR 粉絲見面會</td><td>澳門百老匯</td><td><span class="badge event">見面會</span></td></tr>
+          <tr><td>10/4</td><td>Sara Landry《第一章》</td><td>倫敦人綜藝館</td><td><span class="badge event">電音</span></td></tr>
+          <tr><td>10/6</td><td>巴西節奏狂想（巴圖斯打擊樂團）</td><td>澳門文化中心</td><td><span class="badge mando">世界音樂</span></td></tr>
+          <tr><td>10/9–11</td><td>NBA 中國賽 2026</td><td>威尼斯人綜藝館</td><td><span class="badge event">體育</span></td></tr>
+          <tr><td>10/9–10</td><td>Mustard×楊和蘇×DJ Wordy</td><td>倫敦人綜藝館</td><td><span class="badge event">嘻哈</span></td></tr>
+          <tr><td>10/9–11</td><td>DINOxPICHEOLIN 吉 BOARD SHOW</td><td>新濠影滙綜藝館</td><td><span class="badge kpop">K-pop</span></td></tr>
+          <tr><td>10/10</td><td>張靚穎「追」世界巡迴（收官站）</td><td>銀河綜藝館</td><td><span class="badge mando">華語</span></td></tr>
+          <tr><td>10/10</td><td>Diplo×攬佬×DJ Sally</td><td>倫敦人綜藝館</td><td><span class="badge event">電音</span></td></tr>
+          <tr><td>10/10</td><td>古淖文「A New Classic」Live</td><td>澳門百老匯</td><td><span class="badge mando">粵語</span></td></tr>
+          <tr><td>10/10–25</td><td>郎朗「破壁．無界」鋼琴音樂營</td><td>澳門文化中心</td><td><span class="badge mando">音樂教育</span></td></tr>
+          <tr><td>10/15–18</td><td>澳娛綜合澳門高爾夫球公開賽</td><td>澳門高爾夫球鄉村俱樂部</td><td><span class="badge event">體育</span></td></tr>
+          <tr><td>10/16–18</td><td>ENHYPEN WORLD TOUR 'BLOOD SAGA'</td><td>銀河綜藝館</td><td><span class="badge kpop">K-pop</span></td></tr>
+          <tr><td>10/17</td><td>泳兒 "The Present" 音樂會</td><td>澳門百老匯</td><td><span class="badge mando">粵語</span></td></tr>
+          <tr><td>10/17</td><td>JACOB 亞洲專場</td><td>銀河 G Box</td><td><span class="badge kpop">K-pop</span></td></tr>
+          <tr><td>10/17</td><td>PERTHSANTA 見面會</td><td>葡京人 H853</td><td><span class="badge event">見面會</span></td></tr>
+          <tr><td>10/17–18</td><td>DOH KYUNG SOO [DAY OFF]（都暻秀）</td><td>新濠影滙綜藝館</td><td><span class="badge kpop">K-pop</span></td></tr>
+          <tr><td>10/19–22</td><td>查無已公佈大型演唱會（檔期間隙）</td><td>—</td><td><span class="badge event">間隙</span></td></tr>
+          <tr><td>10/19–21</td><td>大灣區 3×3 籃球巡迴賽澳門總決賽</td><td>大三巴牌坊／塔石</td><td><span class="badge event">體育</span></td></tr>
+          <tr><td>10/23</td><td>里斯本弦樂三重奏（音樂節）</td><td>文化中心小劇院</td><td><span class="badge mando">古典</span></td></tr>
+          <tr><td>10/23–25</td><td>世界大學生三人籃球世界盃</td><td>體育場館</td><td><span class="badge event">體育</span></td></tr>
+          <tr><td>10/23–25</td><td>Show Musical TOUCH FIVE</td><td>銀河 G Box</td><td><span class="badge kpop">韓國表演秀</span></td></tr>
+          <tr><td>10/24</td><td>任賢齊「齊跡」演唱會</td><td>銀河綜藝館</td><td><span class="badge mando">華語</span></td></tr>
+          <tr><td>10/24–25</td><td>草蜢 THREE IN LOVE 演唱會</td><td>威尼斯人綜藝館</td><td><span class="badge mando">粵語</span></td></tr>
+          <tr><td>10/24</td><td>tripleS 世界巡迴</td><td>澳門百老匯</td><td><span class="badge kpop">K-pop</span></td></tr>
+          <tr><td>10/24</td><td>SO JI SUB 亞洲見面會</td><td>倫敦人劇場</td><td><span class="badge kpop">韓星</span></td></tr>
+          <tr><td>10/24</td><td>IAN CHAN 陳卓賢 MUSIC UNBOUNDED</td><td>倫敦人綜藝館</td><td><span class="badge mando">粵語</span></td></tr>
+          <tr><td>10/24</td><td>卡明斯與澳門樂團（音樂節）</td><td>主教座堂</td><td><span class="badge mando">古典</span></td></tr>
+          <tr><td>10/25</td><td>MODYSSEY FAN CONCERT</td><td>上葡京綜藝館</td><td><span class="badge kpop">K-pop</span></td></tr>
+          <tr><td>10/25</td><td>郎朗《伊比利亞狂想》獨奏會</td><td>澳門文化中心</td><td><span class="badge mando">古典</span></td></tr>
+          <tr><td>10/25、10/31–11/1</td><td>2026 揚帆啟航海事節</td><td>政府船塢等</td><td><span class="badge event">節慶</span></td></tr>
+          <tr><td>10/28–11/8</td><td>美高梅澳門德國啤酒節 2026</td><td>美高梅（以官方公佈為準）</td><td><span class="badge event">節日盛事</span></td></tr>
+          <tr><td>10/31</td><td>邱鋒澤《Bend The Lines》</td><td>澳門百老匯</td><td><span class="badge mando">華語</span></td></tr>
+          <tr><td>10/31</td><td>EPEX 4TH CONCERT〈ECHO〉</td><td>銀河 G Box</td><td><span class="badge kpop">K-pop</span></td></tr>
+          <tr><td>10/31–11/1</td><td>PLAVE World Tour [KEEP IT MANIC]</td><td>倫敦人綜藝館</td><td><span class="badge kpop">虛擬偶像</span></td></tr>
+          <tr><td>10/31–11/1</td><td>銀赫 EUNHYUK PRE-DEBUT FANCON</td><td>倫敦人劇場</td><td><span class="badge kpop">K-pop</span></td></tr>
+          <tr><td>10/31</td><td>金智媛亞洲見面會</td><td>上葡京綜藝館</td><td><span class="badge kpop">韓星</span></td></tr>
+          <tr><td>10/31、11/1</td><td>普契尼歌劇《圖蘭朵》</td><td>澳門文化中心</td><td><span class="badge mando">歌劇</span></td></tr>
+        </tbody></table>
+        <h4 style="font-size:16px;font-weight:600;margin:22px 0 10px;color:var(--brand)">11 月已公佈場次（預告）</h4>
+        <table class="concert-table"><thead><tr><th>日期</th><th>活動或藝人</th><th>場地</th><th>類型</th></tr></thead><tbody>
+          <tr><td>11/1</td><td>W GALA 雙城記</td><td>銀河綜藝館</td><td><span class="badge event">音樂盛典</span></td></tr>
+          <tr><td>11/1</td><td>AIR SUPPLY 巡迴</td><td>澳門百老匯</td><td><span class="badge mando">西洋經典</span></td></tr>
+          <tr><td>11/7–8</td><td>LE SSERAFIM 'PUREFLOW'</td><td>銀河綜藝館</td><td><span class="badge kpop">K-pop</span></td></tr>
+          <tr><td>11/7–8</td><td>JX（金俊秀）〈CORE〉</td><td>倫敦人綜藝館（以官方公佈為準）</td><td><span class="badge kpop">K-pop</span></td></tr>
+          <tr><td>11/7</td><td>孔劉亞洲見面會</td><td>新濠影滙綜藝館</td><td><span class="badge kpop">韓星</span></td></tr>
+          <tr><td>11/13–15</td><td>梓渝「遊點意思Pro」</td><td>銀河綜藝館</td><td><span class="badge mando">華語</span></td></tr>
+          <tr><td>11/14</td><td>杜德偉《Get Up》2.0</td><td>倫敦人綜藝館</td><td><span class="badge mando">粵語</span></td></tr>
+          <tr><td>11/14–15</td><td>hush! 沙灘音樂會×城市運動節</td><td>黑沙海灘</td><td><span class="badge event">免費</span></td></tr>
+          <tr><td>11/19–22</td><td>第 73 屆澳門格蘭披治大賽車</td><td>東望洋賽道</td><td><span class="badge event">體育盛事</span></td></tr>
+          <tr><td>11/20–22</td><td>TOMORROW X TOGETHER 世界巡迴</td><td>銀河綜藝館</td><td><span class="badge kpop">K-pop</span></td></tr>
+          <tr><td>11/21</td><td>Supper Moment 澳門限定版</td><td>威尼斯人綜藝館</td><td><span class="badge mando">粵語</span></td></tr>
+          <tr><td>11/21</td><td>岳雲鵬、孫越相聲專場</td><td>倫敦人綜藝館</td><td><span class="badge mando">相聲</span></td></tr>
+          <tr><td>11/21</td><td>陳偉霆 Crazy Party</td><td>新濠影滙綜藝館</td><td><span class="badge mando">粵語</span></td></tr>
+          <tr><td>11/27–28</td><td>MC 張天賦《E=MC²》</td><td>銀河綜藝館</td><td><span class="badge mando">粵語</span></td></tr>
+          <tr><td>11/28</td><td>超級歌會 歌者歸來</td><td>威尼斯人綜藝館</td><td><span class="badge mando">華語群星</span></td></tr>
+          <tr><td>11/28–29</td><td>譚盾指揮貝九／莫扎特與貝多芬</td><td>澳門文化中心</td><td><span class="badge mando">古典</span></td></tr>
+          <tr><td>11/28</td><td>LINGORM〈BORN TO FLY〉</td><td>倫敦人綜藝館</td><td><span class="badge kpop">泰星</span></td></tr>
+          <tr><td>11/29</td><td>HIGHLIGHT FANCON</td><td>澳門百老匯</td><td><span class="badge kpop">K-pop</span></td></tr>
+        </tbody></table>
+        <p style="font-size:12.5px;color:var(--ink-3);margin-top:10px">（票價以官方售票平台為準；場地以主辦方最新公佈為準。）</p>
+        <div class="category-summary" style="border-color:var(--c9)">
+          <strong>本週小結：</strong>10/24 為全月最密集日——任賢齊、草蜢、陳卓賢、tripleS、蘇志燮等六場同開，多館齊發把全月客流推到高峰；檔期前段（10/19–22）則轉向三展與體育。澳琴露營節與海事節延續「旅遊＋節慶」熱度，11 月大賽車與美食節接力在即。
+        </div>
+      </div>
+    </div>
+    <div class="category" id="cat10">
+      <div class="category-header" style="background:var(--c10)">
+        <span class="cat-num">10</span>
+        <span class="cat-title">全球 AI 領域精選</span>
+        <span class="cat-count">6 條</span>
+      </div>
+      <div class="category-body">
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c10)"></div>
+          <div class="content">
+            <div class="title">Recursive 發布 Flint 模型</div>
+            <div class="desc">400 億總參數 MoE、每 token 僅激活 25 億，Apache 2.0 開源、512k 上下文，六項編程基準平均分僅次於 Qwen3.8 27B，M4 Pro 可跑約 131 token/s——邊緣端編程代理新樣本。</div>
+            <div class="source">10/21</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c10)"></div>
+          <div class="content">
+            <div class="title">Linux 基金會 Agentic AI Foundation 接納四個新專案</div>
+            <div class="desc">Anthropic Agent Skills、OpenAI Open Responses、Hugging Face OpenEnv、阿里 OpenSandbox；Agent Skills 已獲逾 70 個智能體平台採用，生態標準化加速。</div>
+            <div class="source">10/22</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c10)"></div>
+          <div class="content">
+            <div class="title">Cursor 上線 Computer Use；Artificial Analysis 發布 Coding Agent Index v2.0</div>
+            <div class="desc">智能體可操作任意桌面應用。此條目前僅見轉載來源，尚待官方核實。</div>
+            <div class="source">10/24</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c10)"></div>
+          <div class="content">
+            <div class="title">微軟研究院開源多智能體編碼框架 Agensh</div>
+            <div class="desc">取消中央編排器、共享聊天頻道協作；ProgramBench 最難五任務通過率隨規模由 1 擴至 128 智能體，由 19.31% 升至 28.78%。</div>
+            <div class="source">10/24</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c10)"></div>
+          <div class="content">
+            <div class="title">工信息部：上半年中國人形機器人整機突破 400 款、產量超 4 萬台</div>
+            <div class="desc">預計全年破 10 萬台，300 多個場景驗證部署，將發布國家人形機器人標準體系建設指南。</div>
+            <div class="source">10/19</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="bullet" style="background:var(--c10)"></div>
+          <div class="content">
+            <div class="title">NVIDIA 柏林 GTC 主打「物理 AI」</div>
+            <div class="desc">擴展 Isaac 平台並與思靈機器人推出人形參考平台 Agile ONE SN；同日 Tesla 財報會宣布 Optimus 在弗里蒙特啟動量產產線（規劃年產 100 萬台）。</div>
+            <div class="source">10/21</div>
+          </div>
+        </div>
+        <div class="category-summary" style="border-color:var(--c10)">
+          <strong>本週小結：</strong>本週全球 AI 的兩條主線清晰——編碼代理（Flint、Agensh、Cursor Computer Use）與具身智能（人形機器人 400 款、NVIDIA 物理 AI）同步加速；對澳門的啟示是，AI 實訓計劃與科技產業中心的落地正踩在產業拐點上。
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===== 四、來源與備註 ===== -->
+  <div class="section" id="sources">
+    <div class="section-num">PART 03</div>
+    <h2 class="section-title">來源與備註</h2>
+    <div class="source-grid">
+      <div class="source-list">
+        <h4>成功來源（5）</h4>
+        <ul>
+          <li><span class="dot" style="background:#0B3D2E"></span><span>政府新聞局 GCS｜本週最完整官方稿源（約 150 則）</span></li>
+          <li><span class="dot" style="background:#0B3D2E"></span><span>統計暨普查局 DSEC｜3 份新聞稿＋主要指標</span></li>
+          <li><span class="dot" style="background:#0B3D2E"></span><span>澳門日報｜18 則</span></li>
+          <li><span class="dot" style="background:#0B3D2E"></span><span>力報 Exmoo｜12 則</span></li>
+          <li><span class="dot" style="background:#0B3D2E"></span><span>現代澳門日報｜30 則</span></li>
+        </ul>
+      </div>
+      <div class="source-list">
+        <h4>部分成功（4）</h4>
+        <ul>
+          <li><span class="dot" style="background:#C75B12"></span><span>華僑報｜部分成功（3 則＋副刊）</span></li>
+          <li><span class="dot" style="background:#C75B12"></span><span>正報｜部分成功（5 則，文字版）</span></li>
+          <li><span class="dot" style="background:#C75B12"></span><span>澳廣視 TDM｜部分成功（7 則，英文站）</span></li>
+          <li><span class="dot" style="background:#C75B12"></span><span>旅遊局｜部分成功（活動月曆）</span></li>
+        </ul>
+      </div>
+      <div class="source-list">
+        <h4>失敗來源（3）</h4>
+        <ul>
+          <li><span class="dot" style="background:#8C1D18"></span><span>濠江日報｜失敗（僅 1 則可確認）｜連續 1 週</span></li>
+          <li><span class="dot" style="background:#8C1D18"></span><span>大眾報｜失敗（僅 2 則可確認）｜連續 1 週</span></li>
+          <li><span class="dot" style="background:#8C1D18"></span><span>Macao News Daily／Macao Tribune｜查無期間內報道｜連續 1 週</span></li>
+        </ul>
+      </div>
+      <div class="source-list">
+        <h4>備註</h4>
+        <ul>
+          <li><span class="dot" style="background:#1E5F8C"></span><span>濠江日報、大眾報列表頁為 JS 空殼、ID 遞推失效；正報為圖片型電子報；以上均以 WebSearch 單篇補救，下週若仍低落將累計至 3 週門檻。</span></li>
+          <li><span class="dot" style="background:#1E5F8C"></span><span>本週無來源達「連續 3 週失敗」門檻，毋須移除或更換提示。已移除：論盡媒體（2025-12-20 停更）、環球新聞報（2026-10-12 起移出輪換）。</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="overview" style="margin-top:18px">
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.8"><strong>編註：</strong>本週報新聞彙整自澳門特區政府新聞局、統計暨普查局（DSEC）、澳門日報、力報、現代澳門日報、華僑報、正報、澳廣視 TDM、旅遊局等公開來源。所有數據均來自可查證來源，未經查證的訊息不予採用；引用請以官方原始發佈為準。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 其他期數導覽 ===== -->
+<div class="other-issues-bar">
+  <a class="other-issues-btn" href="index.html">查看其他期數</a>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  <div class="brand-mark">澳門新聞週報</div>
+  <div>第 44 期 · 統計週 10.19 — 10.25 · 資料來源：政府新聞局 GCS、DSEC、澳門日報、力報、現代澳門日報、華僑報、正報、TDM、旅遊局</div>
+</div>
+
+<script>
+  // Tab navigation
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const target = document.querySelector(tab.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Update active tab on scroll
+  const sections = document.querySelectorAll('.section, .category');
+  const tabs = document.querySelectorAll('.nav-tab');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= 120 && rect.bottom >= 120) {
+        const id = sec.id || sec.querySelector('[id]')?.id;
+        if (id) current = id;
+      }
+    });
+    if (current) {
+      tabs.forEach(t => {
+        t.classList.toggle('active', t.getAttribute('href') === '#' + current);
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
