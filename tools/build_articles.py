@@ -312,6 +312,7 @@ SLUGS = {
     '141': 'macau-decode-hainan-dual-port',
     '142': 'macau-decode-changchun',
     '143': 'ai-zhongju',
+    '144': 'goong-princess-hours',
 }
 
 
