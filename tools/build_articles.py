@@ -22,7 +22,7 @@ import _geo_guard as GEO  # 地理座標預檢硬閘（敏感地標 GPS 容差�
 FILM_INDEX = None
 
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
-OG_VER = '20261031a'
+OG_VER = '20261031b'
 
 
 def ov(src):
@@ -314,6 +314,7 @@ SLUGS = {
     '143': 'ai-zhongju',
     '144': 'goong-princess-hours',
     '145': 'the-thieves',
+    '146': 'from-vegas-to-macau-2014',
 }
 
 
