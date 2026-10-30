@@ -313,6 +313,7 @@ SLUGS = {
     '142': 'macau-decode-changchun',
     '143': 'ai-zhongju',
     '144': 'goong-princess-hours',
+    '145': 'the-thieves',
 }
 
 
