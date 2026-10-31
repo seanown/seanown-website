@@ -318,6 +318,7 @@ SLUGS = {
     '147': 'boys-over-flowers-2009',
     '148': 'the-hand-2004',
     '149': 'east-of-eden-2008',
+    '150': 'zegen-1987',
 }
 
 
