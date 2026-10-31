@@ -320,6 +320,7 @@ SLUGS = {
     '149': 'east-of-eden-2008',
     '150': 'zegen-1987',
     '151': 'fated-to-love-you-2014',
+    '152': 'ferry-to-hong-kong-1959',
 }
 
 
