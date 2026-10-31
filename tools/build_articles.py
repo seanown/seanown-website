@@ -322,6 +322,7 @@ SLUGS = {
     '151': 'fated-to-love-you-2014',
     '152': 'ferry-to-hong-kong-1959',
     '153': 'roulette-city-2009',
+    '154': 'night-comes-for-us-2018',
 }
 
 
