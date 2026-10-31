@@ -316,6 +316,7 @@ SLUGS = {
     '145': 'the-thieves',
     '146': 'from-vegas-to-macau-2014',
     '147': 'boys-over-flowers-2009',
+    '148': 'the-hand-2004',
 }
 
 
