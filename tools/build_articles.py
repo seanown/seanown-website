@@ -22,7 +22,7 @@ import _geo_guard as GEO  # 地理座標預檢硬閘（敏感地標 GPS 容差�
 FILM_INDEX = None
 
 # og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
-OG_VER = '20261001n'
+OG_VER = '20261031d'
 
 
 def ov(src):
@@ -312,6 +312,17 @@ SLUGS = {
     '141': 'macau-decode-hainan-dual-port',
     '142': 'macau-decode-changchun',
     '143': 'ai-zhongju',
+    '144': 'goong-princess-hours',
+    '145': 'the-thieves',
+    '146': 'from-vegas-to-macau-2014',
+    '147': 'boys-over-flowers-2009',
+    '148': 'the-hand-2004',
+    '149': 'east-of-eden-2008',
+    '150': 'zegen-1987',
+    '151': 'fated-to-love-you-2014',
+    '152': 'ferry-to-hong-kong-1959',
+    '153': 'roulette-city-2009',
+    '154': 'night-comes-for-us-2018',
 }
 
 
