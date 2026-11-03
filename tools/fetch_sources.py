@@ -44,6 +44,30 @@ import os
 import re
 import sys
 import json
+
+# ---------- 自我修復：確保 DSEC 抓取使用具 Playwright 的 venv Python ----------
+# WorkBuddy 應用更新會重建 vendor Python 的 site-packages，導致預設 python 失去
+# playwright，使 DSEC（JS 動態載入）抓取恆為 0 筆。此處偵測：若當前解譯器無
+# playwright，且 venv Python（已裝 playwright + chromium）存在，則自動以 venv 重新
+# 執行本腳本，避免每次更新後都要手動改自動化作業命令。
+_VENV_PYTHON = r"C:\Users\user\.workbuddy\binaries\python\envs\default\Scripts\python.exe"
+
+def _ensure_playwright_interpreter():
+    try:
+        import playwright  # noqa: F401
+        return
+    except Exception:
+        pass
+    venv = _VENV_PYTHON
+    cur = (sys.executable or "").replace("\\", "/").lower()
+    if os.path.exists(venv) and cur != venv.replace("\\", "/").lower():
+        try:
+            os.execv(venv, [venv] + sys.argv)
+        except Exception:
+            pass  # 若重新執行失敗，仍讓原流程繼續（DSEC 會優雅降級為 partial）
+
+_ensure_playwright_interpreter()
+
 import argparse
 import datetime
 import urllib.request
