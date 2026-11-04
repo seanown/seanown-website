@@ -21,6 +21,8 @@ sync_from_feishu.py — 飛書多維表格 → seanown.org 文章同步腳本
 安全機制：
   - 刪除保護：一次刪除超過 DELETE_GUARD（預設 3）篇，立刻中止、不寫入、
     不推送、發通知（防止手滑清空表格）。
+  - 品牌字預檢：build 之後、git 提交之前執行 content_lint，命中 BRAND
+    類（龍游→龍遊）錯字即擋下、不提交不推送、發通知（防錯字上線）。
   - 憑證絕不進版控。
 
 用法：
@@ -337,7 +339,8 @@ def git_commit_only():
     """只 commit 不 push（每日排程模式）。無變動則跳過。"""
     subprocess.run(
         ["git", "add", "-A", "data/", "article/", "articles/",
-         "tools/sync_from_feishu.py", ".gitignore"], check=True)
+         "tools/sync_from_feishu.py", "tools/content_lint.py",
+         "tools/pre_publish_lint.py", ".gitignore"], check=True)
     # 檢查是否有東西可提交
     out = subprocess.run(["git", "status", "--porcelain"],
                          capture_output=True, text=True, check=True).stdout.strip()
@@ -353,7 +356,8 @@ def git_commit_only():
 def git_push():
     subprocess.run(
         ["git", "add", "-A", "data/", "article/", "articles/",
-         "tools/sync_from_feishu.py", ".gitignore"], check=True)
+         "tools/sync_from_feishu.py", "tools/content_lint.py",
+         "tools/pre_publish_lint.py", ".gitignore"], check=True)
     msg = "sync: 飛書 CMS 同步（上線）"
     subprocess.run(["git", "commit", "-m", msg], check=True)
     subprocess.run(["git", "push", "origin", "HEAD"], check=True)
@@ -479,6 +483,30 @@ def main():
         print("[建置] 執行 build_articles.py …")
         subprocess.run([sys.executable, BUILD_SCRIPT], check=True)
         print("[建置] 完成。")
+
+    # ---- 發布前內容預檢（品牌字卡關，防「龍游→龍遊」類錯字上線）----
+    # 在 git commit/push 之前執行；命中 BRAND 錯誤即擋下，不提交不推送。
+    print("[預檢] 執行 content_lint 品牌字檢查 …")
+    lint_rc = subprocess.run(
+        [sys.executable, os.path.join(ROOT, "tools", "pre_publish_lint.py")]
+    ).returncode
+    if lint_rc == 1:
+        msg = ("[擋下] 偵測到品牌字錯誤（BRAND），已中止推送。"
+               "請修復 data/posts.json 或來源後再發布。")
+        print(msg)
+        write_report(["[發布預檢擋下]", msg,
+                     "時間：" + time.strftime("%Y-%m-%d %H:%M:%S")])
+        send_bot("⚠️ seanown 發布被 content_lint 擋下：品牌字錯誤，未上線。")
+        sys.exit(3)
+    elif lint_rc == 2:
+        msg = "[擋下] 預檢工具異常，出於安全中止推送。"
+        print(msg)
+        write_report(["[發布預檢異常擋下]", msg,
+                     "時間：" + time.strftime("%Y-%m-%d %H:%M:%S")])
+        send_bot("⚠️ seanown 發布預檢工具異常，已安全擋下。")
+        sys.exit(3)
+    else:
+        print("[預檢] 通過，繼續發布流程。")
 
     # 孤兒頁清理（刪除 + 改名舊 slug）
     remove_slugs = list(dict.fromkeys([d for d in deletes if d] + renamed_old))
