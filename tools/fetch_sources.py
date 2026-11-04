@@ -129,6 +129,25 @@ def in_range(date_str, start, end):
     except Exception:
         return True
 
+
+def _playwright_html(url, wait="networkidle", extra_wait=2500):
+    """用 Playwright 無頭渲染取得整頁 HTML；不可用（未安裝/渲染失敗）回 None。"""
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        return None
+    try:
+        with sync_playwright() as p:
+            b = p.chromium.launch(args=["--no-sandbox"])
+            pg = b.new_page()
+            pg.goto(url, wait_until=wait, timeout=30000)
+            pg.wait_for_timeout(extra_wait)
+            h = pg.content()
+            b.close()
+            return h
+    except Exception:
+        return None
+
 # ---------- 各來源抓取 ----------
 
 def fetch_zhengpao(week_start, week_end):
@@ -156,9 +175,15 @@ def fetch_zhengpao(week_start, week_end):
         date, summary = None, None
         dtext, dcode = fetch(url)
         if dtext:
-            # 日期：找第一個 20xx-xx-xx 或 x月x日
-            date = norm_date(re.search(r"(20\d{2}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}月\d{1,2}日)", dtext).group(1)) \
-                if re.search(r"(20\d{2}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}月\d{1,2}日)", dtext) else None
+            # 日期：優先取頁面實際發佈日期欄位（class=daily-news-date，格式 YYYY-MM-DD），
+            # 避免內文提及的未來日期（如「11月14日開放報名」）被誤當發佈日。
+            dm = re.search(r'class="daily-news-date"[^>]*>(\d{4}-\d{2}-\d{2})<', dtext)
+            if dm:
+                date = dm.group(1)
+            else:
+                date = norm_date(
+                    re.search(r"(20\d{2}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}月\d{1,2}日)", dtext).group(1)
+                ) if re.search(r"(20\d{2}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}月\d{1,2}日)", dtext) else None
             # 摘要：第一個較長的 <p> 文字
             paras = re.findall(r"<p[^>]*>(.*?)</p>", dtext, re.S)
             for p in paras:
@@ -338,63 +363,85 @@ def fetch_dsec(week_start, week_end):
             "note": f"Playwright 渲染取得新聞 {len(items)} 筆", "items": items}
 
 
+def _exmoo_detail(url):
+    """抓取單篇力報文章：H1 標題 + 日期(DD/MM/YYYY) + 摘要(og:description)。失敗回 None。"""
+    dtext, dcode = fetch(url)
+    if not dtext:
+        return None
+    h1 = re.findall(r"<h1[^>]*>(.*?)</h1>", dtext, re.S)
+    title = clean(h1[0]) if h1 else None
+    if not title or len(title) < 4:
+        return None
+    # 日期：class 含 date 的元素，格式 DD/MM/YYYY
+    date = None
+    dm = re.search(r'class="[^"]*date[^"]*"[^>]*>(\d{2})/(\d{2})/(\d{4})<', dtext)
+    if dm:
+        date = f"{int(dm.group(3)):04d}-{int(dm.group(2)):02d}-{int(dm.group(1)):02d}"
+    else:
+        ymd = re.search(r"(20\d{2}-\d{2}-\d{2})", dtext)
+        date = ymd.group(1) if ymd else None
+    # 摘要：og:description
+    og = re.search(r'<meta[^>]+property="og:description"[^>]+content="([^"]+)"', dtext)
+    if not og:
+        og = re.search(r'<meta[^>]+name="description"[^>]+content="([^"]+)"', dtext)
+    summary = None
+    if og:
+        s = og.group(1)
+        s = s.replace("&ldquo;", "「").replace("&rdquo;", "」").replace("&hellip;", "…")
+        s = re.sub(r"&[a-z]+;", " ", s).strip()
+        summary = s[:200] if s else None
+    return {"source": "力報", "title": title, "url": url, "date": date,
+            "summary": summary, "category": None, "extra": {}}
+
+
 def fetch_exmoo(week_start, week_end):
-    """力報 Exmoo：靜態 HTML。首頁抽 /article/<id>.html 連結+標題，逐筆抓詳情取
-    H1 標題 + 日期（class=date 元素，DD/MM/YYYY）+ 摘要（og:description meta）。"""
-    items = []
+    """力報 Exmoo：改走日期歸檔 API，逐日取得統計週內稿件（解決「只抓首頁→全是當日」）。
+
+    路徑：/get/exmoo/date?date=YYYY-MM-DD → {"status":1,"id":N} → /read/{id}
+          （/read/{id} 需 Playwright 渲染，用 domcontentloaded + 3500ms，
+           勿用 networkidle 會 timeout 30s）→ 抽取 /article/<id>.html 連結逐篇取詳情。
+    退化：若歸檔 API 整週完全無稿，退回首頁抓取保底（首頁皆當日，視窗過濾後多半為 0）。
+    """
     base = "https://www.exmoo.com"
-    text, code = fetch(base + "/")
-    if code != 200 or not text:
-        return {"status": "error", "count": 0, "note": f"首頁 HTTP {code}", "items": []}
-    # 首頁 article 連結（含完整域名；去重、保留順序）
-    links = re.findall(r'href="(https?://www\.exmoo\.com/article/\d+\.html)"', text)
-    seen, top = set(), []
-    for href in links:
-        if href in seen:
-            continue
-        seen.add(href)
-        top.append(href)
-        if len(top) >= 16:
-            break
-    for url in top:
-        dtext, dcode = fetch(url)
-        if not dtext:
-            continue
-        # 標題：<h1>
-        h1 = re.findall(r"<h1[^>]*>(.*?)</h1>", dtext, re.S)
-        title = clean(h1[0]) if h1 else None
-        if not title or len(title) < 4:
-            continue
-        # 日期：class 含 date 的元素，格式 DD/MM/YYYY
-        date = None
-        dm = re.search(r'class="[^"]*date[^"]*"[^>]*>(\d{2})/(\d{2})/(\d{4})<', dtext)
-        if dm:
-            date = f"{int(dm.group(3)):04d}-{int(dm.group(2)):02d}-{int(dm.group(1)):02d}"
-        else:
-            # 兜底：正文內 20xx-xx-xx
-            ymd = re.search(r"(20\d{2}-\d{2}-\d{2})", dtext)
-            date = ymd.group(1) if ymd else None
-        # 摘要：og:description
-        og = re.search(r'<meta[^>]+property="og:description"[^>]+content="([^"]+)"', dtext)
-        if not og:
-            og = re.search(r'<meta[^>]+name="description"[^>]+content="([^"]+)"', dtext)
-        summary = None
-        if og:
-            s = og.group(1)
-            s = s.replace("&ldquo;", "「").replace("&rdquo;", "」").replace("&hellip;", "…")
-            s = re.sub(r"&[a-z]+;", " ", s).strip()
-            summary = s[:200] if s else None
-        items.append({
-            "source": "力報",
-            "title": title,
-            "url": url,
-            "date": date,
-            "summary": summary,
-            "category": None,
-            "extra": {}
-        })
+    items, seen = [], set()
+    d = week_start
+    while d <= week_end:
+        day = d.isoformat()
+        jt, _ = fetch(f"{base}/get/exmoo/date?date={day}", accept="application/json")
+        issue_id = None
+        try:
+            obj = json.loads(jt)
+            if obj.get("status") == 1 and obj.get("id"):
+                issue_id = obj["id"]
+        except Exception:
+            pass
+        if issue_id:
+            rhtml = _playwright_html(f"{base}/read/{issue_id}", wait="domcontentloaded", extra_wait=3500)
+            if rhtml:
+                for href in re.findall(r'href="(https?://www\.exmoo\.com/article/\d+\.html)"', rhtml):
+                    if href in seen:
+                        continue
+                    seen.add(href)
+                    it = _exmoo_detail(href)
+                    if it:
+                        items.append(it)
+        d += datetime.timedelta(days=1)
+    if not items:
+        # 退化：首頁抓取（皆當日，視窗過濾後多半為 0，僅保底）
+        text, code = fetch(base + "/")
+        if code == 200 and text:
+            for href in re.findall(r'href="(https?://www\.exmoo\.com/article/\d+\.html)"', text):
+                if href in seen:
+                    continue
+                seen.add(href)
+                if len(seen) > 16:
+                    break
+                it = _exmoo_detail(href)
+                if it:
+                    items.append(it)
     cnt = len(items)
-    note = f"首頁抽 {len(top)} 則，詳情抓取 {cnt} 則"
+    note = (f"歸檔 API 逐日抓取 {cnt} 則（視窗 {week_start}~{week_end}）"
+            if items else "歸檔無稿，退回首頁")
     return {"status": "ok" if cnt else "error", "count": cnt, "note": note, "items": items}
 
 
@@ -555,6 +602,12 @@ def main():
     flat = []
     for name, s in sources.items():
         flat.extend(s["items"])
+    # 日期視窗過濾：移除視窗外舊統計（如 DSEC 數月前稿件）與當日新聞
+    # （如力報/濠江/正報首頁皆當日，不屬本統計週），避免髒資料混入週報。
+    # 旅遊局活動無日期 → in_range 回 True（豁免）。
+    before = len(flat)
+    flat = [x for x in flat if in_range(x.get("date"), start, end)]
+    dropped = before - len(flat)
     def sortkey(x):
         return (x.get("date") or "0000-00-00", x["source"])
     flat.sort(key=sortkey, reverse=True)
@@ -574,7 +627,7 @@ def main():
     for name, s in sources.items():
         flag = {"ok": "✅", "partial": "⚠️", "error": "❌"}.get(s["status"], "·")
         print(f"  {flag} {name}: {s['count']} 筆 — {s['note']}")
-    print(f"\n總計 {len(flat)} 筆 → 已寫入 {out_path}")
+    print(f"\n總計 {len(flat)} 筆（視窗過濾移除 {dropped} 筆視窗外）→ 已寫入 {out_path}")
 
 
 if __name__ == "__main__":
