@@ -335,14 +335,26 @@ def prune_article_dirs(slugs):
     return removed
 
 
+# git add 的路徑白名單。
+# ⚠️ 不可用寬泛的 "." 或 "-A" 帶根目錄 —— 根目錄有大量不該進版控的暫存物
+# （_draft_*.md、_ck_*.png、_poster_raw/ 等），會污染版控且拖慢每次同步。
+# ⚠️ collection/ 必須納入 —— 那是「澳門電影地圖」的場景頁目錄
+#    （collection/place-*/、decade-*/、era-*/、person-*/）。
+#    2026-11-07 實測發現：place-29～35 等 7 個新場景頁線上已有卻不在版控，
+#    舊白名單漏了 collection/ 導致 git commit 無內容可提、整條同步流程中斷。
+GIT_ADD_PATHS = [
+    "data/", "article/", "articles/", "collection/",
+    "tools/sync_from_feishu.py", "tools/content_lint.py",
+    "tools/pre_publish_lint.py", "tools/import_to_feishu.py",
+    ".gitignore",
+]
+
+
 def git_commit_only():
     """只 commit 不 push（每日排程模式）。無變動則跳過。"""
-    subprocess.run(
-        ["git", "add", "-A", "data/", "article/", "articles/",
-         "tools/sync_from_feishu.py", "tools/content_lint.py",
-         "tools/pre_publish_lint.py", ".gitignore"], check=True)
-    # 檢查是否有東西可提交
-    out = subprocess.run(["git", "status", "--porcelain"],
+    subprocess.run(["git", "add", "-A"] + GIT_ADD_PATHS, check=True)
+    # 檢查是否有東西可提交（只看本次納入的路徑，忽略其他未追蹤雜項）
+    out = subprocess.run(["git", "status", "--porcelain"] + GIT_ADD_PATHS,
                          capture_output=True, text=True, check=True).stdout.strip()
     if not out:
         print("[git] 無變動，跳過 commit。")
@@ -354,10 +366,7 @@ def git_commit_only():
 
 
 def git_push():
-    subprocess.run(
-        ["git", "add", "-A", "data/", "article/", "articles/",
-         "tools/sync_from_feishu.py", "tools/content_lint.py",
-         "tools/pre_publish_lint.py", ".gitignore"], check=True)
+    subprocess.run(["git", "add", "-A"] + GIT_ADD_PATHS, check=True)
     msg = "sync: 飛書 CMS 同步（上線）"
     subprocess.run(["git", "commit", "-m", msg], check=True)
     subprocess.run(["git", "push", "origin", "HEAD"], check=True)
