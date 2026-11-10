@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-"""《守燈人影記》274 頁 -> WebP 逐頁圖（給網站翻閱用）
+"""《守燈人影記》279 頁 -> WebP 逐頁圖（給網站翻閱用）
+
+2026-11-10 更新：源由 V6(已刪) 換成 V34 合訂本；輸出改到暫存目錄
+_pages_v34，頁序比對無誤後才切換到 assets/book/sy-deng-ren/pages/。
 
 為什麼不做「把 PDF 塞進網頁」：
   原版 30MB，PyMuPDF rewrite_images 壓到 20MB 還是太重
-  （206 個 Type3 字體壓不動，佔掉 ~8MB）。
+  （Type3 字體的設計語言無 FontFile 串，subset_fonts() 無效，壓不動）。
   改成「頁面渲染成圖 + 網頁延遲載入」：
   讀者翻到第幾頁才抓第幾頁，首屏只抓 1-2 張 → 體感接近瞬時。
 
@@ -17,9 +20,12 @@ import os, sys, time
 import pymupdf
 from PIL import Image
 
-B = r"H:\桌面\影評書\守燈人影記完成稿"
-SRC = os.path.join(B, "守燈人影記_合訂本V6.pdf")
-OUTDIR = os.path.join(B, "pages_webp")
+# 2026-11-10: 舊路徑 H:\桌面\影評書\守燈人影記完成稿\ 已刪除，專案搬到 澳門電影書專案。
+# 輸出先用暫存目錄 _pages_v34，與線上 274 頁比對無誤後才替換 pages/。
+B = r"H:\澳門電影書專案\影評書\pdf"
+SRC = os.path.join(B, "守燈人影記_合訂本V34.pdf")
+# 暫存目錄：與工具同級的 tools/_pages_v34，不碰線上 assets/book/.../pages/
+OUTDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_pages_v34")
 os.makedirs(OUTDIR, exist_ok=True)
 
 MAX_W = int(sys.argv[1]) if len(sys.argv) > 1 else 1100

@@ -1,0 +1,6 @@
+# 書籍 PDF 轉 WebP 的暫存目錄（渲染後比對頁序用，不進版本庫）
+_pages_v34/
+_pages_v35/
+# 網頁輕量版 PDF 為產物，不入庫（可由 _make_book_web_pdf.py 重生成）
+守燈人影記_網頁版V34.pdf
+守燈人影記_網頁版V35.pdf
