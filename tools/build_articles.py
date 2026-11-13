@@ -323,6 +323,7 @@ SLUGS = {
     '152': 'ferry-to-hong-kong-1959',
     '153': 'roulette-city-2009',
     '154': 'night-comes-for-us-2018',
+    '155': 'the-prosecutor-2024',
 }
 
 
