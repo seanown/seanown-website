@@ -544,13 +544,18 @@ function renderEndCta(){
    所以每一組對開是：**右＝偶數頁、左＝奇數頁，左邊比右邊大 1**。
    例：右 p28（辣警霸王花2 海報）／左 p29 → 右 p30／左 p31 → …… */
 function pageSrc(n){
-  /* 單頁版本覆寫（pageVersions）：改版某頁時只重抓那一頁，
-     不必 bump 全書 version 讓讀者重抓 274 頁（约 29MB）。
-     例：{"273":"?v=20261007e"} → 版權頁換新版，其餘頁沿用舊快取 */
-  var v = (D.reader.pageVersions && D.reader.pageVersions[String(n)])
-          || D.reader.version || "";
+  /* 頁碼對照表（V35 書前段補齊）：
+     pageMap  → 書前 12 頁用獨立檔名 v35f004..v35f015；
+     pageShift→ 新頁 n>=shiftFrom 對應既有檔 p(n-pageShift)，既有 274 張圖一張都不用改名；
+     其餘    → p + pad3(n)。
+     單頁版本覆寫（pageVersions）：改版某頁時只重抓那一頁，不必 bump 全書 version。 */
+  var R = D.reader;
+  var mapped = R.pageMap && R.pageMap[String(n)];
+  var k = (R.shiftFrom && n >= R.shiftFrom) ? (n - (R.pageShift || 0)) : n;
+  var file = mapped || ("p" + pad3(k));
+  var v = (R.pageVersions && R.pageVersions[String(n)]) || R.version || "";
   if (v && v.charAt(0) !== "?") v = "?" + v;   // 避免缺少 ? 導致檔名被污染
-  return D.reader.pageBase + pad3(n) + ".webp" + v;
+  return R.pageBase + file + ".webp" + v;
 }
 
 /* 把任意頁 n 收斂成「右邊那頁」（偶數檔號）
