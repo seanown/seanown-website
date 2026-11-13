@@ -8,7 +8,7 @@
     "authorEn": "Sean Own",
     "status": {
       "label": "全新出版",
-      "note": "定稿中・推薦序與書號待補",
+      "note": "定稿中・書號待補",
       "isDraft": true
     },
     "publisher": "中華書局（澳門）有限公司",
@@ -97,8 +97,12 @@
     }
   },
   "endorsements": {
-    "note": "推薦序尚在撰寫中（預計 2026 年 11 月中提供）。取得後依 endorsementBlocks 順序自動插入頁面；空陣列時整區自動隱藏。",
-    "blocks": []
+    "note": "吳志良〈留住光影，守住城魂〉推薦序，以及九則名家推薦，均已收錄於本書。以下為書中直式書頁，點按可翻閱。",
+    "blocks": [],
+    "previewPage": 4,
+    "readerFrom": 4,
+    "readerTo": 9,
+    "cta": "翻閱推薦序與名家推薦（第 4–9 頁）"
   },
   "authorProfile": {
     "name": "翁振軒",

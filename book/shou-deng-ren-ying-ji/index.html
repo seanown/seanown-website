@@ -127,6 +127,16 @@ h1{font-size:44px;line-height:1.24;font-weight:800;color:var(--blue);letter-spac
 .endorse .src{font-size:12.5px;color:var(--gray);margin-top:12px}
 .pending{background:#FAFBFD;border:1.5px dashed var(--line);border-radius:10px;padding:26px 30px;text-align:center;color:var(--gray);font-size:14.5px;line-height:1.9}
 .pending b{color:var(--blue);display:block;font-size:16px;margin-bottom:6px}
+/* 推薦序已補齊：以書中直式書頁呈現，不用橫式卡片 */
+.endorse-done{background:var(--white);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:10px;padding:28px 30px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:20px}
+@media(max-width:640px){.endorse-done{padding:22px 18px}}
+.endorse-done .lead{font-size:15.5px;line-height:1.95;color:#2a2a2a;text-align:center;margin:0}
+.endorse-leaf{margin:0;width:100%;max-width:330px}
+.endorse-leaf img{width:100%;height:auto;display:block;border:1px solid var(--line);box-shadow:0 6px 20px rgba(0,0,0,.10);cursor:pointer;transition:transform .2s}
+.endorse-leaf img:hover{transform:translateY(-2px)}
+.endorse-leaf figcaption{font-size:12.5px;color:var(--gray);text-align:center;margin-top:10px;line-height:1.7}
+.endorse-cta{display:inline-flex;align-items:center;gap:9px;background:var(--blue);color:#fff;border:0;border-radius:6px;padding:11px 22px;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:pointer;font-family:inherit}
+.endorse-cta:hover{opacity:.9}
 
 /* ── 目錄 ── */
 .toc-part{margin-bottom:8px}
@@ -393,15 +403,14 @@ function renderPreface(){
     '<div class="sign">—— ' + esc(p.signature) + '</div></div></section>';
 }
 
-/* 推薦序：blocks 為空時顯示「撰寫中」提示，有資料則逐條渲染 */
+/* 推薦序與名家推薦：書稿已補齊。
+   blocks 有資料時逐條渲染（舊卡片版，保留但不用）；
+   否則以書中直式書頁呈現，並導向在線試讀第 4–9 頁。 */
 function renderEndorsements(){
   var e = D.endorsements;
   var blocks = (e && e.blocks) ? e.blocks : [];
   var body;
-  if (!blocks.length) {
-    body = '<div class="pending"><b>推薦序撰寫中</b>' +
-           esc((e && e.note) ? e.note : "") + '</div>';
-  } else {
+  if (blocks.length) {
     body = blocks.map(function(b){
       var av = b.avatar
         ? '<img src="' + esc(b.avatar) + '" alt="' + esc(b.name) + '" loading="lazy">'
@@ -414,9 +423,24 @@ function renderEndorsements(){
           '<div class="rl">' + esc(b.title || "") + '</div></div></div>' +
         src + '</div>';
     }).join("");
+  } else {
+    var leaf = (e && e.previewPage) ? e.previewPage : 4;
+    var from = (e && e.readerFrom) ? e.readerFrom : 4;
+    var to   = (e && e.readerTo) ? e.readerTo : 9;
+    var cta  = (e && e.cta) ? e.cta : ("翻閱推薦序與名家推薦（第 " + from + "–" + to + " 頁）");
+    body = '<div class="endorse-done">' +
+      '<p class="lead">' + esc((e && e.note) ? e.note : "") + '</p>' +
+      '<figure class="endorse-leaf">' +
+        '<img src="' + esc(pageSrc(leaf)) + '" alt="本書推薦序首頁，直式書頁" loading="lazy" ' +
+          'onclick="goToReader(' + from + ')">' +
+        '<figcaption>書中推薦序首頁 · 在線試讀第 ' + leaf + ' 頁</figcaption>' +
+      '</figure>' +
+      '<button class="endorse-cta" type="button" onclick="goToReader(' + from + ')">' +
+        esc(cta) + ' <span aria-hidden="true">→</span></button>' +
+    '</div>';
   }
   return '<section class="sec" id="sec-endorse"><div class="sec-head">' +
-    '<h2>✍️ 推薦序</h2><p>由哪些人推薦這本書</p></div>' + body + '</section>';
+    '<h2>✍️ 推薦序與名家推薦</h2><p>吳志良推薦序與九則名家推薦，均收錄於本書</p></div>' + body + '</section>';
 }
 
 function renderToc(){
