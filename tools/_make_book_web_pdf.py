@@ -8,6 +8,10 @@
 
 2026-11-10 更新：
   - 源由 V6(已刪) 換成 V34；輸出到暫存 tools/，不碰線上。
+2026-11-14 更新（軒哥交付 V35）：
+  - 來源改用軒哥 11-14 提供的桌面版 V35（備份於書專案 pdf 目錄），
+    輸出改為 守燈人影記_網頁版V35.pdf；此檔只作暫存、不上線。
+  - V35 僅 PDF p6/p7/p8（名家推薦）與 V34 不同，其餘 276 頁相同。
   - pymupdf 2.1 移除了 Document.replace_image()，改用內建 rewrite_images()。
     新版反而更安全：它自己走完整物件流程（含色彩空間／長度／filter 重算），
     不需要再手動 xref_set_key(SMask) 或逐 xref 換 stream，也不會踩
@@ -26,8 +30,8 @@ import pymupdf
 from PIL import Image
 
 SRC_DIR = r"H:\澳門電影書專案\影評書\pdf"
-SRC = os.path.join(SRC_DIR, "守燈人影記_合訂本V34.pdf")
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "守燈人影記_網頁版V34.pdf")
+SRC = os.path.join(SRC_DIR, "守燈人影記_合訂本V35_軒哥提供_20261114.pdf")
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "守燈人影記_網頁版V35.pdf")
 
 DPI_TARGET = int(sys.argv[1]) if len(sys.argv) > 1 else 176  # 插圖目標 DPI
 Q = int(sys.argv[2]) if len(sys.argv) > 2 else 68            # JPEG 品質
