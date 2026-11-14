@@ -306,7 +306,7 @@ footer a{color:var(--blue);font-weight:600}
   <div class="crumb"><a href="/">首頁</a> ／ 著作 ／ <span>守燈人影記</span></div>
   <noscript><div class="nojs">本頁的書籍資料由 JSON 動態載入。請在瀏覽器啟用 JavaScript；或直接下載 <a href="/data/book-sy-deng-ren.json">data/book-sy-deng-ren.json</a> 查看原始資料。</div></noscript>
 
-  <div id="app"><!-- 內容由 /data/book-sy-deng-ren.json 渲染；新增推薦序只需修改該檔 --></div>
+  <div id="app"><!-- 內容由 /data/book-sy-deng-ren.json 渲染 --></div>
 </div>
 
 <button class="backtop" id="backtop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回到頂部">↑</button>
@@ -315,8 +315,8 @@ footer a{color:var(--blue);font-weight:600}
 /* ══════════════════════════════════════════════════════════════
    《守燈人影記》書頁 — 資料驅動
    所有「會變的內容」都在 /data/book-sy-deng-ren.json
-   新增推薦序：編輯 JSON 的 endorsements.blocks 陣列即可，
-   頁面自動插入，無需改動任何 HTML。
+   推薦序／名家推薦已收錄於書中直式書頁，由下方「📖 在線閱讀」翻閱第 4–9 頁，
+   故頁面上不再另設「推薦序與名家推薦」區塊（2026-11-15 軒哥）。
    ══════════════════════════════════════════════════════════════ */
 var DATA_URL = "/data/book-sy-deng-ren.json?v=20261007d";
 var D = null;          // 資料
@@ -706,7 +706,11 @@ function boot(data){
   D = data;
   document.getElementById("app").innerHTML =
     renderStatus() + renderHero() + renderSpread() + renderPreface() +
-    renderEndorsements() + renderReader() + renderToc() +
+    /* 2026-11-15 軒哥：下方「📖 在線閱讀」已能直接翻到第 4–9 頁，
+       「✍️ 推薦序與名家推薦」區塊重複，故不再渲染。
+       renderEndorsements() 與 JSON 的 endorsements 資料都保留，
+       要恢復只需把 renderEndorsements() 加回這一行。 */
+    renderReader() + renderToc() +
     renderAuthor() + renderPub() + renderRelated() + renderEndCta() +
     '<footer><p>《' + esc(D.book.title) + '——' + esc(D.book.subtitle) + '》© ' +
       esc(D.book.author) + ' ' + esc(D.book.authorEn) + ' ｜ ' +
