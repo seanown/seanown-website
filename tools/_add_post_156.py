@@ -29,8 +29,15 @@ d = json.load(io.open(PJ, encoding='utf-8'))
 posts = d['posts']
 
 nums = [int(p['num']) for p in posts if str(p.get('num', '')).isdigit()]
-assert max(nums) + 1 == 156, '編號不是 156，實得 %d' % (max(nums) + 1)
-assert 'tech-no-borders-ai-split' not in [p.get('slug') for p in posts], 'slug 已被佔用'
+existing = [p for p in posts if str(p.get('num')) == '156']
+if existing:
+    # 更新模式：156 已存在（例如改正文後重跑），確認它沒有把編號往前推
+    assert max(nums) == 156, '更新模式下最大編號不是 156，實得 %d' % max(nums)
+    assert existing[0].get('slug') == 'tech-no-borders-ai-split', '既有 156 的 slug 不符'
+else:
+    # 首次新增模式
+    assert max(nums) + 1 == 156, '編號不是 156，實得 %d' % (max(nums) + 1)
+    assert 'tech-no-borders-ai-split' not in [p.get('slug') for p in posts], 'slug 已被佔用'
 
 post = {
     'num': 156,
@@ -49,7 +56,10 @@ post = {
 before = len(d['posts'])
 d['posts'] = [p for p in d['posts'] if str(p.get('num')) != '156']
 d['posts'].append(post)
-assert len(d['posts']) == before + 1, '篇數不對'
+if existing:
+    assert len(d['posts']) == before, '更新模式篇數不應變化'
+else:
+    assert len(d['posts']) == before + 1, '篇數不對'
 
 with io.open(PJ, 'w', encoding='utf-8') as f:
     json.dump(d, f, ensure_ascii=False, indent=2)
