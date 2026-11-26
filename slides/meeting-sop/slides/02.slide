@@ -1,0 +1,91 @@
+<Slide style={{
+    width: '1280px',
+    height: '720px',
+    position: 'relative',
+    background: '#F7F3EA',
+    padding: 0,
+    fontFamily: '"PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif',
+}}>
+    <Box style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '392px', height: '720px',
+        background: '#0B3D2E',
+        padding: '72px 44px 60px 72px',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    }}>
+        <Box style={{ flexDirection: 'column', gap: 18 }}>
+            <Box style={{ width: 46, height: 3, background: '#C75B12' }} />
+            <Text style={{
+                fontSize: 44,
+                fontWeight: 'bold',
+                color: '#F7F3EA',
+                lineHeight: 1.28,
+                letterSpacing: 3,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                本場
+                <br />
+                四章
+            </Text>
+        </Box>
+        <Box style={{ flexDirection: 'column', gap: 12 }}>
+            <Text style={{ fontSize: 15, color: 'rgba(247,243,234,.66)', lineHeight: 1.7 }}>
+                從會議為什麼壞掉，到主持人能做什麼，最後收在一張可以列印、可以貼牆、會前逐項核對的清單上。
+            </Text>
+            <Box style={{ width: 44, height: 44, border: '1px solid rgba(199,91,18,.6)', borderRadius: 4, justifyContent: 'center', alignItems: 'center', marginTop: 6 }}>
+                <Text style={{ fontSize: 15, color: '#F0A050', fontFamily: 'Georgia, "Songti SC", serif', letterSpacing: 1 }}>高效</Text>
+            </Box>
+        </Box>
+    </Box>
+
+    <Box style={{
+        position: 'absolute',
+        top: 0, right: 0,
+        width: '888px', height: '720px',
+        padding: '70px 72px 60px 52px',
+        flexDirection: 'column',
+    }}>
+        <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'column', justifyContent: 'space-between' }}>
+            {[
+                { n: '01', t: '會議為什麼會壞掉', d: '一場四小時的會，真正用於決策的時間不超過十五分鐘——問題不在效率不夠，而在產出物不對。' },
+                { n: '02', t: '主持人的角色與節奏', d: '主持人的價值不在現場的表現力，而���場會結束之後留下來的那幾行白紙黑字。' },
+                { n: '03', t: '決策與收束', d: '討論和表決是兩個階段，不要混在一起；只有把決議重新念一遍，討論才算真正結束。' },
+                { n: '04', t: '附錄 SOP', d: '十一節完整操作手冊，含五個不要、五個一定要、現場狀況處理與前二十四小時檢核。' },
+            ].map((item, idx) => (
+                <Box key={item.n} style={{
+                    flexDirection: 'row',
+                    gap: 26,
+                    alignItems: 'flex-start',
+                    paddingBottom: idx === 3 ? 0 : 22,
+                    borderBottom: idx === 3 ? 'none' : '1px solid rgba(11,61,46,.14)',
+                }}>
+                    <Text style={{
+                        fontSize: 38,
+                        fontWeight: 'bold',
+                        color: '#C75B12',
+                        lineHeight: 1.1,
+                        width: 78,
+                        fontFamily: 'Georgia, "Songti SC", serif',
+                    }}>
+                        {item.n}
+                    </Text>
+                    <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'column', gap: 9 }}>
+                        <Text style={{ fontSize: 24, fontWeight: 600, color: '#0B3D2E', lineHeight: 1.35 }}>
+                            {item.t}
+                        </Text>
+                        <Text style={{ fontSize: 16, color: '#5C5850', lineHeight: 1.66 }}>
+                            {item.d}
+                        </Text>
+                    </Box>
+                </Box>
+            ))}
+        </Box>
+
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 24 }}>
+            <Text style={{ fontSize: 14, color: '#8A8578', letterSpacing: 1 }}>高效會議主持 SOP</Text>
+            <Text style={{ fontSize: 14, color: '#8A8578', letterSpacing: 1 }}>02 / 14</Text>
+        </Box>
+    </Box>
+</Slide>

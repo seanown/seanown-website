@@ -1,0 +1,2767 @@
+# -*- coding: utf-8 -*-
+"""
+從 data/posts.json 生成每篇文章的獨立內頁：article/<slug>/index.html
+每頁含：獨立 URL、單獨 TDK、Berkeley 藍金排版、作者簡介、延伸閱讀、洽談合作 CTA、JSON-LD Article。
+"""
+import io, os, re, json, html, glob, sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+POSTS = os.path.join(ROOT, 'data', 'posts.json')
+SERIES_JSON = os.path.join(ROOT, 'data', 'series.json')
+
+# 澳門電影三軸合輯（年代／取景地／影人）：build 時從 movieInfo 派生，不動 posts.json。
+# 以檔案路徑載入——外部維護腳本用 spec_from_file_location 載入本模組時也能 import 到。
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import film_collections as FC
+import film_routes as FR
+import _geo_guard as GEO  # 地理座標預檢硬閘（敏感地標 GPS 容差檢查）
+
+# 三軸索引：main() 開跑時算一次，文章互導塊與合輯落地頁共用。
+# 外部腳本若直接呼叫 build()／build_series_page()，FILM_INDEX 為 None，
+# 行為與本功能上線前完全一致（不加互導塊、不加入口帶），不會炸。
+FILM_INDEX = None
+
+# og 圖版本號：換圖後升級（如 20260928d），讓 og:image 與封面 URL 變新，破社群平台與瀏覽器快取
+OG_VER = '20261114a'
+
+
+def ov(src):
+    """og 目錄下的圖片路徑附上 ?v=OG_VER（破快取）；其他路徑原樣返回。"""
+    s = str(src)
+    if '/og/' in s and re.search(r'\.(jpe?g|png)(\?|$)', s, re.I):
+        return s + ('&v=' + OG_VER if '?' in s else '?v=' + OG_VER)
+    return s
+
+
+# 海報待生成時的佔位框行內樣式（避免 <img> 404 破圖；不依賴 format 轉義的 CSS 字串）。
+_POSTER_PH_STYLE = (
+    "width:100%;height:100%;min-height:240px;display:flex;align-items:center;"
+    "justify-content:center;text-align:center;padding:12px;box-sizing:border-box;"
+    "color:var(--gray);font-size:13px;font-weight:700;line-height:1.5;"
+    "background:repeating-linear-gradient(135deg,#f3f1fb,#f3f1fb 9px,#ece7f8 9px,#ece7f8 18px)"
+)
+
+
+def film_poster_block(slug, alt, prefix):
+    """電影海報區塊：海報實體檔存在則出 <img>，否則出佔位框（避免破圖）。
+    prefix 為頁面相對 assets 的路徑前綴，如 '../../'（專輯頁）或 '../'（文章索引頁）。"""
+    disk = os.path.join(ROOT, 'assets', 'og', '%s-poster.jpg' % slug)
+    if os.path.exists(disk):
+        rel = '%sassets/og/%s-poster.jpg' % (prefix, slug)
+        return '<img src="%s" alt="%s" loading="lazy">' % (ov(rel), esc(alt))
+    return '<div class="poster-ph" style="%s">%s</div>' % (_POSTER_PH_STYLE, esc(alt))
+
+
+SHARE_WIDGET = os.path.join(ROOT, 'assets', 'share-widget.js')
+
+
+def load_share_widget():
+    """讀取微信分享元件（右上角綠色浮鈕）。
+
+    網頁無法直接調用微信分享（微信沒有給網頁 JS API），所以這顆按鈕做的是
+    「生成當前頁二維碼 + 複製連結」：手機掃碼 → 在微信裡打開 → 右上角 ··· → 發送給朋友。
+
+    元件內容由 tools/_make_share_widget.py 從 macau-weekly.html 抽出（含 QR 庫）。
+    檔案不存在時回傳空字串 → 頁面只是少一顆按鈕，不影響其他渲染。
+    """
+    if not os.path.exists(SHARE_WIDGET):
+        return ''
+    try:
+        return io.open(SHARE_WIDGET, encoding='utf-8').read()
+    except Exception:
+        return ''
+
+# 輯（Series）定義：由 data/series.json 驅動，posts.json 用 series 欄位掛載
+SERIES = {'collections': [], 'series': []}
+SERIES_BY_ID = {}
+
+
+def load_series():
+    """載入輯定義。檔案不存在時退化為空，不阻斷原有 build。"""
+    global SERIES, SERIES_BY_ID
+    SERIES = {'collections': [], 'series': []}
+    if os.path.exists(SERIES_JSON):
+        SERIES = json.load(io.open(SERIES_JSON, encoding='utf-8'))
+    SERIES.setdefault('collections', [])
+    SERIES.setdefault('series', [])
+    SERIES_BY_ID = {s['id']: s for s in SERIES['series']}
+    return SERIES
+
+
+def _numkey(p):
+    """篇號排序鍵：一律轉整數，避免 '100' 在字串排序下錯位（本站已跨百號）。"""
+    try:
+        return int(str(p.get('num', '')).strip())
+    except (TypeError, ValueError):
+        return 0
+
+
+def _series_key(sid, p):
+    """專輯內「升序」排序鍵：依輯定義的 sort_by（預設 date）排序，同序位以 num 決勝。
+
+    - 一般輯：依文章 date 升序（最早發布＝序位 1）。
+    - macau-film（sort_by='filmYear'）：依電影上映年份升序（最早影片＝序位 1），
+      年份缺失視為 0 排最前，讓同年的多篇以篇號遞增接續。
+    series_members() 會依 order_dir 決定是否反轉為降序（新在前）。
+    """
+    by = (SERIES_BY_ID.get(sid, {}) or {}).get('sort_by') or 'date'
+    if by == 'filmYear':
+        fy = p.get('filmYear')
+        try:
+            fy = int(fy)
+        except (TypeError, ValueError):
+            fy = 0
+        return (fy, _numkey(p))
+    return (str(p.get('date', '')), _numkey(p))
+
+
+def sorted_series():
+    """輯的顯示順序：order 小的在前，同值再按輯名。"""
+    return sorted(SERIES['series'],
+                  key=lambda s: (int(s.get('order', 99) or 99), s.get('name', '')))
+
+
+# 子輯／頂層輯卡片的主題（2026-10-11 升級：告別光禿禿 emoji）。
+# 每輯 = (emoji, 漸層起色, 漸層終色)；色系從全站藍金基底延伸，
+# 四色可辨但都壓深、降飽和，維持高級感。CSS 端用 --sc1/--sc2 接。
+SUB_THEME = {
+    'classroom-ai':      ('🤖', '#002676', '#1257C4'),
+    'classroom-invest':  ('📈', '#0B4F45', '#12876F'),
+    'classroom-startup': ('🚀', '#7A2E0C', '#C2540A'),
+    'classroom-ip':      ('🎭', '#4A1D7A', '#7C3AED'),
+    'classroom-talk':    ('☕', '#5C4300', '#9A7B0A'),
+}
+TOP_THEME = {
+    'macau-reader': ('🧭', '#002676', '#1257C4'),
+    'classroom':    ('🎓', '#7A2E0C', '#C2540A'),
+    'life-essays':  ('✍️', '#0B4F45', '#12876F'),
+    'macau-film':   ('🎬', '#4A1D7A', '#7C3AED'),
+}
+
+
+def children_of(sid):
+    """回傳某輯的子輯（parent==sid），依 order 排序；無則空清單。"""
+    kids = [s for s in SERIES['series'] if str(s.get('parent') or '').strip() == sid]
+    return sorted(kids, key=lambda s: (int(s.get('order', 99) or 99), s.get('name', '')))
+
+
+def top_level_series():
+    """僅含「頂層輯」（無 parent 者），供導覽列與總覽頁使用——確保頂層不超過 4 個。"""
+    return [s for s in sorted_series() if not str(s.get('parent') or '').strip()]
+
+
+def top_series_id(sid):
+    """把任一輯 id 解析為其頂層輯 id（支援一層嵌套）。"""
+    s = SERIES_BY_ID.get(sid)
+    if s and str(s.get('parent') or '').strip():
+        return s['parent']
+    return sid
+
+
+# series 欄位型別是「字串 或 多專輯陣列」——統一成正規化函式
+def _series_list(p):
+    s = p.get('series')
+    if isinstance(s, list):
+        return [x for x in s if x]
+    return [s] if s else []
+
+
+def series_members(posts, sid):
+    """取回某輯的成員文章。
+
+    order_dir='desc' → 新的在前（主線／隨筆類，讓最新觀點當門面；macau-film 則為最新電影在最上）
+    order_dir='asc'（預設）→ 日期升序（行記類，按實際行程順序讀）
+    排序鍵由 _series_key() 決定：依輯 sort_by（預設 date，macau-film 為 filmYear），同序位再按篇號。
+    """
+    # series 可能是字串，也可能是「多專輯」陣列（2026-10-10 分類體系廢除後常見）
+    ms = [p for p in posts
+          if sid in _series_list(p) and p.get('status') != '整理中']
+    desc = str(SERIES_BY_ID.get(sid, {}).get('order_dir') or 'asc').lower() == 'desc'
+    return sorted(ms, key=lambda p: _series_key(sid, p), reverse=desc)
+
+# 文章英文 slug（SEO 友善，關鍵詞命名）
+SLUGS = {
+    '01': 'three-choices-define-your-life',
+    '02': 'rent-hike-still-profitable-yet-closed',
+    '04': 'qixi-festival-original-meaning',
+    '05': 'richard-koo-balance-sheet-recession',
+    '06': 'two-thoughts-set-out-and-palm',
+    '07': 'august-eighth-fathers-day-origin',
+    '08': 'liqiu-start-of-autumn',
+    '11': 'fuhang-a-fathers-wisdom',
+    '13': 'jiangxi-seven-days',
+    '20': 'kaipu-group-reunion',
+    '21': 'chaoshan-journey-letters-home',
+    '25': 'macau-ai-cross-border-services',
+    '26': 'ai-content-marketing-ctr-jump',
+    '27': 'macau-1-plus-4-digital-hub',
+    '28': 'chinese-cultural-ip-globalization',
+    '29': 'young-entrepreneur-cross-boundary-thinking',
+    '30': 'choices-over-effort-three-turning-points',
+    '31': 'macau-five-year-plan-diversification',
+    '32': 'thinking-fast-and-slow-reading-notes',
+    '33': 'hdi-2025-human-development-report',
+    '34': 'macau-budget-2020-2024-analysis',
+    '35': 'recent-reflections-twelve-quotes-sketch',
+    '36': 'wealth-leverage-macau',
+    '37': 'naval-three-steps-find-your-calling',
+    '38': 'bufeng-zhuiying',
+    '39': 'isabella',
+    '40': 'huayang-nianhua',
+    '41': 'jingtian-modaotuan-2',
+    '42': 'dan-shen-nan-nv',
+    '43': 'ji-zhan',
+    '44': 'pian-pian-xi-huan-ni',
+    '45': 'exiled',
+    '46': 'look-for-a-star',
+    '47': 'fulltime-killer',
+    '48': 'man-with-the-golden-gun',
+    '49': 'amor-e-dedinhos-de-pe',
+    '50': 'return-of-the-cuckoo',
+    '51': 'the-longest-nite',
+    '52': 'last-time-i-saw-macao',
+    '53': 'helios',
+    '54': 'skyfall',
+    '55': 'jin-zhi-yu-ye-1959',
+    '56': 'project-a-1983',
+    '57': 'crash-2016',
+    '58': 'hao-jiang-feng-yun',
+    '59': '2046',
+    '60': 'hai-shang-hua-1986',
+    '61': 'when-i-fall-in-love-with-both',
+    '62': 'lan-yan-huo-2000',
+    '63': 'sisterhood-2016',
+    '64': 'indiana-jones-temple-of-doom',
+    '65': 'macau-street-2013',
+    '66': 'rouge',
+    '67': 'shanghai-surprise-1986',
+    '68': 'johnny-english-reborn-2011',
+    '69': 'everyday-is-valentine',
+    '70': 'macau-is-a-city-2019',
+    '71': 'pedicab-driver-1989',
+    '72': 'macao-1952',
+    '73': 'our-17-2017',
+    '74': 'cleopatra-jones-casino-of-gold-1975',
+    '75': 'fist-of-fury-1972',
+    '76': 'black-falcon-1967',
+    '77': 'sentenced-to-hang-1989',
+    '78': 'miracles-1989',
+    '79': 'love-in-a-fallen-city-1984',
+    '80': 'love-is-a-many-splendored-thing-1955',
+    '81': 'via-macau-1966',
+    '82': 'a-night-in-hong-kong-1961',
+    '83': 'the-white-storm-2013',
+    '84': 'macao-enfer-du-jeu-1939',
+    '85': 'young-and-dangerous-1996',
+    '86': 'sharp-gun-2001',
+    '87': 'flaming-brothers-1987',
+    '88': 'ghost-returns-at-midnight-1964',
+    '89': 'city-of-desire-2001',
+    '90': 'the-husband-of-a-lady-1965',
+    '93': 'the-fatal-raid-2019',
+    '92': 'double-relation-1966',
+    '91': 'yellow-peril-1984',
+    '95': 'poker-king-2009',
+    '94': 'vengeance-2009',
+    '99': 'zhuixiongji-1965',
+
+
+    '96': 'tianchangdijiu-1955',
+    '97': 'the-blazing-charmer-1959',
+    '98': 'eight-murderers-1965',
+    '100': 'the-untold-story-1993',
+    '101': 'chase-at-the-canidrome-1965',
+    '102': 'china-dolls-1992',
+    '103': 'riki-oh-1991',
+    '104': 'macao-2525-2021',
+    '105': 'madalena-2021',
+    '106': 'shang-chi-2021',
+    '107': 'double-dhamaal-2011',
+    '108': 'lets-sing-2021',
+    '109': 'the-bewitching-braid-1996',
+    '110': 'shangcheng-2006',
+    '111': 'b420-2005',
+    '112': 'butterfly-2004',
+    '113': 'casino-tycoon-1992',
+    '114': 'ah-long-1989',
+    '115': 'forbidden-1953',
+    '116': 'casino-tycoon-2-1992',
+    '117': 'dragon-1993',
+    '118': 'bicycle-man-1997',
+    '119': 'aspectos-de-macau-1923',
+    '120': 'o-regresso-1989',
+    '121': 'meeting-ends-things-begin',
+    '122': 'etiquette-is-not-form',
+    '123': 'leadership-and-crisis',
+    '124': 'quzhou-nankong-returning-home',
+    '125': 'paulo-andrez-angel-investing',
+    '126': 'ai-kk-eight-trends',
+    '127': 'macau-city-depth-report',
+    '128': 'dragon-ai-dual-platform',
+    '129': 'huangpu-island-37373',
+    '131': 'silver-light-film-origin',
+    '132': 'luminous-brilliance-zibo-liuli',
+    '133': 'macao-stories-2008',
+    '134': 'love-in-the-city-2011',
+    '135': 'restless-city-2015',
+    '136': 'passing-rain-2017',
+    '137': 'miss-universe-75-greater-bay-area-final',
+    '138': 'patio-of-illusion-2021',
+    '139': 'dancing-in-the-sea-breeze-2024',
+    '140': 'france-social-unrest-deep-analysis',
+    '141': 'macau-decode-hainan-dual-port',
+    '142': 'macau-decode-changchun',
+    '143': 'ai-zhongju',
+    '144': 'goong-princess-hours',
+    '145': 'the-thieves',
+    '146': 'from-vegas-to-macau-2014',
+    '147': 'boys-over-flowers-2009',
+    '148': 'the-hand-2004',
+    '149': 'east-of-eden-2008',
+    '150': 'zegen-1987',
+    '151': 'fated-to-love-you-2014',
+    '152': 'ferry-to-hong-kong-1959',
+    '153': 'roulette-city-2009',
+    '154': 'night-comes-for-us-2018',
+    '155': 'the-prosecutor-2024',
+    '156': 'tech-no-borders-ai-split',
+    '157': 'mahbubani-50-questions',
+}
+
+
+SITE = 'https://seanown.org'
+
+
+def esc(t):
+    return html.escape(t or '', quote=False)
+
+
+def inline(t):
+    """行內格式：粗體、行內 HTML 保留、相對路徑修正；外部連結一律新標籤"""
+    t = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', t)
+    t = re.sub(r'href="(https?://[^"]+)"(?! target=)',
+               r'href="\1" target="_blank" rel="noopener"', t)
+    # 行內連結補上相對路徑
+    t = re.sub(r'href="(?!https?:|#|/|\.\./)([^"]+)"', r'href="../../\1"', t)
+    t = re.sub(r'href="/([^"]+)"', r'href="' + SITE + r'/\1"', t)
+    return t
+
+
+def fix_asset(p):
+    if p.startswith(('http', '//', '/', '../')):
+        return p
+    return '../../' + p
+
+
+def md_to_html(body, title=''):
+    """極簡 Markdown → HTML：## / ### / 列表 / 引用 / 表格 / 粗體 / 分隔線"""
+    if not body or not body.strip():
+        return ''
+    b = body.replace('\r\n', '\n')
+    b = re.sub(r'<br\s*/?>', '\n', b, flags=re.I)
+    # 原始 HTML 表格內的換行不可轉成 <br>：瀏覽器會把表格內不合法的 <br> 全部擠到表格前面，疊成大段空白（2026-10-13 修）
+    b = re.sub(r'(<table[\s\S]*?</table>)', lambda m: re.sub(r'\s*\n\s*', '', m.group(1)), b, flags=re.I)
+    lines = b.split('\n')
+    # 去掉與標題重複的首行
+    while lines and not lines[0].strip():
+        lines.pop(0)
+    if lines and title and lines[0].strip().rstrip('✨📊⌚🔥 ').strip() == title.strip().rstrip('✨📊⌚🔥 ').strip():
+        lines.pop(0)
+    out, buf, i = [], [], 0
+
+    def flush():
+        if buf:
+            para = '<br>'.join(x.strip() for x in buf if x.strip())
+            if para:
+                # 散場之後：源碼用純文字，渲染仍保持 H2 標題樣式（含副標題「散場之後：...」）
+                if para == '散場之後' or para.startswith('散場之後：') or para.startswith('散場之後:'):
+                    out.append('<h2>%s</h2>' % inline(para))
+                else:
+                    out.append('<p>%s</p>' % inline(para))
+            buf.clear()
+
+    while i < len(lines):
+        ln = lines[i].rstrip()
+        s = ln.strip()
+        if not s:
+            flush(); i += 1; continue
+        if re.match(r'^-{3,}$', s):
+            flush(); out.append('<hr>'); i += 1; continue
+        m = re.match(r'^(#{2,4})\s+(.*)$', s)
+        if m:
+            flush()
+            lv = len(m.group(1))
+            out.append('<h%d>%s</h%d>' % (lv, inline(m.group(2).strip()), lv))
+            i += 1; continue
+        if s.startswith('|'):  # 表格
+            flush()
+            rows = []
+            while i < len(lines) and lines[i].strip().startswith('|'):
+                rows.append([c.strip() for c in lines[i].strip().strip('|').split('|')])
+                i += 1
+            if len(rows) >= 2:
+                sep = re.match(r'^[\s:\-|]+$', '|'.join(rows[1])) if len(rows) > 1 else None
+                head, rest = rows[0], (rows[2:] if sep else rows[1:])
+                h = '<div class="tbl-wrap"><table><thead><tr>' + ''.join('<th>%s</th>' % inline(c) for c in head) + '</tr></thead><tbody>'
+                for r in rest:
+                    h += '<tr>' + ''.join('<td>%s</td>' % inline(c) for c in r) + '</tr>'
+                out.append(h + '</tbody></table></div>')
+            continue
+        if s.startswith('>'):  # 引用
+            flush()
+            q = []
+            while i < len(lines) and lines[i].strip().startswith('>'):
+                q.append(lines[i].strip().lstrip('>').strip())
+                i += 1
+            out.append('<blockquote>%s</blockquote>' % inline('<br>'.join(x for x in q if x)))
+            continue
+        if re.match(r'^[-*]\s+', s):  # 無序列表
+            flush()
+            items = []
+            while i < len(lines) and re.match(r'^[-*]\s+', lines[i].strip()):
+                items.append(re.sub(r'^[-*]\s+', '', lines[i].strip()))
+                i += 1
+            out.append('<ul>' + ''.join('<li>%s</li>' % inline(x) for x in items) + '</ul>')
+            continue
+        if re.match(r'^\d+\.\s+', s):  # 有序列表
+            flush()
+            items = []
+            while i < len(lines) and re.match(r'^\d+\.\s+', lines[i].strip()):
+                items.append(re.sub(r'^\d+\.\s+', '', lines[i].strip()))
+                i += 1
+            out.append('<ol>' + ''.join('<li>%s</li>' % inline(x) for x in items) + '</ol>')
+            continue
+        if s.startswith('<img') and s.endswith('>'):  # 獨立成行的圖：直接輸出為 .abody 直接子元素，方能 column-span:all 跨欄
+            flush(); out.append(s); i += 1; continue
+        m = re.match(r'^!\[([^\]]*)\]\(([^)]+)\)$', s)  # 獨立成行的 markdown 圖：轉為 <img> 同上跨欄
+        if m:
+            flush()
+            out.append('<img src="%s" alt="%s">' % (m.group(2).strip(), esc(m.group(1))))
+            i += 1; continue
+        buf.append(ln); i += 1
+    flush()
+    return '\n'.join(out)
+
+
+def plain(t, n=110):
+    t = re.sub(r'!\[[^\]]*\]\([^)]*\)', '', t or '')  # 先剝掉圖片語法，避免 lead 混入 markdown 原文
+    t = re.sub(r'<[^>]+>', '', t)
+    t = re.sub(r'[#*>\-`|\n]', '', t).strip()
+    return (t[:n] + '…') if len(t) > n else t
+
+
+CSS = """
+:root{--blue:#002676;--blue-dark:#010133;--gold:#FDB515;--gold-dark:#FC9313;--bg:#F8F9FB;--white:#fff;--text:#1A1A1A;--gray:#667085;--line:#E4E8EF}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--text);background:var(--white);line-height:1.75;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1080px;margin:0 auto;padding:0 24px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-weight:800;color:var(--blue);font-size:16px;letter-spacing:.5px}
+.brand span{color:var(--gold)}
+.topbar .minimal-hint{font-size:13px;color:var(--gray);text-decoration:none}
+.topbar .minimal-hint:hover{color:var(--blue)}
+/* 六層導覽（與全站獨立頁一致）*/
+.tnav{display:flex;gap:17px;align-items:center}
+.tnav a{font-size:14px;font-weight:600;color:var(--text);text-decoration:none}
+.tnav a:hover,.tnav a[aria-current]{color:var(--blue)}
+.tnav .cta{background:var(--blue);color:#fff;padding:8px 18px;border-radius:999px;font-size:13.5px}
+.tnav .cta:hover{background:#010133}
+
+/* 導覽列（2026-10-09 軒哥決定：把自己藏深一點）
+   只留 關於我／作品／專欄 三項直鏈；聯絡、媒體從導覽列下架（頁面保留，
+   入口收進 /about/ 頁內）。舊的「關於我」下拉與 .nav-mcta 手機版聯絡鈕
+   已隨之移除，手機版直接顯示三個連結（縮小字級與間距）。 */
+@media(max-width:640px){
+  .tnav{gap:12px}
+  .tnav a{font-size:13px}
+}
+.wrap{max-width:1120px;margin:0 auto;padding:36px 24px 0}
+/* 全站單欄閱讀（2026-10-13 軒哥拍板：文章不再分左右雙欄），正文限寬置中，行長約 36–40 字 */
+.article{max-width:720px;margin:0 auto}
+@media(min-width:900px) and (max-width:1279px){.wrap{max-width:960px}}
+.crumb{font-size:13px;color:var(--gray);margin-bottom:22px}
+.crumb a:hover{color:var(--blue)}
+.meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.tag{background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:5px 14px;border-radius:4px;letter-spacing:1px}
+.date{color:var(--gray);font-size:14px}
+h1{font-size:30px;line-height:1.45;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.5px;max-width:960px}
+.lead{font-size:17px;line-height:1.8;color:var(--gray);margin:0 0 26px;padding:2px 0 0;border-left:3px solid var(--gold);padding-left:16px;max-width:940px}
+.subtitle{font-size:19px;line-height:1.5;color:var(--blue);font-weight:600;margin:6px 0 18px;letter-spacing:.3px;max-width:960px}
+/* 本篇專屬署名（byline）：僅大象投資學第一堂等少數文章使用，
+   不掛全站「電子商會會長」頭銜，改掛該篇指定署名。海軍藍＋暖金點綴。*/
+.byline{font-size:14.5px;line-height:1.5;color:var(--text);font-weight:600;margin:-8px 0 16px;padding-left:14px;border-left:3px solid var(--gold);letter-spacing:.3px;max-width:960px}
+.byline .em{color:var(--blue)}
+.rule{width:56px;height:4px;background:var(--gold);border-radius:2px;margin:0 0 26px}
+.cover{margin:0 0 26px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10)}
+.cover img{width:100%;display:block}
+/* 2026-10-25 修圖片溢出：內文圖（.abody img）原無尺寸約束，1600px 圖會撐破 720px 欄、比例失真。
+   加 max-width:100%+height:auto 限制欄寬內並保原始比例，圓角+輕投影與封面視覺一致。*/
+.abody img{max-width:100%;height:auto;display:block;margin:18px auto 8px;border-radius:10px;box-shadow:0 4px 16px rgba(1,1,51,.08)}
+.vposter{margin:0 auto 28px;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(1,1,51,.10);max-width:380px}
+.vposter img{width:100%;display:block}
+.article p{margin:0 0 20px;font-size:17px;text-align:justify}
+.article h2{font-size:23px;line-height:1.5;color:var(--blue);font-weight:800;margin:40px 0 16px;padding-left:14px;border-left:5px solid var(--gold)}
+.article h3{font-size:19px;color:var(--blue);font-weight:700;margin:28px 0 12px}
+.article strong{color:var(--blue);font-weight:700}
+.article ul,.article ol{margin:0 0 20px;padding-left:24px}
+.article li{margin-bottom:9px;font-size:17px}
+.article blockquote{margin:0 0 22px;padding:16px 20px;background:var(--bg);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;color:#3A3A3A;font-size:16px}
+.article hr{border:none;border-top:1px solid var(--line);margin:38px 0}
+.tbl-wrap{overflow-x:auto;margin:0 0 22px}
+.article table{width:100%;border-collapse:collapse;font-size:15px}
+.article th{background:var(--blue);color:#fff;padding:11px 14px;text-align:left;font-weight:600}
+.article td{border-bottom:1px solid var(--line);padding:11px 14px}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:30px 0 6px}
+.gallery img{width:100%;height:170px;object-fit:cover;border-radius:10px;cursor:zoom-in;transition:transform .2s}
+.gallery img:hover{transform:scale(1.02)}
+.author{margin-top:46px;background:var(--bg);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:26px 26px 22px;display:flex;gap:20px;align-items:flex-start}
+.author .a-img{width:76px;height:76px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);flex:0 0 auto}
+.author .a-body{flex:1}
+.author h2{font-size:17px;color:var(--blue);margin:0 0 8px;border:none;padding:0}
+.author p{font-size:15px;color:#4A4A4A;margin-bottom:10px}
+.author .who{font-weight:700;color:var(--blue);font-size:16px;margin-bottom:6px}
+.author .a-btn{display:inline-block;background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:8px 18px;border-radius:999px;text-decoration:none}
+.author .a-btn:hover{background:var(--blue-dark)}
+.related{margin-top:42px;padding-top:30px;border-top:1px solid var(--line)}
+.related h2{font-size:19px;color:var(--blue);margin:0 0 18px;padding-left:12px;border-left:4px solid var(--gold)}
+.rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rel-card{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;transition:all .2s}
+.rel-card:hover{border-color:var(--gold);box-shadow:0 10px 26px rgba(1,1,51,.09);transform:translateY(-3px)}
+.rel-card .rc-tag{font-size:12px;color:var(--blue);background:#FFF3D0;padding:2px 9px;border-radius:10px;font-weight:600}
+.rel-card h3{font-size:16px;color:var(--blue);margin:9px 0 6px;line-height:1.45;font-weight:700}
+.rel-card p{font-size:13px;color:var(--gray);margin:0}
+.cta{margin:40px 0 0;background:linear-gradient(135deg,#002676 0%,#010133 100%);border-radius:14px;padding:32px 28px;text-align:center;color:#fff}
+.cta h2{color:#fff;font-size:21px;margin:0 0 8px;border:none;padding:0}
+.cta p{color:rgba(255,255,255,.82);font-size:15px;margin-bottom:20px}
+.btn{display:inline-block;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 34px;border-radius:999px;font-size:15px;transition:all .2s}
+.btn:hover{background:var(--gold-dark);transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5);margin-left:10px}
+.btn.ghost:hover{background:rgba(255,255,255,.12)}
+.foot{margin-top:46px;padding:26px 0 46px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);line-height:1.9}
+.foot a{color:var(--blue)}
+.lb{position:fixed;inset:0;background:rgba(1,1,51,.92);display:none;align-items:center;justify-content:center;z-index:999;cursor:zoom-out;padding:24px}
+.lb img{max-width:100%;max-height:100%;border-radius:8px}
+.float-cta{display:none;position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);text-decoration:none;font-size:14px;transition:transform .2s,box-shadow .2s}
+.float-cta:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(2,8,32,.4)}
+@media(max-width:720px){h1{font-size:25px}.article h2{font-size:20px}.article p,.article li{font-size:16px}.rel-grid{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}.wrap{padding:26px 18px 0}.author{flex-direction:column;gap:14px}.lead{font-size:15.5px}}
+"""
+
+# ---------- 輯（Series）導覽 ----------
+SERIES_NAV_CSS = """
+.series-nav{margin-top:34px;background:linear-gradient(135deg,#F5F7FC 0%,#EEF2FA 100%);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:22px 24px}
+.sn-kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--blue);background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px 12px;margin-bottom:10px}
+.sn-title{display:block;font-size:22px;font-weight:800;color:var(--blue);margin-bottom:4px}
+.sn-title:hover{color:var(--gold-dark)}
+.sn-meta{font-size:13px;color:var(--gray);margin-bottom:16px}
+.sn-links{display:flex;gap:10px;flex-wrap:wrap}
+.sn-links a{flex:1 1 180px;min-width:0;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px;font-size:13.5px;line-height:1.5;color:var(--text);transition:all .2s}
+.sn-links a:hover{border-color:var(--gold);transform:translateY(-2px)}
+.sn-links .sn-lab{display:block;font-size:11px;letter-spacing:1.5px;color:var(--gray);font-weight:700;margin-bottom:3px}
+.sn-links .sn-all{flex:0 0 auto;text-align:center;color:var(--blue);font-weight:700;background:var(--blue);color:#fff;border-color:var(--blue)}
+.sn-links .sn-all:hover{background:var(--blue-dark);color:#fff}
+.sn-links .sn-checkin{flex:0 0 auto;text-align:center;color:var(--blue);font-weight:700;background:#fff;border:1.5px solid var(--blue)}
+.sn-links .sn-checkin:hover{background:var(--blue);color:#fff}
+.sn-empty{opacity:.45;pointer-events:none}
+@media(max-width:720px){.series-nav{padding:18px}.sn-title{font-size:19px}.sn-links a{flex:1 1 100%}}
+
+/* 電影資訊 CTA：左文右海報 */
+.movie-nav{display:flex;gap:22px;align-items:stretch}
+.mn-main{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.mn-poster{flex:0 0 280px;max-width:280px;border-radius:10px;overflow:hidden;background:var(--bg);border:1px solid var(--line)}
+.mn-poster img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:720px){.movie-nav{flex-direction:column}.mn-poster{flex:0 0 auto;width:100%;max-width:100%;aspect-ratio:1200/630}}
+"""
+
+# ---------- 輯頁（series/<id>/index.html）獨立版型 ----------
+SERIES_PAGE_CSS = """
+:root{--blue:#002676;--blue-dark:#010133;--gold:#FDB515;--gold-dark:#FC9313;--bg:#F8F9FB;--text:#1A1A1A;--gray:#667085;--line:#E4E8EF}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--text);background:var(--bg);line-height:1.8;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1080px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:800;color:var(--blue);font-size:17px;letter-spacing:.5px}
+.brand span{color:var(--gold)}
+.mini-cta{background:var(--blue);color:#fff;font-size:14px;font-weight:700;padding:9px 20px;border-radius:999px}
+.mini-cta:hover{background:var(--blue-dark)}
+.masthead{background:linear-gradient(135deg,#002676 0%,#010133 100%);color:#fff;padding:60px 24px 54px}
+.masthead-in{max-width:1080px;margin:0 auto}
+.kicker{font-size:13px;letter-spacing:5px;color:var(--gold);font-weight:700;margin-bottom:12px}
+.masthead h1{font-size:42px;font-weight:800;letter-spacing:2px;margin-bottom:10px}
+.masthead .sub{color:rgba(255,255,255,.8);font-size:16px;margin-bottom:6px}
+.masthead .period{color:var(--gold);font-size:14px;font-weight:700;letter-spacing:1px}
+.wrap{max-width:1080px;margin:0 auto;padding:36px 24px 0}
+.intro{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:26px 28px;margin-bottom:34px}
+.intro .i-lab{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700;margin-bottom:12px}
+.intro p{font-size:15.5px;color:#2B2B2B;margin-bottom:12px;white-space:pre-line}
+.intro p:last-child{margin-bottom:0}
+.sec-lab{font-size:13px;letter-spacing:3px;color:var(--gray);font-weight:700;margin-bottom:16px}
+.timeline{list-style:none;position:relative;padding-left:26px}
+.timeline:before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;margin-bottom:18px}
+.tl-item:before{content:"";position:absolute;left:-25px;top:16px;width:11px;height:11px;border-radius:50%;background:var(--gold);border:2px solid #fff;box-shadow:0 0 0 2px var(--line)}
+.tl-card{display:flex;gap:18px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;align-items:center;transition:all .22s}
+.tl-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 10px 26px rgba(2,8,32,.09)}
+.tl-img{flex:0 0 132px;height:88px;border-radius:8px;overflow:hidden;background:var(--bg)}
+.tl-img img{width:100%;height:100%;object-fit:cover;display:block}
+.tl-body{flex:1;min-width:0}
+.tl-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:5px}
+.tl-no{font-size:11px;font-weight:800;color:var(--blue);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 8px;letter-spacing:1px}
+.tl-date{font-size:12.5px;color:var(--gray)}
+.tl-loc{font-size:12.5px;color:var(--gray)}
+.tl-body h2{font-size:18px;font-weight:800;line-height:1.5;margin-bottom:5px}
+.tl-body h2 a{color:var(--text)}
+.tl-card:hover h2 a{color:var(--blue)}
+.tl-body p{font-size:14px;color:var(--gray)}
+.tl-arr{flex:0 0 auto;font-size:20px;color:var(--gold)}
+/* ===== 澳門電影專輯：直海報 grid（PC 橫屏 5 張 auto-fit / 直屏 3 張 / 手機 2 張） ===== */
+.sort-bar{display:flex;justify-content:flex-end;gap:8px;margin-bottom:18px}
+.sort-btn{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;color:var(--text);transition:all .2s}
+.sort-btn:hover{border-color:var(--gold)}
+.sort-btn.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.poster-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:22px}
+.poster-card{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:all .22s;color:inherit}
+.poster-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,8,32,.12);border-color:var(--gold)}
+.poster-card .p-img{aspect-ratio:2/3;overflow:hidden;background:var(--bg)}
+.poster-card .p-img img{width:100%;height:100%;object-fit:contain;display:block;transition:transform .3s}
+.poster-card:hover .p-img img{transform:scale(1.04)}
+.poster-card .p-cap{padding:10px 12px 13px}
+.poster-card .p-title{font-size:15px;font-weight:800;color:var(--text);line-height:1.4}
+.poster-card .p-year{font-size:12px;color:var(--gray);margin-top:3px;letter-spacing:.5px}
+.poster-card .p-info{display:block;text-align:center;font-size:12px;font-weight:700;color:var(--blue);padding:8px 0 2px;letter-spacing:1px}
+.poster-card:hover .p-info{color:var(--gold-dark)}
+@media(orientation:portrait){.poster-grid{grid-template-columns:repeat(3,1fr);gap:18px}}
+@media(max-width:600px){.poster-grid{grid-template-columns:repeat(2,1fr);gap:14px}.sort-bar{justify-content:center}}
+/* 其他專輯卡舊樣式已於 2026-10-11 移除（升級版見下方「其他專輯卡」區塊） */
+.foot{margin-top:46px;padding:26px 24px 46px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);text-align:center}
+.foot a{color:var(--blue)}
+@media(max-width:720px){.masthead h1{font-size:28px}.tl-card{flex-direction:column;align-items:flex-start}.tl-img{flex:0 0 auto;width:100%;height:170px}.wrap{padding:26px 18px 0}}
+/* ===== 傘頁：子輯卡片 grid（2026-10-11 升級：漸層 icon 磚＋序號＋頂部色條＋hover 箭頭） ===== */
+.crumb{max-width:1080px;margin:0 auto;padding:18px 24px 0}
+.crumb a{font-size:14px;font-weight:700;color:var(--blue)}
+.crumb a:hover{color:var(--gold-dark)}
+.sub-grid{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:20px}
+.sub-card{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-top:3px solid var(--sc1,#002676);border-radius:14px;padding:24px 22px 20px;transition:transform .22s,box-shadow .22s,border-color .22s;color:inherit;overflow:hidden}
+.sub-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(2,8,32,.13);border-color:var(--sc1,#002676)}
+.sub-idx{position:absolute;top:16px;right:18px;font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--gray);opacity:.45}
+.sub-ico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--sc1,#002676),var(--sc2,#1257C4));display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:14px;box-shadow:0 6px 16px rgba(2,8,32,.18)}
+.sub-name{font-size:20px;font-weight:800;color:var(--blue);margin-bottom:6px}
+.sub-desc{font-size:13.5px;color:var(--gray);line-height:1.7;margin-bottom:16px;flex:1}
+.sub-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sub-count{font-size:12px;font-weight:700;color:var(--blue);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 11px}
+.sub-go{font-size:13px;font-weight:800;color:var(--gold-dark);opacity:0;transform:translateX(-6px);transition:all .22s;white-space:nowrap}
+.sub-card:hover .sub-go{opacity:1;transform:none}
+@media(max-width:600px){.sub-grid{grid-template-columns:repeat(2,1fr);gap:13px}.sub-card{padding:16px 14px 14px}.sub-ico{width:42px;height:42px;font-size:21px;border-radius:11px;margin-bottom:10px}.sub-name{font-size:16.5px}.sub-desc{font-size:12.5px;margin-bottom:12px}.sub-go{display:none}.sub-idx{font-size:11.5px;top:12px;right:13px}}
+/* ===== 其他專輯卡（2026-10-11 升級：icon 磚＋副標＋篇數＋箭頭，3 欄 grid） ===== */
+.other-ser{max-width:1080px;margin:0 auto;padding:8px 24px 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(288px,1fr));gap:14px}
+.os-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 18px;transition:transform .2s,box-shadow .2s,border-color .2s;color:inherit}
+.os-card:hover{border-color:var(--sc1,#002676);transform:translateY(-3px);box-shadow:0 10px 26px rgba(2,8,32,.1)}
+.os-ico{flex:0 0 44px;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--sc1,#002676),var(--sc2,#1257C4));display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 5px 14px rgba(2,8,32,.16)}
+.os-main{flex:1;min-width:0}
+.os-card .os-n{font-size:16.5px;font-weight:800;color:var(--blue);margin-bottom:2px}
+.os-card .os-d{font-size:12.5px;color:var(--gray);line-height:1.55;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.os-meta{font-size:12px;font-weight:700;color:var(--gold-dark);letter-spacing:.4px}
+.os-arr{flex:0 0 auto;font-size:20px;color:var(--line);transition:color .2s,transform .2s}
+.os-card:hover .os-arr{color:var(--gold-dark);transform:translateX(3px)}
+@media(max-width:600px){.other-ser{grid-template-columns:1fr;gap:10px}.os-card{padding:13px 15px}.os-ico{flex-basis:40px;width:40px;height:40px;font-size:19px}.os-card .os-n{font-size:15.5px}}
+"""
+
+
+# ---------- 電影資訊頁（movie/<slug>/index.html，資料驅動自 posts.json movieInfo） ----------
+MOVIE_INFO_CSS = """
+:root{--blue:#002676;--blue-dark:#010133;--gold:#FDB515;--gold-dark:#FC9313;--bg:#F8F9FB;--white:#fff;--text:#1A1A1A;--gray:#667085;--line:#E4E8EF}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--text);background:var(--bg);line-height:1.8;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1080px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:800;color:var(--blue);font-size:17px;letter-spacing:.5px}
+.brand span{color:var(--gold)}
+.mini-cta{background:var(--blue);color:#fff;font-size:14px;font-weight:700;padding:9px 20px;border-radius:999px}
+.mini-cta:hover{background:var(--blue-dark)}
+.masthead{background:linear-gradient(135deg,#002676 0%,#010133 100%);color:#fff;padding:54px 24px 48px}
+.masthead-in{max-width:1080px;margin:0 auto}
+.kicker{font-size:13px;letter-spacing:5px;color:var(--gold);font-weight:700;margin-bottom:12px}
+.masthead h1{font-size:38px;font-weight:800;letter-spacing:2px;margin-bottom:10px}
+.masthead .sub{color:rgba(255,255,255,.8);font-size:15px}
+.wrap{max-width:1080px;margin:0 auto;padding:36px 24px 0}
+.mi-top{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;margin-bottom:30px}
+.mi-poster{flex:0 0 220px;max-width:220px;aspect-ratio:2/3;border-radius:12px;overflow:hidden;background:var(--bg);border:1px solid var(--line)}
+.mi-poster img{width:100%;height:100%;object-fit:contain;display:block}
+.mi-head{flex:1 1 280px;min-width:260px}
+.mi-title{font-size:34px;font-weight:800;color:var(--blue);letter-spacing:.5px;margin:0 0 6px}
+.mi-sub{font-size:14px;color:var(--gray);letter-spacing:.14em;margin-bottom:14px}
+.mi-by{font-size:14px;color:var(--blue);font-weight:700}
+.mi-syn{font-size:16px;line-height:1.85;color:#2B2B2B;margin:0 0 30px;max-width:780px}
+.mi-lab{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700;margin:0 0 12px}
+.mi-card{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:20px 24px;display:grid;grid-template-columns:92px 1fr;row-gap:9px;column-gap:14px;font-size:14px;margin-bottom:28px}
+.mi-k{color:var(--gray)}
+.mi-v{color:var(--text)}
+.mi-scenes{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:20px 24px;font-size:14px;color:#2B2B2B;margin-bottom:30px}
+#macau-scenes{scroll-margin-top:80px}
+.mi-sec{font-size:15px;font-weight:800;color:var(--blue);margin:18px 0 12px;padding-left:14px;border-left:4px solid var(--gold)}
+.mi-sec:first-child{margin-top:0}
+.mi-place{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:12px}
+.mi-place:last-child{margin-bottom:0}
+.mi-pname{font-size:15px;font-weight:800;color:var(--text);margin-bottom:5px}
+.mi-gps{display:inline-block;font-size:12.5px;color:var(--blue);font-weight:700;margin-bottom:7px;letter-spacing:.3px}
+.mi-gps:hover{color:var(--gold-dark)}
+.mi-pdesc{font-size:14px;color:#2B2B2B;line-height:1.8;margin:0}
+.mi-pcamera{font-size:13.5px;color:var(--blue);background:#F4F8FF;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:8px 12px;margin:9px 0 0;line-height:1.75}
+.mi-intro{font-size:13px;color:var(--gray);background:#FBF7EE;border:1px dashed var(--gold);border-radius:8px;padding:12px 16px;margin-bottom:16px;line-height:1.85}
+.mi-foot{font-size:13.5px;color:#2B2B2B;background:#F4F8FF;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:16px;line-height:1.85;white-space:pre-line}
+.foot{margin-top:46px;padding:26px 24px 46px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);text-align:center}
+.foot a{color:var(--blue)}
+@media(max-width:720px){.masthead h1{font-size:26px}.mi-poster{flex:0 0 150px;max-width:150px}.mi-title{font-size:26px}.wrap{padding:26px 18px 0}}
+"""
+
+def _render_place(pl):
+    name = esc(pl.get('name', ''))
+    gps = pl.get('gps', '')
+    mapurl = pl.get('map', '')
+    if gps:
+        gps_html = ('<a class="mi-gps" href="%s" target="_blank" rel="noopener">📍 %s</a>'
+                    % (esc(mapurl), esc(gps))) if mapurl else ('<span class="mi-gps">📍 %s</span>' % esc(gps))
+    else:
+        gps_html = ''
+    camera = pl.get('camera', '')
+    cam_html = ('<p class="mi-pcamera">📷 機位建議：%s</p>' % esc(camera)) if camera else ''
+    return '<div class="mi-place"><div class="mi-pname">%s</div>%s<p class="mi-pdesc">%s</p>%s</div>' % (
+        name, gps_html, esc(pl.get('desc', '')), cam_html)
+
+def render_macau_scenes(sc):
+    """將 movieInfo.macauScenes 渲染為場景卡。
+    支援 dict 模型 {intro, scenes:[{section,places}], foot} 或 舊式 list / str。"""
+    if not sc:
+        return ''
+    if isinstance(sc, str):
+        return '<div class="mi-scenes" id="macau-scenes">%s</div>' % esc(sc)
+    if isinstance(sc, dict):
+        intro = sc.get('intro', '')
+        foot = sc.get('foot', '')
+        scenes = sc.get('scenes', [])
+    else:
+        intro = foot = ''
+        scenes = sc
+    out = []
+    if intro:
+        out.append('<div class="mi-intro">%s</div>' % esc(intro))
+    for sec in scenes:
+        out.append('<div class="mi-sec">%s</div>' % esc(sec.get('section', '')))
+        for pl in sec.get('places', []):
+            out.append(_render_place(pl))
+    if foot:
+        out.append('<div class="mi-foot">%s</div>' % esc(foot))
+    return '<div class="mi-scenes" id="macau-scenes">%s</div>' % ''.join(out)
+
+
+def build_movie_info(post, allposts):
+    """產生 movie/<slug>/index.html（電影資訊頁），資料來自 post['movieInfo']。"""
+    mi = post.get('movieInfo')
+    if not mi:
+        return None
+    num = str(post.get('num', '')).strip()
+    slug = SLUGS.get(num) or (post.get('slug') or ('post-' + num))
+    if not slug:
+        return None
+    title = (mi.get('title') or (post.get('title') or '').replace('《', '').replace('》觀後感', '')).strip()
+    eng = mi.get('englishName', '')
+    year = mi.get('year', '')
+    poster = ov('../../assets/og/%s-poster.jpg' % slug)
+    synopsis = mi.get('synopsis', '')
+    rows = []
+    def add(k, v):
+        if v not in (None, ''):
+            rows.append('<div class="mi-k">%s</div><div class="mi-v">%s</div>' % (esc(k), esc(str(v))))
+    add('中文片名', title)
+    add('英文片名', eng)
+    add('年份', year)
+    add('導演', mi.get('director'))
+    add('原著·編劇', mi.get('writer'))
+    actors = mi.get('actors') or []
+    if actors:
+        astr = '、'.join((a.get('name', '') + (('／' + a['role']) if a.get('role') else '')) for a in actors)
+        add('主演', astr)
+    add('類型', mi.get('genre'))
+    add('上映', mi.get('releaseDate'))
+    add('澳門連結', ('專輯 #%s' % num) if num else '')
+    add('資料來源', mi.get('source'))
+    card = '<div class="mi-card">%s</div>' % ''.join(rows)
+    scenes_html = render_macau_scenes(mi.get('macauScenes'))
+    # 純資料卡（無 macauScenes）不渲染「澳門場景」標題與空場景塊，避免空白標題
+    scenes_block = ('<div class="mi-lab">%s</div>\n%s' % (esc(mi.get('scenesLabel') or '澳門場景'), scenes_html)) if scenes_html else ''
+    actor_ld = []
+    for a in actors:
+        o = {'@type': 'Person', 'name': a.get('name', '')}
+        if a.get('role'):
+            o['characterName'] = a['role']
+        actor_ld.append(o)
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "Movie",
+        "name": title,
+        "alternateName": eng,
+        "datePublished": mi.get('releaseDate'),
+        "genre": mi.get('genre'),
+        "inLanguage": "zh-Hant",
+        "director": {"@type": "Person", "name": mi.get('director')},
+        "author": {"@type": "Person", "name": mi.get('writer'), "jobTitle": "原著·編劇"},
+        "actor": actor_ld,
+        "contentLocation": {"@type": "Place", "name": "澳門"},
+        "description": synopsis,
+    }
+    url = '%s/movie/%s/' % (SITE, slug)
+    article_url = '%s/article/%s/' % (SITE, slug)
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}｜電影資訊｜翁振軒 Sean Own</title>
+<meta name="description" content="{desc}">
+<meta name="keywords" content="{kw}">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="{title}｜電影資訊｜翁振軒 Sean Own">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="{og}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{ld}</script>
+<style>{css}</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="mini-cta" href="{article}">回到影評</a><a class="mini-cta" href="{site}/series/macau-film/">澳門電影專輯</a>
+</div></div>
+
+<div class="masthead"><div class="masthead-in">
+<div class="kicker">澳門電影專輯 · 電影資訊</div>
+<h1>{title}</h1>
+<div class="sub">{sub}</div>
+</div></div>
+
+<div class="wrap">
+<div class="mi-top">
+<div class="mi-poster"><img src="{poster}" alt="{title} 電影海報" loading="lazy"></div>
+<div class="mi-head">
+<div class="mi-title">{title}</div>
+<div class="mi-sub">{sub}</div>
+<div class="mi-by">{by}</div>
+</div>
+</div>
+
+<p class="mi-syn">{synopsis}</p>
+
+<div class="mi-lab">影片資料</div>
+{card}
+
+{scenes_block}
+
+<div class="foot">© 2026 翁振軒 Sean Own · <a href="{article}">回到影評</a> · <a href="{site}/">返回首頁</a> · <a href="{site}/series/macau-film/">澳門電影專輯</a></div>
+</div>
+</body>
+</html>
+""".format(
+        title=esc(title), desc=esc((synopsis or title)[:120]), kw=esc('%s,%s,澳門電影,翁振軒' % (title, eng)),
+        url=url, og=ov('%s/assets/og/%s-poster.jpg' % (SITE, slug)),
+        ld=json.dumps(ld, ensure_ascii=False), css=MOVIE_INFO_CSS, site=SITE, article=article_url,
+        sub=esc(('%s · %s' % (eng, year)) if (eng or year) else ''),
+        by=esc(('導演 %s ｜ 原著·編劇 %s' % (mi.get('director', ''), mi.get('writer', ''))).strip(' ｜')),
+        poster=poster, synopsis=esc(synopsis), card=card, scenes_block=scenes_block,
+    )
+    d = os.path.join(ROOT, 'movie', slug)
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+    return slug, title
+
+
+def tl_img(p):
+    """輯頁時間軸的縮圖路徑（相對 series/<id>/ 根目錄）。
+
+    優先用 posts.json 的 images[0]——那才是這篇文章自己在各入口
+    （首頁「更多專欄」、文章頁、輯頁）統一的封面；
+    早期版本這裡硬寫 assets/og/<slug>.jpg，導致同一篇文章在首頁與
+    輯頁是兩張不同的圖（首頁已換新封面、輯頁還是舊的 og 圖）。
+    沒有 images 才回退 og 圖，保證行為與舊版一致。
+
+    🔴 界線：這裡只決定「取哪一張圖」，不管「怎麼裁」。
+    裁切規則屬於版面風格，各輯不同（電影輯是 poster-card 海報格，
+    直式contain；時間軸是 tl-img橫式 cover），不要用同一套 object-position
+    強壓全部輯頁——那會把其他輯的構圖一起改壞。
+    要讓某張封面在時間軸裡更好看，正解是重排封面圖本身的版面重心，
+    不是改全站裁切（見 tools/_gen_cover_121.py 的「中央安全區」註解）。
+    """
+    imgs = p.get('images') or []
+    if isinstance(imgs, str):
+        imgs = [imgs]
+    for src in imgs:
+        s = str(src or '').strip()
+        # 只接受站內相對路徑；外站URL 或空值一律略過，避免 og 回退失效
+        if s and not s.startswith(('http://', 'https://', '//', 'data:')):
+            return s.lstrip('./').lstrip('/')
+    return ''
+
+
+def _others_html(posts, exclude_sid):
+    """「其他專輯」卡列（傘頁與一般專輯頁共用）：icon 磚＋名稱＋副標＋篇數＋箭頭。
+    2026-10-11 軒哥反馈原本一排白卡太單薄，升級成帶主題色的橫向卡。"""
+    cards = ''
+    for o in top_level_series():
+        if o['id'] == exclude_sid:
+            continue
+        # 傘輯（如軒哥小課堂）本身不掛文章，篇數＝子輯合計；否則會被「0 篇就跳過」誤濾掉
+        kids = children_of(o['id'])
+        if kids:
+            n = sum(len(series_members(posts, k['id'])) for k in kids)
+        else:
+            n = len(series_members(posts, o['id']))
+        if not n:
+            continue
+        emoji, c1, c2 = TOP_THEME.get(o['id'], ('📚', '#002676', '#1257C4'))
+        cards += (
+            '<a class="os-card" style="--sc1:%s;--sc2:%s" href="%s/series/%s/">'
+            '<div class="os-ico">%s</div>'
+            '<div class="os-main"><div class="os-n">%s</div>'
+            '<div class="os-d">%s</div>'
+            '<div class="os-meta">%d 篇 · %s</div></div>'
+            '<div class="os-arr">›</div></a>'
+        ) % (c1, c2, SITE, esc(o['id']), emoji, esc(o['name']),
+             esc(o.get('subtitle') or ''), n, esc(o.get('period') or ''))
+    if not cards:
+        return ''
+    return ('<div class="sec-lab" style="max-width:1080px;margin:0 auto;padding:34px 24px 0">'
+            '其他專輯</div><div class="other-ser">%s</div>' % cards)
+
+
+def _build_umbrella_page(s, posts, children):
+    """產生傘頁 series/<id>/index.html：列出子輯卡片，不列文章（文章已分散到子輯）。"""
+    sid = s['id']
+    name = s.get('name') or sid
+    items = ''
+    total = 0
+    first_slug = ''
+    for idx, c in enumerate(children):
+        cm = series_members(posts, c['id'])
+        total += len(cm)
+        if not first_slug and cm:
+            cn = str(cm[0].get('num', '')).strip()
+            first_slug = SLUGS.get(cn) or ('post-' + cn)
+        emoji, c1, c2 = SUB_THEME.get(c['id'], ('📂', '#002676', '#1257C4'))
+        items += (
+            '<a class="sub-card" style="--sc1:%s;--sc2:%s" href="%s/series/%s/">'
+            '<span class="sub-idx">%02d</span>'
+            '<div class="sub-ico">%s</div>'
+            '<div class="sub-name">%s</div>'
+            '<div class="sub-desc">%s</div>'
+            '<div class="sub-foot"><span class="sub-count">%d 堂課</span>'
+            '<span class="sub-go">開始上課 ›</span></div></a>'
+        ) % (c1, c2, SITE, esc(c['id']), idx + 1, emoji,
+             esc(c.get('name') or ''), esc(c.get('subtitle') or ''), len(cm))
+    others = _others_html(posts, sid)
+    url = '%s/series/%s/' % (SITE, sid)
+    desc = plain(s.get('intro') or s.get('subtitle') or name, 100)
+    ld = {
+        "@context": "https://schema.org", "@type": "CollectionPage",
+        "name": "%s｜翁振軒 Sean Own" % name, "url": url, "description": desc,
+        "inLanguage": "zh-Hant",
+        "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
+    }
+    cover_slug = first_slug or sid
+    intro_html = ''.join('<p>%s</p>' % esc(x.strip())
+                         for x in (s.get('intro') or '（輯序待補）').split('\n\n') if x.strip())
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{name}｜專輯｜翁振軒 Sean Own</title>
+<meta name="description" content="{desc}">
+<meta name="keywords" content="{kw}">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="{name}｜專輯｜翁振軒 Sean Own">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="{og}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{ld}</script>
+<style>{css}</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="mini-cta" href="{site}/articles/">專欄文章</a>
+</div></div>
+
+<div class="masthead"><div class="masthead-in">
+<div class="kicker">專輯 · 課程地圖</div>
+<h1>{name}</h1>
+<div class="sub">{sub}</div>
+<div class="period">共 {n} 堂課 · {nseries} 個系列</div>
+</div></div>
+
+{crumb}
+
+<div class="wrap">
+<div class="intro"><div class="i-lab">專輯 序</div>{intro}</div>
+<div class="sec-lab">選一個系列開始</div>
+<div class="sub-grid">{items}</div>
+</div>
+
+{others}
+
+<div class="foot">© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/articles/">全部文章</a></div>
+</body>
+</html>
+""".format(
+        name=esc(name), desc=esc(desc), kw=esc('%s,軒哥小課堂,課程,翁振軒,Sean Own' % name),
+        url=url, og=ov('%s/assets/og/%s.jpg' % (SITE, cover_slug)),
+        ld=json.dumps(ld, ensure_ascii=False), css=SERIES_PAGE_CSS, site=SITE,
+        sub=esc(s.get('subtitle') or ''), n=total, nseries=len(children),
+        intro=intro_html, items=items,
+        others=others, crumb='')
+    d = os.path.join(ROOT, 'series', sid)
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+    return sid, name, total
+
+
+def build_series_page(s, posts, all_series):
+    """產生單一輯頁 series/<id>/index.html（支援傘頁＋子輯）"""
+    sid = s['id']
+    children = children_of(sid)
+    if children:  # 傘頁：直接列出子輯
+        return _build_umbrella_page(s, posts, children)
+    members = series_members(posts, sid)
+    if not members:
+        return None
+    desc_order = str(s.get('order_dir') or 'asc').lower() == 'desc'
+    is_film = (SERIES_BY_ID.get(sid, {}) or {}).get('sort_by') == 'filmYear'
+    cover_num = str(s.get('cover_num') or members[0].get('num', '')).strip()
+    cover_slug = SLUGS.get(cover_num) or ('post-' + cover_num)
+
+    items = ''
+    for i, p in enumerate(members):
+        pn = str(p.get('num', '')).strip()
+        pslug = SLUGS.get(pn) or ('post-' + pn)
+        if is_film:
+            # 直海報卡片：圖（Mondo 2:3）＋片名（去《》觀後感）＋年份；data-fy 供 JS 排序
+            fy = p.get('filmYear')
+            try:
+                fy = int(fy)
+            except (TypeError, ValueError):
+                fy = 0
+            name = re.sub(r'^《', '', (p.get('title') or '').strip())
+            name = re.sub(r'》觀後感$', '', name) or (p.get('title') or '')
+            info_link = ''
+            if p.get('movieInfo'):
+                info_link = '<a class="p-info" href="%s/movie/%s/">電影資訊</a>' % (SITE, pslug)
+            items += (
+                '<li class="poster-card" data-fy="%d"><a href="%s/article/%s/">'
+                '<div class="p-img">%s</div>'
+                '<div class="p-cap"><div class="p-title">%s</div>'
+                '<div class="p-year">%s</div></div></a>%s</li>'
+            ) % (fy, SITE, pslug, film_poster_block(pslug, name, '../../'),
+                 esc(name), esc(str(fy)), info_link)
+        else:
+            loc = (p.get('location') or '').strip()
+            ptitle = (p.get('title') or '').strip()
+            plead = plain(p.get('body') or '', 58)
+            if ptitle and plead.startswith(ptitle):  # 正文開頭常重複一次標題，去掉
+                plead = plead[len(ptitle):].lstrip('。：: ·|｜—-,，')
+            # 編號跟著文章在輯中的寫作序（asc 序位），不跟著顯示位置：
+            # desc（新在前）時，列表第 i 個的寫作序 = len - i，讓 01 永遠是最早那篇。
+            no = (len(members) - i) if desc_order else (i + 1)
+            items += (
+                '<li class="tl-item"><a class="tl-card" href="%s/article/%s/">'
+                '<div class="tl-img"><img src="%s" alt="%s 封面" loading="lazy"></div>'
+                '<div class="tl-body"><div class="tl-top">'
+                '<span class="tl-no">%02d / %02d</span>'
+                '<span class="tl-date">%s</span>'
+                '%s'
+                '</div><h2>%s</h2><p>%s</p></div>'
+                '<div class="tl-arr">›</div></a></li>'
+            ) % (SITE, pslug, ov('../../%s' % tl_img(p)) if tl_img(p) else
+                    ov('../../assets/og/%s.jpg' % pslug), esc(p.get('title')), no, len(members),
+                 (p.get('date') or '').replace('-', '.'),
+                 ('<span class="tl-loc">· %s</span>' % esc(loc)) if loc else '',
+                 esc(ptitle), esc(plead))
+
+    others = _others_html(posts, sid)
+
+    coll_name = ''
+    for c in SERIES.get('collections', []):
+        if c['id'] == s.get('collection'):
+            coll_name = c['name']
+            break
+
+    # 子輯頁：加麵包屑回傘頁，並把 kicker 顯示為父輯名
+    parent_name = ''
+    crumb = ''
+    if s.get('parent'):
+        parent_name = (SERIES_BY_ID.get(s['parent'], {}) or {}).get('name', '')
+        crumb = ('<div class="crumb"><a href="%s/series/%s/">← %s</a></div>'
+                 % (SITE, esc(s['parent']), esc(parent_name)))
+
+    name = s.get('name') or sid
+    url = '%s/series/%s/' % (SITE, sid)
+    desc = plain(s.get('intro') or s.get('subtitle') or name, 100)
+    ld = {
+        "@context": "https://schema.org",         "@type": "CollectionPage",
+        "name": "%s｜翁振軒 Sean Own" % name, "url": url, "description": desc,
+        "inLanguage": "zh-Hant",
+        "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
+    }
+    if is_film:
+        sort_bar = ('<div class="sort-bar">'
+                    '<button class="sort-btn on" data-dir="desc">Newest Release Dates</button>'
+                    '<button class="sort-btn" data-dir="asc">Oldest Release Dates</button>'
+                    '</div>')
+        grid_tag = 'poster-grid'
+        film_js = (
+            '<script>(function(){'
+            'var bar=document.querySelector(".sort-bar");if(!bar)return;'
+            'var grid=document.querySelector(".poster-grid");if(!grid)return;'
+            'var cards=[].slice.call(grid.children);'
+            'bar.addEventListener("click",function(e){'
+            'var b=e.target.closest(".sort-btn");if(!b)return;'
+            'var dir=b.getAttribute("data-dir");'
+            'bar.querySelectorAll(".sort-btn").forEach(function(x){x.classList.remove("on")});'
+            'b.classList.add("on");'
+            'cards.sort(function(a,c){var fa=+a.getAttribute("data-fy"),fc=+c.getAttribute("data-fy");'
+            'return dir==="asc"?fa-fc:fc-fa;});'
+            'cards.forEach(function(c){grid.appendChild(c)});'
+            '});})();</script>')
+    else:
+        sort_bar = ''
+        grid_tag = 'timeline'
+        film_js = ''
+    # 澳門電影專輯：三軸入口帶（按年代／取景地／影人 → /collection/ 各分節）
+    axes_out = FC.axes_html(FILM_INDEX, SITE) if (is_film and FILM_INDEX) else ''
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{name}｜專輯｜翁振軒 Sean Own</title>
+<meta name="description" content="{desc}">
+<meta name="keywords" content="{kw}">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="{name}｜專輯｜翁振軒 Sean Own">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="{og}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{ld}</script>
+<style>{css}</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="mini-cta" href="{site}/articles/">專欄文章</a>
+</div></div>
+
+<div class="masthead"><div class="masthead-in">
+<div class="kicker">{kicker}</div>
+<h1>{name}</h1>
+<div class="sub">{sub}</div>
+<div class="period">{period} · 共 {n} 篇</div>
+</div></div>
+{crumb}
+<div class="wrap">
+<div class="intro"><div class="i-lab">專輯 序</div>{intro}</div>
+{sort_bar}{axes}
+<div class="sec-lab">{sec_lab}</div>
+<ul class="{grid_tag}">{items}</ul>
+</div>
+
+{others}
+
+<div class="foot">© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/articles/">全部文章</a></div>
+{film_js}
+</body>
+</html>
+""".format(
+        name=esc(name), desc=esc(desc), kw=esc('%s,%s,翁振軒,Sean Own,專欄' % (name, coll_name)),
+        url=url, og=ov('%s/assets/og/%s.jpg' % (SITE, cover_slug)),
+        ld=json.dumps(ld, ensure_ascii=False), css=SERIES_PAGE_CSS + (FC.AXES_CSS if axes_out else ''), site=SITE,
+        kicker=esc(parent_name or coll_name or '專輯'),
+        sub=esc(s.get('subtitle') or ''), period=esc(s.get('period') or ''),
+        n=len(members), items=items, others=others,
+        sort_bar=sort_bar, axes=axes_out, grid_tag=grid_tag, film_js=film_js,
+        sec_lab=('按電影年份倒序 · 最新電影在前' if desc_order else '按電影年份順序')
+                 if (SERIES_BY_ID.get(sid, {}) or {}).get('sort_by') == 'filmYear'
+                 else ('按時間倒序 · 最新在前' if desc_order else '按時間順序'),
+        intro=''.join('<p>%s</p>' % esc(x.strip())
+                      for x in (s.get('intro') or '（輯序待補）').split('\n\n') if x.strip()),
+        crumb=crumb,
+    )
+    d = os.path.join(ROOT, 'series', sid)
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+    return sid, name, len(members)
+
+
+# 2026-10-14：《守燈人影記》書專區 CSS（/series/ 作品頁用，軒哥拍板整頁只放書）
+BOOK_SEC_CSS = """
+<style>
+.book-sec{background:linear-gradient(160deg,#0A1F5C 0%,#010133 62%,#0b1330 100%);position:relative;overflow:hidden;padding:56px 24px 60px}
+.book-sec::before{content:"";position:absolute;right:-140px;top:-140px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(253,181,21,.16),transparent 68%);pointer-events:none}
+.book-sec::after{content:"";position:absolute;left:-100px;bottom:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(90,140,255,.18),transparent 68%);pointer-events:none}
+.book-sec .book-in{position:relative;z-index:1;max-width:1080px;margin:0 auto}
+.book-kicker{font-size:12px;letter-spacing:5px;color:var(--gold);font-weight:700;margin-bottom:14px}
+.book-hero{display:grid;grid-template-columns:236px minmax(0,1fr);gap:48px;align-items:center}
+.book-cover{display:block;border-radius:8px;overflow:hidden;box-shadow:0 22px 56px rgba(0,0,0,.5);position:relative;transition:transform .35s;width:100%;max-width:236px}
+.book-cover:hover{transform:translateY(-6px) scale(1.01)}
+.book-cover img{width:100%;max-width:236px;display:block;height:auto}
+.book-cover::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(253,181,21,.28);border-radius:8px}
+.book-badge{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#010133;font-size:12.5px;font-weight:800;letter-spacing:1.6px;padding:7px 16px;border-radius:3px;margin-bottom:18px}
+.book-title{font-size:clamp(32px,5vw,46px);font-weight:900;color:#fff;letter-spacing:3px;line-height:1.2}
+.book-sub{font-size:clamp(15px,2.4vw,20px);color:var(--gold);font-weight:700;letter-spacing:4px;margin-top:8px}
+.book-by{font-size:14.5px;color:rgba(255,255,255,.7);margin-top:14px;letter-spacing:.5px}
+.book-by b{color:#fff;font-weight:700}
+.book-lede{font-size:16.5px;line-height:1.94;color:rgba(255,255,255,.84);margin-top:18px;max-width:640px}
+.book-facts{display:flex;gap:34px;flex-wrap:wrap;margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.16)}
+.book-facts b{display:block;font-size:25px;font-weight:900;color:var(--gold);line-height:1.2}
+.book-facts span{font-size:12.5px;color:rgba(255,255,255,.62)}
+.book-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn-book{padding:14px 32px;border-radius:8px;font-size:15px;font-weight:700;letter-spacing:.5px;transition:all .2s;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;text-decoration:none}
+.btn-book-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#010133;box-shadow:0 6px 20px rgba(253,181,21,.32)}
+.btn-book-gold:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(253,181,21,.44)}
+.btn-book-line{background:rgba(255,255,255,.08);color:#fff;border:1.5px solid rgba(255,255,255,.36)}
+.btn-book-line:hover{background:rgba(255,255,255,.18);border-color:var(--gold);color:var(--gold)}
+.book-note{margin:18px 0 0;font-size:12.5px;line-height:1.75;color:rgba(240,228,205,.72)}
+@media(max-width:860px){.book-sec{padding:40px 18px 46px}.book-hero{grid-template-columns:1fr;justify-items:center;text-align:center}.book-lede{margin-left:auto;margin-right:auto}.book-facts,.book-cta{justify-content:center}}
+.ser-links{max-width:1080px;margin:0 auto;padding:22px 24px 4px;font-size:14px;color:var(--gray);line-height:2.1}
+.ser-links span{font-weight:800;letter-spacing:2px;color:var(--blue);margin-right:6px}
+.ser-links a{color:var(--gray);font-weight:600}
+.ser-links a:hover{color:var(--gold-dark)}
+</style>
+"""
+
+
+BOOK_SEC_HTML = """<section class="book-sec"><div class="book-in">
+<div class="book-kicker">BOOK</div>
+<div class="book-hero">
+  <a class="book-cover" href="/book/shou-deng-ren-ying-ji/" aria-label="《守燈人影記》—— 銀幕上的百年澳門，在線翻閱">
+    <img src="/assets/book/sy-deng-ren/cover.jpg" width="1344" height="1888" loading="lazy"
+         alt="《守燈人影記——銀幕上的百年澳門》封面：夜色中的東望洋燈塔，光束照亮騎樓屋頂與膠片帶，穿制服的守燈人坐在石牆上">
+  </a>
+  <div>
+    <div class="book-badge">📕 全新出版 · <b>定稿中</b> · 可在線試閱</div>
+    <h2 class="book-title">守燈人影記</h2>
+    <p class="book-sub">銀幕上的百年澳門</p>
+    <p class="book-by"><b>翁振軒 Sean Own</b> 著 ｜ 中華書局（澳門）有限公司 出版 ｜ 預計 2026 年 11 月上市</p>
+    <p class="book-lede">站在東望洋山頂，澳門在腳下攤開。燈塔不高，卻已亮了一百多年的光。<br>這本書收錄三十三部在澳門取景的電影，從最新的《捕風追影》往回走，一直走到 1923 年——我想做的是，藉著電影，把澳門的光照得再遠一點。</p>
+    <div class="book-facts">
+      <div><b>33</b><span>部電影</span></div>
+      <div><b>4</b><span>個篇章</span></div>
+      <div><b>274</b><span>頁全文</span></div>
+      <div><b>1923</b><span>年至今</span></div>
+    </div>
+    <div class="book-cta">
+      <a class="btn-book btn-book-gold" href="/book/shou-deng-ren-ying-ji/">📖 進入在線試閱 →</a>
+      <a class="btn-book btn-book-line" href="/book/shou-deng-ren-ying-ji/#sec-toc">查看完整目錄</a>
+    </div>
+    <p class="book-note">＊ 本書仍在編輯中，推薦序與書號（ISBN）待補；取得書號後始受理購買，屆時於本站公告。</p>
+  </div>
+</div>
+</div></section>
+"""
+
+def build_series_index(posts):
+    """產生「作品」頁 series/index.html
+
+    2026-10-14 起（軒哥拍板）：/series/ 不再羅列專輯卡，整頁只放《守燈人影記》
+    整刊（書封、導言、四項數字、試閱與目錄 CTA）。專輯入口收在書專區下方一行
+    低調文字連結，以及 /articles/ 的專輯晶片。
+    """
+    url = SITE + '/series/'
+    desc = '翁振軒作品頁：《守燈人影記——銀幕上的百年澳門》全書在線試閱，以及各專輯總覽。'
+    ld = {
+        "@context": "https://schema.org", "@type": "CollectionPage",
+        "name": "作品｜《守燈人影記》與專輯總覽｜翁振軒 Sean Own", "url": url, "description": desc,
+        "inLanguage": "zh-Hant",
+        "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
+    }
+    links = ' · '.join(
+        '<a href="%s/series/%s/">%s</a>' % (SITE, esc(s['id']), esc(s['name']))
+        for s in top_level_series()
+        if series_members(posts, s['id']) or children_of(s['id'])
+    )
+    rows = '<div class="ser-links"><span>專輯</span>%s</div>' % links if links else ''
+
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>作品｜《守燈人影記》與專輯總覽｜翁振軒 Sean Own</title>
+<meta name="description" content="{desc}">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="作品｜《守燈人影記》與專輯總覽｜翁振軒 Sean Own">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="https://seanown.org/assets/book/sy-deng-ren/og.jpg?v=20261007b">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:site_name" content="翁振軒 Sean Own">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="作品｜《守燈人影記》與專輯總覽｜翁振軒 Sean Own">
+<meta name="twitter:description" content="{desc}">
+<meta name="twitter:image" content="https://seanown.org/assets/book/sy-deng-ren/og.jpg?v=20261007b">
+<script type="application/ld+json">{ld}</script>
+<style>{css}</style>
+{bookcss}
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="mini-cta" href="{site}/articles/">專欄文章</a>
+</div></div>
+
+<div class="masthead"><div class="masthead-in">
+<div class="kicker">WORKS &amp; SERIES</div>
+<h1>作品</h1>
+<div class="sub">一本書，四個專輯。</div>
+</div></div>
+
+{bookhtml}
+
+{rows}
+
+<div class="foot">© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/articles/">全部文章</a></div>
+</body>
+</html>
+""".format(desc=esc(desc), url=url, ld=json.dumps(ld, ensure_ascii=False),
+           css=SERIES_PAGE_CSS, site=SITE, rows=rows,
+           bookcss=BOOK_SEC_CSS, bookhtml=BOOK_SEC_HTML)
+    d = os.path.join(ROOT, 'series')
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+
+
+def _unused_old_build_series_index(posts):
+    """（舊版，2026-10-14 起停用）四張專輯卡版的 /series/ 總覽頁。
+
+    新版 build_series_index() 已改為「作品頁＋書專輯整刊」，專輯入口改為一行文字連結。
+    此函式保留僅作歷史參考，main() 不再呼叫。
+    """
+    coll_name = {c['id']: c['name'] for c in SERIES.get('collections', [])}
+    cards = ''
+    any_series = False
+    for s in top_level_series():
+        m = series_members(posts, s['id'])
+        kids = children_of(s['id'])
+        if not m and not kids:
+            continue
+        any_series = True
+        grp = coll_name.get(s.get('collection'), '')
+        if kids:  # 傘頁：以「子輯數 · 子輯文章總數」呈現
+            n = sum(len(series_members(posts, c['id'])) for c in kids)
+            meta = '%d 個系列 · %d 堂課' % (len(kids), n)
+        else:
+            n = len(m)
+            meta = '%d 篇 · %s' % (n, s.get('period') or '')
+        cards += (
+            '<a class="os-card" href="%s/series/%s/" style="flex:1 1 300px">'
+            '%s'
+            '<div class="os-n">%s</div>'
+            '<div class="os-d" style="margin-bottom:6px">%s</div>'
+            '<div class="os-d">%s</div></a>'
+        ) % (SITE, esc(s['id']),
+             ('<div class="os-grp">%s</div>' % esc(grp)) if grp else '',
+             esc(s['name']), esc(s.get('subtitle') or ''),
+             meta)
+    rows = ''
+    if cards:
+        rows = '<div class="other-ser" style="padding-top:30px">%s</div>' % cards
+    if not any_series:
+        return
+
+    url = SITE + '/series/'
+    desc = '翁振軒專欄專輯總覽：同一主題的文章收成一專輯，按順序讀。'
+    ld = {
+        "@context": "https://schema.org", "@type": "CollectionPage",
+        "name": "專輯總覽｜翁振軒 Sean Own", "url": url, "description": desc,
+        "inLanguage": "zh-Hant",
+        "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
+    }
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>專輯總覽｜翁振軒 Sean Own</title>
+<meta name="description" content="{desc}">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="專輯總覽｜翁振軒 Sean Own">
+<meta property="og:description" content="{desc}">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{ld}</script>
+<style>{css}</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="mini-cta" href="{site}/articles/">專欄文章</a>
+</div></div>
+
+<div class="masthead"><div class="masthead-in">
+<div class="kicker">SERIES</div>
+<h1>專輯</h1>
+<div class="sub">同一主題的文章收成一專輯，按順序讀。</div>
+</div></div>
+
+{rows}
+
+<div class="foot">© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/articles/">全部文章</a></div>
+</body>
+</html>
+""".format(desc=esc(desc), url=url, ld=json.dumps(ld, ensure_ascii=False),
+           css=SERIES_PAGE_CSS, site=SITE, rows=rows)
+    d = os.path.join(ROOT, 'series')
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+
+
+# ---------- 附件：雜誌翻頁閱讀器（研究報告類文章） ----------
+ATTACHMENTS = {
+    'macau-budget-2020-2024-analysis': {
+        'kicker': '附件 · 研究報告',
+        'title': '澳門政府五年賬本（2020–2024 決算）',
+        'sub': '像翻雜誌一樣讀這份報告：左頁圖表、右頁解讀，共 4 頁。亦可下載 PDF 或開啟可查可篩的互動版。',
+        'pdf': '../../assets/reports/macau-budget-ledger-report.pdf',
+        'pdf_label': '下載完整報告 PDF（4 頁 / 1.3 MB）',
+        'link': '../../macau-budget-ledger.html',
+        'pages': [
+            {
+                'img': '../../assets/images/ledger-shot-dashboard.webp',
+                'alt': '五年總支出看板與民生佔比圓環',
+                'h': '財政大盤一覽',
+                'body': ('<p>2020–2024 五年，澳門一般綜合預算<strong>累計總支出 4,759.5 億元</strong>，年均 951.9 億元；'
+                         '2024 年度總支出 979.5 億元，對比 2023 年 <strong>+8.1%</strong>，回歸常態增長軌道。</p>'
+                         '<p>按約 68 萬人口粗略估算，人均年財政支出<strong>約 14 萬元</strong>——公庫的每一筆錢，都對應著城市運作的真實脈動。</p>'),
+            },
+            {
+                'img': '../../assets/images/ledger-shot-wheel.webp',
+                'alt': '支出結構輪盤：九大功能分類五年決算額',
+                'h': '錢都花在哪：九大分類',
+                'body': ('<p>輪盤把九大功能分類攤開：「其他功能」（現金分享、醫療補貼、稅項返還等惠民措施）五年合計 1,129.1 億元；'
+                         '<strong>經濟服務 805.0 億元</strong>居實質政策分類之首；教育 619.5 億、衛生 559.6 億緊隨其後。</p>'
+                         '<p>教育、衛生、社會保障、房屋、社會及社區服務五大民生類別，合計佔總支出<strong> 40.1%</strong>，是公共財政的壓艙石。</p>'),
+            },
+            {
+                'img': '../../assets/images/ledger-shot-trend.webp',
+                'alt': '年度總支出趨勢：2020–2024',
+                'h': '五年走勢：逆週期調節',
+                'body': ('<p>走勢呈完整周期：<strong>2021 年 891.5 億</strong>為五年低點（疫情緊縮）；2022 年兩度《預算修改法》增撥投資，'
+                         '衝上<strong> 1,021.5 億</strong>的唯一千億高點；2023 年特別措施退出回落至 905.7 億；2024 年復甦回升至 979.5 億。</p>'
+                         '<p>「應急收縮 — 擴張托底 — 常態回歸」，正是澳門財政逆週期調節的完整軌跡。</p>'),
+            },
+            {
+                'img': '../../assets/images/ledger-shot-donut.webp',
+                'alt': '支出分類佔比甜甜圈圖',
+                'h': '結構啟示：讀懂賬本找機會',
+                'body': ('<p><strong>房屋支出五年增長近四倍</strong>，2024 年按年大增 49.2%、增幅居九大分類之首——公屋興建與都市更新，'
+                         '將持續帶動建築、建材、物業上下游。</p>'
+                         '<p>經濟服務重點從疫情救助轉向產業培育，配合「1+4」多元策略，中小企支援、旅遊推廣與數位經濟投入，'
+                         '就是產業界的切入點。</p>'),
+            },
+        ],
+    },
+    'hdi-2025-human-development-report': {
+        'kicker': '附件 · 原版報告',
+        'title': 'GDP 之外：用 HDI 重新丈量發展（原版全 11 頁）',
+        'sub': '像翻雜誌一樣讀原版報告：左右兩頁、可翻頁。亦可下載完整 PDF，或開啟互動星海版。',
+        'pdf': '../../assets/reports/hdi-report-2025.pdf',
+        'pdf_label': '下載完整報告 PDF（11 頁 / 2.0 MB）',
+        'link': '../../hdi-starfield/index.html',
+        'open_label': '互動星海版（可滑動 · 星空動畫）↗',
+        'hint': '想看星空動畫與完整數據？下方可下載 PDF，或開啟互動星海版。',
+        'pages': [
+            {'img': '../../assets/images/hdi-pages/p01.webp', 'img2': '../../assets/images/hdi-pages/p02.webp',
+             'alt': '報告封面：GDP 之外，用 HDI 重新丈量發展', 'alt2': '01 夜燈不等於燭光',
+             'pn1': 'PDF 第 1 頁', 'pn2': 'PDF 第 2 頁'},
+            {'img': '../../assets/images/hdi-pages/p03.webp', 'img2': '../../assets/images/hdi-pages/p04.webp',
+             'alt': '02 HDI 是什麼：三把尺，一把指數', 'alt2': '三把尺細節：收入封頂等設計',
+             'pn1': 'PDF 第 3 頁', 'pn2': 'PDF 第 4 頁'},
+            {'img': '../../assets/images/hdi-pages/p05.webp', 'img2': '../../assets/images/hdi-pages/p06.webp',
+             'alt': '03 核心一圖：人均 GDP × HDI 星圖', 'alt2': '04 HDI 排行榜：誰在頂端，中國在哪',
+             'pn1': 'PDF 第 5 頁', 'pn2': 'PDF 第 6 頁'},
+            {'img': '../../assets/images/hdi-pages/p07.webp', 'img2': '../../assets/images/hdi-pages/p08.webp',
+             'alt': '澳門 0.934 折算約第 21 位（附註）', 'alt2': '05 四個反差：GDP 看不見的東西',
+             'pn1': 'PDF 第 7 頁', 'pn2': 'PDF 第 8 頁'},
+            {'img': '../../assets/images/hdi-pages/p09.webp', 'img2': '../../assets/images/hdi-pages/p10.webp',
+             'alt': '中國 33 年 HDI +62% 與澳門比較', 'alt2': '數據來源 Data Sources',
+             'pn1': 'PDF 第 9 頁', 'pn2': 'PDF 第 10 頁'},
+            {'img': '../../assets/images/hdi-pages/p11.webp',
+             'alt': '封底：SEAN OWN 數據研究特輯',
+             'h': '讀完這份報告',
+             'body': ('<p>封底的三個數字，就是全篇的座標系：<strong>冰島 0.972</strong> 說明小經濟體也能登頂；'
+                      '<strong>中國 0.797</strong> 是 33 年 +62% 的進行式；<strong>中國澳門 0.934</strong> 提醒我們——'
+                      '賭收蓋得起醫院，大學與科研卻要時間生長。</p>'
+                      '<p>GDP 回答「有多大」，HDI 回答「活得如何」。兩把尺都拿在手裡，才量得出一個真實的世界。</p>'),
+             'pn1': 'PDF 第 11 頁 · 封底'},
+        ],
+    },
+}
+
+RDR_CSS = """
+/* ---------- 附件：雜誌翻頁閱讀器 ---------- */
+.rdr{margin:34px 0 40px;background:#F7F1E3;border:1px solid #E7DCC2;border-radius:18px;padding:26px 26px 22px;box-shadow:0 14px 40px rgba(1,1,51,.08)}
+.rdr-badge{display:inline-block;background:#1F6B4A;color:#F2EFE3;font-size:12px;font-weight:700;letter-spacing:2px;padding:4px 14px;border-radius:999px;margin-bottom:12px}
+.rdr-title{font-family:Georgia,"Songti TC",serif;font-size:23px;color:#14503A;line-height:1.35;margin:0 0 6px}
+.rdr-sub{font-size:14px;color:#8A8266;margin:0 0 18px}
+.rdr-stage{position:relative;background:#FFFDF6;border:1px solid #E7DCC2;border-radius:14px;overflow:hidden}
+.rdr-spread{display:none;grid-template-columns:1.05fr 1fr;min-height:520px}
+.rdr-spread.is-on{display:grid;animation:rdrIn .45s ease}
+@keyframes rdrIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.rdr-left{position:relative;background:#F7F1E3;border-right:1px dashed #E7DCC2;overflow:hidden}
+.rdr-left img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center top}
+.rdr-left::after{content:'';position:absolute;top:0;bottom:0;right:-14px;width:14px;background:linear-gradient(90deg,rgba(80,60,20,.14),rgba(80,60,20,0))}
+.rdr-right{padding:30px 30px 26px;display:flex;flex-direction:column}
+.rdr-pageno{font-size:12px;letter-spacing:2px;color:#B8912E;font-weight:700;margin-bottom:10px}
+.rdr-right h3{font-family:Georgia,"Songti TC",serif;font-size:21px;color:#14503A;margin:0 0 14px;line-height:1.4}
+.rdr-right p{font-size:15px;line-height:1.85;color:#3D4A55;margin:0 0 13px;text-align:justify}
+.rdr-right strong{color:#14503A}
+.rdr-hint{margin-top:auto;padding-top:14px;font-size:12.5px;color:#8A8266;border-top:1px dashed #E7DCC2}
+.rdr-spread.is-dual{grid-template-columns:1fr 1fr}
+.rdr-spread.is-dual .rdr-left{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:18px 14px 14px;overflow:auto}
+.rdr-spread.is-dual .rdr-left img{position:static;width:auto;max-width:100%;max-height:600px;object-fit:contain;border-radius:3px;box-shadow:0 8px 26px rgba(80,60,20,.2)}
+.rdr-right-page{padding:18px 14px 14px;align-items:center;justify-content:flex-start;overflow:auto}
+.rdr-right-page img{width:auto;max-width:100%;max-height:600px;border-radius:3px;box-shadow:0 8px 26px rgba(80,60,20,.2)}
+.rdr-pgnum{display:block;font-size:11.5px;letter-spacing:2px;color:#B8912E;font-weight:700;margin-top:12px}
+.rdr-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:16px}
+.rdr-btn2{background:#1F6B4A;color:#fff;border:none;border-radius:999px;padding:9px 24px;font-size:14px;cursor:pointer;font-family:inherit;transition:background .2s}
+.rdr-btn2:hover{background:#14503A}
+.rdr-btn2:disabled{opacity:.4;cursor:default}
+.rdr-dots{display:flex;gap:8px}
+.rdr-dot{width:9px;height:9px;border-radius:50%;background:#D8CBA8;border:none;padding:0;cursor:pointer;transition:all .2s}
+.rdr-dot.on{background:#B8912E;transform:scale(1.25)}
+.rdr-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.rdr-dl{display:inline-block;background:#B8912E;color:#fff;font-weight:700;font-size:14.5px;padding:12px 28px;border-radius:999px;text-decoration:none;transition:all .2s}
+.rdr-dl:hover{background:#9A7822;transform:translateY(-2px)}
+.rdr-open{display:inline-block;background:transparent;color:#14503A;border:1.5px solid #1F6B4A;font-weight:700;font-size:14.5px;padding:11px 26px;border-radius:999px;text-decoration:none;transition:all .2s}
+.rdr-open:hover{background:rgba(31,107,74,.08)}
+@media(max-width:820px){
+.rdr{padding:18px 14px 16px}
+.rdr-spread{grid-template-columns:1fr;min-height:0}
+.rdr-spread.is-on{display:block}
+.rdr-left{height:230px;border-right:none;border-bottom:1px dashed #E7DCC2}
+.rdr-left img{position:absolute}
+.rdr-spread.is-dual .rdr-left{height:auto;padding:14px 10px 10px}
+.rdr-spread.is-dual .rdr-left img{max-height:none;width:100%}
+.rdr-right-page{padding:14px 10px 10px}
+.rdr-right-page img{max-height:none;width:100%}
+.rdr-right{padding:20px 18px 18px}
+.rdr-title{font-size:19px}
+}
+"""
+
+
+def build_reader(att):
+    spreads = []
+    n = len(att['pages'])
+    for i, p in enumerate(att['pages']):
+        cls = ' is-dual' if p.get('img2') else ''
+        if p.get('img2'):
+            html = ('<div class="rdr-spread is-dual%s">'
+                    '<div class="rdr-left"><img src="%s" alt="%s" loading="lazy"><span class="rdr-pgnum">%s</span></div>'
+                    '<div class="rdr-right rdr-right-page"><img src="%s" alt="%s" loading="lazy"><span class="rdr-pgnum">%s</span></div>'
+                    '</div>') % (' is-on' if i == 0 else '', p['img'], esc(p['alt']),
+                                 esc(p.get('pn1', '')), p['img2'], esc(p.get('alt2', '')),
+                                 esc(p.get('pn2', '')))
+        else:
+            html = ('<div class="rdr-spread%s">'
+                    '<div class="rdr-left"><img src="%s" alt="%s" loading="lazy"></div>'
+                    '<div class="rdr-right"><span class="rdr-pageno">第 %d 頁 · 共 %d 頁</span>'
+                    '<h3>%s</h3>%s'
+                    '<p class="rdr-hint">%s</p></div></div>'
+                    ) % (' is-on' if i == 0 else '', p['img'], esc(p['alt']), i + 1, n,
+                         esc(p['h']), p['body'], esc(att.get('hint', '想查每一筆明細？下方可下載 PDF，或開啟可篩選的互動賬本。')))
+        spreads.append(html)
+    dots = ''.join('<button class="rdr-dot%s" data-rp="%d" aria-label="第 %d 頁"></button>'
+                   % (' on' if i == 0 else '', i, i + 1) for i in range(n))
+    rdr = (
+        '<section class="rdr" id="report-reader">'
+        '<span class="rdr-badge">%s</span>'
+        '<h2 class="rdr-title">%s</h2>'
+        '<p class="rdr-sub">%s</p>'
+        '<div class="rdr-stage" id="rdrStage">%s</div>'
+        '<div class="rdr-nav">'
+        '<button class="rdr-btn2" id="rdrPrev" type="button">← 上一頁</button>'
+        '<div class="rdr-dots">%s</div>'
+        '<button class="rdr-btn2" id="rdrNext" type="button">下一頁 →</button>'
+        '</div>'
+        '<div class="rdr-actions">'
+        '<a class="rdr-dl" href="%s" download>⬇ %s</a>'
+        '<a class="rdr-open" href="%s" target="_blank" rel="noopener">%s</a>'
+        '</div>'
+        '<script>(function(){var sp=document.querySelectorAll("#rdrStage .rdr-spread");if(!sp.length)return;'
+        'var cur=0,dots=document.querySelectorAll(".rdr-dot"),pv=document.getElementById("rdrPrev"),nx=document.getElementById("rdrNext");'
+        'function go(k){if(k<0||k>=sp.length)return;sp[cur].classList.remove("is-on");dots[cur].classList.remove("on");'
+        'cur=k;sp[cur].classList.add("is-on");dots[cur].classList.add("on");'
+        'pv.disabled=cur===0;nx.disabled=cur===sp.length-1}'
+        'pv.addEventListener("click",function(){go(cur-1)});nx.addEventListener("click",function(){go(cur+1)});'
+        'dots.forEach(function(d,i){d.addEventListener("click",function(){go(i)})});'
+        'document.addEventListener("keydown",function(e){if(!document.getElementById("report-reader"))return;'
+        'if(e.key==="ArrowLeft")go(cur-1);if(e.key==="ArrowRight")go(cur+1)});'
+        'pv.disabled=true;nx.disabled=sp.length===1})();</script>'
+        '</section>'
+    ) % (esc(att['kicker']), esc(att['title']), esc(att['sub']),
+         ''.join(spreads), dots,
+         att['pdf'], esc(att['pdf_label']), att['link'],
+         esc(att.get('open_label', '互動賬本（可轉 · 可查 · 可篩選）↗')))
+    return rdr
+
+
+QK_CSS = """
+/* ---------- 金句手繪卡片組（自訂 HTML 片段用） ---------- */
+.qk{column-span:all;margin:4px 0 0}
+.qk-grid{display:grid;grid-template-columns:1fr;gap:30px}
+@media(min-width:900px){.qk-grid{grid-template-columns:1fr 1fr;gap:34px 52px}}
+.article .qk-card{display:block;background:#fff;border:1px solid #E9ECF2;border-radius:14px;padding:22px 22px 24px;margin:0;box-shadow:0 12px 28px -24px rgba(1,1,51,.4);break-inside:avoid}
+.qk-inner{display:flex;gap:20px;align-items:flex-start}
+.qk-badge{flex:0 0 106px;margin:0}
+.qk-img{width:100%;height:auto;display:block}
+.qk-scribble{margin:5px 0 0;text-align:center;font-size:11px;color:#9AA2B1;letter-spacing:.05em}
+.qk-text{flex:1 1 auto;min-width:0}
+.article .qk-num{font-size:11px;letter-spacing:.28em;color:#9AA2B1;margin:0 0 8px;font-weight:400}
+.article .qk-tag{display:inline-block;background:#FFF3D0;color:#002676;font-size:11.5px;font-weight:700;letter-spacing:.14em;padding:3px 11px;border-radius:999px;margin:0 0 12px;border:none}
+.article h2.qk-quote{font-size:20px;line-height:1.62;color:#1A1A1A;font-weight:800;margin:0 0 12px;padding:0 0 0 14px;border:none;border-left:3px solid var(--gold)}
+.article p.qk-bg{margin:0 0 10px;font-size:13.5px;line-height:1.85;color:#667085;text-align:left}
+.article p.qk-bg .qk-lbl{display:inline;margin-right:8px;font-size:10px;letter-spacing:.2em;color:#9AA2B1}
+.article p.qk-insight{margin:0;font-size:13.5px;line-height:1.85;color:#1A1A1A;background:#F8F9FB;border-radius:10px;padding:11px 14px;text-align:left}
+.article p.qk-insight .qk-lbl{display:block;margin-bottom:3px;font-size:10px;letter-spacing:.2em;color:#9AA2B1}
+.qk-more{display:inline-block;margin-top:11px;font-size:12.5px;color:var(--blue);font-weight:700}
+.qk-more:hover{color:var(--gold-dark)}
+@media(max-width:640px){.article .qk-card{padding:18px 16px 20px}.qk-badge{flex:0 0 84px}.qk-inner{gap:14px}.article h2.qk-quote{font-size:18.5px}}
+/* 長標題自適應（不影響站上其他文章） */
+@media(max-width:720px){.article h1{font-size:clamp(17px,5vw,22px);letter-spacing:.02em;line-height:1.42;word-break:break-word}}
+/* 手繪線稿筆觸 */
+.qk .ln{fill:none;stroke:#1f1d1a;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.qk .thin{stroke-width:1.3}
+.qk .gray{fill:none;stroke:#9b958a;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.qk .dash{fill:none;stroke:#aaa49a;stroke-width:1.3;stroke-dasharray:5 5;stroke-linecap:round}
+.qk .wash{fill:#ecebe6;stroke:none}
+.qk .wash2{fill:#f4f3ef;stroke:none}
+.qk .inkfill{fill:#1f1d1a;stroke:none}
+.qk .ring{fill:none;stroke:#1f1d1a;stroke-width:1.8;opacity:.85}
+.qk .ring2{fill:none;stroke:#1f1d1a;stroke-width:.9;opacity:.22}
+"""
+
+# 文章頁頂部「按專輯逛」chip 列（全部專輯一排，當前文章所屬專輯高亮）
+SJ_CSS = """
+.sj-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 16px}
+.sj-bar .sj-label{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700;margin-right:4px}
+.sj-bar .sj-chip{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;color:var(--blue);transition:all .2s}
+.sj-bar .sj-chip:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+.sj-bar .sj-chip.sj-cur{background:var(--blue);border-color:var(--blue);color:#fff}
+.sj-bar .sj-chip.sj-all{border-color:var(--line);color:var(--gray);font-weight:600}
+@media(max-width:600px){.sj-bar .sj-label{width:100%;margin:0 0 2px}}
+"""
+
+# 「本堂重點（三句話）」＋「演講稿放映」兩個區塊。
+# 用 post['keypoints'] 與 post['deck'] 觸發，不影響站上其他 120 篇。
+DECK_CSS = """
+/* ---------- 本堂重點：三句話 ---------- */
+.kp{column-span:all;margin:6px 0 34px;background:#fff;border:1px solid var(--line);
+    border-top:5px solid var(--gold);border-radius:14px;padding:26px 28px 24px;
+    box-shadow:0 14px 34px -28px rgba(1,1,51,.45)}
+.kp-kicker{font-size:11.5px;letter-spacing:.3em;color:#9AA2B1;font-weight:700;margin:0 0 4px}
+.kp-title{font-size:22px;color:var(--blue);font-weight:800;margin:0 0 20px;padding:0;
+    border:none;line-height:1.45}
+.kp-list{list-style:none;margin:0;padding:0;counter-reset:kp}
+.kp-list li{counter-increment:kp;position:relative;padding:0 0 0 62px;margin:0 0 18px;
+    font-size:17.5px;line-height:1.72;color:var(--text);text-align:left;font-weight:600}
+.kp-list li:last-child{margin-bottom:0}
+.kp-list li::before{content:counter(kp,decimal-leading-zero);position:absolute;left:0;top:1px;
+    width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;
+    font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;
+    letter-spacing:.02em}
+.kp-list li b{color:var(--blue);font-weight:800}
+.kp-note{margin:18px 0 0;padding-top:16px;border-top:1px dashed var(--line);
+    font-size:13.5px;color:var(--gray);line-height:1.8;text-align:left}
+/* ---------- 演講稿：縮圖輪播＋全屏放映 ---------- */
+.dk{column-span:all;margin:34px 0 0}
+.dk-hd{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+    flex-wrap:wrap;margin:0 0 6px}
+.dk-hd h2{font-size:23px;color:var(--blue);font-weight:800;margin:0;padding-left:14px;
+    border-left:5px solid var(--gold);line-height:1.4}
+.dk-hint{font-size:12.5px;color:var(--gray);letter-spacing:.04em;margin:0 0 18px;
+    padding:0 0 0 19px}
+.dk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.dk-item{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    background:#fff;box-shadow:0 10px 26px -24px rgba(1,1,51,.5);transition:all .2s}
+.dk-item:hover{border-color:var(--gold);transform:translateY(-3px);
+    box-shadow:0 16px 32px -22px rgba(1,1,51,.4)}
+.dk-item a{display:block}
+.dk-item img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;
+    border-bottom:1px solid var(--line)}
+.dk-cap{padding:11px 14px 13px;font-size:13px;line-height:1.6;color:var(--text);
+    font-weight:600;text-align:left}
+.dk-cap i{display:block;font-style:normal;font-size:10.5px;letter-spacing:.2em;
+    color:#9AA2B1;font-weight:700;margin-bottom:4px}
+.dk-cta{margin:22px 0 0;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.dk-btn{display:inline-block;background:var(--blue);color:#fff;font-size:14px;
+    font-weight:700;padding:12px 28px;border-radius:999px;text-decoration:none;letter-spacing:.04em}
+.dk-btn:hover{background:var(--blue-dark)}
+.dk-btn.ghost{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.dk-btn.ghost:hover{background:var(--blue);color:#fff}
+.dk-meta{font-size:12.5px;color:var(--gray);margin:0}
+/* 演講稿縮圖：預設收合，點開關才展開 */
+.dk-fold{margin:6px 0 0}
+.dk-fold-sum{cursor:pointer;display:inline-block;font-size:14px;font-weight:700;
+    color:var(--blue);background:#fff;border:1.5px solid var(--blue);
+    padding:9px 24px;border-radius:999px;user-select:none;transition:all .2s}
+.dk-fold-sum:hover{background:var(--blue);color:#fff}
+.dk-fold[open] .dk-fold-sum{margin-bottom:18px}
+.dk-btn.dl{background:var(--gold);color:#1a1a1a}
+.dk-btn.dl:hover{filter:brightness(.94)}
+@media(max-width:900px){.dk-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.dk-grid{grid-template-columns:1fr}
+    .kp{padding:22px 18px 20px}.kp-title{font-size:20px}
+    .kp-list li{font-size:16.5px;padding-left:52px}
+    .kp-list li::before{width:38px;height:38px;font-size:14px}
+    .dk-cta .dk-btn{width:100%;text-align:center}}
+"""
+
+# 「致詞稿附錄」：文章頁底部收起式清單，點任一篇就地展開全文。
+# 用途 —— 活動現場他人致詞稿與本文一起留在同一頁，讀者可各取所需，
+# 不必另開 8 篇文章（那會讓主體紀行被稀釋、也讓每篇淪為薄殼）。
+SPEECH_CSS = """
+/* ---------- 致詞稿附錄：可展開清單 ---------- */
+.spx{margin:38px 0 8px;background:#F7F1E3;border:1px solid #E7DCC2;border-radius:18px;
+    padding:28px 28px 22px;box-shadow:0 14px 40px rgba(1,1,51,.08)}
+.spx-badge{display:inline-block;background:#8A5A00;color:#F7F1E3;font-size:12px;font-weight:700;
+    letter-spacing:2px;padding:4px 14px;border-radius:999px;margin-bottom:12px}
+.spx-title{font-family:Georgia,"Songti TC",serif;font-size:23px;color:#5A3E00;line-height:1.35;
+    margin:0 0 8px}
+.spx-sub{font-size:13.5px;color:#8A8266;margin:0 0 4px;line-height:1.7}
+.spx-hint{font-size:12.5px;color:#A79B78;margin:0 0 18px;padding-bottom:14px;
+    border-bottom:1px dashed #E7DCC2}
+.spx-item{border-bottom:1px solid #EFE7D2}
+.spx-item:last-child{border-bottom:0}
+.spx-head{width:100%;display:flex;align-items:flex-start;gap:14px;background:none;
+    border:0;padding:18px 0;cursor:pointer;text-align:left;font-family:inherit}
+.spx-head:hover{background:rgba(255,253,246,.7)}
+.spx-no{flex:0 0 34px;height:34px;border-radius:50%;background:#8A5A00;color:#F7F1E3;
+    font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;
+    margin-top:2px;letter-spacing:.02em}
+.spx-head:hover .spx-no{background:#6B4400}
+.spx-meta{flex:1;min-width:0}
+.spx-t{display:block;font-size:16.5px;font-weight:700;color:#3D2C00;line-height:1.45;margin:0 0 4px}
+.spx-by{display:block;font-size:13px;color:#8A8266;line-height:1.6;margin:0}
+.spx-by b{color:#6B4400;font-weight:700}
+.spx-cav{display:block;font-size:12px;color:#A79B78;font-style:italic;margin:2px 0 0}
+.spx-arrow{flex:0 0 16px;margin-top:10px;color:#C0B48C;font-size:13px;
+    transition:transform .22s ease}
+.spx-head[aria-expanded="true"] .spx-arrow{transform:rotate(180deg)}
+.spx-panel{display:none;padding:2px 0 22px 48px}
+.spx-panel.is-on{display:block;animation:spxIn .3s ease}
+@keyframes spxIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.spx-lead{font-size:14.5px;color:#6B5B38;background:#FFFDF6;border-left:3px solid #C9A227;
+    padding:12px 16px;margin:0 0 16px;line-height:1.75;border-radius:0 8px 8px 0}
+.spx-body{font-size:15.5px;line-height:1.85;color:var(--text)}
+.spx-body p{margin:0 0 14px}
+.spx-body blockquote{margin:0 0 14px;padding:12px 18px;background:#FFFDF6;
+    border-left:3px solid #C9A227;font-size:15px;color:#5A4A28;line-height:1.8}
+.spx-body h2,.spx-body h3{font-family:Georgia,"Songti TC",serif;color:#3D2C00;margin:20px 0 10px}
+/* 桌面版單篇全文獨立捲動區：實測最長單篇 1,679px，設 560px 約 3 屏，
+   展開時頁面不會被拉得過長，也不會把後面的清單推出版面。 */
+.spx-scroll{max-height:560px;overflow-y:auto;padding-right:6px;
+    scrollbar-width:thin;scrollbar-color:#C9A227 transparent}
+.spx-scroll::-webkit-scrollbar{width:7px}
+.spx-scroll::-webkit-scrollbar-track{background:transparent}
+.spx-scroll::-webkit-scrollbar-thumb{background:#D8CB9E;border-radius:99px}
+.spx-note{font-size:12.5px;color:#A79B78;margin:16px 0 0;padding-top:12px;
+    border-top:1px dashed #E7DCC2;line-height:1.7}
+.spx-foot{font-size:13px;color:#8A8266;margin:18px 0 0;padding-top:16px;
+    border-top:1px solid #EFE7D2;line-height:1.7}
+@media(max-width:720px){
+    .spx{padding:22px 18px 18px}
+    .spx-title{font-size:20px}
+    .spx-head{gap:11px;padding:15px 0}
+    .spx-no{flex:0 0 28px;height:28px;font-size:12px}
+    .spx-t{font-size:15.5px}
+    .spx-panel{padding-left:0}
+    .spx-body{font-size:15.5px;line-height:1.8}
+    /* 手機版不設限高：實測最長單篇（周錫瑋）3,761px 約 4.5 屏，
+       一次只開一篇，長度可接受。嵌套捲動在觸控上會與頁面滾動打架。 */
+    .spx-scroll{max-height:none;overflow:visible;padding-right:0}}
+"""
+
+def build_keypoints(kps):
+    """本堂重點（三句話）卡片：置於正文之前，作為全文的提煉入口"""
+    if not kps:
+        return ''
+    li = ''.join('<li>%s</li>' % esc(x) for x in kps)
+    return ('\n\n<div class="kp"><p class="kp-kicker">KEY POINTS</p>'
+            '<h2 class="kp-title">本堂重點（三句話）</h2>'
+            '<ol class="kp-list">%s</ol>'
+            '</div>' % li)
+
+
+def build_speeches(slug):
+    """致詞稿附錄：活動現場他人致詞稿的可展開清單。
+
+    為什麼不另開 8 篇文章：
+      1) 這 8 篇是「別人講的話」，混進主體紀行會讓讀者分不清哪句是作者觀點；
+      2) 各自只有 1,000–2,800 字，獨立成頁會是薄殼，SEO 也分散；
+      3) 留在同一頁，想看特定致詞稿的人點一下就開，不需跳轉。
+    資料來源 data/speeches.json（由 tools/build_speeches.py 解析生成）。
+    """
+    path = os.path.join(ROOT, 'data', 'speeches.json')
+    if not os.path.exists(path):
+        return ''
+    try:
+        data = json.load(io.open(path, encoding='utf-8'))
+    except Exception:
+        return ''
+    # 門控：這份致詞稿只屬於 owner_slug 那篇文章（衢州南孔．龍遊那篇），
+    # 其餘 111 篇不該帶出——之前 build_speeches 把傳入的 slug 當空氣，
+    # 全站每篇文章都渲染了同一份致詞稿，錯把上篇內容串進本篇。
+    owner = (data.get('owner_slug') or '').strip()
+    if owner and slug != owner:
+        return ''
+    items = data.get('items') or []
+    if not items:
+        return ''
+
+    rows = []
+    for it in items:
+        no = it.get('no')
+        title = it.get('title') or ''
+        speaker = it.get('speaker') or ''
+        role = it.get('role') or ''
+        caveat = it.get('caveat') or ''
+        lead = it.get('lead') or ''
+        body = it.get('body') or ''
+        note = it.get('note') or ''
+
+        by = '<b>%s</b>' % esc(speaker)
+        if role:
+            by += '｜%s' % esc(role)
+        cav = '<span class="spx-cav">（%s）</span>' % esc(caveat) if caveat else ''
+
+        inner = ''
+        if lead:
+            inner += '<p class="spx-lead">%s</p>' % esc(lead)
+        if body:
+            # 原文常以導語段開頭；lead 已在金框顯示，正文就不重複一次
+            b2 = body
+            if lead:
+                bp = b2.split('</p>', 1)
+                if len(bp) == 2:
+                    core = re.sub(r'<[^>]+>', '', bp[0])
+                    core = re.sub(r'\s+', '', core)
+                    key = re.sub(r'\s+', '', lead)
+                    if core and key and (
+                            core.startswith(key[:20]) or key.startswith(core[:20])):
+                        b2 = bp[1]
+            inner += '<div class="spx-scroll"><div class="spx-body">%s</div></div>' % b2
+        if note:
+            inner += '<p class="spx-note">%s</p>' % esc(note)
+
+        rows.append(
+            '<div class="spx-item">'
+            '<button class="spx-head" type="button" aria-expanded="false" '
+            'onclick="spxToggle(this)">'
+            '<span class="spx-no">%s</span>'
+            '<span class="spx-meta">'
+            '<span class="spx-t">%s</span>'
+            '<span class="spx-by">%s</span>%s'
+            '</span>'
+            '<span class="spx-arrow">▾</span>'
+            '</button>'
+            '<div class="spx-panel" id="spx-p-%s">%s</div>'
+            '</div>' % (no, esc(title), by, cav, no, inner))
+
+    event = esc(data.get('event') or '')
+    date = esc(data.get('date') or '')
+    place = esc(data.get('place') or '')
+    meta = '｜'.join(x for x in (date, place) if x)
+
+    return ('\n\n<div class="spx" id="speeches">'
+            '<span class="spx-badge">附錄 · 致詞稿</span>'
+            '<h2 class="spx-title">本場致詞稿（%d 篇）</h2>'
+            '<p class="spx-sub">%s%s</p>'
+            '<p class="spx-hint">以下為同一場活動現場的致詞稿全文，'
+            '依發言順序排列。點任一篇即可就地展開閱讀，不必離開本文。</p>'
+            '%s'
+            '<p class="spx-foot">本篇為作者第一人稱紀行，'
+            '上述致詞稿為現場錄音整理，數字與事例均為致辭人所述；'
+            '部分說法未經第三方來源核實，已在文內註明。</p>'
+            '</div>' % (len(items), event, ('｜' + meta) if meta else '',
+                        ''.join(rows)))
+
+
+def build_deck(deck):
+    """演講稿（PPT）區塊：縮圖輪播（預設折疊收起）＋下載＋全屏放映連結。置於附錄之後。"""
+    if not deck:
+        return ''
+    pages = deck.get('pages') or []
+    if not pages:
+        return ''
+    n = len(pages)
+    # 各自獨立放映頁：優先取 deck.slides，否則退回 meeting-sop
+    _slides = deck.get('slides') or 'slides/meeting-sop/'
+    slides_href = _slides if _slides.startswith(('http', '//')) else (SITE + '/' + _slides.lstrip('/'))
+    # 可下載 zip：取 deck.download（相對 assets 或絕對網址）
+    _dl = deck.get('download') or ''
+    dl_href = _dl if _dl.startswith(('http', '//')) else (SITE + '/' + _dl.lstrip('/'))
+    items = []
+    for i, p in enumerate(pages):
+        src = fix_asset(p.get('img') or '')
+        cap = p.get('cap') or ''
+        item = ('<figure class="dk-item"><a href="%s" target="_blank" rel="noopener">'
+                '<img src="%s" alt="%s" loading="lazy">'
+                '<figcaption class="dk-cap"><i>P%02d</i>%s</figcaption></a></figure>'
+                ) % (slides_href + '#' + str(i + 1), src, esc(cap), i + 1, esc(cap))
+        items.append(item)
+    dl_btn = ('<a class="dk-btn dl" href="%s" download>下載演講稿（%d 頁 zip）→</a>'
+              % (dl_href, n)) if _dl else ''
+    return ('\n\n<div class="dk"><div class="dk-hd"><h2>演講稿：'
+            '%s</h2></div>'
+            '<p class="dk-hint">%s</p>'
+            '<details class="dk-fold"><summary class="dk-fold-sum">展開 %d 張縮圖 ▾</summary>'
+            '<div class="dk-grid">%s</div></details>'
+            '<div class="dk-cta">'
+            '<a class="dk-btn" href="%s" target="_blank" rel="noopener">全屏放映 %d 頁 →</a>'
+            '<a class="dk-btn ghost" href="%s" target="_blank" rel="noopener">開啟獨立放映頁</a>'
+            '%s'
+            '<span class="dk-meta">方向鍵或空白鍵翻頁 · 網址加 #8 可直接跳頁 · F 鍵全螢幕</span>'
+            '</div></div>') % (esc(deck.get('title') or '演講稿'),
+                                esc(deck.get('hint') or ''),
+                                n, ''.join(items),
+                                slides_href, n, slides_href, dl_btn)
+
+def build(post, allposts):
+    num = str(post.get('num', '')).strip()
+    slug = SLUGS.get(num) or ('post-' + (num or 'x'))
+    title = (post.get('title') or '').strip()
+    subtitle = (post.get('subtitle') or '').strip()
+    subtitle_html = '<p class="subtitle">%s</p>' % esc(subtitle) if subtitle else ''
+    # 本篇專屬署名（byline）：僅當該文章有 byline 欄位才顯示；
+    # 用於「大象投資學」第一堂——不掛全站「電子商會會長」頭銜，改掛「龍遊集團創辦人」。
+    # 其餘 111 篇無 byline 欄位，全局作者卡保持不變。
+    byline = (post.get('byline') or '').strip()
+    byline_html = '<p class="byline">%s</p>' % esc(byline) if byline else ''
+    # 文章頁頂部「按專輯逛」：列出全部專輯，當前文章所屬專輯高亮
+    # series 可能有多個（多專輯陣列），取第一個作當前輯
+    _cur = _series_list(post)
+    cur_sid = _cur[0] if _cur else ''
+    top_sid = top_series_id(cur_sid)
+    sj_chips = ''
+    for s in top_level_series():
+        cls = 'sj-chip sj-cur' if s['id'] == top_sid else 'sj-chip'
+        sj_chips += '<a class="%s" href="%s/series/%s/">%s</a>' % (cls, SITE, esc(s['id']), esc(s['name']))
+    series_jump = ('<div class="sj-bar"><span class="sj-label">按專輯逛</span>' + sj_chips +
+                   '<a class="sj-chip sj-all" href="%s/series/">全部作品 →</a></div>' % SITE) if sj_chips else ''
+    cat = (post.get('category') or '').strip()
+    date = (post.get('date') or '').strip()
+    loc = (post.get('location') or '').strip()
+    imgs = [fix_asset(x) for x in (post.get('images') or [])]
+    raw_rel = (post.get('raw_html') or '').strip()
+    if raw_rel:  # 自訂 HTML 片段（跳過 Markdown 解析，原樣嵌入）
+        body_html = io.open(os.path.join(ROOT, raw_rel), encoding='utf-8').read()
+    else:
+        body_html = md_to_html(post.get('body') or '', title)
+    # 若文章明確提供 lead，lead 欄已在頁首導語框顯示，
+    # 正文若以同一段開頭就會重複一次 —— 移除正文裡那段。
+    _lead = (post.get('lead') or '').strip()
+    if _lead:
+        _parts = body_html.split('</p>', 1)
+        if len(_parts) == 2 and len(_parts[0]) > 40 and _lead[:40] in _parts[0]:
+            body_html = _parts[1]
+    # 本堂重點三句話：插在正文之前；演講稿：插在正文之後（附錄已在 body 內）
+    kp_html = build_keypoints(post.get('keypoints'))
+    spx_html = build_speeches(slug)
+    dk_html = build_deck(post.get('deck'))
+    if kp_html:
+        body_html = kp_html + body_html
+    if dk_html:
+        body_html = body_html + dk_html
+    # 澳門電影：篇末三軸互導（同十年代／同取景地／同影人）——83 篇互相導流，不成孤島。
+    # 僅 macau-film 且 movieInfo 齊全者產生；FILM_INDEX 未建立（外部腳本直呼 build）時為空。
+    frel_html = FC.related_html(post, FILM_INDEX, SLUGS, SITE, ov) if FILM_INDEX else ''
+    desc = plain((post.get('lead') or '').strip() or post.get('body') or title, 105) or title
+    url = '%s/article/%s/' % (SITE, slug)
+
+    # 延伸閱讀：2026-10-10 起改用「同專輯優先」而非同分類（分類體系已廢除）
+    _my_ser = post.get('series')
+    _my_ser = set(_my_ser) if isinstance(_my_ser, list) else ({_my_ser} if _my_ser else set())
+    rel = [p for p in allposts if _my_ser & set(
+        p.get('series') if isinstance(p.get('series'), list) else [p.get('series')])
+        and str(p.get('num')) != num]
+    rel += [p for p in allposts if str(p.get('num')) != num and p not in rel]
+    rel = [p for p in rel if (p.get('body') or '').strip()][:2]
+    rel_html = ''
+    for p in rel:
+        pn = str(p.get('num', '')).strip()
+        ps = SLUGS.get(pn) or ('post-' + pn)
+        # 標籤顯示專輯名（同專輯者用該輯名，其餘用第一個專輯名）
+        _rs = p.get('series')
+        _rs = _rs if isinstance(_rs, list) else ([_rs] if _rs else [])
+        _rn = (SERIES_BY_ID.get(_rs[0], {}) or {}).get('name', '') if _rs else ''
+        rel_html += (
+            '<a class="rel-card" href="%s/article/%s/">'
+            '<span class="rc-tag">%s</span><h3>%s</h3><p>%s</p></a>'
+        ) % (SITE, ps, esc(_rn), esc(p.get('title')), esc(plain(p.get('body'), 46)))
+
+    # ---- 輯導覽：本篇所屬輯 + 輯內上一篇／下一篇 ----
+    series_nav = ''
+    sid = cur_sid
+    if sid and sid in SERIES_BY_ID:
+        s = SERIES_BY_ID[sid]
+        ms = series_members(allposts, sid)
+        # 序位與上一篇/下一篇一律按「升序」計算，與輯頁顯示方向（order_dir）無關：
+        # 「第 1 篇」永遠是輯裡最早那篇（電影輯＝最早上映的影片），
+        # 「上一篇」= 更早、「下一篇」= 更晚。電影輯改吃 filmYear 升序，與專輯頁一致。
+        if (SERIES_BY_ID.get(sid, {}) or {}).get('sort_by') == 'filmYear':
+            ms = sorted(ms, key=lambda p: _series_key(sid, p))
+        else:
+            ms = sorted(ms, key=lambda p: (str(p.get('date', '')), _numkey(p)))
+        idx = next((i for i, p in enumerate(ms)
+                    if str(p.get('num', '')).strip() == num), -1)
+        # 子輯文章：kicker 顯示父輯（軒哥小課堂），讓讀者知道這堂課歸在哪把大傘下
+        coll_name = (SERIES_BY_ID.get(s.get('parent'), {}) or {}).get('name') \
+            if s.get('parent') else next(
+                (c['name'] for c in SERIES.get('collections', [])
+                 if c['id'] == s.get('collection')), '專輯')
+        if idx > 0:
+            pp = ms[idx - 1]
+            prev_a = ('<a href="%s/article/%s/"><span class="sn-lab">上一篇</span>%s</a>'
+                      % (SITE, SLUGS.get(str(pp.get('num', '')).strip()), esc(pp.get('title'))))
+        else:
+            prev_a = '<a class="sn-empty"><span class="sn-lab">上一篇</span>（已是第一篇）</a>'
+        if 0 <= idx < len(ms) - 1:
+            nx = ms[idx + 1]
+            next_a = ('<a href="%s/article/%s/"><span class="sn-lab">下一篇</span>%s</a>'
+                      % (SITE, SLUGS.get(str(nx.get('num', '')).strip()), esc(nx.get('title'))))
+        else:
+            next_a = '<a class="sn-empty"><span class="sn-lab">下一篇</span>（已是最後一篇）</a>'
+        series_nav = (
+            '\n\n<div class="series-nav">'
+            '<span class="sn-kicker">%s</span>'
+            '<a class="sn-title" href="%s/series/%s/">《%s》</a>'
+            '<div class="sn-meta">第 %d / %d 篇 · %s</div>'
+            '<div class="sn-links">%s<a class="sn-all" href="%s/series/%s/">查看全部作品</a>%s</div>'
+            '</div>'
+        ) % (esc(coll_name), SITE, sid, esc(s.get('name') or sid),
+             idx + 1, len(ms), esc(s.get('period') or ''),
+             prev_a, SITE, sid, next_a)
+
+    # ---- 電影資訊頁 CTA（post.movieInfo 存在時才掛，放海報在右） ----
+    movie_nav = ''
+
+    cover = ''
+    gallery = ''
+    if imgs:
+        cover = ('<figure class="cover"><img src="%s" alt="%s — %s 配圖" loading="lazy"></figure>'
+                 % (ov(imgs[0]), esc(title), esc(cat)))
+    if len(imgs) > 1:
+        gallery = '<div class="gallery">' + ''.join(
+            '<img src="%s" alt="%s 實拍圖 %d" loading="lazy" onclick="document.getElementById(\'lbimg\').src=this.src;document.getElementById(\'lb\').style.display=\'flex\'">'
+            % (ov(x), esc(title), n + 1) for n, x in enumerate(imgs[1:])) + '</div>'
+
+    # ---- 電影資訊頁 CTA：橫海報放右邊 ----
+    mi = post.get('movieInfo')
+    if mi:
+        mslug = SLUGS.get(num) or (post.get('slug') or '')
+        if mslug:
+            # 電影文章：頂部改用直式海報，底部資訊卡用橫式海報（上直下橫）
+            # 2026-10-13 修：og 瘦身(59fc564)已把 .png 全轉 .jpg，此處路徑仍寫死 .png 導致全站電影文章封面 404，改回 .jpg
+            cover = ('<figure class="vposter"><img src="%s" alt="%s 電影海報" loading="lazy"></figure>'
+                     % (ov('../../assets/og/%s-poster.jpg' % mslug), esc(mi.get('title') or title)))
+            poster_html = '<div class="mn-poster"><img src="%s" alt="%s 電影海報" loading="lazy"></div>' % (ov('../../assets/og/%s-poster-land.jpg' % mslug), esc(title))
+            # 只有 macauScenes 非空才掛「跟著電影遊澳門打卡點」雙按鈕；否則只掛單按鈕，避免錨點跳空
+            checkin_html = ''
+            if mi.get('macauScenes'):
+                checkin_html = '<a class="sn-checkin" href="%s/movie/%s/#macau-scenes">跟著電影遊澳門打卡點 →</a>' % (SITE, mslug)
+            sn_meta = '客觀資料卡 ＋ 澳門場景 ＋ 結構化資料（Movie schema）' if mi.get('macauScenes') else '客觀資料卡 ＋ 結構化資料（Movie schema）'
+            movie_nav = ('\n\n<div class="series-nav movie-nav">'
+                '<div class="mn-main">'
+                '<span class="sn-kicker">電影資訊</span>'
+                '<a class="sn-title" href="%s/movie/%s/">《%s》電影資訊頁</a>'
+                '<div class="sn-meta">%s</div>'
+                '<div class="sn-links">'
+                '<a class="sn-all" href="%s/movie/%s/">前往電影資訊頁 →</a>'
+                '%s'
+                '</div>'
+                '</div>%s'
+                '</div>') % (SITE, mslug, esc(mi.get('title') or title), sn_meta, SITE, mslug, checkin_html, poster_html)
+
+    att = ATTACHMENTS.get(slug)
+    reader = build_reader(att) if att else ''
+    page_css = CSS + (QK_CSS if raw_rel else '') + (RDR_CSS if att else '') + (SERIES_NAV_CSS if (series_nav or movie_nav).strip() else '') + (SJ_CSS if series_jump else '') + (DECK_CSS if (kp_html or dk_html) else '') + (SPEECH_CSS if spx_html else '') + (FC.REL_CSS if frel_html else '')
+
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": title,
+        "description": desc,
+        "datePublished": date,
+        "dateModified": date,
+        "articleSection": cat,
+        "inLanguage": "zh-Hant",
+        "mainEntityOfPage": {"@type": "WebPage", "@id": url},
+        "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
+        "publisher": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
+        "url": url,
+    }
+    if imgs:
+        ld["image"] = ov(SITE + '/' + imgs[0].replace('../../', ''))
+    else:
+        ld["image"] = ov('%s/assets/og/%s.jpg' % (SITE, slug))
+
+    kw = '，'.join([x for x in ['翁振軒', 'Sean Own', cat, '澳門', '產業觀察'] if x])
+
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}｜翁振軒專欄</title>
+<meta name="description" content="{desc}">
+<meta name="keywords" content="{kw}">
+<meta name="author" content="翁振軒 Sean Own">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="{og_title}">
+<meta property="og:description" content="{og_desc}">
+<meta property="og:image" content="{og_img}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:site_name" content="翁振軒 Sean Own 專欄">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{og_title}">
+<meta name="twitter:description" content="{og_desc}">
+<meta name="twitter:image" content="{og_img}">
+<script type="application/ld+json">{ld}</script>
+<style>{css}</style>
+</head>
+<body>
+<!-- 微信分享按鈕（右上角綠色浮鈕）。連結自動取上方 canonical，勿手寫網址。
+     元件由 tools/_make_share_widget.py 從 macau-weekly.html 抽出。 -->
+{share_widget}
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<nav class="tnav" aria-label="網站導覽">
+<!-- 2026-10-09 軒哥決定：把自己藏深一點。聯絡、媒體從導覽列下架（頁面本身保留），
+     導覽列只留 關於我／作品／專欄 三項直鏈；「服務與合作」仍維持 2026-10-08 的隱藏。
+     聯絡／媒體入口改收在 /about/ 頁內（摺疊區與頁尾 CTA）。-->
+<a href="{site}/about/">關於我</a>
+<a href="{site}/series/">作品</a>
+<a href="{site}/articles/">專欄</a>
+</nav>
+</div></div>
+
+<div class="wrap">
+<div class="crumb"><a href="{site}/">首頁</a> › <a href="{site}/articles/">專欄文章</a> › 本文</div>
+{series_jump}
+<article class="article">
+<div class="meta"><span class="tag">{cat}</span><span class="date">{date_fmt}{loc_fmt}</span></div>
+<h1>{title}</h1>
+{subtitle_html}
+{byline_html}
+<div class="rule"></div>
+<p class="lead">{lead}</p>
+{reader}
+{cover}
+<div class="abody{abody_cls}">{body}</div>
+{gallery}
+</article>{spx_html}{movie_nav}{frel_html}{series_nav}
+
+<div class="author">
+<img class="a-img" src="../../assets/images/avatar-1x1.jpg" alt="翁振軒 Sean Own 大頭照" loading="lazy">
+<div class="a-body">
+<div class="who">翁振軒 Sean Own</div>
+<p>粵港澳大灣區電子商會會長、龍遊集團創辦人。以澳門為基地，深耕文化產業，推動中國數位服務出海與中華文創 IP 落地。</p>
+<a class="a-btn" href="{site}/about/">瞭解更多關於作者</a>
+</div>
+</div>
+
+<div class="related">
+<h2>延伸閱讀</h2>
+<div class="rel-grid">{rel}</div>
+</div>
+
+<div class="cta">
+<h2>想進一步交流？</h2>
+<p>這裡是我的觀點與判斷，不是服務說明書。要合作請到服務頁看具體能做什麼、怎麼合作、怎麼計價。</p>
+<a class="btn" href="{site}/contact/">前往聯絡表單 →</a>
+<a class="btn ghost" href="{site}/services/">前往服務與合作 →</a>
+</div>
+
+<div class="foot">
+© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a><br>
+本文為作者個人觀點，轉載請註明出處。
+</div>
+</div>
+<a class="float-cta" href="{site}/contact/">洽談合作</a>
+<div class="lb" id="lb" onclick="this.style.display='none'"><img id="lbimg" src="" alt=""></div>
+<script>
+// 致詞稿附錄：就地展開／收合。同一時間只開一篇，避免頁面過長。
+function spxToggle(btn){{
+  var no=btn.parentNode.querySelector('.spx-no').textContent;
+  var panel=document.getElementById('spx-p-'+no);
+  if(!panel)return;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  var all=document.querySelectorAll('.spx-panel.is-on');
+  for(var i=0;i<all.length;i++){{
+    all[i].classList.remove('is-on');
+    all[i].parentNode.querySelector('.spx-head').setAttribute('aria-expanded','false')
+  }}
+  if(!open){{
+    panel.classList.add('is-on');
+    btn.setAttribute('aria-expanded','true');
+    var sc=panel.querySelector('.spx-scroll');
+    if(sc)sc.scrollTop=0;
+    setTimeout(function(){{
+      var y=btn.getBoundingClientRect().top+window.pageYOffset-90;
+      var vy=window.pageYOffset;
+      if(vy<y-40||vy>y+window.innerHeight){{
+        window.scrollTo({{top:y,behavior:'smooth'}})
+      }}
+    }},60)
+  }}
+}}
+</script>
+</body>
+</html>
+""".format(
+        title=esc(title), cat=esc(cat), desc=esc(desc), kw=esc(kw), url=url,
+        og_title=esc(title[:30]), og_desc=esc(desc[:80]),
+        og_img=ov('%s/assets/og/%s.jpg' % (SITE, slug)),
+        ld=json.dumps(ld, ensure_ascii=False), css=page_css, site=SITE,
+        lead=esc((post.get('lead') or '').strip() or plain(post.get('body') or title, 110)),
+        reader=reader,
+        date_fmt=date.replace('-', ' 年 ', 1).replace('-', ' 月 ') + ' 日' if date else '',
+        loc_fmt=(' · ' + esc(loc)) if loc else '',
+        cover=cover, body=body_html, gallery=gallery, rel=rel_html,
+        abody_cls=(' single-col' if post.get('single_col') else ''),
+        subtitle_html=subtitle_html,
+        byline_html=byline_html,
+        series_jump=series_jump,
+        spx_html=spx_html,
+        series_nav=series_nav,
+        movie_nav=movie_nav,
+        frel_html=frel_html,
+        share_widget=load_share_widget(),
+    )
+
+    d = os.path.join(ROOT, 'article', slug)
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+    return slug, title
+
+
+CATS = ['澳門電影', '影評', '澳門觀察', '生活隨筆', '文化隨筆', '行走見聞', '閱讀筆記']
+
+
+def build_list(posts):
+    """雜誌目錄式專欄列表頁：articles/index.html
+
+    🔴 2026-10-24 軒哥指示：電影觀後感與其他專欄文章「不要放在一起」。
+    原因（技術根因）：CSS Grid 預設 align-items:stretch，混排時 2:3 直式海報卡
+    會把同列的 16:9 橫幅卡撐到等高，橫幅卡摘要下方就留出一大片空白。
+    舊解法（2026-10-17）只在一般卡底部補 meta 區「把留白轉成呼吸空間」，
+    治標不治本——兩種版式（2:3 海報 vs 16:9 橫幅）混在一個 grid 裡，
+    視覺永遠不可能整齊。
+
+    新結構（上下兩區，各用各的網格）：
+      ① 專欄文章 COLUMNS  → 16:9 橫幅卡，自然高度（align-items:start），摘要統一字數
+      ② 電影觀後感 REVIEWS → 2:3 直式海報卡，最新 12 部 ＋「看全部」按鈕
+    電影區卡片樣式沿用電影專輯頁的 poster-card（auto-fill 自適應欄數）。
+
+    ⚠️ 此段獨立於 page 模板（用 {lc_css} 引入），因模板以 .format() 渲染，
+       CSS 若直接寫在模板內，含 % 的值（如寬度百分比）會被當成格式佔位符而報錯。
+    """
+    LC_CSS = """
+/* ---- 區塊骨架 ---- */
+.sec-block{max-width:1180px;margin:0 auto;padding:0 24px}
+.sec-head{margin:52px 0 4px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.sec-head .sh-l{min-width:0}
+.sec-head .sh-kicker{font-size:12px;letter-spacing:4px;color:var(--gold-dark);font-weight:800;margin-bottom:8px}
+.sec-head h2{font-size:28px;color:var(--blue);font-weight:800;letter-spacing:1px;line-height:1.3}
+.sec-head .sh-sub{font-size:13.5px;color:var(--gray);margin-top:6px}
+.sec-head .sh-all{display:inline-block;background:var(--blue);color:#fff;font-size:13.5px;font-weight:700;
+  padding:9px 18px;border-radius:999px;white-space:nowrap;transition:background .2s}
+.sec-head .sh-all:hover{background:var(--blue-dark)}
+.rule{height:2px;background:linear-gradient(90deg,var(--gold),rgba(253,181,21,0) 62%);margin:16px 0 26px;border-radius:2px}
+
+/* ---- 區塊一：專欄文章（16:9 橫幅，自然高度） ---- */
+.col-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:start}
+.lc-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;color:inherit}
+.lc-card:hover{transform:translateY(-5px);box-shadow:0 18px 44px rgba(0,38,118,.13)}
+.lc-img{aspect-ratio:16/9;overflow:hidden}
+.lc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.lc-card:hover .lc-img img{transform:scale(1.04)}
+.lc-body{padding:20px 22px 22px;flex:1;display:flex;flex-direction:column}
+.lc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.lc-tag{font-size:12px;font-weight:700;color:var(--blue);background:var(--gold-light);padding:3px 11px;border-radius:10px}
+.lc-date{font-size:12px;color:var(--gray)}
+.lc-card h2{font-size:17.5px;line-height:1.5;color:var(--blue);margin-bottom:8px;font-weight:800;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lc-card p{font-size:13.5px;color:var(--gray);line-height:1.7;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.lc-card .lc-foot{margin-top:16px;padding-top:12px;font-size:11.5px;color:var(--gray);
+  border-top:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.lc-card .lc-foot .lc-tag{font-size:11px;padding:2px 9px}
+.lc-card .lc-more{margin-left:auto;font-weight:700;color:var(--gold-dark);opacity:.85}
+.lc-card:hover .lc-more{opacity:1}
+
+/* ---- 區塊二：電影觀後感（2:3 直式海報） ---- */
+.rev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:22px}
+.rev-card{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:all .22s;color:inherit}
+.rev-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,8,32,.12);border-color:var(--gold)}
+.rev-card .r-img{aspect-ratio:2/3;overflow:hidden;background:var(--bg)}
+.rev-card .r-img img{width:100%;height:100%;object-fit:contain;display:block;transition:transform .3s}
+.rev-card:hover .r-img img{transform:scale(1.04)}
+.rev-card .r-cap{padding:10px 12px 13px}
+.rev-card .r-title{font-size:15px;font-weight:800;color:var(--text);line-height:1.4}
+.rev-card .r-year{font-size:12px;color:var(--gray);margin-top:3px;letter-spacing:.5px}
+.rev-card .r-info{display:block;text-align:center;font-size:12px;font-weight:700;color:var(--blue);padding:8px 0 2px;letter-spacing:1px}
+.rev-card:hover .r-info{color:var(--gold-dark)}
+
+@media(max-width:960px){.col-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.col-grid{grid-template-columns:1fr}.sec-block{padding:0 16px}
+  .sec-head{margin:40px 0 2px}.sec-head h2{font-size:22px}
+  .rev-grid{grid-template-columns:repeat(3,1fr);gap:14px}}
+@media(max-width:420px){.rev-grid{grid-template-columns:repeat(2,1fr)}}
+"""
+    items = sorted(posts, key=lambda p: str(p.get('date', '')), reverse=True)
+    # 2026-10-24 軒哥指示：電影觀後感與其他專欄文章分區，不混排。
+    # 電影依年份倒序（最新上映的先），非電影依上線日期倒序。
+    col_items = [p for p in items if 'macau-film' not in _series_list(p)]
+    rev_items = [p for p in items if 'macau-film' in _series_list(p)]
+    rev_items.sort(key=lambda p: (int(p.get('filmYear') or 0), str(p.get('date', ''))), reverse=True)
+    REV_SHOW = 12
+
+    col_cards = ''
+    for p in col_items:
+        num = str(p.get('num', '')).strip()
+        slug = SLUGS.get(num) or ('post-' + num)
+        title = (p.get('title') or '').strip()
+        # 2026-10-10：分類體系廢除，篩選依據改用「專輯名」。
+        # 一篇文章可能掛多個專輯，取第一個作為篩選歸屬（顯示時仍可在專輯頁看到完整歸屬）。
+        _ser = p.get('series')
+        _ser = _ser if isinstance(_ser, list) else ([_ser] if _ser else [])
+        cat = (SERIES_BY_ID.get(top_series_id(_ser[0]), {}) or {}).get('name', '') if _ser else ''
+        date = (p.get('date') or '').strip()
+        cover = ov('../assets/og/%s.jpg' % slug)
+        # 摘要統一 78 字（軒哥 2026-10-24 指示：統一字數，視覺整齊）
+        lead = plain(p.get('body') or title, 78)
+        col_cards += (
+            '<a class="lc-card" href="%s/article/%s/" data-cat="%s">'
+            '<div class="lc-img"><img src="%s" alt="%s — %s 封面" loading="lazy"></div>'
+            '<div class="lc-body"><div class="lc-top"><span class="lc-date">%s</span></div>'
+            '<h2>%s</h2><p>%s</p>'
+            '<div class="lc-foot"><span class="lc-tag">%s</span>'
+            '<span class="lc-more">閱讀全文 →</span></div>'
+            '</div></a>'
+        ) % (SITE, slug, esc(cat), cover, esc(title), esc(cat),
+             date.replace('-', '.'), esc(title), esc(lead), esc(cat))
+
+    rev_cards = ''
+    for p in rev_items[:REV_SHOW]:
+        num = str(p.get('num', '')).strip()
+        slug = SLUGS.get(num) or ('post-' + num)
+        title = (p.get('title') or '').strip()
+        fy = p.get('filmYear')
+        try:
+            fy = int(fy)
+        except (TypeError, ValueError):
+            fy = 0
+        name = re.sub(r'^《', '', title)
+        name = re.sub(r'》觀後感$', '', name) or title
+        rev_cards += (
+            '<a class="rev-card" href="%s/article/%s/">'
+            '<div class="r-img">%s</div>'
+            '<div class="r-cap"><div class="r-title">%s</div>'
+            '<div class="r-year">%s</div>'
+            '<span class="r-info">觀後感 →</span></div></a>'
+        ) % (SITE, slug, film_poster_block(slug, name, '../'), esc(name), esc(str(fy)))
+
+    # 輯資料：全部輯清單 + 欄目 → 輯（以該輯成員最多的分類歸屬）
+    all_ser = []
+    ser_of_cat = {}
+    for s in top_level_series():
+        m = series_members(items, s['id'])
+        kids = children_of(s['id'])
+        if not m and not kids:
+            continue
+        n = sum(len(series_members(items, c['id'])) for c in kids) if kids else len(m)
+        all_ser.append({'id': s['id'], 'name': s['name'], 'n': n})
+        cnt = {}
+        for p in m:
+            k = (p.get('category') or '').strip()
+            cnt[k] = cnt.get(k, 0) + 1
+        top = max(cnt.items(), key=lambda kv: kv[1])[0] if cnt else ''
+        ser_of_cat.setdefault(top, []).append(
+            {'id': s['id'], 'name': s['name'], 'n': len(m)})
+
+    ser_chips = ''
+    for s in all_ser:
+        ser_chips += '<a class="sj-chip" href="%s/series/%s/">%s</a>' % (
+            SITE, esc(s['id']), esc(s['name']))
+    if ser_chips:
+        ser_chips = ('<span class="sj-label">按專輯逛</span>' + ser_chips +
+                     '<a class="sj-chip sj-all" href="%s/series/">全部作品 →</a>' % SITE)
+
+    # 篩選列已移除（2026-10-11 軒哥：與「按專輯逛」重複，只留一排）。
+    # 專輯過濾由各專輯頁承擔（/series/<id>/，抬頭自帶「共 N 篇」）；
+    # 卡片仍保留 data-cat 標記，未來要恢復頁內篩選可直接加回按鈕。
+    # category 欄位保留在後台（data/_category_archive.json 有原始值備份），前端不再讀取。
+
+    url = SITE + '/articles/'
+    desc = '翁振軒專欄，聚焦澳門產業觀察、數位經濟趨勢、商業戰略思考。'
+    ld = {
+        "@context": "https://schema.org", "@type": "CollectionPage",
+        "name": "專欄文章｜翁振軒 Sean Own", "url": url,
+        "description": desc, "inLanguage": "zh-Hant",
+        "author": {"@type": "Person", "name": "翁振軒 Sean Own", "url": SITE + "/"},
+    }
+    page = """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>專欄文章｜翁振軒 Sean Own</title>
+<meta name="description" content="{desc}">
+<meta name="keywords" content="翁振軒,專欄,澳門電影,澳門解碼,青年實戰,生活隨筆,文化出海,數位經濟,Sean Own">
+<link rel="canonical" href="{url}">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="theme-color" content="#002676">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="專欄文章｜翁振軒 Sean Own">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="{og}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{ld}</script>
+<style>
+:root{{--blue:#002676;--blue-dark:#010133;--gold:#FDB515;--gold-dark:#FC9313;--gold-light:#FFF3D0;--bg:#F8F9FB;--text:#1A1A1A;--gray:#667085;--line:#E4E8EF}}
+*{{margin:0;padding:0;box-sizing:border-box}}
+body{{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--text);background:var(--white);line-height:1.75;-webkit-font-smoothing:antialiased}}
+a{{color:var(--blue);text-decoration:none}}
+html{{scroll-behavior:smooth}}
+.topbar{{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}}
+.topbar-in{{max-width:1180px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}}
+.brand{{font-weight:800;color:var(--blue);font-size:17px;letter-spacing:.5px}}
+.brand span{{color:var(--gold)}}
+.mini-cta{{background:var(--blue);color:#fff;font-size:14px;font-weight:700;padding:9px 20px;border-radius:999px}}
+.mini-cta:hover{{background:var(--blue-dark)}}
+.masthead{{background:linear-gradient(135deg,#002676 0%,#010133 100%);color:#fff;padding:64px 24px 58px;text-align:center}}
+.masthead .kicker{{font-size:14px;letter-spacing:6px;color:var(--gold);font-weight:700;margin-bottom:14px}}
+.masthead h1{{font-size:44px;font-weight:800;letter-spacing:2px;margin-bottom:12px}}
+.masthead p{{color:rgba(255,255,255,.75);font-size:16px}}
+.ser-panel{{max-width:1180px;margin:0 auto;padding:0 24px;gap:10px;flex-wrap:wrap;align-items:center;display:none}}
+.ser-panel.on{{display:flex;margin-top:16px}}
+.ser-panel .sp-lab{{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700}}
+.ser-panel a{{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:7px 16px;font-size:13.5px;font-weight:700;color:var(--blue);transition:all .2s}}
+.ser-panel a:hover{{background:var(--blue);border-color:var(--blue);color:#fff}}
+.ser-panel a span{{font-size:11.5px;color:var(--gray);margin-left:5px;font-weight:600}}
+.ser-panel a:hover span{{color:var(--gold)}}
+.ser-panel .sp-all{{border-color:var(--line);color:var(--gray);font-weight:600}}
+.grid{{max-width:1180px;margin:0 auto;padding:44px 24px 60px;display:grid;grid-template-columns:repeat(3,1fr);gap:26px}}
+.foot{{border-top:1px solid var(--line);padding:30px 24px 44px;text-align:center;font-size:13px;color:var(--gray);line-height:1.9}}
+.foot a{{color:var(--blue)}}
+.float-cta{{display:none;position:fixed;right:22px;bottom:22px;z-index:1500;background:var(--gold);color:var(--blue-dark);font-weight:800;padding:13px 22px;border-radius:999px;box-shadow:0 10px 26px rgba(2,8,32,.35);font-size:14px;transition:transform .2s,box-shadow .2s}}
+.float-cta:hover{{transform:translateY(-3px);box-shadow:0 16px 34px rgba(2,8,32,.4)}}
+@media(max-width:960px){{.grid{{grid-template-columns:repeat(2,1fr)}}.masthead h1{{font-size:34px}}}}
+@media(max-width:620px){{.grid{{grid-template-columns:1fr;padding:30px 16px 50px}}.masthead{{padding:46px 18px 40px}}.masthead h1{{font-size:28px}}}}
+.ser-jump{{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;max-width:1180px;margin:18px auto 0;padding:0 24px}}
+.ser-jump .sj-label{{font-size:12px;letter-spacing:3px;color:var(--gray);font-weight:700;margin-right:4px}}
+.sj-chip{{border:1.5px solid var(--gold);background:#fff;border-radius:999px;padding:7px 16px;font-size:13.5px;font-weight:700;color:var(--blue);transition:all .2s}}
+.sj-chip:hover{{background:var(--blue);border-color:var(--blue);color:#fff}}
+.sj-chip.sj-all{{border-color:var(--line);color:var(--gray);font-weight:600}}
+@media(max-width:620px){{.ser-jump{{padding:0 16px}}}}
+</style><style>{lc_css}</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+<a class="brand" href="{site}/">翁振軒 <span>SEAN OWN</span></a>
+<a class="mini-cta" style="display:none" href="{site}/contact/">洽談合作</a>
+</div></div>
+
+<header class="masthead">
+<div class="kicker">SEAN OWN COLUMNS</div>
+<h1>專欄文章</h1>
+<p>澳門產業觀察 · 數位經濟趨勢 · 商道與文化隨筆 — 共 {n} 篇</p>
+</header>
+
+
+<div class="ser-jump" id="serjump">{ser_chips}</div>
+
+<!-- ① 專欄文章（16:9 橫幅卡，自然高度） -->
+<section class="sec-block" id="sec-columns">
+<div class="sec-head">
+<div class="sh-l">
+<div class="sh-kicker">COLUMNS</div>
+<h2>專欄文章</h2>
+<div class="sh-sub">澳門產業觀察 · 數位經濟趨勢 · 商道與文化隨筆 — 共 {n_col} 篇</div>
+</div>
+</div>
+<div class="rule"></div>
+<div class="col-grid" id="colgrid">{col_cards}</div>
+</section>
+
+<!-- ② 電影觀後感（2:3 直式海報卡，獨立網格，不與上方混排） -->
+<section class="sec-block" id="sec-reviews">
+<div class="sec-head">
+<div class="sh-l">
+<div class="sh-kicker">FILM REVIEWS</div>
+<h2>電影觀後感</h2>
+<div class="sh-sub">一篇一部在澳門取景的電影：影評、澳門連接與生活在澳門 — 共 {n_rev} 篇</div>
+</div>
+<a class="sh-all" href="{site}/series/macau-film/">看全部 {n_rev} 部電影觀後感 →</a>
+</div>
+<div class="rule"></div>
+<div class="rev-grid" id="revgrid">{rev_cards}</div>
+</section>
+
+<footer class="foot">
+© 2026 翁振軒 Sean Own · <a href="{site}/">返回首頁</a> · <a href="{site}/contact/">洽談合作</a><br>
+觀點僅代表作者個人立場，轉載請註明出處。
+</footer>
+
+<a class="float-cta" href="{site}/contact/">洽談合作</a>
+</body>
+</html>
+""".format(desc=esc(desc), url=url, og='%s/assets/og/articles.jpg' % SITE,
+           ld=json.dumps(ld, ensure_ascii=False), site=SITE,
+           n=len(items), n_col=len(col_items), n_rev=len(rev_items),
+           col_cards=col_cards, rev_cards=rev_cards,
+           ser_chips=ser_chips, lc_css=LC_CSS)
+    d = os.path.join(ROOT, 'articles')
+    os.makedirs(d, exist_ok=True)
+    with io.open(os.path.join(d, 'index.html'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write(page)
+    print('generated /articles/ list page (專欄 %d + 電影 %d，電影區顯示 %d)' % (
+        len(col_items), len(rev_items), min(REV_SHOW, len(rev_items))))
+
+
+PAGE_NODE_RE = re.compile(r'\s+data-page-node-id="[A-Za-z0-9_-]+"')
+
+
+def sanitize_outputs():
+    """清掉預覽工具注入的 data-page-node-id 屬性。
+
+    WorkBuddy 的 HTML 預覽面板在開啟本機 HTML 時，會往標籤注入
+    data-page-node-id="..."，讓檔案變大（10KB → 19KB）、<h1> 被吃掉。
+    每次 build 收尾統一清一次，讓「重跑 build 就恢復」這條永遠成立。
+    """
+    targets = []
+    targets += glob.glob(os.path.join(ROOT, 'article', '*', 'index.html'))
+    targets += glob.glob(os.path.join(ROOT, 'series', '*', 'index.html'))
+    targets += glob.glob(os.path.join(ROOT, 'collection', '*', 'index.html'))
+    targets += glob.glob(os.path.join(ROOT, 'route', '*', 'index.html'))
+    targets += [os.path.join(ROOT, 'series', 'index.html'),
+                os.path.join(ROOT, 'articles', 'index.html'),
+                os.path.join(ROOT, 'collection', 'index.html'),
+                os.path.join(ROOT, 'route', 'index.html')]
+    total = 0
+    for f in targets:
+        if not os.path.exists(f):
+            continue
+        s = io.open(f, encoding='utf-8').read()
+        n = len(PAGE_NODE_RE.findall(s))
+        if n:
+            io.open(f, 'w', encoding='utf-8', newline='\n').write(
+                PAGE_NODE_RE.sub('', s))
+            total += n
+    if total:
+        print('sanitized data-page-node-id: %d' % total)
+    return total
+
+
+def build_home_films(published):
+    """把 macau-film 文章重生進首頁 index.html 的 embedded-films JSON。
+
+    ⚠️ 已停用（2026-10-08）：首頁電影專輯區塊已移除，電影內容統一由
+    /series/macau-film/ 承載。main() 不再呼叫本函式，保留僅作歷史參考。
+    若日後要在首頁恢復電影區塊，先把區塊 DOM 與 .film-grid 樣式加回 index.html，
+    再把 main() 的呼叫改回來 —— 否則只會把 JSON 塞進一個沒人讀的區塊。
+    """
+    films = []
+    for p in published:
+        if 'macau-film' in _series_list(p):
+            fy = p.get('filmYear')
+            try:
+                fy = int(fy)
+            except (TypeError, ValueError):
+                fy = 0
+            slug = p.get('slug') or SLUGS.get(str(p.get('num', '')).strip(), '')
+            if not slug:
+                continue
+            films.append({'slug': slug, 'title': p.get('title') or '', 'fy': fy,
+                          'img': '/assets/og/%s-poster.jpg' % slug})
+    films.sort(key=lambda x: -x['fy'])
+    idx = os.path.join(ROOT, 'index.html')
+    if not os.path.exists(idx):
+        return 0
+    html = io.open(idx, encoding='utf-8').read()
+    blob = json.dumps(films, ensure_ascii=False)
+    new_html, n = re.subn(r'<script type="application/json" id="embedded-films">.*?</script>',
+                          '<script type="application/json" id="embedded-films">%s</script>' % blob,
+                          html, count=1, flags=re.S)
+    if n:
+        io.open(idx, 'w', encoding='utf-8', newline='\n').write(new_html)
+    return len(films)
+
+
+def _add_derived_urls(urls):
+    """把 build 時派生的二級落地頁（collection/ 合輯、route/ 路線）補進 sitemap.xml。
+
+    只補缺漏，不改既有條目——保留全部既有條目，僅把缺漏的插到 </urlset> 之前。
+    build_sitemap.py 只管 /article/；這兩類頁面是從 movieInfo／routes.json 派生的。
+    """
+    path = os.path.join(ROOT, 'sitemap.xml')
+    if not os.path.exists(path):
+        return 0
+    txt = io.open(path, encoding='utf-8').read()
+    have = set(re.findall(r'<loc>\s*(.*?)\s*</loc>', txt, re.S))
+    add = [(u, lm) for u, lm in urls if u not in have]
+    if not add:
+        return 0
+    block = '\n'.join(
+        '  <url><loc>%s</loc><lastmod>%s</lastmod>'
+        '<changefreq>monthly</changefreq><priority>0.6</priority></url>' % (u, lm)
+        for u, lm in add)
+    idx = txt.rindex('</urlset>')
+    new_txt = txt[:idx].rstrip('\n') + '\n' + block + '\n</urlset>\n'
+    io.open(path, 'w', encoding='utf-8', newline='\n').write(new_txt)
+    return len(add)
+
+
+def main():
+    data = json.load(io.open(POSTS, encoding='utf-8'))
+    posts = data['posts']
+    published = [p for p in posts if p.get('status') != '整理中']
+    for p in posts:
+        p['slug'] = SLUGS.get(str(p.get('num', '')).strip(), '')
+    load_series()
+    # ── 地理座標預檢硬閘 ──
+    # 敏感地標 GPS 若錯置（張冠李戴/錯釘），直接中斷重建，避免帶病上線。
+    # 修法：先把 data/posts.json 中標記的場地 GPS 改回核證座標（見 tools/_geo_guard.py
+    # 的 LANDMARKS），再重跑 build。
+    _geo_n = GEO.run_guard(posts=posts, verbose=False)
+    if _geo_n:
+        print('\n❌ 地理座標預檢未過：%d 處疑似錯置，已中斷重建。' % _geo_n)
+        print('   請先修正 data/posts.json 中上方標記的場地座標，再重跑 build_articles.py。')
+        sys.exit(1)
+    # 三軸索引（年代／取景地／影人）：算一次，文章互導塊與合輯落地頁共用
+    global FILM_INDEX
+    FILM_INDEX = FC.build_index(published, SLUGS)
+    made = []
+    for p in published:
+        made.append(build(p, published))
+    build_list(published)
+    nser = 0
+    for s in sorted_series():
+        r = build_series_page(s, published, SERIES['series'])
+        if r:
+            nser += 1
+            print('  /series/%s/  %s（%d 篇）' % r)
+    build_series_index(published)
+    # 首頁電影專輯區已於 2026-10-08 移除（軒哥決定：電影內容統一到 /series/macau-film/，
+    # 首頁不重複陳列）。因此不再重生 embedded-films JSON，否則會把已刪的資料塞回來。
+    print('  / 首頁電影 grid：已移除，略過')
+    nmovie = 0
+    for p in published:
+        if p.get('movieInfo'):
+            r = build_movie_info(p, published)
+            if r:
+                nmovie += 1
+                print('  /movie/%s/  %s' % r)
+    if nmovie:
+        print('  電影資訊頁：%d 頁' % nmovie)
+    # 澳門電影三軸合輯落地頁：collection/（hub＋3 時代＋10 十年代＋地標＋影人）
+    coll_urls = FC.build_collections(FILM_INDEX, SLUGS, SITE, ov,
+                                     og_img=SITE + '/assets/og/seanown-home.jpg')
+    print('  三軸合輯頁：%d 頁（/collection/）' % len(coll_urls))
+    # 跟著電影遊澳門 · 數字路線頁：route/（hub＋8 路線，63 站深鏈回 83 篇）
+    route_urls = FR.build_routes(SITE, ov)
+    if route_urls:
+        print('  電影路線頁：%d 頁（/route/）' % len(route_urls))
+    sanitize_outputs()
+    # sitemap 一併更新：新增文章後自動補進條目，避免手動維護漏掉
+    # （2026-10-09 曾漏掉 6 篇已上線文章，搜尋引擎抓不到）
+    try:
+        import subprocess
+        r = subprocess.run(
+            [sys.executable, os.path.join(ROOT, 'tools', 'build_sitemap.py')],
+            capture_output=True, text=True)
+        for line in (r.stdout or '').splitlines():
+            if line.strip():
+                print('  ' + line)
+        if r.returncode != 0:
+            print('  [WARN] build_sitemap.py 回傳非零，請手動檢查 sitemap')
+    except Exception as e:
+        print('  [WARN] sitemap 自動更新失敗：%s（請手動執行 '
+              'tools/build_sitemap.py）' % e)
+    # collection/ 合輯頁不在 build_sitemap.py 的 /article/ 規則內，於此補入（只補缺漏）
+    try:
+        n_coll = _add_derived_urls(coll_urls)
+        if n_coll:
+            print('  sitemap：補入 %d 條 /collection/ 合輯頁' % n_coll)
+    except Exception as e:
+        print('  [WARN] collection sitemap 補入失敗：%s' % e)
+    # route/ 路線頁同理補入
+    try:
+        n_route = _add_derived_urls(route_urls)
+        if n_route:
+            print('  sitemap：補入 %d 條 /route/ 路線頁' % n_route)
+    except Exception as e:
+        print('  [WARN] route sitemap 補入失敗：%s' % e)
+    io.open(POSTS, 'w', encoding='utf-8', newline='\n').write(
+        json.dumps(data, ensure_ascii=False, indent=2) + '\n')
+    print('generated %d article pages, %d series pages' % (len(made), nser))
+    for sl, t in made:
+        print('  /article/%s/  %s' % (sl, t[:34]))
+
+
+if __name__ == '__main__':
+    main()

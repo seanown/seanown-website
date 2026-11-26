@@ -1,0 +1,87 @@
+<Slide style={{
+    width: '1280px',
+    height: '720px',
+    position: 'relative',
+    background: '#0B3D2E',
+    padding: 0,
+    fontFamily: '"PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif',
+}}>
+    <Box style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '100%', height: '720px',
+        padding: '72px 72px 60px 72px',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 40,
+    }}>
+        <Box style={{
+            width: 76, height: 76,
+            border: '2px solid rgba(199,91,18,.65)',
+            borderRadius: 6,
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
+            <Text style={{
+                fontSize: 25,
+                color: '#F0A050',
+                fontFamily: 'Georgia, "Songti SC", serif',
+                letterSpacing: 2,
+            }}>
+                高效
+            </Text>
+        </Box>
+
+        <Box style={{ flexDirection: 'column', alignItems: 'center', gap: 22 }}>
+            <Text style={{
+                fontSize: 96,
+                fontWeight: 'bold',
+                color: '#F7F3EA',
+                lineHeight: 1.06,
+                letterSpacing: 14,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                附錄
+            </Text>
+            <Box style={{ width: 110, height: 2, background: 'rgba(240,160,80,.5)' }} />
+            <Text style={{
+                fontSize: 22,
+                color: 'rgba(247,243,234,.80)',
+                lineHeight: 1.74,
+                textAlign: 'center',
+                maxWidth: 620,
+            }}>
+                可列印、可貼牆、會前逐項核對。
+            </Text>
+        </Box>
+
+        <Box style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 16,
+            borderTop: '1px solid rgba(240,160,80,.24)',
+            paddingTop: 34,
+        }}>
+            {['十一節完整手冊', '五個不要', '五個一定要', '現場狀況處理', '前 24 小時檢核'].map((t) => (
+                <Box key={t} style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                    <Box style={{ width: 5, height: 5, background: '#C75B12' }} />
+                    <Text style={{ fontSize: 16, color: 'rgba(247,243,234,.66)', letterSpacing: 1 }}>
+                        {t}
+                    </Text>
+                </Box>
+            ))}
+        </Box>
+    </Box>
+
+    <Box style={{
+        position: 'absolute',
+        bottom: 40, left: 72, right: 72,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <Text style={{ fontSize: 14, color: 'rgba(247,243,234,.44)', letterSpacing: 1 }}>高效會議主持 SOP</Text>
+        <Text style={{ fontSize: 14, color: 'rgba(247,243,234,.44)', letterSpacing: 1 }}>13 / 14</Text>
+    </Box>
+</Slide>

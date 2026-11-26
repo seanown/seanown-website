@@ -1,0 +1,292 @@
+{
+  "_說明": "自建維基的資料層。每個事實必須附可查證來源（source_url），無來源者不寫入。facts 分 verified（外部可查）與 stated（本人自述，僅站內）。",
+  "version": "1.0",
+  "updated": "2026-10-18",
+  "person": {
+    "name_zh": "翁振軒",
+    "name_en": "Sean Own",
+    "birth_year": 1978,
+    "birth_place": "台北",
+    "ancestral_home": "浙江龍遊",
+    "residence": "澳門",
+    "summary": "澳門商人、台商與產業顧問，粵港澳大灣區電子商會創會理事長。從事數位服務出海、文化旅遊與 AI 產業服務，創辦澳門龍遊集團。",
+    "education": [
+      {
+        "item": "加州大學柏克萊分校（UC Berkeley）",
+        "detail": "交叉學科研究（Interdisciplinary Studies），1997–2001",
+        "source_url": "https://mp.weixin.qq.com/s?__biz=MzA5NzQ5OTE3NA==&mid=2247583487&idx=1&sn=9255f63d4a19c6a7439f638a251098cb",
+        "evidence": "verified",
+        "note": "龍遊縣官方媒體《龙游传媒》刊載之作者簡介（三審三校確認）載明「畢業於美國加州大學伯克利分校，獲交叉學科研究學士學位」；軒哥另持有畢業證書與 Parchment 官方成績單"
+      }
+    ],
+    "positions": [
+      {
+        "title": "創辦人暨董事總經理",
+        "org": "澳門龍遊集團",
+        "source_url": "https://mp.weixin.qq.com/s?__biz=MzA5NzQ5OTE3NA==&mid=2247583487&idx=1&sn=9255f63d4a19c6a7439f638a251098cb",
+        "evidence": "verified",
+        "note": "《龙游传媒》作者简介"
+      },
+      {
+        "title": "會長／創會理事長",
+        "org": "粵港澳大灣區電子商會",
+        "source_url": "https://www.houkongdailynews.com/sectionNews/117858",
+        "evidence": "verified",
+        "note": "濠江日報 2024 年報導、亞洲經濟報 2025-12-05 報導、《龙游传媒》作者简介"
+      },
+      {
+        "title": "聯合創始人",
+        "org": "龍遊數字服務出海平台",
+        "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=852",
+        "evidence": "verified",
+        "note": "亞洲經濟報 2025-12-05 報導"
+      },
+      {
+        "title": "監事長",
+        "org": "澳門台商聯誼會",
+        "source_url": "https://www.tccm.org.mo/第九屆理監事",
+        "evidence": "verified",
+        "note": "官網《第九屆理監事》名單頁、澳門日報 2025-12-02 報導"
+      },
+      {
+        "title": "部長（文化產業發展部）",
+        "org": "澳門經濟民生聯盟",
+        "source_url": "https://hkdaily-app.bpprojects.com/sectionNews/129928",
+        "evidence": "verified",
+        "note": "濠江日報 2025-05-27 報導"
+      },
+      {
+        "title": "董事",
+        "org": "東望洋集團",
+        "source_url": "https://www.ccedn.com.cn/news/item/20241031RGTLRLOM8.html",
+        "evidence": "verified",
+        "note": "社區文化網 2024-10-31 報導"
+      },
+      {
+        "title": "館長",
+        "org": "澳門龍遊絲綢文化藝術中心",
+        "source_url": "",
+        "evidence": "stated"
+      },
+      {
+        "title": "理事長",
+        "org": "ECI@澳門創新專委會",
+        "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=1074",
+        "evidence": "verified",
+        "note": "亞洲經濟報 2026-01-22 報導"
+      },
+      {
+        "title": "會長",
+        "org": "澳門台灣青年企業家協會",
+        "source_url": "https://www.modaily.cn/app/szb/pc/content/202512/20/content_452863.html",
+        "evidence": "verified",
+        "note": "澳門日報 2025-12-20 報導、《龙游传媒》作者简介"
+      },
+      {
+        "title": "電子商務專委會主任",
+        "org": "澳門網絡視聽協會",
+        "source_url": "https://www.waou.com.mo/2026/06/06/%e7%81%a3%e5%8d%80%e9%9d%92%e5%b9%b4ai%e8%9e%8d%e5%aa%92%e9%ab%94%e4%b8%ad%e5%bf%83%e6%8f%ad%e7%89%8c",
+        "evidence": "verified",
+        "note": "新華澳報 2026-06-06 報導"
+      },
+      {
+        "title": "副會長",
+        "org": "澳門中華文化發展促進會",
+        "source_url": "https://www.macaodaily.com/html/2026-04/24/content_1903593.htm",
+        "evidence": "verified",
+        "note": "澳門日報 2026-04-24 報導、澳門會展經濟報同題報導"
+      },
+      {
+        "title": "聯絡部委員",
+        "org": "澳門中華總商會",
+        "source_url": "http://mp.weixin.qq.com/s?__biz=MzU5NDcyODQ3NQ==&mid=2247488437&idx=7&sn=82a64f0fafefc7bfa30079d1432e822b",
+        "evidence": "verified",
+        "note": "中華總商會官方微信 2023-03-13 報導出席名單"
+      },
+      {
+        "title": "董事",
+        "org": "澳門室內跳傘中心 GoAirborne",
+        "source_url": "https://www.52hrtt.com/zjg/n/w/info/G1685710646307",
+        "evidence": "verified",
+        "note": "華人頭條 2023-06-17 專訪、澳門力報 2023-06-15 同題報導"
+      },
+      {
+        "title": "監事長",
+        "org": "粵港澳大灣區數字產業協會",
+        "source_url": "https://www.modaily.cn/app/szb/pc/content/202303/14/content_250034.html",
+        "evidence": "verified",
+        "note": "澳門日報 2023-03-14、2023-03-17 兩度載其名為該會監事長，並引述其「今年是 AI 時代爆發的一年」等發言"
+      }
+    ],
+    "honors": [
+      {
+        "item": "ECI AWARDS 2025 年度數字創新影響力人物",
+        "issuer": "IECIA 國際數字創新組織／ECI AWARDS 國際艾奇獎組委會",
+        "date": "2026-01-04",
+        "document": "入選通知函（評審委員會評議後發出）",
+        "doc_path": "assets/docs/ECI-Awards-2025-年度数字创新影响力人物-入选通知函.pdf",
+        "note": "入選通知函由 IECIA／ECI AWARDS 組委會於 2026-01-04 發出。當日未親赴廣州頒獎現場。",
+        "evidence": "verified",
+        "source_url": "",
+        "source_doc": "IECIA／ECI AWARDS 組委會《ECI AWARDS 2025 年度創新人物入選通知函》，2026年1月4日",
+        "attended": false
+      }
+    ],
+    "not_verified": [],
+    "birth_source_url": "https://mp.weixin.qq.com/s?__biz=MzA5NzQ5OTE3NA==&mid=2247583487&idx=1&sn=9255f63d4a19c6a7439f638a251098cb",
+    "birth_note": "龍遊縣官方媒體《龙游传媒》刊載之作者簡介（三審三校確認）載明「1978年生於台灣台北，祖籍浙江衢州龍遊，現居澳門」",
+    "ancestral_note": "祖籍經當地查證：2026 年 6 月應邀參加第三屆長三角·大灣區百位台商走進衢州暨衢台經貿交流活動，回祖籍地龍遊；龍遊縣官方媒體以〈風雅龍遊〉專題刊載其返鄉隨筆與作者簡介",
+    "internal_notes": [
+      {
+        "org": "澳門休閒旅遊服務創新協會",
+        "title": "常務副理事長",
+        "term": "第一、二屆",
+        "status": "暫不對外顯示",
+        "reason": "站上原掛的澳門日報2025-06-29與力報同期報導，經查證均為第三屆理監事就職典禮報導（會長黃輝、理事長陸連金），全文未提及本人，不構成佐證，已移除。軒哥確認任第一、二屆，第三屆名單不含其名，與屆次相符。目前無第三方佐證，待日後向會長反映並取得公開報導後再上架。"
+      }
+    ],
+    "portrait": {
+      "status": "ready",
+      "owner": "本人所有，本人同意釋出",
+      "license": "CC BY-SA 4.0",
+      "primary": "assets/portraits/portrait-1x1.jpg",
+      "alt": "assets/portraits/portrait-4x5.jpg",
+      "original": "assets/portraits/portrait-original.jpg",
+      "note": "米色背景版本；維基頭像以淺色中性背景為主",
+      "confirmed": "2026-10-18 軒哥確認"
+    },
+    "honors_internal": [
+      {
+        "item": "ECI AWARDS 2025 年度數字創新影響力人物",
+        "status": "站內保留、不對外展示於榮譽區",
+        "reason": "① 官網公開名單（dateils?id=2019356284420243456，七類別 29 位）未列其名，係當日未親赴現場領獎所致；官方稱評出 34 位、海報列出 29 位，差額可能即含未出席者。② 維基百科不接受未公開發布之私人文件作為來源。③ 站上條目頁公開展示此榮譽，等同邀請查核；一旦與官網名單落差，將連帶影響其餘 13 項已查證職務之可信度。",
+        "restore_condition": "取得 IECIA／ECI 官方出具之補發證明，或官網名單更正／增列。"
+      }
+    ]
+  },
+  "organizations": [
+    {
+      "name": "澳門龍遊集團",
+      "role": "創辦人暨董事總經理",
+      "url": "",
+      "desc": "澳門本地集團，涵蓋數位服務、文化旅遊與絲綢文化藝術事業。",
+      "evidence": "stated"
+    },
+    {
+      "name": "龍遊數字服務出海平台",
+      "role": "聯合創始人",
+      "url": "",
+      "desc": "以澳門與台灣雙伺服器、雙算力中心架構，提供中文企業數位服務出海服務。",
+      "evidence": "verified",
+      "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=852"
+    },
+    {
+      "name": "粵港澳大灣區電子商會",
+      "role": "會長",
+      "url": "https://gbaeca.org/",
+      "desc": "粵港澳大灣區電子商務領域的商會組織，軒哥為創會理事長。",
+      "evidence": "verified",
+      "source_url": "https://www.houkongdailynews.com/sectionNews/117858"
+    },
+    {
+      "name": "澳門中華文化發展促進會",
+      "role": "副會長",
+      "url": "https://www.ccdpam.com/",
+      "desc": "推動中華文化在澳門的傳承與兩岸文化交流的非牟利組織。",
+      "evidence": "stated"
+    },
+    {
+      "name": "澳門網絡視聽協會",
+      "role": "電子商務專委會主任",
+      "url": "/miaa/",
+      "desc": "澳門網絡視聽行業協會，協辦澳門國際網絡視聽節。",
+      "evidence": "stated"
+    },
+    {
+      "name": "澳門龍遊絲綢文化藝術中心",
+      "role": "館長",
+      "url": "/silk-art/",
+      "desc": "以絲綢為媒介的藝術機構，推動絲綢文化的當代轉譯與展示。",
+      "evidence": "stated"
+    },
+    {
+      "name": "ECI@澳門創新專委會",
+      "role": "理事長",
+      "url": "https://www.eciawards.org.cn/index",
+      "desc": "ECI 數位創新獎項體系在澳門的落地機構。",
+      "evidence": "verified",
+      "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=1074"
+    },
+    {
+      "name": "澳門台灣青年企業家協會",
+      "role": "會長",
+      "url": "",
+      "desc": "連結澳門與台灣青年企業家的協會，推動兩岸青年經貿與文化交流。",
+      "evidence": "verified",
+      "source_url": "https://www.modaily.cn/app/szb/pc/content/202512/20/content_452863.html"
+    },
+    {
+      "name": "澳門經濟民生聯盟",
+      "role": "文化產業發展部部長",
+      "url": "",
+      "desc": "澳門主要社團聯盟之一，設有文化產業發展部。",
+      "evidence": "verified",
+      "source_url": "https://hkdaily-app.bpprojects.com/sectionNews/129928"
+    },
+    {
+      "name": "粵港澳大灣區數字產業協會",
+      "role": "監事長",
+      "url": "",
+      "desc": "澳門推廣數據智能與數字產業的協會組織，推動澳門企業「走出去」參與大灣區發展。",
+      "evidence": "verified",
+      "source_url": "https://www.modaily.cn/app/szb/pc/content/202303/14/content_250034.html"
+    }
+  ],
+  "glossary": [
+    {
+      "term": "數位服務出海",
+      "definition": "協助中國的企業把產品與內容翻譯為多國語言，在海外平台投放與銷售的服務。",
+      "evidence": "stated"
+    },
+    {
+      "term": "澳台雙算力",
+      "definition": "同時使用澳門與台灣兩地的伺服器與 AI 算力資源，兼顧成本與跨境合規需求。",
+      "evidence": "verified",
+      "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=852"
+    },
+    {
+      "term": "ECI",
+      "definition": "Effective Creative Intelligence，數位創新領域的評選與認證體系，在澳門設有落地機構。",
+      "evidence": "verified",
+      "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=1074"
+    }
+  ],
+  "faq": [
+    {
+      "q": "翁振軒是誰？",
+      "a": "澳門商人與產業顧問，1978 年生於台北，祖籍浙江龍遊，現居澳門。為粵港澳大灣區電子商會創會理事長，並創辦澳門龍遊集團。",
+      "evidence": "verified"
+    },
+    {
+      "q": "龍遊集團是什麼？",
+      "a": "澳門本地集團，涵蓋數位服務出海、文化旅遊與絲綢文化藝術三個方向，軒哥為創辦人暨董事總經理。",
+      "evidence": "stated"
+    },
+    {
+      "q": "什麼是「澳台雙算力」？",
+      "a": "同時使用澳門與台灣兩地的伺服器與 AI 算力資源。目的是兼顧成本與跨境數據合規，避免單一地區的限制。",
+      "evidence": "verified",
+      "source_url": "https://www.asiaeconomynews.com/page193.html?article_id=852"
+    },
+    {
+      "q": "怎麼合作？",
+      "a": "可透過聯絡頁表單說明機構名稱、議題與方便聯絡的時間。合作方向包括 AI 數位服務出海、文化旅遊規劃、AI 科普教育與融媒體 IP 運營。",
+      "evidence": "stated"
+    },
+    {
+      "q": "有什麼媒體報導可以查？",
+      "a": "本站媒體報導頁收錄 45 則公開可查的報導，每則均附媒體來源、日期與原文連結，可直接點擊查核。",
+      "evidence": "verified"
+    }
+  ]
+}

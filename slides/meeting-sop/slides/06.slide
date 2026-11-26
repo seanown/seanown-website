@@ -1,0 +1,78 @@
+<Slide style={{
+    width: '1280px',
+    height: '720px',
+    position: 'relative',
+    background: '#0B3D2E',
+    padding: 0,
+    fontFamily: '"PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif',
+}}>
+    <Box style={{ position: 'absolute', top: 0, left: 0, width: '640px', height: '720px' }}>
+        <Image src="assets/chapter_2.png" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <Box style={{
+            position: 'absolute',
+            top: 0, left: 0,
+            width: '100%', height: '100%',
+            background: 'linear-gradient(270deg, #0B3D2E 0%, rgba(11,61,46,.58) 34%, rgba(11,61,46,.14) 66%, rgba(11,61,46,.30) 100%)',
+        }} />
+        <Box style={{
+            position: 'absolute',
+            bottom: 56, left: 56,
+            flexDirection: 'column', gap: 8,
+        }}>
+            <Text style={{ fontSize: 15, color: '#F0A050', letterSpacing: 3, fontWeight: 600 }}>
+                BEFORE THE MEETING
+            </Text>
+            <Text style={{ fontSize: 19, color: 'rgba(247,243,234,.86)', lineHeight: 1.6 }}>
+                開會前一定要白紙黑字寫下三件事
+            </Text>
+        </Box>
+    </Box>
+
+    <Box style={{
+        position: 'absolute',
+        top: 0, right: 0,
+        width: '700px', height: '720px',
+        padding: '84px 72px 68px 56px',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    }}>
+        <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+            <Box style={{ width: 40, height: 3, background: '#C75B12' }} />
+            <Text style={{ fontSize: 15, color: 'rgba(247,243,234,.62)', letterSpacing: 3 }}>
+                CHAPTER
+            </Text>
+        </Box>
+
+        <Box style={{ flexDirection: 'column', gap: 20, alignItems: 'flex-end' }}>
+            <Text style={{
+                fontSize: 96,
+                fontWeight: 'bold',
+                color: '#C75B12',
+                lineHeight: 0.98,
+                fontFamily: 'Georgia, "Songti SC", serif',
+            }}>
+                02
+            </Text>
+            <Text style={{
+                fontSize: 52,
+                fontWeight: 'bold',
+                color: '#F7F3EA',
+                lineHeight: 1.26,
+                letterSpacing: 2,
+                textAlign: 'right',
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                主持人的角色
+                <br />
+                與節奏
+            </Text>
+        </Box>
+
+        <Box style={{ flexDirection: 'column', gap: 12, alignItems: 'flex-end', maxWidth: 440 }}>
+            <Box style={{ width: 88, height: 2, background: 'rgba(240,160,80,.5)' }} />
+            <Text style={{ fontSize: 19, color: 'rgba(247,243,234,.80)', lineHeight: 1.72, textAlign: 'right' }}>
+                主持人的價值不在現場的表現力，而在一場會結束之後，留不下來的那幾行白紙黑字。
+            </Text>
+        </Box>
+    </Box>
+</Slide>

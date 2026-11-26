@@ -1,0 +1,124 @@
+<Slide style={{
+    width: '1280px',
+    height: '720px',
+    position: 'relative',
+    background: '#F7F3EA',
+    padding: 0,
+    fontFamily: '"PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif',
+}}>
+    <Box style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '420px', height: '720px',
+        background: '#0B3D2E',
+        padding: '68px 44px 56px 72px',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    }}>
+        <Box style={{ flexDirection: 'column', gap: 18 }}>
+            <Box style={{ width: 40, height: 3, background: '#C75B12' }} />
+            <Text style={{
+                fontSize: 38,
+                fontWeight: 'bold',
+                color: '#F7F3EA',
+                lineHeight: 1.32,
+                letterSpacing: 3,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                討論和表決
+                <br />
+                是兩個階段
+            </Text>
+        </Box>
+        <Box style={{ flexDirection: 'column', gap: 12 }}>
+            <Box style={{ width: 72, height: 2, background: 'rgba(240,160,80,.5)' }} />
+            <Text style={{
+                fontSize: 19,
+                color: '#F0A050',
+                lineHeight: 1.7,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                討論完了再投票。
+            </Text>
+        </Box>
+    </Box>
+
+    <Box style={{
+        position: 'absolute',
+        top: 0, right: 0,
+        width: '860px', height: '720px',
+        padding: '58px 68px 50px 48px',
+        flexDirection: 'column',
+    }}>
+        <Box style={{ flexDirection: 'row', gap: 14, alignItems: 'center', height: 62 }}>
+            <Box style={{ width: 4, height: 34, background: '#C75B12' }} />
+            <Text style={{
+                fontSize: 32,
+                fontWeight: 'bold',
+                color: '#0B3D2E',
+                letterSpacing: 1,
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+            }}>
+                兩種做法，兩種結果
+            </Text>
+        </Box>
+
+        <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'column', gap: 16, paddingTop: 12 }}>
+            <Box style={{
+                flex: 1, minWidth: 0, minHeight: 0,
+                background: '#FFFFFF',
+                border: '1px solid rgba(11,61,46,.14)',
+                borderRadius: 8,
+                padding: '24px 30px',
+                flexDirection: 'column',
+                gap: 12,
+                boxShadow: '0 4px 20px rgba(11,61,46,.07)',
+            }}>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+                    <FAIcon name='times-circle' style={{ fill: '#8A8578', width: 26, height: 26 }} />
+                    <Text style={{ fontSize: 22, fontWeight: 600, color: '#5C5850', letterSpacing: 1 }}>
+                        揉在一起的流程
+                    </Text>
+                </Box>
+                <Text style={{ fontSize: 16, color: '#5C5850', lineHeight: 1.72 }}>
+                    討論到第三輪，主持人開始暗示自己希望通過的方向，接著問「大家還有沒有意見」，然後在沉默中宣布通過。
+                </Text>
+                <Box style={{ marginTop: 'auto', flexDirection: 'row', alignItems: 'center', gap: 12, borderTop: '1px solid rgba(11,61,46,.12)', paddingTop: 12 }}>
+                    <Text style={{ fontSize: 16, color: '#8A8578', letterSpacing: 1 }}>
+                        通過的不是經過比較的方案，而是所有人都沒有力氣反對的方案
+                    </Text>
+                </Box>
+            </Box>
+
+            <Box style={{
+                flex: 1, minWidth: 0, minHeight: 0,
+                background: '#0B3D2E',
+                borderRadius: 8,
+                padding: '24px 30px',
+                flexDirection: 'column',
+                gap: 12,
+                boxShadow: '0 6px 24px rgba(11,61,46,.18)',
+            }}>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+                    <FAIcon name='check-circle' style={{ fill: '#F0A050', width: 26, height: 26 }} />
+                    <Text style={{ fontSize: 22, fontWeight: 600, color: '#F7F3EA', letterSpacing: 1 }}>
+                        正確的做法
+                    </Text>
+                </Box>
+                <Text style={{ fontSize: 16, color: 'rgba(247,243,234,.80)', lineHeight: 1.72 }}>
+                    依序走完八步，把結論留在「確認決議事項」這一步：把決議重新念一遍並在場確認，討論才算真正結束。
+                </Text>
+                <Box style={{ marginTop: 'auto', flexDirection: 'row', alignItems: 'center', gap: 12, borderTop: '1px solid rgba(240,160,80,.24)', paddingTop: 12 }}>
+                    <Text style={{ fontSize: 16, color: '#F0A050', letterSpacing: 1 }}>
+                        白紙黑字誰負責，比什麼都重要
+                    </Text>
+                </Box>
+            </Box>
+        </Box>
+
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 }}>
+            <Text style={{ fontSize: 14, color: '#8A8578', letterSpacing: 1 }}>高效會議主持 SOP</Text>
+            <Text style={{ fontSize: 14, color: '#8A8578', letterSpacing: 1 }}>12 / 14</Text>
+        </Box>
+    </Box>
+</Slide>

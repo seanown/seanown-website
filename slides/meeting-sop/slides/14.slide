@@ -1,0 +1,133 @@
+<Slide style={{
+    width: '1280px',
+    height: '720px',
+    position: 'relative',
+    background: '#0B3D2E',
+    padding: 0,
+    fontFamily: '"PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif',
+}}>
+    <Box style={{
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '100%', height: '720px',
+        padding: '46px 60px 40px 60px',
+        flexDirection: 'column',
+    }}>
+        <Box style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', paddingBottom: 14 }}>
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+                <Box style={{ width: 4, height: 30, background: '#C75B12' }} />
+                <Text style={{
+                    fontSize: 30,
+                    fontWeight: 'bold',
+                    color: '#F7F3EA',
+                    letterSpacing: 1,
+                    fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+                }}>
+                    第一堂 · 高效會議主持 SOP
+                </Text>
+            </Box>
+            <Text style={{ fontSize: 14, color: 'rgba(247,243,234,.44)', letterSpacing: 1 }}>14 / 14</Text>
+        </Box>
+
+        <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'row', gap: 22, paddingTop: 6 }}>
+            <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'column', gap: 5 }}>
+                {[
+                    { n: '一', t: '本堂重點', d: '主持人不是最會講的人，是讓會議產生結果的人。' },
+                    { n: '二', t: '會前籌備', d: '目的、議題類型、行動確認——白紙黑字寫下三件事。' },
+                    { n: '三', t: '三個角色', d: '不是最會講、不是發言最多、不是討好所有人的人。' },
+                    { n: '四', t: '開場三句話', d: '討論什麼、產出什麼結論、時間如何分配。' },
+                    { n: '五', t: '節奏公式', d: '開場快、內容穩、轉場快、高潮慢、結尾快而有力。' },
+                ].map((r) => (
+                    <Box key={r.n} style={{
+                        flex: 1, minWidth: 0, minHeight: 0,
+                        flexDirection: 'row',
+                        gap: 14,
+                        alignItems: 'center',
+                        background: 'rgba(247,243,234,.06)',
+                        borderRadius: 5,
+                        padding: '0 16px',
+                    }}>
+                        <Text style={{
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            color: '#C75B12',
+                            width: 22,
+                            fontFamily: 'Georgia, "Songti SC", serif',
+                        }}>
+                            {r.n}
+                        </Text>
+                        <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                            <Text style={{ fontSize: 15, color: '#F7F3EA', fontWeight: 600, letterSpacing: 1, width: 82 }}>
+                                {r.t}
+                            </Text>
+                            <Text style={{ flex: 1, minWidth: 0, minHeight: 0, fontSize: 14, color: 'rgba(247,243,234,.70)', lineHeight: 1.5 }}>
+                                {r.d}
+                            </Text>
+                        </Box>
+                    </Box>
+                ))}
+            </Box>
+
+            <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'column', gap: 5 }}>
+                {[
+                    { n: '六', t: '五個不要', d: '不講太多、不失控、不怕異議、不犧牲決策、不忘決議。' },
+                    { n: '七', t: '五個一定要', d: '先講目的、控制時間、讓不同聲音出現、轉成決策、確認負責人。' },
+                    { n: '八', t: '現場狀況', d: '貴賓遲到、講者超時、設備故障、鬼打牆、離題、意見對立。' },
+                    { n: '九', t: '決策八步', d: '宣布開會到確認決議事項，討論與表決分開。' },
+                    { n: '十', t: '前 24 小時', d: '貴賓名單、流程時間軸、設備測試、應變預案、座位圖。' },
+                ].map((r) => (
+                    <Box key={r.n} style={{
+                        flex: 1, minWidth: 0, minHeight: 0,
+                        flexDirection: 'row',
+                        gap: 14,
+                        alignItems: 'center',
+                        background: 'rgba(247,243,234,.06)',
+                        borderRadius: 5,
+                        padding: '0 16px',
+                    }}>
+                        <Text style={{
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            color: '#C75B12',
+                            width: 22,
+                            fontFamily: 'Georgia, "Songti SC", serif',
+                        }}>
+                            {r.n}
+                        </Text>
+                        <Box style={{ flex: 1, minWidth: 0, minHeight: 0, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                            <Text style={{ fontSize: 15, color: '#F7F3EA', fontWeight: 600, letterSpacing: 1, width: 82 }}>
+                                {r.t}
+                            </Text>
+                            <Text style={{ flex: 1, minWidth: 0, minHeight: 0, fontSize: 14, color: 'rgba(247,243,234,.70)', lineHeight: 1.5 }}>
+                                {r.d}
+                            </Text>
+                        </Box>
+                    </Box>
+                ))}
+            </Box>
+        </Box>
+
+        <Box style={{
+            marginTop: 14,
+            background: 'rgba(199,91,18,.18)',
+            borderLeft: '4px solid #C75B12',
+            borderRadius: 5,
+            padding: '16px 24px',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+        }}>
+            <Text style={{
+                fontSize: 19,
+                color: '#F7F3EA',
+                fontFamily: 'Georgia, "Songti SC", "STSong", serif',
+                letterSpacing: 1,
+            }}>
+                會議結束了，事情才開始——白紙黑字誰負責，比什麼都重要。
+            </Text>
+            <Text style={{ fontSize: 15, color: '#F0A050', letterSpacing: 2 }}>
+                seanown.org
+            </Text>
+        </Box>
+    </Box>
+</Slide>
