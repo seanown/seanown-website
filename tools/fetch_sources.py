@@ -201,9 +201,16 @@ def fetch_zhengpao(week_start, week_end):
 
 
 def fetch_houkong(week_start, week_end):
-    """濠江日報：JSON API。headline + 澳門新聞欄目。"""
+    """濠江日報：JSON API 取列表，詳情正文改用 instantNews 頁面。
+
+    🔴 2026-11-29：原詳情網址 hkdaily-api.bpprojects.com/v1/section_news/{id}/html
+    回傳的內文與標題錯位（實測 5 則全中，如「馬青驊奪魁」配上 2022 疫情社論），
+    改為 www.houkongdailynews.com/instantNews/{id} 後正文與標題正確對應。
+    API 仍用於取 headline／欄目列表，只替換詳情連結生成。
+    """
     items = []
     base = "https://hkdaily-api.bpprojects.com"
+    detail_url = lambda aid: f"https://www.houkongdailynews.com/instantNews/{aid}"
     # 1) headline
     text, code = fetch(base + "/v1/section_news/headline", accept="application/json")
     if code != 200 or not text:
@@ -216,7 +223,7 @@ def fetch_houkong(week_start, week_end):
         items.append({
             "source": "濠江日報",
             "title": it.get("title", ""),
-            "url": it.get("html_url") or f"{base}/v1/section_news/{it.get('id')}/html?lang=zh",
+            "url": detail_url(it.get("id")),
             "date": norm_date(it.get("published_at", "")[:10]),
             "summary": clean(it.get("subtitle", "")) or None,
             "category": None,
@@ -242,7 +249,7 @@ def fetch_houkong(week_start, week_end):
             items.append({
                 "source": "濠江日報",
                 "title": it.get("title", ""),
-                "url": it.get("html_url") or f"{base}/v1/section_news/{it.get('id')}/html?lang=zh",
+                "url": detail_url(it.get("id")),
                 "date": norm_date(it.get("published_at", "")[:10]),
                 "summary": clean(it.get("subtitle", "")) or None,
                 "category": None,
