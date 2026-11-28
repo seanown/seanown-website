@@ -38,6 +38,12 @@ def clean_title(s):
     """
     s = clean(s)
     s = re.split(r"\s*【(?:本報訊|綜合消息|特稿|即時新聞|本報綜合)】", s)[0]
+    # 🔴 2026-11-29 軒哥裁定：賽程表是格蘭披治大賽車大項目，保留但濃縮成可讀標題，
+    #    不要整串時刻表（原標題 121 字）。取「周五賽事程序」＋首個賽事名。
+    if s.startswith("周五賽事程序"):
+        m = re.search(r"(澳門格蘭披治電單車|澳門四級方程式大賽|澳門格蘭披治大賽車)", s)
+        tail = m.group(1) if m else "重點賽事"
+        return f"大賽車周五賽事程序（含{tail}）"
     return s.strip(" ，,。;；")
 
 
@@ -64,7 +70,9 @@ RULES = [
     (4, ["大賽車", "美食節", "旅遊", "旅客", "酒店", "會展", "塔石藝墟", "觀光", "軍團菌", "度假村"]),
     # 🔴 AI 類門檻：只用明確 AI 詞，移除「智慧／數字／科技」等寬泛詞（原誤收油價、個資講座、就業調查）。
     (10, ["人工智能", "生成式AI", "大模型", "AI使用", "AI安全", "具身智能", "AI認證"]),
-    (1, ["施政", "法案", "立法會", "行政會", "法典", "政府", "岑浩輝", "黃少澤", "司長", "凍薪", "印花稅", "選舉"]),
+    # 🔴 2026-11-29 軒哥裁定：澳門涉外，區外政治可講；國家主席外事／APEC 歸時政類（比社會文化類貼切）。
+    (1, ["施政", "法案", "立法會", "行政會", "法典", "政府", "岑浩輝", "黃少澤", "司長", "凍薪", "印花稅", "選舉",
+         "習近平", "APEC", "亞太經合", "普京", "李在明", "特朗普", "元首級峰會"]),
     # 🔴 统计数据（生產總值／對外貿易／直接投資／私人建築）回歸經濟類，不再落入類 3 預設。
     (2, ["GDP", "經濟", "物價", "零售", "樓價", "租金", "就業", "金融", "中小企", "消費", "外匯", "稅",
          "生產總值", "對外商品貿易", "直接投資", "私人建築", "不動產交易", "人力資源需求"]),
@@ -72,13 +80,11 @@ RULES = [
     (3, ["衛生", "低溫", "醫療", "醫生", "不孕", "減重", "慢性病", "禁煙", "教育", "高校", "巴士", "的士"]),
 ]
 
-# 🔴 剔除規則（2026-11-29）：不符合「澳門新聞週報」本位者不收錄。
-#  - 純賽程表（標題為時刻程序，非新聞）
-#  - 區外政治／國家領導人外事（本週報以澳門本位，區外只作參考不進分類正文）
-DROP_PATTERNS = [
-    r"^周五賽事程序", r"^\d{2}:\d{2}賽道封閉",  # 賽程表
-    r"^習[:：]", r"共商亞太合作大計",  # 區外政治外事
-]
+# 🔴 2026-11-29 軒哥裁定（覆蓋同日較早的過緊規則）：澳門本來就涉外、涉區外，
+#    以下兩類均恢復收錄，不再剔除：
+#    - 賽程表：每年格蘭披治大賽車是大項目，車手、奪冠者、國籍都可講。
+#    - 區外政治／國家領導人外事：澳門涉外節點，區外政治當然可以講。
+DROP_PATTERNS = []  # 暫無剔除規則；如真有重複／廣告再逐條加。
 
 # 🔴 AI 類白名單：標題本身須含明確 AI 詞才准入；只在摘要命中（如「辦公室AI安全講座」）不算。
 AI_TITLE_KW = ["人工智能", "生成式AI", "大模型", "AI使用", "AI安全", "具身智能", "AI認證", "AI"]
@@ -126,7 +132,8 @@ print("分類分布:", sorted(Counter(n["cat"] for n in news).items()))
 # ── PART 01 總覽 ─────────────────────────────────────────────
 OVERVIEW = (
     "本週澳門進入「施政報告＋大賽車」雙主線的高峰週：行政長官岑浩輝 11 月 16 日在立法會發表《2027 年財政年度施政報告》，"
-    "連日來各範疇施政方針辯論密集展開。"
+    "連日來各範疇施政方針辯論密集展開；區外方面，深圳 APEC 領導人非正式會議 11 月 18 至 19 日舉行，"
+    "國家主席習近平提出共商亞太合作大計、倡建世界灣區經濟合作聯盟，並先後會見俄羅斯總統普京與韓國總統李在明。"
     "社會面焦點落在立法會 11 月 20 日一般性通過《社團法律制度》法案；民生面，行政法務司司長黃少澤表示力爭今年落實橫琴單牌車北上，"
     "「粵澳社保一窗通」全面覆蓋灣區內地城市。經濟數據方面，統計暨普查局 11 月 20 日一連公佈多項第三季及十月數據："
     "首三季本地生產總值修訂為 3,162.2 億澳門元、實質增長 2.9%；10 月入境旅客 382.3 萬人次、按年升 10.1%；"
@@ -252,7 +259,39 @@ def make_summary(cid, rows):
     srcs = sorted({r["source"].split()[0] for r in rows if r.get("source")})
     src_txt = "、".join(srcs) if srcs else "多個來源"
     head = "；".join(lead)
+    if cid == 9 and shows:
+        venues = sorted({s["loc"].split("、")[0] for s in shows if s["loc"] != "—"})
+        return (f"本週本類收錄 {len(rows)} 則新聞，另附旅遊局演出活動 {len(shows)} 場，"
+                f"場地涵蓋{'、'.join(venues[:6])}。熱門演出包括：{head}。")
     return f"本週本類收錄 {len(rows)} 則，主要見於{src_txt}。焦點包括：{head}。"
+
+# 🔴 2026-11-29：從旅遊局 whatson 抽出「表演」類活動，供第 9 類（演唱會）表格呈現。
+#    軒哥指出澳門演唱會密集、六大博企皆是場地，原腳本只把旅遊局素材放 PART04 月曆，
+#    第 9 類因此只剩 1 條舞者競賽——此處補上，與技能「演唱會表格」規範一致。
+SHOW_KW = ["演唱", "音樂會", "相聲", "FAN-CON", "FANMEETING", "WORLD TOUR", "群星", "音樂節"]
+# 溫和活動（嘉年華／派對／藝文）非演唱會演出，排除；「派對」不再作命中詞。
+SHOW_EXCLUDE = ["狂歡派對", "藝文派對", "瘋狂派對", "嘉年華"]
+shows = []
+_seen_show = set()
+for it in items("旅遊局"):
+    title = clean(it.get("title", ""))
+    ex = it.get("extra") or {}
+    typ = "、".join(ex.get("types", []) or [])
+    if not title or title in _seen_show:
+        continue
+    # 「表演」類一律收（含陳偉霆瘋狂派對等明星演出）；非表演類才排除溫和活動。
+    if "表演" not in typ:
+        if any(k in title for k in SHOW_EXCLUDE):
+            continue
+        if not any(k in title for k in SHOW_KW):
+            continue
+    _seen_show.add(title)
+    shows.append({
+        "title": title,
+        "show": ex.get("showDate") or "—",
+        "loc": "、".join(ex.get("location", []) or []) or "—",
+        "typ": typ or "表演",
+    })
 
 SUMMARIES = {cid: make_summary(cid, [n for n in news if n["cat"] == cid]) for cid in range(1, 11)}
 
@@ -307,6 +346,17 @@ for cid, ctitle, cvar in CATS:
     else:
         cat += (f'        <div class="news-item"><div class="bullet" style="background:var(--{cvar})"></div>'
                 f'<div class="content"><div class="title">（本週暫無此類收錄）</div></div></div>\n')
+    # 第 9 類追加旅遊局「表演」活動表格（明星／場地／日期／類型）
+    if cid == 9 and shows:
+        cat += ('        <div style="margin:12px 0 6px;font-size:14px;color:var(--ink-2)">'
+                f'以下為旅遊局收錄、統計週內及未來兩週的演出活動（共 {len(shows)} 場），'
+                '涵蓋銀河、倫敦人、威尼斯人、新濠影滙等六大綜合度假村場地：</div>\n')
+        cat += ('        <div class="overview" style="margin-top:6px"><table class="concert-table">\n'
+                '  <thead><tr><th>活動</th><th>日期</th><th>場地</th><th>類型</th></tr></thead>\n  <tbody>\n')
+        for s in shows:
+            cat += (f'    <tr><td>{esc(s["title"])}</td><td>{esc(s["show"])}</td>'
+                    f'<td>{esc(s["loc"])}</td><td>{esc(s["typ"])}</td></tr>\n')
+        cat += '  </tbody>\n</table></div>\n'
     cat += (f'        <div class="category-summary" style="border-color:var(--{cvar})">'
             f'<strong>本週小結：</strong>{esc(SUMMARIES[cid])}</div>\n      </div>\n    </div>\n')
 cat += '  </div>\n'

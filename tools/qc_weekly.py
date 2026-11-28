@@ -86,7 +86,8 @@ def main():
     analysis_part = h.split('id="data"')[0]  # PART 01 區塊
     cats_part = h.split('id="data"')[-1].split('演唱會與澳門在地活動')[0]  # PART 03
     analysis_text = analysis_part + cats_part
-    for w in ("李強", "共商亞太", "心寒影滙3", "AI人才認證"):
+    # 2026-11-29 軒哥裁定：區外政治（含共商亞太／APEC）可講，已恢復，不再是錯誤引用。
+    for w in ("心寒影滙3", "AI人才認證"):
         results.append(check(f"分析段無[{w}]", w not in analysis_text,
                              f"{analysis_text.count(w)}"))
 
