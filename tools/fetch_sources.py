@@ -465,75 +465,76 @@ def fetch_bytes(url, timeout=30):
 
 
 def fetch_macaodaily(week_start, week_end, pages_per_day=3, img_root=None):
-    """澳門日報（圖片型電子報）：逐日下載整版圖供 AI 讀圖抽標題。
+    """澳門日報：新版面單頁取全報標題＋逐篇抓正文（2026-11-29 重寫）。
 
-    結構：/html/YYYY-MM/DD/node_<N>.htm 為各版次索引；每版對應一張整版 JPEG
-          /page/<n>/<YYYY-MM>/<DD>/<SEC>/<id>.jpg（SEC 如 A01），全站統一 398×584。
-    作法：逐日枚舉 node_X → 解析各版次圖片 URL 與文章數（<area> 熱點數）→
-          下載前 pages_per_day 個版次（依版次排序，預設 A01+A02+A03）整版圖到 img_root/<date>/。
-    限制：內文因原圖解析度不足不可讀（該站無文字層／無高清圖／無 PDF），
-          故 item.summary 留空並標 extra.needs_vision=True，交由 AI 讀圖補標題。
+    🔴 根因：舊路径 /html/YYYY-MM/DD/node_N.htm 已 404（實測），
+       導致本來源長期 status=error、0 則——澳門第一大報卻一期都沒收進來。
+       新路径 /column/YYYYMM/{DD}/colA01.html **單頁即含當日全報各版標題**
+       （macao-toc-item > h3 版名 + li>a 標題，連結指向 /content/YYYYMM/DD/c{id}.html），
+       詳情頁有 <h1> 標題與 <p> 正文，文字層完整可讀。
+
+    策略：逐日抓 colA01 → 解析全部 <li><a> 標題＋連結 → 逐篇抓詳情首段作 summary。
+    每天標題數不限；只對前 max_detail 篇抓正文以控制請求量（其餘 summary 留空但標題保留）。
     """
     base = "https://www.macaodaily.com"
     items = []
     days_ok = 0
-    imgs_saved = 0
+    details_ok = 0
+    MAX_DETAIL_PER_DAY = 12  # 控制請求量：每日只抓前 12 篇正文，其餘保留標題
     d = week_start
     while d <= week_end:
+        ym = f"{d:%Y%m}"
+        dd = f"{d:%d}"
         day = d.isoformat()
-        db = f"{base}/html/{d:%Y-%m}/{d:%d}"
-        n1, code = fetch(db + "/node_1.htm")
-        if not n1:
+        toc, code = fetch(f"{base}/column/{ym}/{dd}/colA01.html")
+        if not toc or code != 200:
             d += datetime.timedelta(days=1)
             continue
-        node_set = set(int(x) for x in re.findall(r"node_(\d+)\.htm", n1)) | {1}
-        pages = {}  # sec -> (img_url, article_count)
-        for n in sorted(node_set):
-            h = n1 if n == 1 else fetch(db + f"/node_{n}.htm")[0]
-            if not h:
-                continue
-            im = re.search(r"(\.\./\.\./\.\./page/[\d/\-A-Za-z]+/\d+\.jpg)", h)
-            if not im:
-                continue
-            rel = im.group(1)
-            sm = re.search(r"/([A-Z]\d{2})/", rel)
-            sec = sm.group(1) if sm else "?"
-            cnt = len(set(re.findall(r'href=["\'](content_\d+\.htm)["\']', h)))
-            url = base + "/" + rel.replace("../../../", "")
-            if sec not in pages or cnt > pages[sec][1]:
-                pages[sec] = (url, cnt)
         days_ok += 1
-        secs = sorted(pages.keys())
-        picked = secs[:pages_per_day] if pages_per_day else secs[:3]
-        # 下載整版圖（僅 picked 版次）
-        if img_root and pages_per_day:
-            daydir = os.path.join(img_root, day)
-            os.makedirs(daydir, exist_ok=True)
-            for sec in secs[:pages_per_day]:
-                url, _cnt = pages[sec]
-                raw, c = fetch_bytes(url)
-                if raw:
-                    with open(os.path.join(daydir, f"{sec}.jpg"), "wb") as f:
-                        f.write(raw)
-                    imgs_saved += 1
-        for sec in picked:
-            url, cnt = pages[sec]
-            local = os.path.join(img_root, day, f"{sec}.jpg") if img_root else None
-            items.append({
-                "source": "澳門日報",
-                "title": f"澳門日報 {day} {sec}版",
-                "url": url,
-                "date": day,
-                "summary": None,
-                "category": "澳門日報",
-                "extra": {
-                    "sec": sec, "articles": cnt, "all_secs": len(secs),
-                    "image_url": url, "image": local, "needs_vision": True,
-                },
-            })
+        # macao-toc-item > h3 版名；li>a href=../../../content/YYYYMM/DD/c{id}.html
+        blocks = re.findall(r'<div class="macao-toc-item".*?</div>', toc, re.S)
+        day_items = []
+        for blk in blocks:
+            hm = re.search(r"<h3>(.*?)</h3>", blk, re.S)
+            page_name = clean(hm.group(1)) if hm else ""
+            for href, aid, title in re.findall(
+                    r'<a href="([^"]*content/[^"]*?c(\d+)\.html)"[^>]*>(.*?)</a>', blk, re.S):
+                title = clean(title)
+                if not title or len(title) < 4:
+                    continue
+                # 直接用固定路径（新版面的絕對路徑）；href 僅用於解析 id
+                url = base + "/content/" + ym + "/" + dd + "/c" + aid + ".html"
+                day_items.append({
+                    "source": "澳門日報",
+                    "title": title,
+                    "url": url,
+                    "date": day,
+                    "summary": None,
+                    "category": page_name or None,
+                    "extra": {"sec": page_name, "aid": aid},
+                })
+        # 去重（同一 id 只留一次）
+        uniq = {}
+        for it in day_items:
+            uniq.setdefault(it["extra"]["aid"], it)
+        day_items = list(uniq.values())
+        # 逐篇抓正文首段（前 MAX_DETAIL_PER_DAY 篇）
+        for it in day_items[:MAX_DETAIL_PER_DAY]:
+            dtext, _ = fetch(it["url"])
+            if not dtext:
+                continue
+            paras = re.findall(r"<p[^>]*>(.*?)</p>", dtext, re.S)
+            for p in paras:
+                c = clean(p)
+                if len(c) > 25 and "掃一掃" not in c and "微信" not in c:
+                    it["summary"] = c[:180]
+                    details_ok += 1
+                    break
+        items.extend(day_items)
         d += datetime.timedelta(days=1)
-    note = (f"圖片型電子報：{days_ok} 天，每日下載前 {pages_per_day} 版整版圖"
-            f"（共 {imgs_saved} 張）；各版次已列，內文需 AI 讀圖（無文字層/高清/PDF）")
+    note = (f"新版面單頁取標題：{days_ok} 天，共 {len(items)} 則標題、"
+            f"{details_ok} 則抓到正文首段（每日最多 {MAX_DETAIL_PER_DAY} 篇）；"
+            "路徑 /column/YYYYMM/DD/colA01.html，舊 /html/.../node_N.htm 已 404")
     return {"status": "ok" if items else "error", "count": len(items), "note": note, "items": items}
 
 

@@ -99,8 +99,14 @@ def main():
         if m and m.group(1) != cnt:
             bad.append(f"{cnt} vs {m.group(1)}")
     results.append(check(f"小結則數與 cat-count 一致（{len(cats)} 類）", not bad, str(bad)))
-    fallback_ok = "本週無重大 AI 動態" in h or "全球 AI 領域精選" not in h
-    results.append(check("AI 類無濫收", fallback_ok))
+    # AI 類：要嘛如實寫「本週無重大 AI 動態」，要嘛收錄真 AI 新聞（標題含明確 AI 詞）；
+    # 舊規則要求必須出現「無重大 AI 動態」，會誤判「近五千公僕接受AI培訓」等真 AI 新聞。
+    ai_cards = re.findall(r'id="cat10".*?</div>\s*</div>\s*</div>', h, re.S)
+    ai_text = ai_cards[0] if ai_cards else ""
+    ai_ok = ("本週無重大 AI 動態" in ai_text) or any(
+        k in ai_text for k in ("人工智能", "AI培訓", "AI使用", "生成式AI", "大模型", "AI安全")
+    )
+    results.append(check("AI 類如實呈現", ai_ok))
 
     print("=== 7. 同步 ===")
     results.append(check("sitemap 收錄本期", date in sm))
